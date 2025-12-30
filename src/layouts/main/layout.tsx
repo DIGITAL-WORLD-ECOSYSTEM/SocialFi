@@ -19,6 +19,7 @@ import { Logo } from 'src/components/logo';
 import { NavMobile } from './nav/mobile';
 import { NavDesktop } from './nav/desktop';
 import { Footer, HomeFooter } from './footer';
+import { CoreNav } from '../components/core-nav';
 import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';
 import { SignInButton } from '../components/sign-in-button';
@@ -153,6 +154,7 @@ export function MainLayout({
       sx={sx}
     >
       {renderMain()}
+      <CoreNav />
     </LayoutSection>
   );
 }

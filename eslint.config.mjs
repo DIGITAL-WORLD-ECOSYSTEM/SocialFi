@@ -71,7 +71,7 @@ const unusedImportsRules = () => ({
   'unused-imports/no-unused-imports': 1,
   'unused-imports/no-unused-vars': [
     0,
-    { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
+    { vars: 'all', varsIgnorePattern: '^', args: 'after-used', argsIgnorePattern: '^' },
   ],
 });
 
@@ -185,7 +185,7 @@ export const customConfig = {
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
-  { ignores: ['*', '!src/', '!eslint.config.*'] },
+  { ignores: ['*', '.next', '!src/', '!eslint.config.*'] },
   {
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
@@ -196,4 +196,20 @@ export default [
   ...eslintTs.configs.recommended,
   reactPlugin.configs.flat.recommended,
   customConfig,
+  {
+    files: ['src/auth/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['src/components', 'src/components/*'],
+              message: 'Please import from \'src/auth/components\' instead.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];

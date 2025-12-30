@@ -18,10 +18,7 @@ import { Iconify } from 'src/components/iconify';
 import { AnimateLogoRotate } from 'src/components/animate';
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
 
-import { FormHead } from '../../../components/form-head';
-import { FormSocials } from '../../../components/form-socials';
-import { FormDivider } from '../../../components/form-divider';
-import { SignUpTerms } from '../../../components/sign-up-terms';
+import { FormHead, FormSocials, FormDivider, SignUpTerms } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 
@@ -139,8 +136,8 @@ export function CenteredSignUpView() {
         description={
           <>
             {`Already have an account? `}
-            <Link component={RouterLink} href={paths.authDemo.centered.signIn} variant="subtitle2">
-              Get started
+            <Link component={RouterLink} href={paths.auth.signIn} variant="subtitle2">
+              Sign in
             </Link>
           </>
         }

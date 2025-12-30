@@ -1,0 +1,31 @@
+{
+  "violations": [],
+  "error": 0,
+  "warn": 0,
+  "info": 0,
+  "ignore": 0,
+  "totalCruised": 1554,
+  "totalDependenciesCruised": 3729,
+  "optionsUsed": {
+    "baseDir": "/home/user/Minimal_TypeScript_v7.5.0",
+    "combinedDependencies": true,
+    "detectJSDocImports": false,
+    "detectProcessBuiltinModuleCalls": false,
+    "exclude": {
+      "path": "node_modules"
+    },
+    "exoticRequireStrings": [],
+    "externalModuleResolutionStrategy": "node_modules",
+    "metrics": false,
+    "moduleSystems": [
+      "es6",
+      "cjs",
+      "tsd",
+      "amd"
+    ],
+    "preserveSymlinks": false,
+    "skipAnalysisNotInRules": false,
+    "tsPreCompilationDeps": false,
+    "args": "src"
+  }
+}

@@ -9,7 +9,7 @@ import { useRouter } from 'src/routes/hooks';
 import { toast } from 'src/components/snackbar';
 
 import { useAuthContext } from 'src/auth/hooks';
-import { signOut as jwtSignOut } from 'src/auth/context/jwt/action';
+import { signOut as jwtSignOut } from 'src/auth/context/action';
 
 // ----------------------------------------------------------------------
 

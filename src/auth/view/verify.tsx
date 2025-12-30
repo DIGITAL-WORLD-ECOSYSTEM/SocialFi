@@ -13,9 +13,7 @@ import { EmailInboxIcon } from 'src/assets/icons';
 
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
 
-import { FormHead } from '../../../components/form-head';
-import { FormResendCode } from '../../../components/form-resend-code';
-import { FormReturnLink } from '../../../components/form-return-link';
+import { FormHead, FormResendCode, FormReturnLink } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +92,7 @@ export function CenteredVerifyView() {
 
       <FormResendCode onResendCode={() => {}} value={0} disabled={false} />
 
-      <FormReturnLink href={paths.authDemo.centered.signIn} />
+      <FormReturnLink href={paths.auth.signIn} />
     </>
   );
 }

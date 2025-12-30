@@ -1,6 +1,6 @@
 'use client';
 
-import type { AuthState } from '../../types';
+import type { AuthState } from '../types';
 
 import { useSetState } from 'minimal-shared/hooks';
 import { useMemo, useEffect, useCallback } from 'react';
@@ -8,7 +8,7 @@ import { useMemo, useEffect, useCallback } from 'react';
 import axios, { endpoints } from 'src/lib/axios';
 
 import { JWT_STORAGE_KEY } from './constant';
-import { AuthContext } from '../auth-context';
+import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
 
 // ----------------------------------------------------------------------

@@ -13,8 +13,7 @@ import { PasswordIcon } from 'src/assets/icons';
 
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
 
-import { FormHead } from '../../../components/form-head';
-import { FormReturnLink } from '../../../components/form-return-link';
+import { FormHead, FormReturnLink } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 
@@ -85,7 +84,7 @@ export function CenteredResetPasswordView() {
         {renderForm()}
       </Form>
 
-      <FormReturnLink href={paths.authDemo.centered.signIn} />
+      <FormReturnLink href={paths.auth.signIn} />
     </>
   );
 }

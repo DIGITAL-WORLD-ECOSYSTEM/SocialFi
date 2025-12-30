@@ -9,7 +9,6 @@ const MOCK_TITLE = _postTitles[2];
 
 const ROOTS = {
   AUTH: '/auth',
-  AUTH_DEMO: '/auth-demo',
   DASHBOARD: '/dashboard',
 };
 
@@ -46,26 +45,11 @@ export const paths = {
   },
   // AUTH
   auth: {
-    jwt: {
-      signIn: `${ROOTS.AUTH}/jwt/sign-in`,
-      signUp: `${ROOTS.AUTH}/jwt/sign-up`,
-    },
-  },
-  authDemo: {
-    split: {
-      signIn: `${ROOTS.AUTH_DEMO}/split/sign-in`,
-      signUp: `${ROOTS.AUTH_DEMO}/split/sign-up`,
-      resetPassword: `${ROOTS.AUTH_DEMO}/split/reset-password`,
-      updatePassword: `${ROOTS.AUTH_DEMO}/split/update-password`,
-      verify: `${ROOTS.AUTH_DEMO}/split/verify`,
-    },
-    centered: {
-      signIn: `${ROOTS.AUTH_DEMO}/centered/sign-in`,
-      signUp: `${ROOTS.AUTH_DEMO}/centered/sign-up`,
-      resetPassword: `${ROOTS.AUTH_DEMO}/centered/reset-password`,
-      updatePassword: `${ROOTS.AUTH_DEMO}/centered/update-password`,
-      verify: `${ROOTS.AUTH_DEMO}/centered/verify`,
-    },
+    signIn: `${ROOTS.AUTH}/sign-in`,
+    signUp: `${ROOTS.AUTH}/sign-up`,
+    reset: `${ROOTS.AUTH}/reset`,
+    update: `${ROOTS.AUTH}/update`,
+    verify: `${ROOTS.AUTH}/verify`,
   },
   // DASHBOARD
   dashboard: {
