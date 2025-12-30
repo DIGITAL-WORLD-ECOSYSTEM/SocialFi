@@ -6,20 +6,37 @@ import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-const ACTIONS = [
-  { name: 'Profile', icon: 'solar:user-bold-duotone', onClick: () => console.info('Profile') },
-  { name: 'GitHub', icon: 'ant-design:github-filled', onClick: () => console.info('GitHub') },
-  { name: 'Support', icon: 'solar:headset-help-bold-duotone', onClick: () => console.info('Support') },
-  { name: 'Docs', icon: 'solar:document-text-bold-duotone', onClick: () => console.info('Docs') },
-  { name: 'ThemeMode', icon: 'solar:moon-bold-duotone', onClick: () => console.info('ThemeMode') },
-];
-
 export function CoreNav() {
+  const router = useRouter();
+
   const open = useBoolean();
+
+  const ACTIONS = [
+    {
+      name: 'Profile',
+      icon: 'solar:user-bold-duotone',
+      onClick: () => router.push(paths.auth.signIn),
+    },
+    { name: 'GitHub', icon: 'ant-design:github-filled', onClick: () => console.info('GitHub') },
+    {
+      name: 'Support',
+      icon: 'solar:headset-help-bold-duotone',
+      onClick: () => console.info('Support'),
+    },
+    { name: 'Docs', icon: 'solar:document-text-bold-duotone', onClick: () => console.info('Docs') },
+    {
+      name: 'ThemeMode',
+      icon: 'solar:moon-bold-duotone',
+      onClick: () => console.info('ThemeMode'),
+    },
+  ];
 
   return (
     <Box
