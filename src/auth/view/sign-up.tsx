@@ -18,7 +18,7 @@ import { Iconify } from 'src/components/iconify';
 import { AnimateLogoRotate } from 'src/components/animate';
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
 
-import { FormHead, FormSocials, FormDivider, SignUpTerms } from 'src/auth/components';
+import { FormHead, SignUpTerms } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 
@@ -148,14 +148,6 @@ export function CenteredSignUpView() {
       </Form>
 
       <SignUpTerms />
-
-      <FormDivider />
-
-      <FormSocials
-        signInWithGoogle={() => {}}
-        singInWithGithub={() => {}}
-        signInWithTwitter={() => {}}
-      />
     </>
   );
 }

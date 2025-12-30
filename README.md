@@ -52,3 +52,56 @@ To set up your local server:
 
 **NOTE:**
 _When copying folders remember to also copy hidden files like .env. This is important because .env files often contain environment variables that are crucial for the application to run correctly._
+
+---
+
+## Estrutura de Autenticação
+
+Essa é a minha arvore do front end dedicada ao sistema de autenticação:
+
+└── /src
+    ├── app/
+    │   └── auth/               # ROTAS PÚBLICAS (O que o usuário acessa no navegador)
+    │       ├── reset/
+    │       │   ├── layout.tsx
+    │       │   └── page.tsx
+    │       ├── sign-in/
+    │       │   ├── layout.tsx
+    │       │   └── page.tsx
+    │       ├── sign-up/
+    │       │   ├── layout.tsx
+    │       │   └── page.tsx
+    │       ├── update/
+    │       │   ├── layout.tsx
+    │       │   └── page.tsx
+    │       └── verify/
+    │           ├── layout.tsx
+    │           └── page.tsx
+    │
+    ├── auth/
+    │   ├── view/               # COMPONENTES DE UI (Os formulários e botões)
+    │   │   ├── index.ts
+    │   │   ├── reset.tsx
+    │   │   ├── sign-in.tsx
+    │   │   ├── sign-up.tsx
+    │   │   ├── update.tsx
+    │   │   └── verify.tsx
+    │   │
+    │   ├── context/            # LÓGICA DE ESTADO (O "cérebro" da autenticação)
+    │   │   ├── index.ts        # Exportador principal do contexto
+    │   │   ├── action.ts       # Ações de login, logout, registro (com chamadas de API)
+    │   │   ├── auth-context.tsx  # Definição do Contexto React
+    │   │   ├── auth-provider.tsx # Componente que gerencia o estado e o token
+    │   │   ├── constant.ts     # Constantes (ex: chave de armazenamento do token)
+    │   │   └── utils.ts        # Funções utilitárias (ex: set/get/remove token)
+    │   │
+    │   ├── guard/              # GUARDAS DE ROTA (Protegem o acesso às páginas)
+    │   │   ├── index.ts
+    │   │   ├── auth-guard.tsx    # Garante que o usuário esteja logado
+    │   │   ├── guest-guard.tsx   # Garante que o usuário NÃO esteja logado
+    │   │   └── role-based-guard.tsx # Controle de acesso baseado em permissões
+    │   │
+    │   └── hooks/              # HOOKS CUSTOMIZADOS (atalhos para consumir o estado)
+    │       ├── index.ts
+    │       ├── use-auth-context.ts # Hook para acessar o contexto de autenticação
+    │       └── use-mocked-user.ts  # Hook para usar dados de usuário mockados
