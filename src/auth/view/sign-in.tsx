@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { useBoolean } from 'minimal-shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -18,9 +17,7 @@ import { Iconify } from 'src/components/iconify';
 import { AnimateLogoRotate } from 'src/components/animate';
 import { Form, Field, schemaUtils } from 'src/components/hook-form';
 
-import { FormHead } from '../../../components/form-head';
-import { FormSocials } from '../../../components/form-socials';
-import { FormDivider } from '../../../components/form-divider';
+import { FormHead, FormSocials, FormDivider } from 'src/auth/components';
 
 // ----------------------------------------------------------------------
 
@@ -28,10 +25,7 @@ export type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 export const SignInSchema = z.object({
   email: schemaUtils.email(),
-  password: z
-    .string()
-    .min(1, { error: 'Password is required!' })
-    .min(6, { error: 'Password must be at least 6 characters!' }),
+  password: z.string().min(1, { message: 'Password is required!' }),
 });
 
 // ----------------------------------------------------------------------
@@ -63,42 +57,38 @@ export function CenteredSignInView() {
     }
   });
 
-  const renderForm = () => (
-    <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
+  const renderForm = (
+    <>
       <Field.Text name="email" label="Email address" slotProps={{ inputLabel: { shrink: true } }} />
 
-      <Box sx={{ gap: 1.5, display: 'flex', flexDirection: 'column' }}>
-        <Link
-          component={RouterLink}
-          href={paths.authDemo.centered.resetPassword}
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link>
+      <Field.Text
+        name="password"
+        label="Password"
+        type={showPassword.value ? 'text' : 'password'}
+        slotProps={{
+          inputLabel: { shrink: true },
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={showPassword.onToggle} edge="end">
+                  <Iconify icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
 
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="6+ characters"
-          type={showPassword.value ? 'text' : 'password'}
-          slotProps={{
-            inputLabel: { shrink: true },
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={showPassword.onToggle} edge="end">
-                    <Iconify
-                      icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-      </Box>
+      <Link
+        component={RouterLink}
+        href={paths.auth.reset}
+        variant="body2"
+        color="inherit"
+        underline="always"
+        sx={{ alignSelf: 'flex-end' }}
+      >
+        Forgot password?
+      </Link>
 
       <Button
         fullWidth
@@ -111,7 +101,7 @@ export function CenteredSignInView() {
       >
         Sign in
       </Button>
-    </Box>
+    </>
   );
 
   return (
@@ -119,11 +109,11 @@ export function CenteredSignInView() {
       <AnimateLogoRotate sx={{ mb: 3, mx: 'auto' }} />
 
       <FormHead
-        title="Sign in to your account"
+        title="Sign in to Minimal"
         description={
           <>
             {`Don’t have an account? `}
-            <Link component={RouterLink} href={paths.authDemo.centered.signUp} variant="subtitle2">
+            <Link component={RouterLink} href={paths.auth.signUp} variant="subtitle2">
               Get started
             </Link>
           </>
@@ -131,7 +121,7 @@ export function CenteredSignInView() {
       />
 
       <Form methods={methods} onSubmit={onSubmit}>
-        {renderForm()}
+        {renderForm}
       </Form>
 
       <FormDivider />
