@@ -10,6 +10,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
+import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +18,8 @@ export function CoreNav() {
   const router = useRouter();
 
   const open = useBoolean();
+
+  const settings = useSettingsContext();
 
   const ACTIONS = [
     {
@@ -33,8 +36,8 @@ export function CoreNav() {
     { name: 'Docs', icon: 'solar:document-text-bold-duotone', onClick: () => console.info('Docs') },
     {
       name: 'ThemeMode',
-      icon: 'solar:moon-bold-duotone',
-      onClick: () => console.info('ThemeMode'),
+      icon: settings.state.mode === 'light' ? 'solar:moon-bold-duotone' : 'solar:sun-bold-duotone',
+      onClick: () => settings.setField('mode', settings.state.mode === 'light' ? 'dark' : 'light'),
     },
   ];
 

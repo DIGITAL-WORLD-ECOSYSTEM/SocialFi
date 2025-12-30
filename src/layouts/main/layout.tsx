@@ -20,8 +20,8 @@ import { Footer, HomeFooter } from './footer';
 import { CoreNav } from '../components/core-nav';
 import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';
-import { SettingsButton } from '../components/settings-button';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
+import { LanguagePopover } from '../components/language-popover';
 
 // ----------------------------------------------------------------------
 
@@ -78,22 +78,21 @@ export function MainLayout({
           <Logo />
         </>
       ),
+      centerArea: (
+        <NavDesktop
+          data={navData}
+          sx={(theme) => ({
+            display: 'none',
+            [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
+          })}
+        />
+      ),
       rightArea: (
-        <>
-          {/** @slot Nav desktop */}
-          <NavDesktop
-            data={navData}
-            sx={(theme) => ({
-              display: 'none',
-              [theme.breakpoints.up(layoutQuery)]: { mr: 2.5, display: 'flex' },
-            })}
-          />
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
-            {/** @slot Settings button */}
-            <SettingsButton />
-          </Box>
-        </>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
+          {/** @slot Language popover */}
+          <LanguagePopover />
+          {/** @slot Settings button */}
+        </Box>
       ),
     };
 

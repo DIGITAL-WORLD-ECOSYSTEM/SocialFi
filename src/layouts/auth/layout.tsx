@@ -18,7 +18,6 @@ import { CONFIG } from 'src/global-config';
 import { Logo } from 'src/components/logo';
 
 import { AuthCenteredContent } from './content';
-import { SettingsButton } from '../components/settings-button';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
@@ -67,9 +66,6 @@ export function AuthCenteredLayout({
           >
             Need help?
           </Link>
-
-          {/** @slot Settings button */}
-          <SettingsButton />
         </Box>
       ),
     };

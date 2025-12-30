@@ -16,7 +16,6 @@ import { RouterLink } from 'src/routes/components';
 import { Logo } from 'src/components/logo';
 
 import { SimpleCompactContent } from './content';
-import { SettingsButton } from '../components/settings-button';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
@@ -60,9 +59,6 @@ export function SimpleLayout({
           >
             Need help?
           </Link>
-
-          {/** @slot Settings button */}
-          <SettingsButton />
         </Box>
       ),
     };

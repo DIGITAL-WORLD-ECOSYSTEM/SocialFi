@@ -16,7 +16,7 @@ import { allLangs } from 'src/locales';
 import { _contacts, _notifications } from 'src/_mock';
 
 import { Logo } from 'src/components/logo';
-import { useSettingsContext } from 'src/components/settings';
+import { useSettingsContext, SettingsButton } from 'src/components/settings';
 
 import { useMockedUser } from 'src/auth/hooks';
 
@@ -29,7 +29,6 @@ import { Searchbar } from '../components/searchbar';
 import { _workspaces } from '../nav-config-workspace';
 import { MenuButton } from '../components/menu-button';
 import { AccountDrawer } from '../components/account-drawer';
-import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { ContactsPopover } from '../components/contacts-popover';
 import { WorkspacesPopover } from '../components/workspaces-popover';
@@ -147,6 +146,9 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+          {/** @slot Settings button */}
+          <SettingsButton />
+
           {/** @slot Searchbar */}
           <Searchbar data={navData} />
 
@@ -158,9 +160,6 @@ export function DashboardLayout({
 
           {/** @slot Contacts popover */}
           <ContactsPopover data={_contacts} />
-
-          {/** @slot Settings button */}
-          <SettingsButton />
 
           {/** @slot Account drawer */}
           <AccountDrawer data={_account} />

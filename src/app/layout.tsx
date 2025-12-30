@@ -9,17 +9,14 @@ import { CONFIG } from 'src/global-config';
 import { LocalizationProvider } from 'src/locales';
 import { detectLanguage } from 'src/locales/server';
 import { I18nProvider } from 'src/locales/i18n-provider';
-import { themeConfig, ThemeProvider, primary as primaryColor } from 'src/theme';
+import { primary as primaryColor, themeConfig } from 'src/theme';
 
-import { Snackbar } from 'src/components/snackbar';
-import { ProgressBar } from 'src/components/progress-bar';
-import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
-import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
-
-import { CheckoutProvider } from 'src/sections/checkout/context';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
+
+import App from './app';
 
 // ----------------------------------------------------------------------
 
@@ -86,19 +83,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             >
               <LocalizationProvider>
                 <AppRouterCacheProvider options={{ key: 'css' }}>
-                  <ThemeProvider
-                    modeStorageKey={themeConfig.modeStorageKey}
-                    defaultMode={themeConfig.defaultMode}
-                  >
-                    <MotionLazy>
-                      <CheckoutProvider>
-                        <Snackbar />
-                        <ProgressBar />
-                        <SettingsDrawer defaultSettings={defaultSettings} />
-                        {children}
-                      </CheckoutProvider>
-                    </MotionLazy>
-                  </ThemeProvider>
+                  <App>{children}</App>
                 </AppRouterCacheProvider>
               </LocalizationProvider>
             </SettingsProvider>

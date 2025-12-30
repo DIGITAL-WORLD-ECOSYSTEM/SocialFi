@@ -4,8 +4,8 @@
   "warn": 0,
   "info": 0,
   "ignore": 0,
-  "totalCruised": 1554,
-  "totalDependenciesCruised": 3729,
+  "totalCruised": 1549,
+  "totalDependenciesCruised": 3722,
   "optionsUsed": {
     "baseDir": "/home/user/Minimal_TypeScript_v7.5.0",
     "combinedDependencies": true,

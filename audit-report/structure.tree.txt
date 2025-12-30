@@ -794,11 +794,11 @@ src/layouts/core/classes.ts
 src/layouts/components/workspaces-popover.tsx
 src/layouts/components/sign-out-button.tsx
 src/layouts/components/sign-in-button.tsx
-src/layouts/components/settings-button.tsx
 src/layouts/components/nav-upgrade.tsx
 src/layouts/components/nav-toggle-button.tsx
 src/layouts/components/menu-button.tsx
 src/layouts/components/language-popover.tsx
+src/layouts/components/core-nav.tsx
 src/layouts/components/contacts-popover.tsx
 src/layouts/components/account-popover.tsx
 src/layouts/components/account-drawer.tsx
@@ -1155,6 +1155,7 @@ src/auth/context/auth-provider.tsx
 src/auth/context/auth-context.tsx
 src/auth/context/action.ts
 src/auth/components/sign-up-terms.tsx
+src/auth/components/index.ts
 src/auth/components/form-socials.tsx
 src/auth/components/form-return-link.tsx
 src/auth/components/form-resend-code.tsx

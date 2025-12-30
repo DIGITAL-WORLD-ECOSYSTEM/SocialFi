@@ -8,6 +8,7 @@
     "src/routes/paths",
     "../package.json"
   ],
+  "/.next/types/cache-life.d.ts": [],
   "/.next/types/routes.d.ts": [],
   "/.next/types/validator.ts": [
     "./routes.js",
@@ -610,6 +611,7 @@
     "@mui/material/IconButton",
     "src/components/iconify"
   ],
+  "/src/auth/components/index.ts": [],
   "/src/auth/components/sign-up-terms.tsx": [
     "@mui/material/Box",
     "@mui/material/Box",
@@ -685,8 +687,7 @@
     "src/routes/paths",
     "src/assets/icons",
     "src/components/hook-form",
-    "src/components/form-head",
-    "src/components/form-return-link"
+    "src/auth/components"
   ],
   "/src/auth/view/sign-in.tsx": [
     "zod",
@@ -702,9 +703,7 @@
     "src/components/iconify",
     "src/components/animate",
     "src/components/hook-form",
-    "src/components/form-head",
-    "src/components/form-socials",
-    "src/components/form-divider"
+    "src/auth/components"
   ],
   "/src/auth/view/sign-up.tsx": [
     "zod",
@@ -721,10 +720,7 @@
     "src/components/iconify",
     "src/components/animate",
     "src/components/hook-form",
-    "src/components/form-head",
-    "src/components/form-socials",
-    "src/components/form-divider",
-    "src/components/sign-up-terms"
+    "src/auth/components"
   ],
   "/src/auth/view/update.tsx": [
     "zod",
@@ -739,9 +735,7 @@
     "src/assets/icons",
     "src/components/iconify",
     "src/components/hook-form",
-    "src/components/form-head",
-    "src/components/form-resend-code",
-    "src/components/form-return-link"
+    "src/auth/components"
   ],
   "/src/auth/view/verify.tsx": [
     "zod",
@@ -752,9 +746,7 @@
     "src/routes/paths",
     "src/assets/icons",
     "src/components/hook-form",
-    "src/components/form-head",
-    "src/components/form-resend-code",
-    "src/components/form-return-link"
+    "src/auth/components"
   ],
   "/src/components/animate/animate-border.tsx": [
     "@mui/material/Box",
@@ -1755,7 +1747,6 @@
     "src/global-config",
     "src/components/logo",
     "./content",
-    "../components/settings-button",
     "../core"
   ],
   "/src/layouts/components/account-button.tsx": [
@@ -1827,6 +1818,16 @@
     "src/components/custom-popover",
     "src/components/animate"
   ],
+  "/src/layouts/components/core-nav.tsx": [
+    "minimal-shared/hooks",
+    "@mui/material/Box",
+    "@mui/material/SpeedDial",
+    "@mui/material/SpeedDialAction",
+    "src/routes/paths",
+    "src/routes/hooks",
+    "src/components/iconify",
+    "src/components/settings"
+  ],
   "/src/layouts/components/language-popover.tsx": [
     "@mui/material/IconButton",
     "src/locales",
@@ -1864,15 +1865,6 @@
     "src/global-config",
     "src/components/label",
     "src/auth/hooks"
-  ],
-  "/src/layouts/components/settings-button.tsx": [
-    "@mui/material/IconButton",
-    "framer-motion",
-    "@mui/material/Badge",
-    "@mui/material/SvgIcon",
-    "@mui/material/IconButton",
-    "src/components/settings",
-    "src/components/animate"
   ],
   "/src/layouts/components/sign-in-button.tsx": [
     "@mui/material/Button",
@@ -1978,7 +1970,6 @@
     "../nav-config-workspace",
     "../components/menu-button",
     "../components/account-drawer",
-    "../components/settings-button",
     "../components/language-popover",
     "../components/contacts-popover",
     "../components/workspaces-popover",
@@ -2047,17 +2038,14 @@
     "minimal-shared/hooks",
     "@mui/material/Box",
     "@mui/material/Alert",
-    "@mui/material/Button",
-    "src/routes/paths",
     "src/routes/hooks",
     "src/components/logo",
     "./nav/mobile",
     "./nav/desktop",
     "./footer",
+    "../components/core-nav",
     "../components/menu-button",
     "../nav-config-main",
-    "../components/sign-in-button",
-    "../components/settings-button",
     "../core"
   ],
   "/src/layouts/simple/content.tsx": [
@@ -2080,7 +2068,6 @@
     "src/routes/components",
     "src/components/logo",
     "./content",
-    "../components/settings-button",
     "../core"
   ],
   "/src/locales/utils/number-format-locale.ts": [
@@ -4830,6 +4817,106 @@
     "minimal-shared/utils",
     "./color-presets",
     "../core/custom-shadows"
+  ],
+  "/.next/types/app/(home)/layout.ts": [
+    "../../../../src/app/(home)/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/(home)/page.ts": [
+    "../../../../src/app/(home)/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/about-us/layout.ts": [
+    "../../../../src/app/about-us/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/about-us/page.ts": [
+    "../../../../src/app/about-us/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/blank/layout.ts": [
+    "../../../../src/app/blank/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/blank/page.ts": [
+    "../../../../src/app/blank/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/coming-soon/layout.ts": [
+    "../../../../src/app/coming-soon/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/coming-soon/page.ts": [
+    "../../../../src/app/coming-soon/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/page.ts": [
+    "../../../../src/app/components/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/contact-us/layout.ts": [
+    "../../../../src/app/contact-us/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/contact-us/page.ts": [
+    "../../../../src/app/contact-us/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/layout.ts": [
+    "../../../../src/app/dashboard/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/page.ts": [
+    "../../../../src/app/dashboard/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/faqs/layout.ts": [
+    "../../../../src/app/faqs/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/faqs/page.ts": [
+    "../../../../src/app/faqs/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/maintenance/layout.ts": [
+    "../../../../src/app/maintenance/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/maintenance/page.ts": [
+    "../../../../src/app/maintenance/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/payment/layout.ts": [
+    "../../../../src/app/payment/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/payment/page.ts": [
+    "../../../../src/app/payment/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/post/layout.ts": [
+    "../../../../src/app/post/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/post/page.ts": [
+    "../../../../src/app/post/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/pricing/layout.ts": [
+    "../../../../src/app/pricing/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/pricing/page.ts": [
+    "../../../../src/app/pricing/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/product/layout.ts": [
+    "../../../../src/app/product/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/product/page.ts": [
+    "../../../../src/app/product/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
   ],
   "/src/app/auth/reset/layout.tsx": [
     "src/layouts/auth"
@@ -8034,6 +8121,158 @@
     "minimal-shared/utils",
     "@mui/material/styles"
   ],
+  "/.next/types/app/auth/reset/layout.ts": [
+    "../../../../../src/app/auth/reset/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/reset/page.ts": [
+    "../../../../../src/app/auth/reset/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/sign-in/layout.ts": [
+    "../../../../../src/app/auth/sign-in/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/sign-in/page.ts": [
+    "../../../../../src/app/auth/sign-in/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/sign-up/layout.ts": [
+    "../../../../../src/app/auth/sign-up/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/sign-up/page.ts": [
+    "../../../../../src/app/auth/sign-up/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/update/layout.ts": [
+    "../../../../../src/app/auth/update/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/update/page.ts": [
+    "../../../../../src/app/auth/update/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/verify/layout.ts": [
+    "../../../../../src/app/auth/verify/layout.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/auth/verify/page.ts": [
+    "../../../../../src/app/auth/verify/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/analytics/page.ts": [
+    "../../../../../src/app/dashboard/analytics/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/banking/page.ts": [
+    "../../../../../src/app/dashboard/banking/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/blank/page.ts": [
+    "../../../../../src/app/dashboard/blank/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/booking/page.ts": [
+    "../../../../../src/app/dashboard/booking/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/calendar/page.ts": [
+    "../../../../../src/app/dashboard/calendar/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/chat/page.ts": [
+    "../../../../../src/app/dashboard/chat/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/course/page.ts": [
+    "../../../../../src/app/dashboard/course/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/ecommerce/page.ts": [
+    "../../../../../src/app/dashboard/ecommerce/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/file/page.ts": [
+    "../../../../../src/app/dashboard/file/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/file-manager/page.ts": [
+    "../../../../../src/app/dashboard/file-manager/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/invoice/page.ts": [
+    "../../../../../src/app/dashboard/invoice/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/job/page.ts": [
+    "../../../../../src/app/dashboard/job/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/kanban/page.ts": [
+    "../../../../../src/app/dashboard/kanban/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/mail/page.ts": [
+    "../../../../../src/app/dashboard/mail/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/order/page.ts": [
+    "../../../../../src/app/dashboard/order/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/params/page.ts": [
+    "../../../../../src/app/dashboard/params/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/permission/page.ts": [
+    "../../../../../src/app/dashboard/permission/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/post/page.ts": [
+    "../../../../../src/app/dashboard/post/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/product/page.ts": [
+    "../../../../../src/app/dashboard/product/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/subpaths/page.ts": [
+    "../../../../../src/app/dashboard/subpaths/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/tour/page.ts": [
+    "../../../../../src/app/dashboard/tour/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/page.ts": [
+    "../../../../../src/app/dashboard/user/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/error/403/page.ts": [
+    "../../../../../src/app/error/403/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/error/404/page.ts": [
+    "../../../../../src/app/error/404/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/error/500/page.ts": [
+    "../../../../../src/app/error/500/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/post/[title]/page.ts": [
+    "../../../../../src/app/post/[title]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/product/[id]/page.ts": [
+    "../../../../../src/app/product/[id]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/product/checkout/page.ts": [
+    "../../../../../src/app/product/checkout/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
   "/src/app/components/extra/animate/page.tsx": [
     "next",
     "src/global-config",
@@ -8938,7 +9177,6 @@
     "src/layouts/core",
     "src/layouts/simple",
     "src/layouts/dashboard",
-    "src/layouts/auth-split",
     "src/layouts/auth",
     "../../layout"
   ],
@@ -10391,6 +10629,286 @@
     "../../../file-manager/file-manager-folder-item",
     "../../../file-manager/file-manager-create-folder-dialog"
   ],
+  "/.next/types/app/components/extra/animate/page.ts": [
+    "../../../../../../src/app/components/extra/animate/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/carousel/page.ts": [
+    "../../../../../../src/app/components/extra/carousel/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/chart/page.ts": [
+    "../../../../../../src/app/components/extra/chart/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/dnd/page.ts": [
+    "../../../../../../src/app/components/extra/dnd/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/editor/page.ts": [
+    "../../../../../../src/app/components/extra/editor/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/form-validation/page.ts": [
+    "../../../../../../src/app/components/extra/form-validation/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/form-wizard/page.ts": [
+    "../../../../../../src/app/components/extra/form-wizard/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/image/page.ts": [
+    "../../../../../../src/app/components/extra/image/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/label/page.ts": [
+    "../../../../../../src/app/components/extra/label/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/layout/page.ts": [
+    "../../../../../../src/app/components/extra/layout/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/lightbox/page.ts": [
+    "../../../../../../src/app/components/extra/lightbox/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/map/page.ts": [
+    "../../../../../../src/app/components/extra/map/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/markdown/page.ts": [
+    "../../../../../../src/app/components/extra/markdown/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/mega-menu/page.ts": [
+    "../../../../../../src/app/components/extra/mega-menu/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/multi-language/page.ts": [
+    "../../../../../../src/app/components/extra/multi-language/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/navigation-bar/page.ts": [
+    "../../../../../../src/app/components/extra/navigation-bar/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/organization-chart/page.ts": [
+    "../../../../../../src/app/components/extra/organization-chart/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/scroll-progress/page.ts": [
+    "../../../../../../src/app/components/extra/scroll-progress/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/scrollbar/page.ts": [
+    "../../../../../../src/app/components/extra/scrollbar/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/snackbar/page.ts": [
+    "../../../../../../src/app/components/extra/snackbar/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/upload/page.ts": [
+    "../../../../../../src/app/components/extra/upload/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/extra/utilities/page.ts": [
+    "../../../../../../src/app/components/extra/utilities/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/foundation/colors/page.ts": [
+    "../../../../../../src/app/components/foundation/colors/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/foundation/grid/page.ts": [
+    "../../../../../../src/app/components/foundation/grid/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/foundation/icons/page.ts": [
+    "../../../../../../src/app/components/foundation/icons/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/foundation/shadows/page.ts": [
+    "../../../../../../src/app/components/foundation/shadows/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/foundation/typography/page.ts": [
+    "../../../../../../src/app/components/foundation/typography/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/accordion/page.ts": [
+    "../../../../../../src/app/components/mui/accordion/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/alert/page.ts": [
+    "../../../../../../src/app/components/mui/alert/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/autocomplete/page.ts": [
+    "../../../../../../src/app/components/mui/autocomplete/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/avatar/page.ts": [
+    "../../../../../../src/app/components/mui/avatar/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/badge/page.ts": [
+    "../../../../../../src/app/components/mui/badge/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/breadcrumbs/page.ts": [
+    "../../../../../../src/app/components/mui/breadcrumbs/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/buttons/page.ts": [
+    "../../../../../../src/app/components/mui/buttons/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/checkbox/page.ts": [
+    "../../../../../../src/app/components/mui/checkbox/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/chip/page.ts": [
+    "../../../../../../src/app/components/mui/chip/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/data-grid/page.ts": [
+    "../../../../../../src/app/components/mui/data-grid/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/date-pickers/page.ts": [
+    "../../../../../../src/app/components/mui/date-pickers/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/dialog/page.ts": [
+    "../../../../../../src/app/components/mui/dialog/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/drawer/page.ts": [
+    "../../../../../../src/app/components/mui/drawer/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/list/page.ts": [
+    "../../../../../../src/app/components/mui/list/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/menu/page.ts": [
+    "../../../../../../src/app/components/mui/menu/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/pagination/page.ts": [
+    "../../../../../../src/app/components/mui/pagination/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/popover/page.ts": [
+    "../../../../../../src/app/components/mui/popover/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/progress/page.ts": [
+    "../../../../../../src/app/components/mui/progress/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/radio-button/page.ts": [
+    "../../../../../../src/app/components/mui/radio-button/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/rating/page.ts": [
+    "../../../../../../src/app/components/mui/rating/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/slider/page.ts": [
+    "../../../../../../src/app/components/mui/slider/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/stepper/page.ts": [
+    "../../../../../../src/app/components/mui/stepper/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/switch/page.ts": [
+    "../../../../../../src/app/components/mui/switch/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/table/page.ts": [
+    "../../../../../../src/app/components/mui/table/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/tabs/page.ts": [
+    "../../../../../../src/app/components/mui/tabs/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/text-field/page.ts": [
+    "../../../../../../src/app/components/mui/text-field/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/timeline/page.ts": [
+    "../../../../../../src/app/components/mui/timeline/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/tooltip/page.ts": [
+    "../../../../../../src/app/components/mui/tooltip/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/transfer-list/page.ts": [
+    "../../../../../../src/app/components/mui/transfer-list/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/components/mui/tree-view/page.ts": [
+    "../../../../../../src/app/components/mui/tree-view/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/invoice/[id]/page.ts": [
+    "../../../../../../src/app/dashboard/invoice/[id]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/invoice/new/page.ts": [
+    "../../../../../../src/app/dashboard/invoice/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/job/[id]/page.ts": [
+    "../../../../../../src/app/dashboard/job/[id]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/job/new/page.ts": [
+    "../../../../../../src/app/dashboard/job/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/order/[id]/page.ts": [
+    "../../../../../../src/app/dashboard/order/[id]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/post/new/page.ts": [
+    "../../../../../../src/app/dashboard/post/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/product/new/page.ts": [
+    "../../../../../../src/app/dashboard/product/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/tour/[id]/page.ts": [
+    "../../../../../../src/app/dashboard/tour/[id]/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/tour/new/page.ts": [
+    "../../../../../../src/app/dashboard/tour/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/account/page.ts": [
+    "../../../../../../src/app/dashboard/user/account/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/cards/page.ts": [
+    "../../../../../../src/app/dashboard/user/cards/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/list/page.ts": [
+    "../../../../../../src/app/dashboard/user/list/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/new/page.ts": [
+    "../../../../../../src/app/dashboard/user/new/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
   "/src/app/components/foundation/icons/iconify/page.tsx": [
     "next",
     "src/global-config",
@@ -10667,5 +11185,61 @@
     "@mui/material/IconButton",
     "src/components/iconify",
     "src/components/file-thumbnail"
+  ],
+  "/.next/types/app/components/foundation/icons/iconify/page.ts": [
+    "../../../../../../../src/app/components/foundation/icons/iconify/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/invoice/[id]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/invoice/[id]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/job/[id]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/job/[id]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/post/[title]/(details)/page.ts": [
+    "../../../../../../../src/app/dashboard/post/[title]/(details)/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/post/[title]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/post/[title]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/product/[id]/(details)/page.ts": [
+    "../../../../../../../src/app/dashboard/product/[id]/(details)/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/product/[id]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/product/[id]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/subpaths/sub-1/sub-2/page.ts": [
+    "../../../../../../../src/app/dashboard/subpaths/sub-1/sub-2/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/tour/[id]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/tour/[id]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/[id]/edit/page.ts": [
+    "../../../../../../../src/app/dashboard/user/[id]/edit/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/account/billing/page.ts": [
+    "../../../../../../../src/app/dashboard/user/account/billing/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/account/change-password/page.ts": [
+    "../../../../../../../src/app/dashboard/user/account/change-password/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/account/notifications/page.ts": [
+    "../../../../../../../src/app/dashboard/user/account/notifications/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
+  ],
+  "/.next/types/app/dashboard/user/account/socials/page.ts": [
+    "../../../../../../../src/app/dashboard/user/account/socials/page.js",
+    "next/dist/lib/metadata/types/metadata-interface.js"
   ]
 }
