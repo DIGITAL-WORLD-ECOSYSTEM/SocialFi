@@ -6,30 +6,36 @@ import resourcesToBackend from 'i18next-resources-to-backend';
 // MUI Core Locales
 import {
   frFR as frFRCore,
-  viVN as viVNCore,
   zhCN as zhCNCore,
   arSA as arSACore,
+  ptBR as ptBRCore,
+  esES as esESCore,
+  ruRU as ruRUCore,
 } from '@mui/material/locale';
 // MUI Date Pickers Locales
 import {
   enUS as enUSDate,
   frFR as frFRDate,
-  viVN as viVNDate,
   zhCN as zhCNDate,
+  ptBR as ptBRDate,
+  esES as esESDate,
+  ruRU as ruRUDate,
 } from '@mui/x-date-pickers/locales';
 // MUI Data Grid Locales
 import {
   enUS as enUSDataGrid,
   frFR as frFRDataGrid,
-  viVN as viVNDataGrid,
   zhCN as zhCNDataGrid,
   arSD as arSDDataGrid,
+  ptBR as ptBRDataGrid,
+  esES as esESDataGrid,
+  ruRU as ruRUDataGrid,
 } from '@mui/x-data-grid/locales';
 
 // ----------------------------------------------------------------------
 
 // Supported languages
-export const supportedLngs = ['en', 'fr', 'vi', 'cn', 'ar'] as const;
+export const supportedLngs = ['en', 'pt', 'es', 'ar', 'cn', 'fr', 'ru'] as const;
 export type LangCode = (typeof supportedLngs)[number];
 
 // Fallback and default namespace
@@ -63,7 +69,7 @@ export const allLangs: LangOption[] = [
   {
     value: 'en',
     label: 'English',
-    countryCode: 'GB',
+    countryCode: 'US',
     adapterLocale: 'en',
     numberFormat: { code: 'en-US', currency: 'USD' },
     systemValue: {
@@ -71,23 +77,33 @@ export const allLangs: LangOption[] = [
     },
   },
   {
-    value: 'fr',
-    label: 'French',
-    countryCode: 'FR',
-    adapterLocale: 'fr',
-    numberFormat: { code: 'fr-Fr', currency: 'EUR' },
+    value: 'pt',
+    label: 'Português',
+    countryCode: 'BR',
+    adapterLocale: 'pt-br',
+    numberFormat: { code: 'pt-BR', currency: 'BRL' },
     systemValue: {
-      components: { ...frFRCore.components, ...frFRDate.components, ...frFRDataGrid.components },
+      components: { ...ptBRCore.components, ...ptBRDate.components, ...ptBRDataGrid.components },
     },
   },
   {
-    value: 'vi',
-    label: 'Vietnamese',
-    countryCode: 'VN',
-    adapterLocale: 'vi',
-    numberFormat: { code: 'vi-VN', currency: 'VND' },
+    value: 'es',
+    label: 'Español',
+    countryCode: 'ES',
+    adapterLocale: 'es',
+    numberFormat: { code: 'es-ES', currency: 'EUR' },
     systemValue: {
-      components: { ...viVNCore.components, ...viVNDate.components, ...viVNDataGrid.components },
+      components: { ...esESCore.components, ...esESDate.components, ...esESDataGrid.components },
+    },
+  },
+  {
+    value: 'ar',
+    label: 'Arabic',
+    countryCode: 'SA',
+    adapterLocale: 'ar-sa',
+    numberFormat: { code: 'ar-SA', currency: 'SAR' },
+    systemValue: {
+      components: { ...arSACore.components, ...arSDDataGrid.components },
     },
   },
   {
@@ -101,13 +117,23 @@ export const allLangs: LangOption[] = [
     },
   },
   {
-    value: 'ar',
-    label: 'Arabic',
-    countryCode: 'SA',
-    adapterLocale: 'ar-sa',
-    numberFormat: { code: 'ar-SA', currency: 'SAR' },
+    value: 'fr',
+    label: 'French',
+    countryCode: 'FR',
+    adapterLocale: 'fr',
+    numberFormat: { code: 'fr-Fr', currency: 'EUR' },
     systemValue: {
-      components: { ...arSACore.components, ...arSDDataGrid.components },
+      components: { ...frFRCore.components, ...frFRDate.components, ...frFRDataGrid.components },
+    },
+  },
+  {
+    value: 'ru',
+    label: 'Русский',
+    countryCode: 'RU',
+    adapterLocale: 'ru',
+    numberFormat: { code: 'ru-RU', currency: 'RUB' },
+    systemValue: {
+      components: { ...ruRUCore.components, ...ruRUDate.components, ...ruRUDataGrid.components },
     },
   },
 ];

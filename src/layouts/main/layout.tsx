@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import { usePathname } from 'src/routes/hooks';
+import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
 
@@ -90,7 +91,7 @@ export function MainLayout({
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
           {/** @slot Language popover */}
-          <LanguagePopover />
+          <LanguagePopover data={allLangs} />
           {/** @slot Settings button */}
         </Box>
       ),
