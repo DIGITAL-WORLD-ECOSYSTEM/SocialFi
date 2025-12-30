@@ -16,7 +16,8 @@ import { allLangs } from 'src/locales';
 import { _contacts, _notifications } from 'src/_mock';
 
 import { Logo } from 'src/components/logo';
-import { useSettingsContext, SettingsButton } from 'src/components/settings';
+import { useSettingsContext } from 'src/components/settings';
+import { SettingsDrawer } from 'src/components/settings/drawer';
 
 import { useMockedUser } from 'src/auth/hooks';
 
@@ -146,8 +147,8 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
-          {/** @slot Settings button */}
-          <SettingsButton />
+          {/** @slot Settings drawer */}
+          <SettingsDrawer />
 
           {/** @slot Searchbar */}
           <Searchbar data={navData} />
