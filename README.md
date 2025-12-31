@@ -160,3 +160,41 @@ src/
 └── 📁 routes/
     └── 📄 paths.ts  (Gerador de URLs)
 ```
+
+---
+
+## Decisões de Design de UI/UX
+
+### Seção Hero: Efeito de Camadas de Glassmorphism
+
+O efeito de desfoque implementado na seção Hero é uma técnica de design avançada conhecida como **Glassmorphism Layering**. Ele cria uma sensação de profundidade e luxo, transformando uma imagem padrão em um plano de fundo dinâmico e imersivo.
+
+Esta é a análise técnica de como esse efeito é alcançado no código:
+
+**1. A Arquitetura em Camadas (Z-Index)**
+
+O efeito é um "sanduíche" de três camadas sobrepostas dentro do componente `PostCarouselFeatured`:
+
+-   **Camada Base (Imagem):** Renderizamos a imagem de capa do post (`coverUrl`) com um `filter: 'blur(24px)'`. O desfoque difunde as cores da imagem, criando uma textura suave e dinâmica que muda conforme o carrossel desliza.
+-   **Camada de Contraste (Overlay):** Um pseudo-elemento `&:before` aplica uma sobreposição preta com 70% de transparência (`alpha(..., 0.7)`). Essa camada é crucial para garantir que o card de conteúdo branco se destaque visualmente, fornecendo o contraste necessário.
+-   **Camada de Conteúdo (Card):** O card de conteúdo principal fica no topo da pilha, elevado pela sombra `z24` do tema.
+
+**2. Centralização e Escala Inteligentes**
+
+Para resolver problemas de alinhamento durante o zoom do navegador ou em diferentes proporções de tela, duas propriedades CSS críticas foram aplicadas à imagem de fundo:
+
+-   `objectFit: 'cover'`: Garante que a imagem sempre preencha 100% de seu contêiner (vertical e horizontalmente) sem distorção ou deixar espaços vazios.
+-   `objectPosition: 'center'`: Ancorar a imagem em seu centro. Quando a janela de visualização é redimensionada, a imagem se expande ou se contrai a partir do meio, mantendo a harmonia visual com o card centralizado.
+
+**3. O Segredo para um "Blur" sem Vazamentos**
+
+Um detalhe técnico importante é o uso de `overflow: hidden` no contêiner pai.
+
+-   **Nota Técnica:** Quando um filtro de desfoque forte é aplicado, as bordas da imagem podem "vazar" para fora de seus limites pretendidos, criando uma névoa indesejada sobre as seções adjacentes (como o cabeçalho). `overflow: hidden` corta esse excesso, mantendo o efeito limpo e contido estritamente dentro da seção Hero.
+
+**Análise de Desempenho**
+
+Ao aproveitar o componente `<Image />` do projeto (que provavelmente envolve o `next/image` do Next.js), o efeito permanece altamente performático:
+
+-   A imagem de fundo é carregada e otimizada pelo Next.js.
+-   O efeito de desfoque é um filtro CSS, que é acelerado por hardware e processado pela GPU do navegador. Isso garante animações e transições suaves entre os slides do carrossel sem impactar o desempenho.
