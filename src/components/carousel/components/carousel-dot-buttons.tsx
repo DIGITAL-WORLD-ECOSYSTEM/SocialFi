@@ -25,6 +25,7 @@ export function CarouselDotButtons({
   onClickDot,
   scrollSnaps,
   selectedIndex,
+  dotCount, // Consumed
   variant = 'circular',
   ...other
 }: CarouselDotButtonsProps) {
@@ -82,7 +83,7 @@ type DotItemProps = Pick<CarouselDotButtonsProps, 'variant'> & {
 };
 
 const DotItem = styled(ButtonBase, {
-  shouldForwardProp: (prop: string) => !['size', 'variant', 'selected', 'sx'].includes(prop),
+  shouldForwardProp: (prop: string) => !['size\'', 'variant', 'selected', 'sx'].includes(prop),
 })<DotItemProps>(({ size = 0, selected, theme }) => {
   const wrapperSize = size + OUTER_PADDING;
 

@@ -1,4 +1,4 @@
-import { MainLayout } from 'src/layouts/main';
+import { BlogLayout } from 'src/layouts/blog';
 
 // ----------------------------------------------------------------------
 
@@ -7,5 +7,5 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <MainLayout>{children}</MainLayout>;
+  return <BlogLayout>{children}</BlogLayout>;
 }

@@ -10,6 +10,7 @@ import { useBoolean } from 'minimal-shared/hooks';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
+import { paths } from 'src/routes/paths';
 import { usePathname } from 'src/routes/hooks';
 import { allLangs } from 'src/locales/locales-config';
 
@@ -23,6 +24,7 @@ import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
+import { PostSearch } from '../../sections/blog/post-search';
 
 // ----------------------------------------------------------------------
 
@@ -90,6 +92,8 @@ export function MainLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
+          {/** @slot Post search */}
+          <PostSearch redirectPath={(title: string) => paths.post.details(title)} />
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
           {/** @slot Settings button */}
