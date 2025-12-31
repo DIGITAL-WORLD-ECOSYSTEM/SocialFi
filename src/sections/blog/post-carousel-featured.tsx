@@ -101,6 +101,7 @@ function PostItem({ post }: { post: IPostItem }) {
           height: 1,
           zIndex: -1,
           position: 'absolute',
+          overflow: 'hidden', // Garante que o blur não vaze para fora do container
           '&:before': {
             content: '""',
             top: 0,
@@ -109,11 +110,21 @@ function PostItem({ post }: { post: IPostItem }) {
             height: 1,
             zIndex: 1,
             position: 'absolute',
-            bgcolor: alpha(theme.palette.common.black, 0.7), // Overlay escuro para contraste
+            bgcolor: alpha(theme.palette.common.black, 0.7),
           },
         }}
       >
-        <Image alt={title} src={coverUrl} sx={{ height: 1, filter: 'blur(24px)' }} />
+        <Image 
+          alt={title} 
+          src={coverUrl} 
+          sx={{ 
+            width: 1,          // Força a ocupação de 100% da largura
+            height: 1,         // Força a ocupação de 100% da altura
+            filter: 'blur(24px)', 
+            objectFit: 'cover', // COMPORTAMENTO CRÍTICO: Preenche o espaço mantendo a proporção
+            objectPosition: 'center' // Garante que a imagem sempre expanda a partir do centro
+          }} 
+        />
       </Box>
 
       {/* 2. Card Centralizado (Layout 2 Colunas) */}
