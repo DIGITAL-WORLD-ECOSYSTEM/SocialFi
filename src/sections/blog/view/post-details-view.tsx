@@ -27,7 +27,7 @@ import { Markdown } from 'src/components/markdown';
 
 import { PostDetailsHero } from '../post-details-hero';
 import { PostCommentList } from '../post-comment-list';
-import { PostCommentForm } from '../post-comment-form';
+import { PostCommentForm } from '../forms/post-comment-form';
 import { PostDetailsToolbar } from '../post-details-toolbar';
 
 // ----------------------------------------------------------------------

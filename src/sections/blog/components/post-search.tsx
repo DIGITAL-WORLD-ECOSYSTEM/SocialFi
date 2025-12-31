@@ -23,11 +23,11 @@ type Props = {
   query: string;
   results: IPostItem[];
   onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  href: (title: string) => string;
+  redirectPath: (title: string) => string;
   sx?: SxProps<Theme>;
 };
 
-export function PostSearch({ query, results, onSearch, href, sx }: Props) {
+export function PostSearch({ query, results, onSearch, redirectPath, sx }: Props) {
   const handleSearch = (event: React.SyntheticEvent, newValue: string) => {
     onSearch({ target: { value: newValue } } as React.ChangeEvent<HTMLInputElement>);
   };
@@ -39,7 +39,7 @@ export function PostSearch({ query, results, onSearch, href, sx }: Props) {
 
     return (
       <li {...props} key={option.id}>
-        <Link component={RouterLink} href={href(option.title)} underline="none">
+        <Link component={RouterLink} href={redirectPath(option.title)} underline="none">
           <Avatar
             alt={title}
             src={coverUrl}

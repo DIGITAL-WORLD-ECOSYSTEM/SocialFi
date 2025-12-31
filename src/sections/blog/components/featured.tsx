@@ -15,7 +15,7 @@ import { RouterLink } from 'src/routes/components';
 import { fDate } from 'src/utils/format-time';
 
 import { Image } from 'src/components/image';
-import { Carousel, useCarousel, CarouselDotButtons } from 'src/components/carousel';
+import { Carousel, useCarousel, CarouselDotButtons, CarouselArrowBasicButtons } from 'src/components/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 // ----------------------------------------------------------------------
@@ -25,7 +25,11 @@ type Props = {
   sx?: SxProps<Theme>;
 };
 
-export function PostCarouselFeatured({ posts, sx }: Props) {
+/**
+ * Secção 1: Hero (PostFeatured)
+ * Implementa o Carousel principal com efeito de Glassmorphism.
+ */
+export function PostFeatured({ posts, sx }: Props) {
   const carousel = useCarousel(
     {
       loop: true,
@@ -40,6 +44,26 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
           <PostItem key={post.id} post={post} />
         ))}
       </Carousel>
+
+      {/* Navegação: Setas circulares customizadas (#FA541C) */}
+      <CarouselArrowBasicButtons
+        {...carousel.arrows}
+        options={carousel.options}
+        sx={{
+          top: '50%',
+          width: 1,
+          zIndex: 9,
+          px: { xs: 1, md: 5 },
+          position: 'absolute',
+          color: '#FA541C',
+          justifyContent: 'space-between',
+          transform: 'translateY(-50%)',
+          '& button': {
+            bgcolor: alpha('#000', 0.3),
+            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff' },
+          }
+        }}
+      />
 
       {/* Navegação: Dots estilo Pill */}
       <CarouselDotButtons
@@ -56,8 +80,8 @@ export function PostCarouselFeatured({ posts, sx }: Props) {
             width: 8,
             height: 8,
             transition: 'all 0.3s',
-            '&.Mui-selected': { width: 24, borderRadius: 8 },
-          },
+            '&.Mui-selected': { width: 24, borderRadius: 8 }
+          }
         }}
       />
     </Box>
@@ -82,7 +106,7 @@ function PostItem({ post }: { post: IPostItem }) {
         px: { xs: 2, md: 10 },
       }}
     >
-      {/* 1. Fundo: Desfoque otimizado para Glassmorphism */}
+      {/* 1. Camada de Fundo: Desfoque (12px) e Overlay (0.5) */}
       <Box
         sx={{
           top: 0,
@@ -104,20 +128,20 @@ function PostItem({ post }: { post: IPostItem }) {
           },
         }}
       >
-        <Image
-          alt={title}
-          src={coverUrl}
-          sx={{
-            width: 1,
-            height: 1,
-            filter: 'blur(12px)',
+        <Image 
+          alt={title} 
+          src={coverUrl} 
+          sx={{ 
+            width: 1, 
+            height: 1, 
+            filter: 'blur(12px)', 
             objectFit: 'cover',
-            objectPosition: 'center',
-          }}
+            objectPosition: 'center'
+          }} 
         />
       </Box>
 
-      {/* 2. Card: Efeito Vidro Translúcido corrigido */}
+      {/* 2. Camada de Conteúdo: Card Glassmorphism (blur 20px) */}
       <Card
         sx={{
           width: 1,
@@ -144,11 +168,8 @@ function PostItem({ post }: { post: IPostItem }) {
             sx={{ mb: 2, typography: 'caption', color: 'text.secondary' }}
           >
             {fDate(createdAt)}
-            <Box
-              component="span"
-              sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }}
-            />
-            8 min read
+            <Box component="span" sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }} />
+            5 min read
           </Stack>
 
           <Typography
@@ -170,7 +191,6 @@ function PostItem({ post }: { post: IPostItem }) {
             {title}
           </Typography>
 
-          {/* CORREÇÃO AQUI: Typography fechado corretamente */}
           <Typography
             variant="body2"
             sx={{
@@ -187,9 +207,7 @@ function PostItem({ post }: { post: IPostItem }) {
 
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 'auto' }}>
             <Avatar src={author?.avatarUrl} alt={author?.name} />
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              {author?.name}
-            </Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>{author?.name}</Typography>
           </Stack>
         </Stack>
       </Card>

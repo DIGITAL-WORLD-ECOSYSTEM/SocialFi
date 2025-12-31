@@ -74,29 +74,30 @@ export function useBlog(posts: IPostItem[]): ReturnType {
 // ----------------------------------------------------------------------
 
 function applyFilter(posts: IPostItem[], sortBy: string, searchQuery: string) {
+  const newPosts = posts || [];
   // SORT
   if (sortBy === 'latest') {
-    posts = posts.sort(
+    newPosts.sort(
       (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
     );
   }
   if (sortBy === 'oldest') {
-    posts = posts.sort(
+    newPosts.sort(
       (a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime()
     );
   }
   if (sortBy === 'popular') {
-    posts = posts.sort((a, b) => b.totalViews - a.totalViews);
+    newPosts.sort((a, b) => b.totalViews - a.totalViews);
   }
 
   // SEARCH
   if (searchQuery) {
-    posts = posts.filter(
+    return newPosts.filter(
       (post) => post.title.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
     );
   }
 
-  return posts;
+  return newPosts;
 }
 
 // ----------------------------------------------------------------------

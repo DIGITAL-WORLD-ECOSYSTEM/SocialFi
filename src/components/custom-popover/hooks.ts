@@ -4,6 +4,28 @@ import { useState, useEffect, useCallback } from 'react';
 
 // ----------------------------------------------------------------------
 
+export function usePopover() {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const onOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  const onClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  const open = Boolean(anchorEl);
+
+  return {
+    open,
+    anchorEl,
+    onOpen,
+    onClose,
+    setAnchorEl,
+  };
+}
+
 /**
  * Parses a string to a number, defaulting to 0 if invalid.
  */

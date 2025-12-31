@@ -1,17 +1,19 @@
 'use client';
 
-import type { IPostItem } from 'src/types/blog';
-
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
-import Pagination from '@mui/material/Pagination';
 
-import { useBlog } from 'src/hooks/use-blog';
+// Importação das 8 Seções Objetivas
+import { PostFeatured } from '../components/featured';     // 1. Hero
+import { PostAuthors } from '../components/authors';       // 2. Criadores
+import { PostCommunity } from '../components/community';   // 3. Comunidades
+import { PostVideo } from '../components/video';           // 4. Vídeos
+import { PostBanner } from '../components/banner';         // 5. PUB
+import { PostRecent } from '../item/recent';               // 6. Recentes
+import { PostTrending } from '../item/trending';           // 7. Alta
+import { PostNewsletter } from '../forms/newsletter';       // 8. Newsletter
 
-import { PostList } from 'src/sections/blog/item/post-list';
-import { PostSort } from '../components/post-sort';
-import { PostSearch } from '../components/post-search';
-import { PostCarouselFeatured } from '../components/post-carousel-featured';
+import { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 
@@ -19,41 +21,38 @@ type Props = {
   posts: IPostItem[];
 };
 
-export function PostListHomeView({ posts: postsProp }: Props) {
-  const { posts, filters, methods } = useBlog(postsProp);
-
-  const pageCount = Math.ceil(posts.all.length / 8);
+export function PostListHomeView({ posts }: Props) {
+  // Divisão inicial dos dados para as seções
+  const featuredPosts = posts.slice(0, 5); // Os 5 primeiros para o Hero
+  const recentPosts = posts.slice(5);      // O restante para a grade principal
 
   return (
-    <Container sx={{ mt: 10 }}>
-      <PostCarouselFeatured posts={posts.featured} />
+    <Stack sx={{ pb: 10 }}>
+      {/* 1. Hero - Carousel de Destaque */}
+      <PostFeatured posts={featuredPosts} />
 
-      <Stack
-        spacing={3}
-        direction={{ xs: 'column', md: 'row' }}
-        alignItems={{ xs: 'flex-end', md: 'center' }}
-        justifyContent="space-between"
-        sx={{ mb: { xs: 3, md: 5 } }}
-      >
-        <PostSearch
-          query={filters.search.query}
-          results={filters.search.results}
-          onSearch={methods.onSearch}
-          href={(title) => `/post/${title}`}
-        />
-        <PostSort sortBy={filters.sortBy} onSortBy={methods.onSortBy} />
-      </Stack>
+      {/* 2. Criadores - Autores do Portal */}
+      <PostAuthors />
 
-      <PostList posts={posts.paginated} />
+      {/* 3. Comunidades - Fontes Monitoradas */}
+      <PostCommunity />
 
-      {posts.all.length > 8 && (
-        <Pagination
-          page={filters.page}
-          count={pageCount}
-          onChange={methods.onChangePage}
-          sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}
-        />
-      )}
-    </Container>
+      {/* 4. Vídeos - Galeria Youtube */}
+      <PostVideo />
+
+      {/* 5. PUB - Banner Publicitário */}
+      <PostBanner />
+
+      <Container sx={{ mt: { xs: 8, md: 10 } }}>
+        {/* 6. Recentes - Grelha Cronológica */}
+        <PostRecent posts={recentPosts} />
+
+        {/* 7. Alta - Mais Engajados */}
+        <PostTrending posts={featuredPosts} />
+      </Container>
+
+      {/* 8. Newsletter - Conversão */}
+      <PostNewsletter />
+    </Stack>
   );
 }

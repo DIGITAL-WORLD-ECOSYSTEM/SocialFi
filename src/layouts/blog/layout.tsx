@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import type { Breakpoint } from '@mui/material/styles';
 import type { FooterProps } from '../main/footer';
 import type { NavMainProps } from '../main/nav/types';
@@ -12,6 +13,7 @@ import Alert from '@mui/material/Alert';
 
 import { paths } from 'src/routes/paths';
 import { usePathname } from 'src/routes/hooks';
+import { useSearchPosts } from 'src/actions/blog';
 import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
@@ -24,7 +26,7 @@ import { MenuButton } from '../components/menu-button';
 import { navData as blogNavData } from '../nav-config-blog';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
-import { PostSearch } from '../../sections/blog/post-search';
+import { PostSearch } from '../../sections/blog/components/post-search';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +54,14 @@ export function BlogLayout({
   const pathname = usePathname();
 
   const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const { searchResults } = useSearchPosts(searchQuery);
+
+  const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  }, []);
 
   const isHomePage = pathname === '/';
 
@@ -93,7 +103,12 @@ export function BlogLayout({
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
           {/** @slot Post search */}
-          <PostSearch redirectPath={(title: string) => paths.post.details(title)} />
+          <PostSearch
+            query={searchQuery}
+            results={searchResults}
+            onSearch={handleSearch}
+            redirectPath={(title: string) => paths.post.details(title)}
+          />
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
           {/** @slot Settings button */}

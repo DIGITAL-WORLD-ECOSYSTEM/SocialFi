@@ -1,5 +1,5 @@
 
-import { PostItemSkeleton } from 'src/sections/blog/item/post-item-skeleton';
+import { PostItemSkeleton } from 'src/sections/blog/post-skeleton';
 
 export default function Loading() {
   return (

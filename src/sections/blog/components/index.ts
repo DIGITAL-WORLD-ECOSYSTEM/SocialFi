@@ -1,3 +1,3 @@
-export * from './post-carousel-featured';
+export * from './featured';
 export * from './post-search';
 export * from './post-sort';

@@ -140,57 +140,67 @@ O fluxo de dados foi enriquecido com camadas de validação e transformação, g
 A estrutura de diretórios foi desenhada para máxima organização, modularidade e escalabilidade.
 
 ```bash
-src/
-├── 📁 actions/
-│   ├── 📄 blog-ssr.ts          # Server Actions: getPosts, getPostByTitle
+src
+├── 📁 _mock/                   # ✅ Confirmado: Fonte de dados Mock
+│   └── 📄 _blog.ts
+│
+├── 📁 actions/                 # ✅ Confirmado: Lógica de negócio e acesso a dados
+│   ├── 📄 blog-ssr.ts          # Ações específicas para Server-Side Rendering
+│   ├── 📄 blog.ts
+│   ├── ... (outras actions)
 │   └── 📁 mappers/
-│       └── 📄 blog-mapper.ts   # NOVO: Transforma dados da API/Mock para o padrão da UI
+│       └── 📄 blog-mapper.ts    # Transforma dados da API para o domínio da UI
 │
-├── 📁 app/
+├── 📁 app/                     # ✅ Confirmado: Rotas e páginas (Next.js App Router)
 │   └── 📁 post/
-│       ├── 📄 page.tsx         # Listagem principal (Injeção de Props)
-│       ├── 📄 loading.tsx      # NOVO: Skeletons automáticos para SSR
-│       ├── 📄 error.tsx        # NOVO: Boundary para falhas na busca de dados
-│       ├── 📁 [title]/         # Rota dinâmica para detalhes
-│       │   ├── 📄 page.tsx
-│       │   ├── 📄 loading.tsx
-│       │   └── 📄 error.tsx
-│       └── 📁 category/        # NOVO: Rota para categorias sugerida
-│           └── 📁 [slug]/
-│               └── 📄 page.tsx
+│       ├── 📁 [title]/         # Rota dinâmica para um post específico
+│       │   ├── 📄 error.tsx    # UI de erro para a rota do post
+│       │   ├── 📄 loading.tsx  # UI de carregamento para a rota do post
+│       │   └── 📄 page.tsx      # View do post específico
+│       ├── 📁 category/
+│       │   └── 📁 [slug]/       # Rota para categorias (vazio, mas estrutura existe)
+│       ├── 📄 error.tsx        # UI de erro para a listagem
+│       ├── 📄 layout.tsx       # Layout compartilhado para as páginas de post
+│       ├── 📄 loading.tsx     # UI de carregamento para a listagem
+│       └── 📄 page.tsx          # View da listagem de posts
 │
-├── 📁 schemas/                 # NOVO: Validação de contratos de dados
+├── 📁 layouts/                 # ✅ Confirmado: Componentes de layout globais
+│   └── 📁 blog/
+│       ├── 📄 index.ts
+│       └── 📄 layout.tsx
+│
+├── 📁 routes/                  # ✅ Confirmado: Gestão de rotas
+│   └── 📄 paths.ts             # Gerador de URLs centralizado
+│
+├── 📁 schemas/                 # ✅ Confirmado: Validação de contratos de dados
 │   └── 📄 blog-zod.ts          # Esquemas Zod para validar Mock/API
 │
-├── 📁 sections/
+├── 📁 sections/                # ✅ Confirmado: Seções da UI por feature
 │   └── 📁 blog/
-│       ├── 📁 view/            # Layouts de Página (Maestros da UI)
-│       │   ├── 📄 post-list-home-view.tsx
-│       │   └── 📄 post-details-view.tsx
-│       │
-│       ├── 📁 components/      # NOVO: Componentes de UI complexos e reutilizáveis
+│       ├── 📁 components/       # Componentes complexos e reutilizáveis do blog
+│       │   ├── 📄 index.ts
 │       │   ├── 📄 post-carousel-featured.tsx
 │       │   ├── 📄 post-search.tsx
 │       │   └── 📄 post-sort.tsx
-│       │
-│       ├── 📁 item/            # NOVO: Variações de cards de post (unidades atômicas)
-│       │   ├── 📄 post-item.tsx
-│       │   └── 📄 post-item-skeleton.tsx
-│       │
-│       ├── 📁 forms/           # NOVO: Componentes para interação do usuário
+│       ├── 📁 forms/
 │       │   └── 📄 post-comment-form.tsx
-│       │
-│       ├── 📄 post-list.tsx    # Componente que renderiza a "grelha" de posts
-│       └── 📄 constants.ts     # NOVO: Constantes do módulo (opções de sort, etc.)
+│       ├── 📁 item/             # Componentes atômicos para itens de post
+│       │   ├── 📄 index.ts
+│       │   ├── 📄 post-details-skeleton.tsx
+│       │   ├── 📄 post-item.tsx
+│       │   └── 📄 post-list.tsx
+│       └── 📁 view/             # Views principais que montam as seções
+│           ├── 📄 index.ts
+│           ├── 📄 post-create-view.tsx
+│           ├── 📄 post-details-home-view.tsx
+│           ├── 📄 post-details-view.tsx
+│           ├── 📄 post-edit-view.tsx
+│           ├── 📄 post-list-home-view.tsx
+│           └── 📄 post-list-view.tsx
 │
-├── 📁 types/
-│   └── 📄 blog.ts              # Definições de tipos TypeScript
-│
-├── 📁 _mock/
-│   └── 📄 _blog.ts             # Fonte de dados Mock
-│
-└── 📁 routes/
-    └── 📄 paths.ts             # Gerador de URLs centralizado
+└── 📁 types/                   # ✅ Confirmado: Tipos e interfaces
+    └── 📄 blog.ts              # Definições de tipos TypeScript para o blog
+
 ```
 
 ### Análise das Melhorias Estruturais
