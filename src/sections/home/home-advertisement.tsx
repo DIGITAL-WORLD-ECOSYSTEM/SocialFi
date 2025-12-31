@@ -9,10 +9,9 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 
 import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
 
 import { CONFIG } from 'src/global-config';
-
-import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { FloatLine, FloatPlusIcon } from './components/svg-elements';
@@ -85,19 +84,8 @@ const renderDescription = () => (
         typography: { xs: 'h2', md: 'h1' },
       }}
     >
-      Get started with
-      <br /> Minimal kit
-      <Box
-        component="span"
-        sx={(theme) => ({
-          ...theme.mixins.textGradient(
-            `to right, ${theme.vars.palette.common.white}, ${varAlpha(theme.vars.palette.common.whiteChannel, 0.4)}`
-          ),
-          ml: 1,
-        })}
-      >
-        today
-      </Box>
+      Pronto para
+      <br /> Começar?
     </Box>
 
     <Box
@@ -110,33 +98,13 @@ const renderDescription = () => (
     >
       <m.div variants={varFade('inRight', { distance: 24 })}>
         <Button
+          component={RouterLink}
+          href={paths.pricing}
           color="primary"
           size="large"
           variant="contained"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={paths.minimalStore}
         >
-          Purchase now
-        </Button>
-      </m.div>
-
-      <m.div variants={varFade('inRight', { distance: 24 })}>
-        <Button
-          color="inherit"
-          size="large"
-          variant="outlined"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={paths.freeUI}
-          startIcon={<Iconify width={16} icon="eva:external-link-fill" sx={{ mr: 0.5 }} />}
-          sx={{
-            color: 'common.white',
-            borderColor: 'common.white',
-            '&:hover': { borderColor: 'currentColor' },
-          }}
-        >
-          Get free version
+          Ver Planos
         </Button>
       </m.div>
     </Box>
