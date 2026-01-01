@@ -4,7 +4,7 @@ import type { IPostItem } from 'src/types/blog';
 
 import Grid from '@mui/material/Grid';
 
-import { PostItem } from './post-item';
+import { PostItem } from './item';
 
 // ----------------------------------------------------------------------
 

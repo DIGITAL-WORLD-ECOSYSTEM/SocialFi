@@ -11,8 +11,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { paths } from 'src/routes/paths';
 
-import { PostItem } from './post-item';
-import { PostItemSkeleton } from './post-skeleton';
+import { PostItem } from './item';
+import { PostItemSkeleton } from './skeleton';
 
 // ----------------------------------------------------------------------
 

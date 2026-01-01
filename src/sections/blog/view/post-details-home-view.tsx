@@ -22,10 +22,10 @@ import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { PostItem } from '../post-item';
-import { PostCommentList } from '../post-comment-list';
-import { PostCommentForm } from '../post-comment-form';
-import { PostDetailsHero } from '../post-details-hero';
+import { PostItem } from '../item/item';
+import { PostCommentList } from '../details/post-comment-list';
+import { PostCommentForm } from '../forms/post-comment-form';
+import { PostDetailsHero } from '../details/post-details-hero';
 
 // ----------------------------------------------------------------------
 

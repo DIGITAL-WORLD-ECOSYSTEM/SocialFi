@@ -8,7 +8,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { PostCreateEditForm } from '../post-create-edit-form';
+import { PostCreateEditForm } from './post-create-edit-form';
 
 // ----------------------------------------------------------------------
 

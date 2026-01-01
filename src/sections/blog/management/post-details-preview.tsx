@@ -12,7 +12,7 @@ import { Markdown } from 'src/components/markdown';
 import { Scrollbar } from 'src/components/scrollbar';
 import { EmptyContent } from 'src/components/empty-content';
 
-import { PostDetailsHero } from './post-details-hero';
+import { PostDetailsHero } from '../details/post-details-hero';
 
 // ----------------------------------------------------------------------
 

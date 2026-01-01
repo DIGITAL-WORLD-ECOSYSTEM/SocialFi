@@ -22,9 +22,9 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { PostSort } from '../post-sort';
-import { PostSearch } from '../post-search';
-import { PostListHorizontal } from '../post-list-horizontal';
+import { PostSort } from '../components/post-sort';
+import { PostSearch } from '../components/post-search';
+import { PostListHorizontal } from '../item/list-horizontal';
 
 // ----------------------------------------------------------------------
 

@@ -25,10 +25,10 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 
-import { PostDetailsHero } from '../post-details-hero';
-import { PostCommentList } from '../post-comment-list';
+import { PostDetailsHero } from '../details/post-details-hero';
+import { PostCommentList } from '../details/post-comment-list';
 import { PostCommentForm } from '../forms/post-comment-form';
-import { PostDetailsToolbar } from '../post-details-toolbar';
+import { PostDetailsToolbar } from '../details/post-details-toolbar';
 
 // ----------------------------------------------------------------------
 
