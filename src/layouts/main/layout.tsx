@@ -154,6 +154,6 @@ export function MainLayout({
     >
       {renderMain()}
       <CoreNav />
-    </LayoutSection
+    </LayoutSection>
   );
 }
