@@ -26,7 +26,7 @@ import { MenuButton } from '../components/menu-button';
 import { navData as blogNavData } from '../nav-config-blog';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
-import { PostSearch } from '../../sections/blog/components/post-search';
+import { PostSearch } from 'src/sections/blog/components/post-search';
 
 // ----------------------------------------------------------------------
 
