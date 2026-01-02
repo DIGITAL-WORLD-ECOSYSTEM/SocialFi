@@ -15,8 +15,6 @@ import {
   useSettingsContext,
 } from 'src/components/settings';
 
-import { CheckoutProvider } from 'src/sections/checkout/context';
-
 // ----------------------------------------------------------------------
 
 export default function App({ children }: { children: React.ReactNode }) {
@@ -34,12 +32,10 @@ export default function App({ children }: { children: React.ReactNode }) {
       <CssBaseline />
       <Rtl direction={settings.state.direction}>
         <MotionLazy>
-          <CheckoutProvider>
-            <Snackbar />
-            <ProgressBar />
-            <SettingsDrawer defaultSettings={defaultSettings} />
-            {children}
-          </CheckoutProvider>
+          <Snackbar />
+          <ProgressBar />
+          <SettingsDrawer defaultSettings={defaultSettings} />
+          {children}
         </MotionLazy>
       </Rtl>
     </ThemeVarsProvider>

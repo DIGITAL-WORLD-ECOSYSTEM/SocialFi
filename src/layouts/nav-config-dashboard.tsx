@@ -25,7 +25,6 @@ const ICONS = {
   folder: icon('ic-folder'),
   params: icon('ic-params'),
   banking: icon('ic-banking'),
-  booking: icon('ic-booking'),
   invoice: icon('ic-invoice'),
   calendar: icon('ic-calendar'),
   disabled: icon('ic-disabled'),
@@ -62,10 +61,8 @@ export const navData: NavSectionProps['data'] = [
     subheader: 'Overview',
     items: [
       { title: 'App', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Ecommerce', path: paths.dashboard.general.ecommerce, icon: ICONS.ecommerce },
       { title: 'Analytics', path: paths.dashboard.general.analytics, icon: ICONS.analytics },
       { title: 'Banking', path: paths.dashboard.general.banking, icon: ICONS.banking },
-      { title: 'Booking', path: paths.dashboard.general.booking, icon: ICONS.booking },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
     ],
   },
