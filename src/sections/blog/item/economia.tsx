@@ -32,6 +32,7 @@ export async function Economia() {
 
   return (
     <Box
+      id="economia"
       sx={{
         py: { xs: 8, md: 10 },
         bgcolor: 'background.neutral',

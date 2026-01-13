@@ -33,6 +33,7 @@ export async function Tecnologia() {
 
   return (
     <Box
+      id="tecnologia"
       sx={{
         py: { xs: 8, md: 10 },
         // bgcolor: 'background.neutral', // Tecnologia geralmente não tem fundo cinza intercalado, mas se quiser, pode descomentar

@@ -32,6 +32,7 @@ export async function MeioAmbiente() {
 
   return (
     <Box
+      id="meio-ambiente"
       sx={{
         py: { xs: 8, md: 10 },
         bgcolor: 'background.neutral', // Mantive o fundo cinza conforme seu original

@@ -32,6 +32,7 @@ export async function Geopolitica() {
 
   return (
     <Box
+      id="geopolitica"
       sx={{
         py: { xs: 8, md: 10 },
         // Sem bgcolor aqui para alternar com a seção anterior (Meio Ambiente) que era cinza
