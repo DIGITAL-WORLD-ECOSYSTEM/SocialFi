@@ -1,4 +1,3 @@
-
 import type { DialogProps } from '@mui/material';
 
 import { m } from 'framer-motion';
@@ -67,9 +66,11 @@ export default function HomeCountdownDialog({ targetDate, open, onClose, ...othe
         sx: {
           maxWidth: 480,
           borderRadius: 2,
-          bgcolor: '#141A21', // Fundo Dark Mode
+          bgcolor: '#141A21',
           color: 'common.white',
           position: 'relative',
+          // Garante que não ultrapasse a altura da tela em mobiles
+          maxHeight: '90vh', 
         },
       }}
     >
@@ -80,36 +81,44 @@ export default function HomeCountdownDialog({ targetDate, open, onClose, ...othe
         <Iconify icon="mingcute:close-line" />
       </IconButton>
 
-      <DialogContent sx={{ py: 8, px: 3, textAlign: 'center' }}>
+      {/* AJUSTE 1: Reduzi py (padding vertical) de 8 para 5 */}
+      <DialogContent 
+        sx={{ 
+          py: 5, 
+          px: 3, 
+          textAlign: 'center',
+          // AJUSTE 4: Esconde scrollbar visualmente mas mantém scroll se necessário
+          scrollbarWidth: 'none', 
+          '&::-webkit-scrollbar': { display: 'none' } 
+        }}
+      >
         
-        {/* TÍTULO: Foco em Identidade e Pioneirismo */}
         <Typography variant="h3" sx={{ mb: 2, fontWeight: 800, textTransform: 'uppercase' }}>
           SocialFi <Box component="span" sx={{ color: '#00A76F' }}>Alpha Launch</Box>
         </Typography>
 
-        {/* TEXTO: Foco em Monetização da Influência */}
-        <Typography sx={{ color: 'grey.500', mb: 5, lineHeight: 1.6, maxWidth: 480, mx: 'auto' }}>
+        {/* AJUSTE 2: Reduzi mb de 5 para 3 */}
+        <Typography sx={{ color: 'grey.500', mb: 3, lineHeight: 1.6, maxWidth: 480, mx: 'auto' }}>
           Pare de entregar seu conteúdo de graça. Na <strong>DEX World</strong>, suas interações geram valor real. 
           <br /><br />
           Garanta seu <strong>@handle exclusivo</strong> e posicione-se antes que a curadoria de conteúdo comece a pagar.
         </Typography>
 
-        {/* Timer Display */}
-        <Stack direction="row" justifyContent="center" spacing={2} sx={{ mb: 6 }}>
+        {/* AJUSTE 2: Reduzi mb de 6 para 4 */}
+        <Stack direction="row" justifyContent="center" spacing={2} sx={{ mb: 4 }}>
           <TimeBlock label="DIAS" value={countdown.days} />
           <TimeBlock label="HORAS" value={countdown.hours} />
           <TimeBlock label="MIN" value={countdown.minutes} />
           <TimeBlock label="SEG" value={countdown.seconds} />
         </Stack>
 
-        {/* BOTÃO DE AÇÃO */}
         <Box component={m.div} whileTap={varTap(0.95)} whileHover={varHover(1.02)}>
           <Button
             fullWidth
             size="large"
             variant="contained"
             component={RouterLink}
-            href={paths.pricing} // Direciona para cadastro/planos
+            href={paths.pricing}
             sx={{
               py: 2,
               fontSize: '1.2rem',
@@ -125,7 +134,6 @@ export default function HomeCountdownDialog({ targetDate, open, onClose, ...othe
             RESERVAR MEU PERFIL
           </Button>
           
-          {/* GATILHO DE ESCASSEZ */}
           <Typography variant="caption" sx={{ mt: 2, display: 'block', color: 'grey.600' }}>
             ⚠️ Nomes de usuário curtos estão esgotando
           </Typography>
@@ -142,8 +150,9 @@ function TimeBlock({ label, value }: { label: string; value: string }) {
     <Stack spacing={1}>
       <Box
         sx={{
-          width: 72,
-          height: 72,
+          // AJUSTE 3: Reduzi o tamanho dos blocos de 72px para 60px
+          width: 60,
+          height: 60,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -152,7 +161,8 @@ function TimeBlock({ label, value }: { label: string; value: string }) {
           border: '1px solid rgba(255, 255, 255, 0.1)',
         }}
       >
-        <Typography variant="h3">{value}</Typography>
+        {/* Reduzi levemente a fonte dentro do bloco */}
+        <Typography variant="h4">{value}</Typography>
       </Box>
 
       <Typography
