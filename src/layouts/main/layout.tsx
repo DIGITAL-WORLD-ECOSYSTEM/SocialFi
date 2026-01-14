@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import type { Breakpoint } from '@mui/material/styles';
 import type { FooterProps } from './footer';
 import type { NavMainProps } from './nav/types';
@@ -11,9 +10,7 @@ import { useBoolean } from 'minimal-shared/hooks';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
-import { paths } from 'src/routes/paths';
 import { usePathname } from 'src/routes/hooks';
-import { useSearchPosts } from 'src/actions/blog';
 import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
@@ -26,7 +23,6 @@ import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { LanguagePopover } from '../components/language-popover';
-import { PostSearch } from 'src/sections/blog/components/post-search';
 
 // ----------------------------------------------------------------------
 
@@ -54,14 +50,6 @@ export function MainLayout({
   const pathname = usePathname();
 
   const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
-
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const { searchResults } = useSearchPosts(searchQuery);
-
-  const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  }, []);
 
   const isHomePage = pathname === '/';
 
@@ -95,20 +83,13 @@ export function MainLayout({
         <NavDesktop
           data={navData}
           sx={(theme) => ({
-            display: 'none', 
+            display: 'none',
             [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
           })}
         />
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
-          {/** @slot Post search */}
-          <PostSearch 
-            query={searchQuery} 
-            results={searchResults} 
-            onSearch={handleSearch} 
-            redirectPath={(title: string) => paths.post.details(title)} 
-          />
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
           {/** @slot Settings button */}
