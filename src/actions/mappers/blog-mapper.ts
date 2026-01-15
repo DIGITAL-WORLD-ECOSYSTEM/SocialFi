@@ -18,7 +18,7 @@ export function mapToPostItem(apiData: any): IPostItem {
     category: apiData.category || 'Notícias', 
     
     publish: apiData.publish || 'published',
-    createdAt: apiData.createdAt || apiData.published_at || new Date().toISOString(),
+    createdAt: new Date(apiData.createdAt || apiData.published_at).toISOString(),
     
     // Estatísticas (Garante que sempre sejam números)
     totalViews: Number(apiData.totalViews || apiData.views || 0),
@@ -46,7 +46,7 @@ export function mapToPostItem(apiData: any): IPostItem {
           name: comment.name || comment.user?.name,
           message: comment.message || comment.content,
           avatarUrl: comment.avatarUrl || comment.user?.profile_image,
-          postedAt: comment.postedAt || comment.created_at,
+          postedAt: new Date(comment.postedAt || comment.created_at).toISOString(), // Correção aqui também
           users: comment.users || [],
           replyComment: comment.replyComment || [],
         }))
