@@ -1,10 +1,10 @@
 'use client';
 
 import type { ButtonProps } from '@mui/material/Button';
-import type { QuickFilterProps } from '@mui/x-data-grid';
 import type { Theme, SxProps } from '@mui/material/styles';
-import type { TextFieldProps } from '@mui/material/TextField';
 import type { IconButtonProps } from '@mui/material/IconButton';
+import { useGridApiContext, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import type { GridToolbarQuickFilterProps } from '@mui/x-data-grid';
 
 import { usePopover } from 'minimal-shared/hooks';
 
@@ -15,23 +15,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import {
-  ExportCsv,
-  ExportPrint,
-  QuickFilter,
-  QuickFilterClear,
-  useGridApiContext,
-  FilterPanelTrigger,
-  QuickFilterControl,
-  ColumnsPanelTrigger,
-} from '@mui/x-data-grid';
 
-import { ExportIcon, FilterIcon, ViewColumnsIcon } from 'src/theme/core/components/mui-x-data-grid';
-
-import { Iconify } from '../iconify';
+import { ExportIcon, FilterIcon } from 'src/theme/core/components/mui-x-data-grid';
 
 // ----------------------------------------------------------------------
 
@@ -79,48 +65,23 @@ export function ToolbarButtonBase({
 
 // ----------------------------------------------------------------------
 
-export function CustomToolbarColumnsButton({
-  showLabel,
-}: Pick<ToolbarButtonBaseProps, 'showLabel'>) {
-  const apiRef = useGridApiContext();
-  const label = apiRef.current.getLocaleText('toolbarColumns');
-
-  return (
-    <ColumnsPanelTrigger
-      render={(props) => (
-        <ToolbarButtonBase
-          {...props}
-          label={String(label)}
-          icon={<ViewColumnsIcon />}
-          showLabel={showLabel}
-        />
-      )}
-    />
-  );
-}
-
-// ----------------------------------------------------------------------
-
 export function CustomToolbarFilterButton({
   showLabel,
 }: Pick<ToolbarButtonBaseProps, 'showLabel'>) {
   const apiRef = useGridApiContext();
   const label = apiRef.current.getLocaleText('toolbarFilters');
+  const filterCount = apiRef.current.state.filter.filterModel.items.length;
 
   return (
-    <FilterPanelTrigger
-      render={(props, state) => (
-        <ToolbarButtonBase
-          {...props}
-          label={String(label)}
-          showLabel={showLabel}
-          icon={
-            <Badge variant="dot" color="error" badgeContent={state.filterCount}>
-              <FilterIcon />
-            </Badge>
-          }
-        />
-      )}
+    <ToolbarButtonBase
+      onClick={() => apiRef.current.showFilterPanel()}
+      label={String(label)}
+      showLabel={showLabel}
+      icon={
+        <Badge variant="dot" color="error" badgeContent={filterCount}>
+          <FilterIcon />
+        </Badge>
+      }
     />
   );
 }
@@ -133,7 +94,6 @@ export function CustomToolbarExportButton({
   const apiRef = useGridApiContext();
   const label = apiRef.current.getLocaleText('toolbarExport');
   const csvLabel = apiRef.current.getLocaleText('toolbarExportCSV');
-  const printLabel = apiRef.current.getLocaleText('toolbarExportPrint');
 
   const { open, anchorEl, onClose, onOpen } = usePopover();
 
@@ -163,13 +123,14 @@ export function CustomToolbarExportButton({
           },
         }}
       >
-        <ExportPrint render={<MenuItem />} onClick={onClose}>
-          {printLabel}
-        </ExportPrint>
-
-        <ExportCsv render={<MenuItem />} onClick={onClose}>
+        <MenuItem
+          onClick={() => {
+            apiRef.current.exportDataAsCsv();
+            onClose();
+          }}
+        >
           {csvLabel}
-        </ExportCsv>
+        </MenuItem>
       </Menu>
     </>
   );
@@ -177,64 +138,20 @@ export function CustomToolbarExportButton({
 
 // ----------------------------------------------------------------------
 
-export type CustomToolbarQuickFilterProps = QuickFilterProps & {
+export type CustomToolbarQuickFilterProps = GridToolbarQuickFilterProps & {
   sx?: SxProps<Theme>;
-  slotProps?: {
-    textField?: TextFieldProps;
-  };
 };
 
 export function CustomToolbarQuickFilter({
   sx,
-  slotProps,
   ...other
 }: CustomToolbarQuickFilterProps) {
-  const apiRef = useGridApiContext();
-  const label = apiRef.current.getLocaleText('toolbarQuickFilterLabel');
-  const placeholder = apiRef.current.getLocaleText('toolbarQuickFilterPlaceholder');
-
   return (
-    <QuickFilter
-      {...other}
-      render={(props) => (
-        <Box
-          {...props}
-          sx={[{ width: 1, maxWidth: { md: 260 } }, ...(Array.isArray(sx) ? sx : [sx])]}
-        >
-          <QuickFilterControl
-            render={({ ref, ...controlProps }, state) => (
-              <TextField
-                {...controlProps}
-                fullWidth
-                inputRef={ref}
-                aria-label={label}
-                placeholder={placeholder}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Iconify icon="eva:search-fill" />
-                      </InputAdornment>
-                    ),
-                    endAdornment: state.value ? (
-                      <InputAdornment position="end">
-                        <QuickFilterClear edge="end" size="small" aria-label="Clear search">
-                          <Iconify icon="mingcute:close-line" width={16} />
-                        </QuickFilterClear>
-                      </InputAdornment>
-                    ) : null,
-                    ...controlProps.slotProps?.input,
-                  },
-                  ...controlProps.slotProps,
-                  ...slotProps?.textField?.slotProps,
-                }}
-                {...slotProps?.textField}
-              />
-            )}
-          />
-        </Box>
-      )}
-    />
+    <Box
+      sx={[{ width: 1, maxWidth: { md: 260 } }, ...(Array.isArray(sx) ? sx : [sx])]}
+    >
+      <GridToolbarQuickFilter {...other} />
+    </Box>
   );
 }
 
