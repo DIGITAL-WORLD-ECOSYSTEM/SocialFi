@@ -8,6 +8,7 @@ import { getPost } from 'src/actions/blog-ssr';
 import axios, { endpoints } from 'src/lib/axios';
 
 import { PostDetailsView } from 'src/sections/blog/view';
+import { notFound } from 'next/navigation';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,10 @@ export default async function Page({ params }: Props) {
   const { title } = await params;
 
   const { post } = await getPost(title);
+
+  if (!post) {
+    return notFound();
+  }
 
   return <PostDetailsView post={post} />;
 }

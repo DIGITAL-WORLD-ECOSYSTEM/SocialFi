@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { CONFIG } from 'src/global-config';
 
-import { PostCreateView } from 'src/sections/blog/view';
+import { PostCreateView } from 'src/sections/blog/management/post-create-view';
 
 // ----------------------------------------------------------------------
 

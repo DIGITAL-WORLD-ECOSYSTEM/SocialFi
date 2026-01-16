@@ -7,7 +7,8 @@ import { CONFIG } from 'src/global-config';
 import { getPost } from 'src/actions/blog-ssr';
 import axios, { endpoints } from 'src/lib/axios';
 
-import { PostEditView } from 'src/sections/blog/view';
+import { PostEditView } from 'src/sections/blog/management/post-edit-view';
+import { notFound } from 'next/navigation';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,10 @@ export default async function Page({ params }: Props) {
   const { title } = await params;
 
   const { post } = await getPost(title);
+
+  if (!post) {
+    return notFound();
+  }
 
   return <PostEditView post={post} />;
 }

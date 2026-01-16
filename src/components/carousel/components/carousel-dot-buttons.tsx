@@ -25,7 +25,6 @@ export function CarouselDotButtons({
   onClickDot,
   scrollSnaps,
   selectedIndex,
-  dotCount, // Consumed
   variant = 'circular',
   ...other
 }: CarouselDotButtonsProps) {

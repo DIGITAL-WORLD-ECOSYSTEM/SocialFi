@@ -1,3 +1,4 @@
+
 import type { Dayjs } from 'dayjs';
 import type { TimePickerProps } from '@mui/x-date-pickers/TimePicker';
 import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker';
@@ -24,14 +25,16 @@ function normalizeDateValue(value: DateInput): Dayjs | null {
 
 // ----------------------------------------------------------------------
 
-type PickerProps<T extends DatePickerProps | TimePickerProps | DateTimePickerProps> = T & {
+type PickerProps<
+  T extends DatePickerProps<Dayjs> | TimePickerProps<Dayjs> | DateTimePickerProps<Dayjs>,
+> = T & {
   name: string;
   slotProps?: T['slotProps'] & {
     textField?: Partial<PickersTextFieldProps>;
   };
 };
 
-export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePickerProps>) {
+export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePickerProps<Dayjs>>) {
   const { control } = useFormContext();
 
   return (
@@ -57,7 +60,7 @@ export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePic
               ...slotProps?.textField,
               error: !!error,
               helperText: error?.message ?? slotProps?.textField?.helperText,
-            },
+            } as any,
           }}
           {...other}
         />
@@ -68,7 +71,7 @@ export function RHFDatePicker({ name, slotProps, ...other }: PickerProps<DatePic
 
 // ----------------------------------------------------------------------
 
-export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePickerProps>) {
+export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePickerProps<Dayjs>>) {
   const { control } = useFormContext();
 
   return (
@@ -94,7 +97,7 @@ export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePic
               ...slotProps?.textField,
               error: !!error,
               helperText: error?.message ?? slotProps?.textField?.helperText,
-            },
+            } as any,
           }}
           {...other}
         />
@@ -105,7 +108,11 @@ export function RHFTimePicker({ name, slotProps, ...other }: PickerProps<TimePic
 
 // ----------------------------------------------------------------------
 
-export function RHFDateTimePicker({ name, slotProps, ...other }: PickerProps<DateTimePickerProps>) {
+export function RHFDateTimePicker({
+  name,
+  slotProps,
+  ...other
+}: PickerProps<DateTimePickerProps<Dayjs>>) {
   const { control } = useFormContext();
 
   return (
@@ -131,7 +138,7 @@ export function RHFDateTimePicker({ name, slotProps, ...other }: PickerProps<Dat
               ...slotProps?.textField,
               error: !!error,
               helperText: error?.message ?? slotProps?.textField?.helperText,
-            },
+            } as any,
           }}
           {...other}
         />
