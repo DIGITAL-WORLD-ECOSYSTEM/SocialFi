@@ -255,6 +255,9 @@ importers:
       '@types/autosuggest-highlight':
         specifier: ^3.2.3
         version: 3.2.3
+      '@types/geojson':
+        specifier: ^7946.0.16
+        version: 7946.0.16
       '@types/node':
         specifier: ^24.5.2
         version: 24.10.8

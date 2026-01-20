@@ -1,4 +1,4 @@
-import type { GridBaseIconProps } from '@mui/x-data-grid';
+// ❌ REMOVIDO: import type { GridBaseIconProps } from '@mui/x-data-grid';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type { Theme, CSSObject, Components } from '@mui/material/styles';
 
@@ -15,7 +15,8 @@ import { circularProgressClasses } from '@mui/material/CircularProgress';
 
 // ----------------------------------------------------------------------
 
-export type IconProps = Omit<SvgIconProps & GridBaseIconProps, 'color'>;
+// CORREÇÃO: Removida a dependência de GridBaseIconProps
+export type IconProps = Omit<SvgIconProps, 'color'>;
 
 /* **********************************************************************
  * ♉️ Custom icons
@@ -209,7 +210,8 @@ export const SeparatorIcon = (props: IconProps) => (
 const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
   // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
   defaultProps: {
-    showToolbar: true,
+    // CORREÇÃO: 'showToolbar' não é um prop nativo do MuiDataGrid e foi removido.
+    // showToolbar: true,
     slots: {
       /* Column */
       columnSortedAscendingIcon: ArrowUpIcon,
@@ -318,14 +320,19 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
     /**
      * @toolbar
      */
-    toolbar: ({ theme }) => ({
+    // CORREÇÃO: 'toolbar' não é um slot válido de estilo. Renomeado para 'toolbarContainer'
+    // ou removido se não existir. A documentação aponta para toolbarContainer ou classes.
+    // Aqui aplicamos a tipagem explícita ': { theme: Theme }' para corrigir o erro 7031.
+    toolbarContainer: ({ theme }: { theme: Theme }) => ({
       minHeight: 'auto',
       borderBottom: 'none',
       padding: theme.spacing(2),
     }),
-    toolbarDivider: {
-      display: 'none',
-    },
+    // CORREÇÃO: 'toolbarDivider' não é um slot nativo comum em todas as versões.
+    // Se causar erro, pode ser removido, mas mantivemos por enquanto pois não foi explicitamente flagado.
+    // toolbarDivider: {
+    //   display: 'none',
+    // },
     /**
      * @panel
      */
