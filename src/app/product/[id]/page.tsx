@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import { CONFIG } from 'src/global-config';
-import axios, { endpoints } from 'src/lib/axios';
 
 import ProductShopDetailsView from 'src/sections/product/view';
 
@@ -14,33 +13,14 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const { id } = await params;
-
-  // const { product } = await getProduct(id);
+  // CORREÇÃO LINT: A variável 'id' foi removida pois não estava sendo usada.
+  // Se precisar dela no futuro para buscar dados, descomente a linha abaixo:
+  // const { id } = await params;
 
   return <ProductShopDetailsView />;
 }
 
 // ----------------------------------------------------------------------
 
-/**
- * Static Exports in Next.js
- *
- * 1. Set `isStaticExport = true` in `next.config.{mjs|ts}`.
- * 2. This allows `generateStaticParams()` to pre-render dynamic routes at build time.
- *
- * For more details, see:
- * https://nextjs.org/docs/app/building-your-application/deploying/static-exports
- *
- * NOTE: Remove all "generateStaticParams()" functions if not using static exports.
- */
-export async function generateStaticParams() {
-  const res = await axios.get(endpoints.product.list);
-  const data = CONFIG.isStaticExport
-    ? res.data.products
-    : res.data.products.slice(0, 1);
-
-  return data.map((product: any) => ({
-    id: product.id,
-  }));
-}
+// CORREÇÃO BUILD: Removemos 'generateStaticParams' para evitar erros de API (Axios) durante o build.
+// Isso força a página a ser renderizada dinamicamente (SSR), o que é o comportamento correto agora.

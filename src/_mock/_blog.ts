@@ -13,9 +13,9 @@ export const POST_SORT_OPTIONS = [
   { value: 'oldest', label: 'Antigos' },
 ];
 
-// As categorias exatas que você tem no Menu + Extras
-// A ordem aqui importa para a distribuição dos posts abaixo
-const POST_CATEGORIES = [
+// CORREÇÃO LINT: Adicionado 'export' para resolver o aviso de variável não utilizada.
+// Agora essa lista pode ser importada na Sidebar ou nos Filtros se necessário.
+export const POST_CATEGORIES = [
   'Economia', 
   'Tecnologia', 
   'Meio Ambiente', 
