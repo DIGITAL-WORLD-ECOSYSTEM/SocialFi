@@ -15,7 +15,14 @@ export function ChartScatter({ chart }: Props) {
   const chartOptions = useChart({
     chart: { zoom: { enabled: true, type: 'xy' } },
     legend: { show: true },
-    xaxis: { tickAmount: 8, labels: { formatter: (val) => parseFloat(val).toFixed(1) } },
+    xaxis: {
+      tickAmount: 8,
+      labels: {
+        // CORREÇÃO: Usamos Number(val) em vez de parseFloat(val)
+        // Isso satisfaz o TypeScript pois Number aceita 'string | number'
+        formatter: (val) => Number(val).toFixed(1),
+      },
+    },
     markers: { size: 6 },
   });
 

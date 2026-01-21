@@ -1,33 +1,44 @@
 import { _posts } from 'src/_mock/_blog';
 
+// Utilitário para normalizar strings para comparação segura (remove acentos e caixa alta)
+const normalize = (str: string) => 
+  str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA PRINCIPAL: Retorna todos os posts para a PostListHomeView.
- * Orquestra os dados para as 8 seções do portal.
+ * BUSCA PRINCIPAL: Retorna todos os posts ordenados por data (mais recente primeiro).
  */
 export async function getPosts() {
-  // Simula latência da Cloudflare Edge para testar Skeletons
   await new Promise((resolve) => setTimeout(resolve, 500));
   
+  // CORREÇÃO: Garante ordenação cronológica decrescente
+  const sortedPosts = [..._posts].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+  
   return { 
-    posts: _posts 
+    posts: sortedPosts 
   };
 }
 
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA INDIVIDUAL: Utilizada na página de detalhes do artigo.
- * Faz o "match" entre o slug da URL e o título do post.
+ * BUSCA INDIVIDUAL: Melhora a lógica de match para tolerar variações de URL.
  */
-export async function getPost(title: string) {
+export async function getPost(paramTitle: string) {
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  // Decodifica a URL (ex: 'Bitcoin-rompe' -> 'Bitcoin rompe')
-  const decodedTitle = decodeURIComponent(title).replace(/-/g, ' ');
+  // CORREÇÃO: Normaliza a URL para comparação (param-case -> clean string)
+  const targetSlug = normalize(decodeURIComponent(paramTitle).replace(/-/g, ' '));
 
-  const post = _posts.find((p) => p.title.toLowerCase() === decodedTitle.toLowerCase());
+  const post = _posts.find((p) => {
+    // Normaliza o título do banco de dados para comparar com o slug da URL
+    const dbTitleNormalized = normalize(p.title);
+    // Tenta match exato ou match parcial (para lidar com hífens originais vs hífens de slug)
+    return dbTitleNormalized === targetSlug || dbTitleNormalized.replace(/-/g, ' ') === targetSlug;
+  });
   
   return { 
     post: post || null 
@@ -37,16 +48,20 @@ export async function getPost(title: string) {
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA RELACIONADOS: Utilizada no final de cada artigo ou barras laterais.
+ * BUSCA RELACIONADOS: Garante que "latest" seja realmente cronológico.
  */
-export async function getLatestPosts(title: string) {
+export async function getLatestPosts(paramTitle: string) {
   await new Promise((resolve) => setTimeout(resolve, 300));
   
-  const decodedTitle = decodeURIComponent(title).replace(/-/g, ' ');
+  const targetSlug = normalize(decodeURIComponent(paramTitle).replace(/-/g, ' '));
 
-  // Filtra o post atual e pega os 4 mais recentes
+  // CORREÇÃO: Filtra o atual E ordena por data antes de cortar
   const latestPosts = _posts
-    .filter((p) => p.title.toLowerCase() !== decodedTitle.toLowerCase())
+    .filter((p) => {
+        const dbTitleNormalized = normalize(p.title);
+        return dbTitleNormalized !== targetSlug && dbTitleNormalized.replace(/-/g, ' ') !== targetSlug;
+    })
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 4);
 
   return { 
@@ -57,13 +72,15 @@ export async function getLatestPosts(title: string) {
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA POR CATEGORIA: (Nova) Para alimentar a rota category/[slug]
+ * BUSCA POR CATEGORIA: Match insensível a caixa e acentos.
  */
 export async function getPostsByCategory(category: string) {
   await new Promise((resolve) => setTimeout(resolve, 400));
   
+  const targetCategory = normalize(category);
+
   const filteredPosts = _posts.filter(
-    (p) => p.category.toLowerCase() === category.toLowerCase()
+    (p) => normalize(p.category) === targetCategory
   );
 
   return { 

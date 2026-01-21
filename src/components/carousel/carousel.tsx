@@ -2,10 +2,11 @@
 
 import type { CarouselProps, CarouselOptions } from './types';
 
-import { Children, isValidElement } from 'react';
+// CORREÇÃO 1: Importar React para usar tipos como React.ReactElement
+import React, { Children, isValidElement } from 'react';
 import { mergeClasses } from 'minimal-shared/utils';
 
-import { styled } from '@mui/material/styles';
+import { styled, type Theme } from '@mui/material/styles';
 
 import { carouselClasses } from './classes';
 import { CarouselSlide } from './components/carousel-slide';
@@ -51,8 +52,9 @@ export function Carousel({
         axis={axis}
         slideSpacing={slideSpacing}
         className={carouselClasses.container}
+        // CORREÇÃO 2: Simplificação da lógica de mesclagem do SX
         sx={[
-          (theme) => ({
+          (theme: Theme) => ({
             ...(carousel.pluginNames?.includes('autoHeight') && {
               alignItems: 'flex-start',
               transition: theme.transitions.create(['height'], {
@@ -61,7 +63,9 @@ export function Carousel({
               }),
             }),
           }),
-          ...(Array.isArray(slotProps?.container) ? slotProps.container : [slotProps?.container]),
+          ...(Array.isArray(slotProps?.container)
+            ? slotProps.container
+            : [slotProps?.container]),
         ]}
       >
         {renderChildren()}
@@ -72,37 +76,35 @@ export function Carousel({
 
 // ----------------------------------------------------------------------
 
+// CORREÇÃO 3: Substituição da sintaxe 'variants' por lógica condicional direta
 const CarouselRoot = styled('div', {
   shouldForwardProp: (prop: string) => !['axis', 'sx'].includes(prop),
-})<Pick<CarouselOptions, 'axis'>>(() => ({
+})<Pick<CarouselOptions, 'axis'>>(({ axis }) => ({
   margin: 'auto',
   maxWidth: '100%',
   overflow: 'hidden',
   position: 'relative',
-  variants: [{ props: { axis: 'y' }, style: { height: '100%' } }],
+  // Lógica direta em vez de 'variants'
+  ...(axis === 'y' && {
+    height: '100%',
+  }),
 }));
 
+// CORREÇÃO 4: Substituição da sintaxe 'variants' e desestruturação correta das props
 const CarouselContainer = styled('ul', {
   shouldForwardProp: (prop: string) => !['axis', 'slideSpacing', 'sx'].includes(prop),
-})<Pick<CarouselOptions, 'axis' | 'slideSpacing'>>(({ slideSpacing }) => ({
+})<Pick<CarouselOptions, 'axis' | 'slideSpacing'>>(({ axis, slideSpacing }) => ({
   display: 'flex',
   backfaceVisibility: 'hidden',
-  variants: [
-    {
-      props: { axis: 'x' },
-      style: {
-        touchAction: 'pan-y pinch-zoom',
-        marginLeft: `calc(${slideSpacing} * -1)`,
-      },
-    },
-    {
-      props: { axis: 'y' },
-      style: {
-        height: '100%',
-        flexDirection: 'column',
-        touchAction: 'pan-x pinch-zoom',
-        marginTop: `calc(${slideSpacing} * -1)`,
-      },
-    },
-  ],
+  // Aplica estilos baseados na prop 'axis'
+  ...(axis === 'x' && {
+    touchAction: 'pan-y pinch-zoom',
+    marginLeft: `calc(${slideSpacing} * -1)`,
+  }),
+  ...(axis === 'y' && {
+    height: '100%',
+    flexDirection: 'column',
+    touchAction: 'pan-x pinch-zoom',
+    marginTop: `calc(${slideSpacing} * -1)`,
+  }),
 }));
