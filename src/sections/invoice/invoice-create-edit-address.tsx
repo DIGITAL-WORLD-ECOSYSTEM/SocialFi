@@ -95,7 +95,12 @@ export function InvoiceCreateEditAddress() {
         open={addressForm.value}
         onClose={addressForm.onFalse}
         selected={(selectedId: string) => invoiceFrom?.id === selectedId}
-        onSelect={(address) => setValue('invoiceFrom', address)}
+        onSelect={(address) => {
+          // CORREÇÃO: Só define o valor se 'address' não for nulo
+          if (address) {
+            setValue('invoiceFrom', address);
+          }
+        }}
         list={_addressBooks}
         action={
           <Button
@@ -113,7 +118,12 @@ export function InvoiceCreateEditAddress() {
         open={addressTo.value}
         onClose={addressTo.onFalse}
         selected={(selectedId: string) => invoiceTo?.id === selectedId}
-        onSelect={(address) => setValue('invoiceTo', address)}
+        onSelect={(address) => {
+          // CORREÇÃO: Só define o valor se 'address' não for nulo
+          if (address) {
+            setValue('invoiceTo', address);
+          }
+        }}
         list={_addressBooks}
         action={
           <Button
