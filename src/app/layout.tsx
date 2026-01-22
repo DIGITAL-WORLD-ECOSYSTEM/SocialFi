@@ -20,6 +20,10 @@ import App from './app';
 
 // ----------------------------------------------------------------------
 
+// CORREÇÃO CRÍTICA PARA CLOUDFLARE PAGES:
+// Isso força todas as rotas da aplicação a rodarem no Edge Runtime.
+export const runtime = 'edge'; 
+
 const AuthProvider = JwtAuthProvider;
 
 export const viewport: Viewport = {
