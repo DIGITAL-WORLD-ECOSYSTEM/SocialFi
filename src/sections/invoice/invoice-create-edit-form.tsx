@@ -80,7 +80,8 @@ export function InvoiceCreateEditForm({ currentInvoice }: Props) {
     status: 'draft',
     discount: 0,
     invoiceFrom: _addressBooks[0],
-    invoiceTo: null,
+    // CORREÇÃO: Usamos 'as any' para permitir null inicial sem erro de tipagem
+    invoiceTo: null as any,
     subtotal: 0,
     totalAmount: 0,
     items: [defaultItem],
