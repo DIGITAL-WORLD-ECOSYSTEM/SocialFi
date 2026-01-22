@@ -39,7 +39,7 @@ const defaultValues: FieldsSchemaType = {
   email: '',
   fullName: '',
   // number with 0, null, undefined
-  age: null,
+  age: 0,
   price: undefined,
   quantity: 0,
   // phone and code
@@ -58,7 +58,9 @@ const defaultValues: FieldsSchemaType = {
   singleSelect: '',
   multiSelect: [],
   // autocomplete
-  singleAutocomplete: null,
+  // CORREÇÃO: Usamos 'as any' porque o Schema espera um objeto estrito,
+  // mas o componente UI precisa de null para o estado vazio.
+  singleAutocomplete: null as any,
   multiAutocomplete: [OPTIONS[0]],
 };
 
