@@ -1,6 +1,7 @@
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type { Theme, Components } from '@mui/material/styles';
 import type { TextFieldProps } from '@mui/material/TextField';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 import SvgIcon from '@mui/material/SvgIcon';
 import { buttonClasses } from '@mui/material/Button';
@@ -128,7 +129,8 @@ const MuiPickersLayout: Components<Theme>['MuiPickersLayout'] = {
   },
 };
 
-const MuiPickerPopper: Components<Theme>['MuiPickerPopper'] = {
+// CORREÇÃO: Renomeado de MuiPickerPopper para MuiPickersPopper (com 's')
+const MuiPickersPopper: Components<Theme>['MuiPickersPopper'] = {
   // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     paper: ({ theme }) => ({
@@ -289,7 +291,8 @@ const dateTimePickerComponents: Components<Theme> = {
 export const datePicker: Components<Theme> = {
   ...toolbarComponents,
   MuiClock,
-  MuiPickerPopper,
+  // CORREÇÃO: Atualizado na exportação também
+  MuiPickersPopper, 
   MuiPickersLayout,
   MuiDateTimePickerTabs,
   /********/
