@@ -37,11 +37,6 @@ export const paths = {
     details: (title: string) => `/post/${kebabCase(title)}`,
     demo: { details: `/post/${kebabCase(MOCK_TITLE)}` },
   },
-  product: {
-    root: '/product',
-    checkout: '/product/checkout',
-    details: (id: string) => `/product/${id}`,
-  },
   // AUTH
   auth: {
     signIn: `${ROOTS.AUTH}/sign-in`,

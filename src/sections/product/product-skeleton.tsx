@@ -1,1 +1,0 @@
-export function ProductDetailsSkeleton() { return <div>Loading...</div>; }

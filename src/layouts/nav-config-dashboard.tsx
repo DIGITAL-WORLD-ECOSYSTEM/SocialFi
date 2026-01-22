@@ -31,7 +31,6 @@ const ICONS = {
   external: icon('ic-external'),
   subpaths: icon('ic-subpaths'),
   menuItem: icon('ic-menu-item'),
-  ecommerce: icon('ic-ecommerce'),
   analytics: icon('ic-analytics'),
   dashboard: icon('ic-dashboard'),
 };
