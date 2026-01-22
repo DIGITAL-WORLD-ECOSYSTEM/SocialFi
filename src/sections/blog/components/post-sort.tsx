@@ -13,21 +13,17 @@ import { usePopover } from 'src/components/custom-popover/hooks';
 
 // ----------------------------------------------------------------------
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
-
 type Props = BoxProps & {
-  sortBy: string;
-  onSortBy: (newValue: string) => void;
+  sort: string;
+  onSort: (newValue: string) => void;
+  sortOptions: { value: string; label: string }[];
 };
 
-export function PostSort({ sortBy, onSortBy, sx, ...other }: Props) {
+export function PostSort({ sort, onSort, sortOptions, sx, ...other }: Props) {
   const popover = usePopover();
 
-  const selectedOption = SORT_OPTIONS.find((option) => option.value === sortBy);
+  // Agora buscamos a opção selecionada dentro da lista dinâmica recebida via props
+  const selectedOption = sortOptions.find((option) => option.value === sort);
 
   return (
     <>
@@ -36,7 +32,11 @@ export function PostSort({ sortBy, onSortBy, sx, ...other }: Props) {
           disableRipple
           color="inherit"
           onClick={popover.onOpen}
-          endIcon={<Iconify icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'} />}
+          endIcon={
+            <Iconify
+              icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
+            />
+          }
           sx={{ fontWeight: 'fontWeightSemiBold', textTransform: 'capitalize' }}
         >
           Sort by:
@@ -46,15 +46,20 @@ export function PostSort({ sortBy, onSortBy, sx, ...other }: Props) {
         </Button>
       </Box>
 
-      <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose} sx={{ width: 140 }}>
+      <CustomPopover
+        open={popover.open}
+        anchorEl={popover.anchorEl}
+        onClose={popover.onClose}
+        sx={{ width: 140 }}
+      >
         <MenuList>
-          {SORT_OPTIONS.map((option) => (
+          {sortOptions.map((option) => (
             <MenuItem
               key={option.value}
-              selected={sortBy === option.value}
+              selected={sort === option.value}
               onClick={() => {
                 popover.onClose();
-                onSortBy(option.value);
+                onSort(option.value);
               }}
             >
               {option.label}
