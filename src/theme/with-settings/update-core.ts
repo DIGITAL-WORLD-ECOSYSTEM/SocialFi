@@ -39,14 +39,16 @@ export function applySettingsToTheme(
     const currentScheme = theme.colorSchemes?.[schemeName];
 
     const updatedPalette = {
-      ...currentScheme?.palette,
+      // CORREÇÃO: Casting 'as any' para garantir que TS aceite o spread
+      ...((currentScheme?.palette as any) ?? {}),
       ...(!isDefaultPrimaryColor && {
         primary: primaryColorPalette,
         // secondary: secondaryColorPalette,
       }),
       ...(schemeName === 'light' && {
         background: {
-          ...lightPalette?.background,
+          // CORREÇÃO: Casting 'as any'
+          ...((lightPalette?.background as any) ?? {}),
           ...(!isDefaultContrast && {
             default: lightPalette.grey[200],
             defaultChannel: hexToRgbChannel(lightPalette.grey[200]),
@@ -56,7 +58,8 @@ export function applySettingsToTheme(
     };
 
     const updatedCustomShadows = {
-      ...currentScheme?.customShadows,
+      // CORREÇÃO: Casting 'as any'
+      ...((currentScheme?.customShadows as any) ?? {}),
       ...(!isDefaultPrimaryColor && {
         primary: createShadowColor(primaryColorPalette.mainChannel),
         // secondary: createShadowColor(secondaryColorPalette.mainChannel),
@@ -64,7 +67,8 @@ export function applySettingsToTheme(
     };
 
     return {
-      ...currentScheme,
+      // CORREÇÃO: Casting 'as any' no objeto principal do esquema
+      ...((currentScheme as any) ?? {}),
       palette: updatedPalette,
       customShadows: updatedCustomShadows,
     };
