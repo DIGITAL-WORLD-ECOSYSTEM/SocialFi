@@ -28,11 +28,13 @@ export default async function UserEditPage({ params }: Props) {
     country: 'Brazil', 
     avatarUrl: _mock.image.avatar(1),
     phoneNumber: _mock.phoneNumber(1),
-    // CORREÇÃO: Usando string fixa ou tentativa de acesso seguro para evitar erro de tipo
     company: 'ASPPIBRA', 
     isVerified: true,
     city: 'Paraty',
     zipCode: '23970-000',
+    // ✅ CORREÇÃO CRUCIAL: Adicionando o campo 'about' fixo.
+    // Isso impede que o sistema tente buscar '_mock.description' e quebre o build.
+    about: 'Perfil de administrador.', 
   } as IUserItem;
 
   return <UserCreateEditForm currentUser={currentUser} />;
