@@ -9,7 +9,9 @@ import { isValidPhoneNumber } from 'react-phone-number-input/input';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
+// CORREÇÃO: Usando a importação nomeada padrão.
+// No MUI v6+, este 'Grid' já traz a nova arquitetura (antigo Grid2).
+import { Grid } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
@@ -23,7 +25,7 @@ import { fData } from 'src/utils/format-number';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
+import { Form, schemaUtils, RHFTextField, RHFSwitch, RHFUploadAvatar, RHFCountrySelect, RHFPhoneInput } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -104,8 +106,11 @@ export function UserCreateEditForm({ currentUser }: Props) {
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
+      {/* CORREÇÃO GRID: Container padrão */}
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
+        
+        {/* CORREÇÃO GRID: Usando prop 'size' (Padrão MUI v6/v7) em vez de 'item xs={...}' */}
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {currentUser && (
               <Label
@@ -121,7 +126,7 @@ export function UserCreateEditForm({ currentUser }: Props) {
             )}
 
             <Box sx={{ mb: 5 }}>
-              <Field.UploadAvatar
+              <RHFUploadAvatar
                 name="avatarUrl"
                 maxSize={3145728}
                 helperText={
@@ -179,7 +184,7 @@ export function UserCreateEditForm({ currentUser }: Props) {
               />
             )}
 
-            <Field.Switch
+            <RHFSwitch
               name="isVerified"
               labelPlacement="start"
               label={
@@ -205,7 +210,8 @@ export function UserCreateEditForm({ currentUser }: Props) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={8}>
+        {/* CORREÇÃO GRID: Usando prop 'size' */}
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card sx={{ p: 3 }}>
             <Box
               sx={{
@@ -215,23 +221,22 @@ export function UserCreateEditForm({ currentUser }: Props) {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <Field.Text name="name" label="Full name" />
-              <Field.Text name="email" label="Email address" />
-              <Field.Phone name="phoneNumber" label="Phone number" defaultCountry="US" />
+              <RHFTextField name="name" label="Full name" />
+              <RHFTextField name="email" label="Email address" />
+              <RHFPhoneInput name="phoneNumber" label="Phone number" defaultCountry="US" />
 
-              <Field.CountrySelect
+              <RHFCountrySelect
                 name="country"
                 label="Country"
                 placeholder="Choose a country"
-                getValue={(value) => value || ''}
               />
 
-              <Field.Text name="state" label="State/region" />
-              <Field.Text name="city" label="City" />
-              <Field.Text name="address" label="Address" />
-              <Field.Text name="zipCode" label="Zip/code" />
-              <Field.Text name="company" label="Company" />
-              <Field.Text name="role" label="Role" />
+              <RHFTextField name="state" label="State/region" />
+              <RHFTextField name="city" label="City" />
+              <RHFTextField name="address" label="Address" />
+              <RHFTextField name="zipCode" label="Zip/code" />
+              <RHFTextField name="company" label="Company" />
+              <RHFTextField name="role" label="Role" />
             </Box>
 
             <Stack sx={{ mt: 3, alignItems: 'flex-end' }}>
