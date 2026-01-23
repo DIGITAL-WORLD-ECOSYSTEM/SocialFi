@@ -45,9 +45,13 @@ export const _mock = {
   companyNames: (index: number) => 
     ['Minimals UI', 'Google', 'Stripe', 'Airbnb', 'Facebook', 'Amazon', 'Netflix', 'Tesla'][index % 8],
 
-  // ✅ CORREÇÃO 3 (NOVA): Adicionando a função sentence que quebrou o último build
+  // ✅ CORREÇÃO 3: Mantendo a função sentence
   sentence: (index: number) => 
     'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+
+  // ✅ CORREÇÃO 4 (NOVA): Adicionando a função taskNames que quebrou o último build
+  taskNames: (index: number) => 
+    ['Prepare Monthly Financial Report', 'Design New Marketing Campaign', 'Analyze Customer Feedback', 'Update Website Content', 'Conduct Market Research'][index % 5],
 
   // Contact
   email: (index: number) => _emails[index],
