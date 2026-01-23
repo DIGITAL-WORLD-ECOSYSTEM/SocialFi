@@ -41,9 +41,13 @@ export const _mock = {
   description: (index: number) => 
     'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
   
-  // ✅ CORREÇÃO 2: Adicionada a função companyNames que faltava
+  // ✅ CORREÇÃO 2: Mantendo a função companyNames
   companyNames: (index: number) => 
     ['Minimals UI', 'Google', 'Stripe', 'Airbnb', 'Facebook', 'Amazon', 'Netflix', 'Tesla'][index % 8],
+
+  // ✅ CORREÇÃO 3 (NOVA): Adicionando a função sentence que quebrou o último build
+  sentence: (index: number) => 
+    'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
 
   // Contact
   email: (index: number) => _emails[index],
