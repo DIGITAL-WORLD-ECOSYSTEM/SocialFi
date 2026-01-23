@@ -16,14 +16,11 @@ const icon = (name: string) => (
 const ICONS = {
   blog: icon('ic-blog'),
   user: icon('ic-user'),
-  file: icon('ic-file'),
   lock: icon('ic-lock'),
   label: icon('ic-label'),
   blank: icon('ic-blank'),
   folder: icon('ic-folder'),
   params: icon('ic-params'),
-  banking: icon('ic-banking'),
-  invoice: icon('ic-invoice'),
   disabled: icon('ic-disabled'),
   external: icon('ic-external'),
   subpaths: icon('ic-subpaths'),
@@ -42,8 +39,6 @@ export const navData: NavSectionProps['data'] = [
     subheader: 'Overview',
     items: [
       { title: 'App', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Banking', path: paths.dashboard.general.banking, icon: ICONS.banking },
-      { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
     ],
   },
   /**
@@ -66,17 +61,6 @@ export const navData: NavSectionProps['data'] = [
         ],
       },
       {
-        title: 'Invoice',
-        path: paths.dashboard.invoice.root,
-        icon: ICONS.invoice,
-        children: [
-          { title: 'List', path: paths.dashboard.invoice.root },
-          { title: 'Details', path: paths.dashboard.invoice.demo.details },
-          { title: 'Create', path: paths.dashboard.invoice.new },
-          { title: 'Edit', path: paths.dashboard.invoice.demo.edit },
-        ],
-      },
-      {
         title: 'Blog',
         path: paths.dashboard.post.root,
         icon: ICONS.blog,
@@ -87,7 +71,6 @@ export const navData: NavSectionProps['data'] = [
           { title: 'Edit', path: paths.dashboard.post.demo.edit },
         ],
       },
-      { title: 'File manager', path: paths.dashboard.fileManager, icon: ICONS.folder },
     ],
   },
 ];
