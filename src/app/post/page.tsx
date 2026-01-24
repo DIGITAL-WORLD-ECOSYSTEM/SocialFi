@@ -4,12 +4,14 @@ import { getPosts } from 'src/actions/blog-ssr';
 
 import { Economia } from 'src/sections/blog/item/economia';
 import { Tecnologia } from 'src/sections/blog/item/tecnologia';
-import { Geopolitica } from 'src/sections/blog/item/geopolitica'; // 1. Importar a nova seção
+import { Geopolitica } from 'src/sections/blog/item/geopolitica';
 import { MeioAmbiente } from 'src/sections/blog/item/meio-ambiente';
 import { PostListHomeView } from 'src/sections/blog/view/post-list-home-view';
 
-// Configuração para execução na Edge da Cloudflare
-export const runtime = 'edge';
+// ✅ CORREÇÃO MANDATÓRIA:
+// Mudamos de 'edge' (limite 1MB) para 'nodejs' (limite 50MB).
+// Isso evita que o deploy falhe nesta página de listagem.
+export const runtime = 'nodejs';
 
 export const metadata = {
   title: 'DEX World: Monitorização e Notícias Cripto',
@@ -21,7 +23,6 @@ export default async function PostListPage() {
 
   const posts = Array.isArray(data) ? data : (data?.posts || []);
 
-  // 2. Renderizar todas as seções e passá-las como props (slots)
   return (
     <PostListHomeView
       posts={posts}
