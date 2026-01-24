@@ -6,7 +6,9 @@ import { UserCreateEditForm } from 'src/sections/user/user-create-edit-form';
 
 // ----------------------------------------------------------------------
 
-export const runtime = 'nodejs';
+// ✅ CORREÇÃO MANDATÓRIA:
+// Mudamos de 'nodejs' para 'edge' para satisfazer os requisitos do Cloudflare Pages.
+export const runtime = 'edge';
 
 type Props = {
   params: Promise<{
@@ -32,8 +34,6 @@ export default async function UserEditPage({ params }: Props) {
     isVerified: true,
     city: 'Paraty',
     zipCode: '23970-000',
-    // ✅ CORREÇÃO CRUCIAL: Adicionando o campo 'about' fixo.
-    // Isso impede que o sistema tente buscar '_mock.description' e quebre o build.
     about: 'Perfil de administrador.', 
   } as IUserItem;
 
