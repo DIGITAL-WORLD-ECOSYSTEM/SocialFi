@@ -8,9 +8,7 @@ import { Geopolitica } from 'src/sections/blog/item/geopolitica';
 import { MeioAmbiente } from 'src/sections/blog/item/meio-ambiente';
 import { PostListHomeView } from 'src/sections/blog/view/post-list-home-view';
 
-// ✅ CORREÇÃO MANDATÓRIA:
-// Mudamos de 'edge' (limite 1MB) para 'nodejs' (limite 50MB).
-// Isso evita que o deploy falhe nesta página de listagem.
+// ✅ Mantemos o nodejs para suportar libs mais pesadas se necessário
 export const runtime = 'nodejs';
 
 export const metadata = {
@@ -21,7 +19,13 @@ export const metadata = {
 export default async function PostListPage() {
   const data = await getPosts();
 
-  const posts = Array.isArray(data) ? data : (data?.posts || []);
+  // 1. Extração segura
+  const rawPosts = Array.isArray(data) ? data : (data?.posts || []);
+
+  // 2. 🛡️ SANITIZAÇÃO (A Correção do Erro)
+  // O erro acontece porque 'rawPosts' pode ter métodos de classe ou dados não-seriáveis.
+  // Este truque converte tudo para JSON puro, removendo o que o Client Component não aceita.
+  const posts = JSON.parse(JSON.stringify(rawPosts));
 
   return (
     <PostListHomeView

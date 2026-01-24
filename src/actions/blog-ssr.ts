@@ -1,89 +1,115 @@
-import { _posts } from 'src/_mock/_blog';
+// src/actions/blog-ssr.ts
 
-// Utilitário para normalizar strings para comparação segura (remove acentos e caixa alta)
-const normalize = (str: string) => 
-  str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+// 1. Obtém a URL do Backend configurada no .env.local e Vercel
+const API_URL = process.env.NEXT_PUBLIC_HOST_API;
 
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA PRINCIPAL: Retorna todos os posts ordenados por data (mais recente primeiro).
+ * BUSCA PRINCIPAL: Retorna todos os posts da API Real.
  */
 export async function getPosts() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  
-  // CORREÇÃO: Garante ordenação cronológica decrescente
-  const sortedPosts = [..._posts].sort((a, b) => 
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
-  
-  return { 
-    posts: sortedPosts 
-  };
+  try {
+    // 'no-store' garante que o Next.js não mostre dados velhos (Cache)
+    const url = `${API_URL}/api/posts`;
+    console.log('📡 Fetching GET:', url);
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store', 
+    });
+
+    if (!res.ok) {
+      console.warn(`⚠️ API respondeu com status: ${res.status}`);
+      return { posts: [] };
+    }
+
+    const data = await res.json();
+
+    // Garante retorno seguro (Array) mesmo se a API mudar formato
+    const posts = Array.isArray(data) ? data : (data.posts || []);
+
+    return { posts };
+
+  } catch (error) {
+    console.error('🚨 Erro ao conectar com o Backend (getPosts):', error);
+    return { posts: [] };
+  }
 }
 
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA INDIVIDUAL: Melhora a lógica de match para tolerar variações de URL.
+ * BUSCA INDIVIDUAL: Pega um post específico pelo Título/Slug.
  */
 export async function getPost(paramTitle: string) {
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  try {
+    // Normaliza para garantir que a URL esteja limpa
+    const slug = encodeURIComponent(paramTitle);
+    const url = `${API_URL}/api/posts/${slug}`;
 
-  // CORREÇÃO: Normaliza a URL para comparação (param-case -> clean string)
-  const targetSlug = normalize(decodeURIComponent(paramTitle).replace(/-/g, ' '));
+    const res = await fetch(url, { cache: 'no-store' });
 
-  const post = _posts.find((p) => {
-    // Normaliza o título do banco de dados para comparar com o slug da URL
-    const dbTitleNormalized = normalize(p.title);
-    // Tenta match exato ou match parcial (para lidar com hífens originais vs hífens de slug)
-    return dbTitleNormalized === targetSlug || dbTitleNormalized.replace(/-/g, ' ') === targetSlug;
-  });
-  
-  return { 
-    post: post || null 
-  };
+    if (!res.ok) return { post: null };
+
+    const data = await res.json();
+
+    return { post: data };
+
+  } catch (error) {
+    console.error(`🚨 Erro ao buscar post "${paramTitle}":`, error);
+    return { post: null };
+  }
 }
 
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA RELACIONADOS: Garante que "latest" seja realmente cronológico.
+ * BUSCA RELACIONADOS: Tenta buscar os últimos posts (menos o atual).
  */
 export async function getLatestPosts(paramTitle: string) {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  
-  const targetSlug = normalize(decodeURIComponent(paramTitle).replace(/-/g, ' '));
+  try {
+    // Busca todos para filtrar localmente (ou use um endpoint /latest se criar no back)
+    const url = `${API_URL}/api/posts`;
+    const res = await fetch(url, { cache: 'no-store' });
+    
+    if (!res.ok) return { latestPosts: [] };
 
-  // CORREÇÃO: Filtra o atual E ordena por data antes de cortar
-  const latestPosts = _posts
-    .filter((p) => {
-        const dbTitleNormalized = normalize(p.title);
-        return dbTitleNormalized !== targetSlug && dbTitleNormalized.replace(/-/g, ' ') !== targetSlug;
-    })
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 4);
+    const data = await res.json();
+    const allPosts = Array.isArray(data) ? data : (data.posts || []);
 
-  return { 
-    latestPosts 
-  };
+    // Filtra o post atual da lista de "mais recentes"
+    const latestPosts = allPosts
+      .filter((p: any) => p.paramTitle !== paramTitle && p.slug !== paramTitle)
+      .slice(0, 4);
+
+    return { latestPosts };
+
+  } catch (error) {
+    return { latestPosts: [] };
+  }
 }
 
 // ----------------------------------------------------------------------
 
 /**
- * BUSCA POR CATEGORIA: Match insensível a caixa e acentos.
+ * BUSCA POR CATEGORIA: Filtra no Backend via Query String.
  */
 export async function getPostsByCategory(category: string) {
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  
-  const targetCategory = normalize(category);
+  try {
+    const url = `${API_URL}/api/posts?category=${encodeURIComponent(category)}`;
+    const res = await fetch(url, { cache: 'no-store' });
 
-  const filteredPosts = _posts.filter(
-    (p) => normalize(p.category) === targetCategory
-  );
+    if (!res.ok) return { posts: [] };
 
-  return { 
-    posts: filteredPosts 
-  };
+    const data = await res.json();
+    const posts = Array.isArray(data) ? data : (data.posts || []);
+
+    return { posts };
+
+  } catch (error) {
+    console.error('Erro getPostsByCategory:', error);
+    return { posts: [] };
+  }
 }

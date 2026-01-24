@@ -1,3 +1,4 @@
+'use client';
 
 import type { ReactNode } from 'react';
 import type { IPostItem } from 'src/types/blog';
@@ -11,7 +12,6 @@ import { PostTrending } from '../item/trending';
 import { PostBanner } from '../components/banner';
 import { PostAuthors } from '../components/authors';
 import { PostNewsletter } from '../forms/newsletter';
-// 1. RESTAUREI O IMPORT DO POSTFEATURED
 import { PostFeatured } from '../components/featured';
 import { PostCommunity } from '../components/community';
 
@@ -33,7 +33,7 @@ export function PostListHomeView({
   geopoliticaSection 
 }: Props) {
 
-  // 2. RESTAUREI A LÓGICA DO FEATURED (BANNER ESCURO)
+  // Lógica do Featured (Banner Escuro)
   const featuredPosts = posts.filter((post) => post.featured).slice(0, 5).length > 0
     ? posts.filter((post) => post.featured).slice(0, 5)
     : posts.slice(0, 5);
@@ -43,16 +43,16 @@ export function PostListHomeView({
     .sort((a, b) => b.totalViews - a.totalViews)
     .slice(0, 7); 
 
-  // Lógica dos Recentes (Removemos o que já apareceu no featured e no trending)
+  // Lógica dos Recentes (Remove o que já apareceu no featured e no trending para não repetir)
   const recentPosts = posts.filter((post) => 
-    !featuredPosts.includes(post) && !trendingPosts.find(t => t.id === post.id)
+    !featuredPosts.find(f => f.id === post.id) && 
+    !trendingPosts.find(t => t.id === post.id)
   );
 
   return (
     <Stack spacing={0} sx={{ pb: 10 }}>
 
       {/* 1. HERO PRINCIPAL: O Banner Escuro (PostFeatured) */}
-      {/* Esta é a seção que eu havia removido por engano. Ela está de volta ao topo. */}
       <PostFeatured posts={featuredPosts} />
 
       {/* 2. DESTAQUES SECUNDÁRIOS: O Grid Assimétrico (PostTrending) */}
