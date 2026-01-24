@@ -6,9 +6,10 @@ import { UserCreateEditForm } from 'src/sections/user/user-create-edit-form';
 
 // ----------------------------------------------------------------------
 
-// ✅ CORREÇÃO MANDATÓRIA:
-// Mudamos de 'nodejs' para 'edge' para satisfazer os requisitos do Cloudflare Pages.
-export const runtime = 'edge';
+// ✅ CORREÇÃO CRUCIAL:
+// Mudamos de 'edge' (limite 1MB) para 'nodejs' (limite 50MB).
+// Isso resolve o erro de tamanho no deploy da Vercel.
+export const runtime = 'nodejs';
 
 type Props = {
   params: Promise<{

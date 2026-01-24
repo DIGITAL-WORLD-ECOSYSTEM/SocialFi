@@ -3,8 +3,10 @@ import { PostDetailsView } from 'src/sections/blog/view';
 
 // ----------------------------------------------------------------------
 
-// ✅ CORREÇÃO MANDATÓRIA: Runtime Edge para o Cloudflare
-export const runtime = 'edge';
+// ✅ CORREÇÃO CRUCIAL:
+// Mudamos de 'edge' (limite 1MB) para 'nodejs' (limite 50MB).
+// Isso evita que o deploy falhe na Vercel por causa do tamanho da função.
+export const runtime = 'nodejs';
 
 type Props = {
   params: Promise<{
@@ -15,7 +17,7 @@ type Props = {
 export default async function PostDetailsPage({ params }: Props) {
   const { title } = await params;
 
-  // Objeto post mockado para garantir renderização segura no Edge
+  // Objeto post mockado
   const post = {
     id: _mock.id(1),
     title: _mock.postTitle(1),
@@ -34,7 +36,5 @@ export default async function PostDetailsPage({ params }: Props) {
     },
   };
 
-  // 🔴 CORREÇÃO AQUI: Removemos 'title={title}' pois a propriedade não existe no componente.
-  // O título já está dentro do objeto 'post' acima.
   return <PostDetailsView post={post as any} />;
 }

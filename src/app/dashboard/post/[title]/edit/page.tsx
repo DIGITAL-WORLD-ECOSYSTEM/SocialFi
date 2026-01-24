@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { CONFIG } from 'src/global-config';
-import { _mock } from 'src/_mock'; // ✅ Importando Mock direto
+import { _mock } from 'src/_mock'; 
 import { PostEditView } from 'src/sections/blog/management/post-edit-view';
 
 // ----------------------------------------------------------------------
 
-// ✅ CORREÇÃO MANDATÓRIA: 
-// Mudamos de 'nodejs' para 'edge' para que o Cloudflare aceite o deploy.
-export const runtime = 'edge';
+// ✅ CORREÇÃO CRUCIAL:
+// Mudamos de 'edge' (limite 1MB) para 'nodejs' (limite 50MB).
+// Agora o deploy na Vercel terá espaço de sobra para rodar essa página.
+export const runtime = 'nodejs';
 
 export const metadata: Metadata = { title: `Edit post | Dashboard - ${CONFIG.appName}` };
 
@@ -20,10 +21,6 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { title } = await params;
 
-  // ✅ CORREÇÃO:
-  // Construímos o objeto 'post' manualmente com o Mock.
-  // Isso remove a dependência de 'getPost' (que pode ter códigos Node.js incompatíveis com Edge)
-  // e garante que todas as funções novas que criamos (description, courseNames, etc) funcionem.
   const post = {
     id: _mock.id(1),
     title: _mock.postTitle(1),
@@ -42,7 +39,5 @@ export default async function Page({ params }: Props) {
     return notFound();
   }
 
-  // Passamos 'as any' para evitar conflitos de tipagem estrita durante o build,
-  // focando em fazer o deploy funcionar agora.
   return <PostEditView post={post as any} />;
 }
