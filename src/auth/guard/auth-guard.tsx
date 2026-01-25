@@ -1,23 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
 import { useRouter, usePathname } from 'src/routes/hooks';
 
-import { CONFIG } from 'src/global-config';
-
 import { useAuthContext } from '../hooks';
-import { SplashScreen } from '../components';
+import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
 type AuthGuardProps = {
   children: React.ReactNode;
-};
-
-const signInPaths = {
-  jwt: paths.auth.signIn,
 };
 
 export function AuthGuard({ children }: AuthGuardProps) {
@@ -28,36 +22,31 @@ export function AuthGuard({ children }: AuthGuardProps) {
 
   const [isChecking, setIsChecking] = useState(true);
 
-  const createRedirectPath = (currentPath: string) => {
-    const queryString = new URLSearchParams({ returnTo: pathname }).toString();
-    return `${currentPath}?${queryString}`;
-  };
-
-  const checkPermissions = async (): Promise<void> => {
+  const checkPermissions = useCallback((): void => {
     if (loading) {
       return;
     }
 
     if (!authenticated) {
-      const { method } = CONFIG.auth;
+      // Se não estiver autenticado, cria o caminho de retorno e redireciona para o login
+      const searchParams = new URLSearchParams({ returnTo: pathname }).toString();
+      
+      const href = `${paths.auth.signIn}?${searchParams}`;
 
-      const signInPath = signInPaths[method];
-      const redirectPath = createRedirectPath(signInPath);
-
-      router.replace(redirectPath);
-
+      router.replace(href);
       return;
     }
 
+    // Se estiver autenticado e não estiver carregando, libera a visualização
     setIsChecking(false);
-  };
+  }, [authenticated, loading, pathname, router]);
 
   useEffect(() => {
     checkPermissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated, loading]);
+  }, [checkPermissions]);
 
-  if (isChecking) {
+  // Enquanto estiver carregando a sessão inicial ou verificando permissões, mostra o Splash
+  if (loading || isChecking) {
     return <SplashScreen />;
   }
 
