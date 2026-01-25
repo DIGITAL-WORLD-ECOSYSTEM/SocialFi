@@ -1,5 +1,4 @@
 import { kebabCase } from 'es-toolkit';
-
 import { _id, _postTitles } from 'src/_mock/assets';
 
 // ----------------------------------------------------------------------
@@ -43,6 +42,8 @@ export const paths = {
     signUp: `${ROOTS.AUTH}/sign-up`,
     reset: `${ROOTS.AUTH}/reset`,
     update: `${ROOTS.AUTH}/update`,
+    // ✅ ADICIONADO PARA RESOLVER O ERRO DE TYPESCRIPT:
+    updatePassword: `${ROOTS.AUTH}/update`,
     verify: `${ROOTS.AUTH}/verify`,
   },
   // DASHBOARD

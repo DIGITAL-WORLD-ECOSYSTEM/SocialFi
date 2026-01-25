@@ -1,14 +1,17 @@
 // ----------------------------------------------------------------------
 
 export function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message || error.name || 'An error occurred';
+  // Caso o erro já seja uma instância de Error ou o objeto de erro do Axios que tratamos
+  if (error instanceof Error || (typeof error === 'object' && error !== null && 'message' in error)) {
+    return (error as any).message || 'Ocorreu um erro inesperado';
   }
 
+  // Caso o erro seja apenas uma string direta
   if (typeof error === 'string') {
     return error;
   }
 
+  // Fallback para objetos desconhecidos
   if (typeof error === 'object' && error !== null) {
     const errorMessage = (error as { message?: string }).message;
     if (typeof errorMessage === 'string') {
@@ -16,5 +19,5 @@ export function getErrorMessage(error: unknown): string {
     }
   }
 
-  return `Unknown error: ${error}`;
+  return `Erro desconhecido: ${error}`;
 }

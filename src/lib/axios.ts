@@ -36,14 +36,19 @@ export const fetcher = async <T = unknown>(
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  // Rotas sincronizadas com o seu src/index.ts do Backend
+  // Rotas sincronizadas com o seu Backend Cloudflare
   auth: {
     me: '/api/core/auth/me',
     signIn: '/api/core/auth/login',
     signUp: '/api/core/auth/register',
+    // ✅ ADICIONADOS PARA RESOLVER OS ERROS DE TYPESCRIPT:
+    resetPassword: '/api/core/auth/reset-password',
+    updatePassword: '/api/core/auth/update-password',
+    verify: '/api/core/auth/verify',
+    resendCode: '/api/core/auth/resend-code',
   },
   post: {
-    list: '/api/posts', // Rota que definimos para o Blog
+    list: '/api/posts', 
     details: (id: string) => `/api/posts/${id}`,
   },
   agro: {
