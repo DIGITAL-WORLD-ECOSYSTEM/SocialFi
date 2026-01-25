@@ -23,7 +23,14 @@ import { useRouter } from 'src/routes/hooks';
 
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
-import { Form, Field, schemaUtils } from 'src/components/hook-form';
+import {
+  Form,
+  schemaUtils,
+  RHFEditor,
+  RHFUpload,
+  RHFTextField,
+  RHFAutocomplete,
+} from 'src/components/hook-form';
 
 import { PostDetailsPreview } from './post-details-preview';
 
@@ -32,15 +39,16 @@ import { PostDetailsPreview } from './post-details-preview';
 export type PostCreateSchemaType = z.infer<typeof PostCreateSchema>;
 
 export const PostCreateSchema = z.object({
-  title: z.string().min(1, { error: 'Title is required!' }),
-  description: z.string().min(1, { error: 'Description is required!' }),
-  content: schemaUtils.editor().min(100, { error: 'Content must be at least 100 characters' }),
+  title: z.string().min(1, { message: 'Title is required!' }),
+  description: z.string().min(1, { message: 'Description is required!' }),
+  content: schemaUtils.editor().min(100, { message: 'Content must be at least 100 characters' }),
   coverUrl: schemaUtils.file({ error: 'Cover is required!' }),
-  tags: z.string().array().min(2, { error: 'Must have at least 2 items!' }),
-  metaKeywords: z.string().array().min(1, { error: 'Meta keywords is required!' }),
+  tags: z.string().array().min(2, { message: 'Must have at least 2 items!' }),
+  metaKeywords: z.string().array().min(1, { message: 'Meta keywords is required!' }),
   // Not required
   metaTitle: z.string(),
   metaDescription: z.string(),
+  publish: z.boolean(),
 });
 
 // ----------------------------------------------------------------------
@@ -65,6 +73,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
     metaKeywords: [],
     metaTitle: '',
     metaDescription: '',
+    publish: true,
   };
 
   const methods = useForm({
@@ -120,18 +129,18 @@ export function PostCreateEditForm({ currentPost }: Props) {
         <Divider />
 
         <Stack spacing={3} sx={{ p: 3 }}>
-          <Field.Text name="title" label="Post title" />
+          <RHFTextField name="title" label="Post title" />
 
-          <Field.Text name="description" label="Description" multiline rows={3} />
+          <RHFTextField name="description" label="Description" multiline rows={3} />
 
           <Stack spacing={1.5}>
             <Typography variant="subtitle2">Content</Typography>
-            <Field.Editor name="content" sx={{ maxHeight: 480 }} />
+            <RHFEditor name="content" sx={{ maxHeight: 480 }} />
           </Stack>
 
           <Stack spacing={1.5}>
             <Typography variant="subtitle2">Cover</Typography>
-            <Field.Upload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />
+            <RHFUpload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />
           </Stack>
         </Stack>
       </Collapse>
@@ -151,7 +160,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
         <Divider />
 
         <Stack spacing={3} sx={{ p: 3 }}>
-          <Field.Autocomplete
+          <RHFAutocomplete
             name="tags"
             label="Tags"
             placeholder="+ Tags"
@@ -159,15 +168,15 @@ export function PostCreateEditForm({ currentPost }: Props) {
             freeSolo
             disableCloseOnSelect
             options={[]}
-            getOptionLabel={(option) => option}
+            getOptionLabel={(option: string) => option}
             slotProps={{
               chip: { color: 'info' },
             }}
           />
 
-          <Field.Text name="metaTitle" label="Meta title" />
+          <RHFTextField name="metaTitle" label="Meta title" />
 
-          <Field.Text
+          <RHFTextField
             name="metaDescription"
             label="Meta description"
             fullWidth
@@ -175,7 +184,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
             rows={3}
           />
 
-          <Field.Autocomplete
+          <RHFAutocomplete
             name="metaKeywords"
             label="Meta keywords"
             placeholder="+ Keywords"
@@ -183,7 +192,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
             freeSolo
             disableCloseOnSelect
             options={[]}
-            getOptionLabel={(option) => option}
+            getOptionLabel={(option: string) => option}
             slotProps={{
               chip: { color: 'info' },
             }}
@@ -222,7 +231,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
           type="submit"
           variant="contained"
           size="large"
-          loading={isSubmitting}
+          disabled={!isValid}
           sx={{ ml: 2 }}
         >
           {!currentPost ? 'Create post' : 'Save changes'}
@@ -246,7 +255,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
         open={showPreview.value}
         content={values.content}
         onClose={showPreview.onFalse}
-        coverUrl={values.coverUrl}
+        coverUrl={values.coverUrl as string}
         isSubmitting={isSubmitting}
         description={values.description}
       />
