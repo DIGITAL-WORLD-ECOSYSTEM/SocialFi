@@ -44,16 +44,25 @@ export function CoreNav() {
   return (
     <Box
       sx={{
-        transform: 'scale(1)',
         zIndex: (theme) => theme.zIndex.speedDial,
         position: 'fixed',
         bottom: (theme) => theme.spacing(2),
         right: (theme) => theme.spacing(2),
+        width: 40, // Força uma largura idêntica ao Fab small
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <SpeedDial
+        FabProps={{
+          size: 'small',
+          sx: {
+            bgcolor: '#00C896', // Cor da sua imagem
+            '&:hover': { bgcolor: '#00A87D' },
+          },
+        }}
         ariaLabel="Core Nav"
-        icon={<Iconify icon={"solar:menu-dots-linear" as any} />}
+        icon={<Iconify icon="solar:menu-dots-linear" />}
         openIcon={<Iconify icon="solar:close-circle-bold" />}
         direction="up"
         onClose={open.onFalse}

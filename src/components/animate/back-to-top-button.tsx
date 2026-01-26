@@ -34,18 +34,23 @@ export function BackToTopButton({
 
   return (
     <Fab
+      size="small"
       aria-label="Back to top"
       onClick={onBackToTop}
       sx={[
         (theme) => ({
-          width: 48,
-          height: 48,
           position: 'fixed',
           transform: 'scale(0)',
-          right: { xs: 24, md: 32 },
-          bottom: { xs: 24, md: 32 },
+          // Ajuste de precisão:
+          right: theme.spacing(2),
+          bottom: theme.spacing(8.5), // Ajustado para ficar logo acima do CoreNav (aprox 68px)
+          width: 40, // Garantindo o tamanho exato do SpeedDial
+          height: 40, // Garantindo o tamanho exato do SpeedDial
           zIndex: theme.zIndex.speedDial,
-          transition: theme.transitions.create(['transform']),
+          bgcolor: '#00C896', // Padronizando a cor conforme a imagem
+          color: 'white',
+          '&:hover': { bgcolor: '#00A87D' },
+          transition: theme.transitions.create(['transform', 'background-color']),
           ...(isVisible && { transform: 'scale(1)' }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
