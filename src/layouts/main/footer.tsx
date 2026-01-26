@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid'; // Nota: Grid v2 (size prop)
+import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
@@ -20,19 +20,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { Logo } from 'src/components/logo'; // Seu logo novo DEX World
+import { Logo } from 'src/components/logo';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-// Animação do "Status Online"
 const pulse = keyframes`
   0% { box-shadow: 0 0 8px #00ff7f; }
   50% { box-shadow: 0 0 16px #00ff7f; }
   100% { box-shadow: 0 0 8px #00ff7f; }
 `;
 
-// Links de Navegação (Editáveis)
 const LINKS = [
   {
     headline: 'ECOSSISTEMA',
@@ -54,7 +52,6 @@ const LINKS = [
   },
 ];
 
-// Redes Sociais
 const CUSTOM_SOCIALS = [
   { name: 'Twitter', href: '#', icon: 'ri:twitter-x-fill' },
   { name: 'Instagram', href: '#', icon: 'ri:instagram-fill' },
@@ -63,14 +60,13 @@ const CUSTOM_SOCIALS = [
   { name: 'Telegram', href: '#', icon: 'ri:telegram-fill' },
 ];
 
-// Estilo do Footer (Fundo Preto / Texto Branco)
 const FooterRoot = styled('footer')(({ theme }) => ({
   position: 'relative',
-  backgroundColor: '#000000', // Fundo preto conforme solicitado
+  backgroundColor: '#000000',
   color: '#FFFFFF',
   paddingTop: theme.spacing(8),
   paddingBottom: theme.spacing(3),
-  borderTop: `1px solid rgba(255, 255, 255, 0.1)`, // Uma linha sutil no topo
+  borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
 }));
 
 export type FooterProps = React.ComponentProps<typeof FooterRoot>;
@@ -82,7 +78,6 @@ export function Footer({
 }: FooterProps & { layoutQuery?: Breakpoint }) {
   const { enqueueSnackbar } = useSnackbar();
 
-  // Endereço do Contrato (Exemplo)
   const contractAddress = "0x0697AB2B003FD2Cbaea2dF1ef9b404E45bE59d4C";
 
   const handleCopy = useCallback(() => {
@@ -90,30 +85,23 @@ export function Footer({
     enqueueSnackbar('Endereço do contrato copiado!');
   }, [enqueueSnackbar, contractAddress]);
 
-  // Função para encurtar o endereço visualmente
   const truncate = (str: string) => `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
 
   return (
     <FooterRoot sx={sx} {...other}>
       <Container>
         <Grid container spacing={5} sx={{ mb: 8 }}>
-
-          {/* COLUNA 1: Marca e Status */}
-          <Grid size={{ xs: 12, md: 4 }}>
-            {/* Logo DEX World Integrado */}
+          <Grid item xs={12} md={4}>
             <Box sx={{ mb: 2 }}>
-               <Logo isSingle={false} sx={{ color: '#FFF' }} /> 
-               {/* Dica: O Logo component já trata cores, mas o fundo é preto, então vai destacar */}
+               <Logo isSingle={false} sx={{ color: '#FFF' }} />
             </Box>
-
-            {/* Status do Sistema */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <Box
                 sx={{
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  bgcolor: '#00ff7f', // Verde Neon
+                  bgcolor: '#00ff7f',
                   animation: `${pulse} 2s infinite`,
                 }}
               />
@@ -124,13 +112,10 @@ export function Footer({
                 SYSTEM ONLINE
               </Typography>
             </Box>
-
             <Typography variant="body2" sx={{ color: 'grey.500', maxWidth: 360, mb: 4, lineHeight: 1.6 }}>
               Redefinindo ativos reais no mundo digital. Governança descentralizada, transparência e
               inovação através de tecnologia Web3 e Inteligência Artificial.
             </Typography>
-
-            {/* Ícones Sociais */}
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {CUSTOM_SOCIALS.map((social) => (
                 <Tooltip key={social.name} title={social.name}>
@@ -151,8 +136,7 @@ export function Footer({
             </Box>
           </Grid>
 
-          {/* COLUNA 2: Links */}
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid item xs={12} md={4}>
             <Box
               sx={{
                 display: 'grid',
@@ -188,10 +172,8 @@ export function Footer({
             </Box>
           </Grid>
 
-          {/* COLUNA 3: Contrato e Suporte */}
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid item xs={12} md={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {/* Copiador de Contrato */}
               <Box>
                 <Typography variant="subtitle2" sx={{ color: 'grey.400', fontWeight: 'bold', mb: 2, letterSpacing: 0.5, fontSize: '0.75rem' }}>
                   TOKEN CONTRACT (BEP-20)
@@ -267,26 +249,6 @@ export function Footer({
               Cookies
             </Link>
           </Box>
-        </Box>
-      </Container>
-    </FooterRoot>
-  );
-}
-
-// Rodapé Simplificado (Usado em páginas de login/manutenção)
-export function HomeFooter({ sx, ...other }: FooterProps) {
-  return (
-    <FooterRoot
-      sx={[
-        { py: 5, textAlign: 'center' },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    >
-      <Container>
-        <Logo />
-        <Box sx={{ mt: 1, typography: 'caption', color: 'grey.500' }}>
-          © 2026 DEX World. <br /> All rights reserved.
         </Box>
       </Container>
     </FooterRoot>
