@@ -1,7 +1,6 @@
 'use client';
 
 import type { Breakpoint } from '@mui/material/styles';
-
 import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 
@@ -90,8 +89,11 @@ export function Footer({
   return (
     <FooterRoot sx={sx} {...other}>
       <Container>
+        {/* Container principal da grade */}
         <Grid container spacing={5} sx={{ mb: 8 }}>
-          <Grid item xs={12} md={4}>
+          
+          {/* Removido a prop 'item' e mantido apenas o tamanho */}
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ mb: 2 }}>
                <Logo isSingle={false} sx={{ color: '#FFF' }} />
             </Box>
@@ -136,7 +138,8 @@ export function Footer({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          {/* Segunda Coluna */}
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box
               sx={{
                 display: 'grid',
@@ -172,7 +175,8 @@ export function Footer({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          {/* Terceira Coluna */}
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Box>
                 <Typography variant="subtitle2" sx={{ color: 'grey.400', fontWeight: 'bold', mb: 2, letterSpacing: 0.5, fontSize: '0.75rem' }}>
@@ -254,3 +258,5 @@ export function Footer({
     </FooterRoot>
   );
 }
+
+export { Footer as HomeFooter };
