@@ -52,6 +52,7 @@
     "@tiptap/pm": "^3.6.2",
     "@tiptap/react": "^3.6.2",
     "@tiptap/starter-kit": "^3.6.2",
+    "@vercel/analytics": "^1.6.1",
     "accept-language": "^3.0.20",
     "apexcharts": "^5.3.5",
     "autosuggest-highlight": "^3.3.4",

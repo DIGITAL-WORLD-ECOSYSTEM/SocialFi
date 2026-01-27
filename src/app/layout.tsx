@@ -17,6 +17,7 @@ import { defaultSettings, SettingsProvider } from 'src/components/settings';
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
 
 import App from './app';
+import { Analytics } from '@vercel/analytics/next';
 
 // ----------------------------------------------------------------------
 
@@ -93,6 +94,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </SettingsProvider>
           </AuthProvider>
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
