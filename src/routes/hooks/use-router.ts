@@ -1,7 +1,6 @@
 'use client';
 
-import { useMemo, useCallback } from 'react';
-import { isEqualPath } from 'minimal-shared/utils';
+import { useMemo } from 'react';
 import { useRouter as useNextRouter } from 'next/navigation';
 
 // ----------------------------------------------------------------------

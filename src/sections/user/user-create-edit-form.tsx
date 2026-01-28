@@ -1,4 +1,5 @@
 "use client";
+
 import type { IUserItem } from 'src/types/user';
 
 import * as z from 'zod';
@@ -8,10 +9,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { isValidPhoneNumber } from 'react-phone-number-input/input';
 
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 // CORREÇÃO: Usando a importação nomeada padrão.
 // No MUI v6+, este 'Grid' já traz a nova arquitetura (antigo Grid2).
 import { Grid } from '@mui/material';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
@@ -25,7 +26,7 @@ import { fData } from 'src/utils/format-number';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
-import { Form, schemaUtils, RHFTextField, RHFSwitch, RHFUploadAvatar, RHFCountrySelect, RHFPhoneInput } from 'src/components/hook-form';
+import { Form, RHFSwitch, schemaUtils, RHFTextField, RHFPhoneInput, RHFUploadAvatar, RHFCountrySelect } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 

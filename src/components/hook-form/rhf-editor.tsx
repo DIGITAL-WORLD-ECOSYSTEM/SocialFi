@@ -1,5 +1,6 @@
 "use client";
 'use client';
+
 import type { EditorProps } from '../editor';
 
 import { Controller, useFormContext } from 'react-hook-form';

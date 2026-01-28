@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
   },
 
   allowedDevOrigins: [
-    '8082-firebase-socialfi-1768249815935.cluster-gizzoza7hzhfyxzo5d76y3flkw.cloudworkstations.dev',
+    '8082-firebase-socialfi-1769577659883.cluster-hkcruqmgzbd2aqcdnktmz6k7ba.cloudworkstations.dev',
   ],
   webpack(config) {
     config.module.rules.push({

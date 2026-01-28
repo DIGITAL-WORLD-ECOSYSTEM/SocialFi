@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+
 import { notFound } from 'next/navigation';
 
-import { CONFIG } from 'src/global-config';
-import { _mock } from 'src/_mock'; 
+import { _mock } from 'src/_mock';
+import { CONFIG } from 'src/global-config'; 
+
 import { PostEditView } from 'src/sections/blog/management/post-edit-view';
 
 // ----------------------------------------------------------------------

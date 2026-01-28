@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { CONFIG } from 'src/global-config';
+
 import { MotionContainer } from 'src/components/animate';
 
 import { Dots, Lines, Texts, Circles, PlusIcon } from './hero-svg';

@@ -25,9 +25,9 @@ import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import {
   Form,
-  schemaUtils,
   RHFEditor,
   RHFUpload,
+  schemaUtils,
   RHFTextField,
   RHFAutocomplete,
 } from 'src/components/hook-form';

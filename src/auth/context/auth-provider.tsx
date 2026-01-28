@@ -8,9 +8,9 @@ import { useMemo, useEffect, useCallback } from 'react';
 // Importamos o axios e os endpoints configurados
 import axios, { endpoints } from 'src/lib/axios';
 
-import { setSession, isValidToken } from './utils';
 import { JWT_STORAGE_KEY } from './constant';
 import { AuthContext } from './auth-context';
+import { setSession, isValidToken } from './utils';
 
 // ----------------------------------------------------------------------
 

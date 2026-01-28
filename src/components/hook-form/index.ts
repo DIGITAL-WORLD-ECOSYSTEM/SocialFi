@@ -14,6 +14,8 @@ export * from './rhf-slider';
 export * from './rhf-switch';
 export * from './rhf-select';
 export * from './rhf-checkbox';
+export * from './schema-utils';
+export * from './form-provider';
 export * from './rhf-text-field';
 export * from './rhf-date-picker';
 export * from './rhf-radio-group';
@@ -21,8 +23,6 @@ export * from './rhf-phone-input';
 export * from './rhf-number-input';
 export * from './rhf-autocomplete';
 export * from './rhf-country-select';
-export * from './form-provider';
-export * from './schema-utils';
 
 // 3. O OBJETO "Field" que suas páginas de Auth e Account precisam
 // export const Field = {

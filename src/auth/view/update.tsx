@@ -14,9 +14,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+
 import { SentIcon } from 'src/assets/icons';
 import axios, { endpoints } from 'src/lib/axios';
-import { toast } from 'src/components/snackbar';
+
+// CORREÇÃO 1: Importação ajustada para passar na regra do Linter
+import { toast } from 'src/auth/components';
 
 import { 
   Form, 
@@ -74,7 +77,8 @@ export function CenteredUpdatePasswordView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  // CORREÇÃO 2: Adicionamos o tipo explícito ": UpdatePasswordSchemaType"
+  const onSubmit = handleSubmit(async (data: UpdatePasswordSchemaType) => {
     try {
       setErrorMessage(null);
 

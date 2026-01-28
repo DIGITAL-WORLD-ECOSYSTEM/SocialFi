@@ -33,7 +33,7 @@ export function useGetPosts() {
       postsLoading: isLoading,
       postsError: error,
       postsValidating: isValidating,
-      postsEmpty: !isLoading && !data?.posts.length,
+      postsEmpty: !isLoading && !data?.posts?.length,
     }),
     [data?.posts, error, isLoading, isValidating]
   );
@@ -57,7 +57,7 @@ export function useGetPostsByCategory(category: string) {
       postsLoading: isLoading,
       postsError: error,
       postsValidating: isValidating,
-      postsEmpty: !isLoading && !data?.posts.length,
+      postsEmpty: !isLoading && !data?.posts?.length,
     }),
     [data?.posts, error, isLoading, isValidating]
   );
@@ -106,7 +106,7 @@ export function useGetLatestPosts(title: string) {
       latestPostsLoading: isLoading,
       latestPostsError: error,
       latestPostsValidating: isValidating,
-      latestPostsEmpty: !isLoading && !data?.latestPosts.length,
+      latestPostsEmpty: !isLoading && !data?.latestPosts?.length,
     }),
     [data?.latestPosts, error, isLoading, isValidating]
   );
@@ -134,7 +134,7 @@ export function useSearchPosts(query: string) {
       searchLoading: isLoading,
       searchError: error,
       searchValidating: isValidating,
-      searchEmpty: !isLoading && !isValidating && !data?.results.length,
+      searchEmpty: !isLoading && !isValidating && !data?.results?.length,
     }),
     [data?.results, error, isLoading, isValidating]
   );

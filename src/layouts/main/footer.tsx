@@ -1,6 +1,7 @@
 'use client';
 
 import type { Breakpoint } from '@mui/material/styles';
+
 import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 

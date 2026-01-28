@@ -1,12 +1,13 @@
 'use client';
+
 import type { Theme, SxProps } from '@mui/material/styles';
-import { MuiOtpInput, type MuiOtpInputProps } from 'mui-one-time-password-input';
 
 import { Controller, useFormContext } from 'react-hook-form';
+import { MuiOtpInput, type MuiOtpInputProps } from 'mui-one-time-password-input';
 
 import Box from '@mui/material/Box';
-import { inputBaseClasses } from '@mui/material/InputBase';
 import FormHelperText from '@mui/material/FormHelperText';
+import { inputBaseClasses } from '@mui/material/InputBase';
 
 import { HelperText } from '.';
 

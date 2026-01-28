@@ -1,4 +1,5 @@
 "use client";
+
 import type { BoxProps } from '@mui/material/Box';
 import type { SliderProps } from '@mui/material/Slider';
 import type { FormHelperTextProps } from '@mui/material/FormHelperText';

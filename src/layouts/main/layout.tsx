@@ -14,9 +14,9 @@ import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
 
+import { Footer } from './footer';
 import { NavMobile } from './nav/mobile';
 import { NavDesktop } from './nav/desktop';
-import { Footer } from './footer';
 import { CoreNav } from '../components/core-nav';
 import { MenuButton } from '../components/menu-button';
 import { navData as mainNavData } from '../nav-config-main';

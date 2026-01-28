@@ -11,9 +11,12 @@ import Button from '@mui/material/Button';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-import { EmailInboxIcon } from 'src/assets/icons';
+
 import axios, { endpoints } from 'src/lib/axios';
-import { toast } from 'src/components/snackbar';
+import { EmailInboxIcon } from 'src/assets/icons';
+
+// CORREÇÃO 1: Importação ajustada
+import { toast } from 'src/auth/components';
 
 import { Form, Field, FormHead, schemaUtils, FormResendCode, FormReturnLink } from '../components';
 
@@ -50,7 +53,8 @@ export function CenteredVerifyView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  // CORREÇÃO 2: Tipo explícito adicionado
+  const onSubmit = handleSubmit(async (data: VerifySchemaType) => {
     try {
       setErrorMessage(null);
 
@@ -79,6 +83,8 @@ export function CenteredVerifyView() {
       await axios.post('/api/core/auth/resend-code', { email });
       toast.success('Novo código enviado!');
     } catch (error: any) {
+      // CORREÇÃO 3: Usamos a variável error para satisfazer o linter e ajudar no debug
+      console.error(error);
       toast.error('Erro ao reenviar código.');
     }
   };

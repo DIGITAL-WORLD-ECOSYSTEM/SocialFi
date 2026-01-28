@@ -58,7 +58,8 @@ export function CenteredSignUpView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  // CORREÇÃO AQUI: Adicionamos o tipo explícito ": SignUpSchemaType" para evitar erros de build
+  const onSubmit = handleSubmit(async (data: SignUpSchemaType) => {
     try {
       setErrorMessage(null);
 

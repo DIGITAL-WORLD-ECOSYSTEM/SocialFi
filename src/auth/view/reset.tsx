@@ -11,9 +11,11 @@ import Button from '@mui/material/Button';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+
 import { PasswordIcon } from 'src/assets/icons';
 import axios, { endpoints } from 'src/lib/axios';
-import { toast } from 'src/components/snackbar';
+
+import { toast } from 'src/auth/components';
 
 import { Form, Field, FormHead, schemaUtils, FormReturnLink } from '../components';
 
@@ -45,7 +47,8 @@ export function CenteredResetPasswordView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  // CORREÇÃO AQUI: Adicionamos o tipo explícito ": ResetPasswordSchemaType"
+  const onSubmit = handleSubmit(async (data: ResetPasswordSchemaType) => {
     try {
       setErrorMessage(null);
 
@@ -95,7 +98,7 @@ export function CenteredResetPasswordView() {
       <FormHead
         icon={<PasswordIcon />}
         title="Esqueceu sua senha?"
-        description={`Insira o endereço de e-mail associado à sua conta institucional e enviaremos um código para redefinição.`}
+        description="Insira o endereço de e-mail associado à sua conta institucional e enviaremos um código para redefinição."
       />
 
       <Form methods={methods} onSubmit={onSubmit}>

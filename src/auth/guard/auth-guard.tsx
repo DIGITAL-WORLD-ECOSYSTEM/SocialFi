@@ -5,8 +5,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { paths } from 'src/routes/paths';
 import { useRouter, usePathname } from 'src/routes/hooks';
 
+// CORREÇÃO AQUI: Mudamos a importação para respeitar a regra do projeto
+import { SplashScreen } from 'src/auth/components';
+
 import { useAuthContext } from '../hooks';
-import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 

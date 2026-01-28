@@ -1,6 +1,7 @@
-import { styled, alpha } from '@mui/material/styles';
-import { OutlinedInput } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
+
+import { OutlinedInput } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const StyledMuiOtpInput = styled(MuiOtpInput);
 

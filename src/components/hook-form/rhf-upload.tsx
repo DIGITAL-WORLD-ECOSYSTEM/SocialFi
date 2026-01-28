@@ -1,4 +1,5 @@
 "use client";
+
 import type { BoxProps } from '@mui/material/Box';
 import type { UploadProps } from '../upload';
 

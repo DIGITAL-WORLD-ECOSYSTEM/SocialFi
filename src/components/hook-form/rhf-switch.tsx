@@ -1,4 +1,5 @@
 "use client";
+
 import type { BoxProps } from '@mui/material/Box';
 import type { SwitchProps } from '@mui/material/Switch';
 import type { FormGroupProps } from '@mui/material/FormGroup';

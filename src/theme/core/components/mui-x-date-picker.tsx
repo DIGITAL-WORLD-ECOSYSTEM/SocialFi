@@ -1,7 +1,7 @@
 import type { SvgIconProps } from '@mui/material/SvgIcon';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 import type { Theme, Components } from '@mui/material/styles';
 import type { TextFieldProps } from '@mui/material/TextField';
-import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 import SvgIcon from '@mui/material/SvgIcon';
 import { buttonClasses } from '@mui/material/Button';

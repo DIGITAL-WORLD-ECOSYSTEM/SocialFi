@@ -1,24 +1,24 @@
 'use client';
 
 import Stack from '@mui/material/Stack';
+
 // Importação do hook de estado para o Pop-up
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { BackToTopButton } from 'src/components/animate/back-to-top-button';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
-// Importação do componente que revisamos
-import HomeCountdownDialog from '../components/home-countdown-dialog';
-
 import { HomeHero } from '../home-hero';
 import { HomeFAQs } from '../home-faqs';
 import { HomeTeam } from '../home-team';
-import { HomeIntegrations } from '../home-integrations';
+import { HomeRoadmap } from '../home-roadmap';
 import { HomeEcosystem } from '../home-ecosystem';
 import { HomeCommunity } from '../home-community';
 import { HomeLatestNews } from '../home-latest-news';
-import { HomeRoadmap } from '../home-roadmap';
+import { HomeIntegrations } from '../home-integrations';
 import { HomeAdvertisement } from '../home-advertisement';
+// Importação do componente que revisamos
+import HomeCountdownDialog from '../components/home-countdown-dialog';
 
 // ----------------------------------------------------------------------
 

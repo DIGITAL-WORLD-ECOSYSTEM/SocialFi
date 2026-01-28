@@ -2,9 +2,9 @@
 
 import type { CarouselProps, CarouselOptions } from './types';
 
+import { mergeClasses } from 'minimal-shared/utils';
 // CORREÇÃO 1: Importar React para usar tipos como React.ReactElement
 import React, { Children, isValidElement } from 'react';
-import { mergeClasses } from 'minimal-shared/utils';
 
 import { styled, type Theme } from '@mui/material/styles';
 
