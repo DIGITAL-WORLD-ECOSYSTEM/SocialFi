@@ -15,9 +15,8 @@ import { useRouter } from 'src/routes/hooks';
 import { PasswordIcon } from 'src/assets/icons';
 import axios, { endpoints } from 'src/lib/axios';
 
-import { toast } from 'src/auth/components';
+import { Form , toast, Field, FormHead, schemaUtils, FormReturnLink } from 'src/auth/components';
 
-import { Form, Field, FormHead, schemaUtils, FormReturnLink } from '../components';
 
 // ----------------------------------------------------------------------
 

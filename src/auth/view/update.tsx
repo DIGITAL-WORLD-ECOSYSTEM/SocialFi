@@ -18,10 +18,9 @@ import { useRouter } from 'src/routes/hooks';
 import { SentIcon } from 'src/assets/icons';
 import axios, { endpoints } from 'src/lib/axios';
 
-// CORREÇÃO 1: Importação ajustada para passar na regra do Linter
-import { toast } from 'src/auth/components';
-
+// CORREÇÃO: Juntamos o 'toast' aqui com os outros componentes para evitar o erro de duplicata
 import { 
+  toast,
   Form, 
   Field, 
   Iconify, 
@@ -77,7 +76,7 @@ export function CenteredUpdatePasswordView() {
     formState: { isSubmitting },
   } = methods;
 
-  // CORREÇÃO 2: Adicionamos o tipo explícito ": UpdatePasswordSchemaType"
+  // Mantivemos a correção de tipagem que fizemos antes
   const onSubmit = handleSubmit(async (data: UpdatePasswordSchemaType) => {
     try {
       setErrorMessage(null);
