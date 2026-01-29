@@ -23,7 +23,7 @@ export function HomeAdvertisement({ sx, ...other }: BoxProps) {
   return (
     <Box
       component="section"
-      sx={[{ position: 'relative' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ position: 'relative', marginBottom: 10 }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
       <MotionViewport>
