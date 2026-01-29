@@ -16,7 +16,7 @@ import { HomeEcosystem } from '../home-ecosystem';
 import { HomeCommunity } from '../home-community';
 import { HomeLatestNews } from '../home-latest-news';
 import { HomeIntegrations } from '../home-integrations';
-import { HomeAdvertisement } from '../home-advertisement';
+import { CtaBanner } from '../cta-banner';
 // Importação do componente que revisamos
 import HomeCountdownDialog from '../components/home-countdown-dialog';
 
@@ -59,7 +59,7 @@ export function HomeView() {
 
         <HomeFAQs />
 
-        <HomeAdvertisement />
+        <CtaBanner />
       </Stack>
 
       {/* POP-UP: Posicionado na raiz para evitar conflitos de Z-Index do Hero */}
