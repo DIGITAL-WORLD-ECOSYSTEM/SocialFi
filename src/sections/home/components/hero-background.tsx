@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { CONFIG } from 'src/global-config';
-
 import { MotionContainer } from 'src/components/animate';
 
 import { Dots, Lines, Texts, Circles, PlusIcon } from './hero-svg';
@@ -16,6 +15,42 @@ import { Dots, Lines, Texts, Circles, PlusIcon } from './hero-svg';
 
 export function HeroBackground({ sx, ...other }: BoxProps) {
   const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
+
+  // 1. Efeito de Malha em Perspectiva (Cyber Landscape)
+  const renderCyberGrid = () => (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: 1,
+        height: 1,
+        zIndex: -1,
+        overflow: 'hidden',
+        perspective: '800px', // Define a profundidade
+      }}
+    >
+      <Box
+        component={m.div}
+        animate={{ backgroundPosition: ['0px 0px', '0px 60px'] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+        sx={(theme) => ({
+          position: 'absolute',
+          width: '300%',
+          height: '200%',
+          top: '20%', // Posiciona no "chão"
+          left: '-100%',
+          transform: 'rotateX(65deg)',
+          backgroundImage: `
+            linear-gradient(to right, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.2)} 1px, transparent 1px),
+            linear-gradient(to bottom, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.2)} 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+          maskImage: `linear-gradient(to bottom, transparent, black 15%, black 40%, transparent)`, // Faz o grid sumir no horizonte
+        })}
+      />
+    </Box>
+  );
 
   const renderSvg = () => (
     <Box
@@ -31,6 +66,8 @@ export function HeroBackground({ sx, ...other }: BoxProps) {
         position: 'absolute',
         top: 0,
         left: 0,
+        zIndex: 0,
+        filter: 'drop-shadow(0 0 8px #00AB5566)', // Adiciona brilho aos SVGs (Lines, Circles)
       }}
     >
       <defs>
@@ -54,7 +91,7 @@ export function HeroBackground({ sx, ...other }: BoxProps) {
       <g mask="url(#mask_id)">
         <Circles />
         <PlusIcon />
-        <Lines strokeCount={12} />
+        <Lines strokeCount={16} /> {/* Aumentado para mais densidade de rede */}
       </g>
     </Box>
   );
@@ -66,26 +103,26 @@ export function HeroBackground({ sx, ...other }: BoxProps) {
       animate={{ opacity: 1 }}
       sx={[
         (theme) => ({
-          ...theme.mixins.bgGradient({
-            images: [
-              `linear-gradient(180deg, ${theme.vars.palette.background.default} 12%, ${varAlpha(theme.vars.palette.background.defaultChannel, 0.92)} 50%, ${theme.vars.palette.background.default} 88%)`,
-              `url(${CONFIG.assetsDir}/assets/background/background-3.webp)`,
-            ],
-          }),
           top: 0,
           left: 0,
           width: 1,
           height: 1,
-          zIndex: -1,
+          zIndex: -2,
           position: 'absolute',
+          backgroundColor: '#020817', // Base ultra-dark
+          backgroundImage: `
+            radial-gradient(circle at 50% 50%, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.15)} 0%, transparent 60%),
+            url(${CONFIG.assetsDir}/assets/background/background-3.webp)
+          `,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
           ...theme.applyStyles('dark', {
-            ...theme.mixins.bgGradient({
-              images: [
-                `url(${CONFIG.assetsDir}/assets/images/home/hero-blur.webp)`,
-                `linear-gradient(180deg, ${theme.vars.palette.background.default} 12%, ${varAlpha(theme.vars.palette.background.defaultChannel, 0.96)} 50%, ${theme.vars.palette.background.default} 88%)`,
-                `url(${CONFIG.assetsDir}/assets/background/background-3.webp)`,
-              ],
-            }),
+            backgroundImage: [
+              `radial-gradient(circle at 50% 50%, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.2)} 0%, transparent 55%)`,
+              `linear-gradient(180deg, rgba(2, 8, 23, 0) 0%, #020817 100%)`, // Fade para o conteúdo abaixo
+              `url(${CONFIG.assetsDir}/assets/images/home/hero-blur.webp)`,
+              `url(${CONFIG.assetsDir}/assets/background/background-3.webp)`,
+            ].join(', '),
           }),
         }),
       ]}
@@ -97,37 +134,17 @@ export function HeroBackground({ sx, ...other }: BoxProps) {
       component={MotionContainer}
       sx={[
         (theme) => ({
-          '--stroke-dasharray': 3,
-          '--stroke-spacing': '80px',
-          /* line */
-          '--hero-line-stroke-width': 1,
-          '--hero-line-stroke-color': varAlpha(theme.vars.palette.grey['500Channel'], 0.32),
-          ...theme.applyStyles('dark', {
-            '--hero-line-stroke-color': varAlpha(theme.vars.palette.grey['600Channel'], 0.16),
-          }),
-          /* text */
-          '--hero-text-stroke-width': 1,
-          '--hero-text-stroke-color': varAlpha(theme.vars.palette.grey['500Channel'], 0.24),
-          ...theme.applyStyles('dark', {
-            '--hero-text-stroke-color': varAlpha(theme.vars.palette.grey['600Channel'], 0.12),
-          }),
-          /* circle */
-          '--hero-circle-stroke-width': 1,
-          '--hero-circle-stroke-color': varAlpha(theme.vars.palette.grey['500Channel'], 0.48),
-          ...theme.applyStyles('dark', {
-            '--hero-circle-stroke-color': varAlpha(theme.vars.palette.grey['600Channel'], 0.24),
-          }),
-          /* plus */
-          '--hero-plus-stroke-color': theme.vars.palette.text.disabled,
+          '--hero-line-stroke-color': varAlpha(theme.vars.palette.primary.mainChannel, 0.3),
+          '--hero-circle-stroke-color': varAlpha(theme.vars.palette.primary.mainChannel, 0.5),
+          '--hero-text-stroke-color': varAlpha(theme.vars.palette.primary.mainChannel, 0.2),
           
-          // Posicionamento crítico para não quebrar o layout do HomeHero
           top: 0,
           left: 0,
           width: 1,
           height: 1,
           position: 'absolute',
-          zIndex: 0, // Mantém atrás do conteúdo (zIndex 10 no HomeHero)
-          pointerEvents: 'none', // Garante que cliques passem para os botões do Hero
+          zIndex: 0,
+          pointerEvents: 'none',
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -136,6 +153,8 @@ export function HeroBackground({ sx, ...other }: BoxProps) {
       <Dots />
       
       {mdUp && <Texts />}
+      
+      {renderCyberGrid()}
       
       {renderSvg()}
       

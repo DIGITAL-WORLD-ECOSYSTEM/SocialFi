@@ -14,174 +14,182 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { useTranslate } from 'src/locales';
-
 import { Iconify } from 'src/components/iconify';
-import { varFade, MotionViewport } from 'src/components/animate';
+import { MotionViewport, varFade } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
-import { FloatLine, FloatDotIcon } from './components/svg-elements';
-
-// ----------------------------------------------------------------------
-
-const renderLines = () => (
-  <>
-    <Stack
-      spacing={8}
-      alignItems="center"
-      sx={{
-        top: 64,
-        left: 80,
-        zIndex: 2,
-        bottom: 64,
-        position: 'absolute',
-        transform: 'translateX(-50%)',
-        display: { xs: 'none', md: 'flex' },
-        '& span': { position: 'static', opacity: 0.12 },
-      }}
-    >
-      <FloatDotIcon />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <Box sx={{ flexGrow: 1 }} />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <FloatDotIcon />
-    </Stack>
-
-    <FloatLine vertical sx={{ top: 0, left: 80, display: { xs: 'none', md: 'block' } }} />
-  </>
-);
 
 // ----------------------------------------------------------------------
 
 export function HomeEcosystem({ sx, ...other }: BoxProps) {
   const theme = useTheme();
-  const { t } = useTranslate();
 
-  const ECOSYSTEM_ITEMS = useMemo(
+  const ITEMS = useMemo(
     () => [
       {
-        id: 'reurb',
-        title: 'REURB-S Social',
+        id: 'tech',
+        title: 'Tecnologia de Base',
         description:
-          'Regularização fundiária focada em segurança jurídica para o produtor rural.',
-        icon: 'solar:square-academic-cap-bold-duotone',
-        color: 'primary' as const,
+          'Blockchain, IA e Web3 aplicados à digitalização de processos críticos.',
+        icon: 'solar:programming-2-bold-duotone',
+        color: theme.palette.primary.main,
       },
       {
-        id: 'agro',
-        title: 'Agroecologia RWA',
+        id: 'gov',
+        title: 'Governança Digital',
         description:
-          'Monitoramento de produção de Café Arábica e Conilon via Blockchain.',
-        icon: 'solar:rocket-bold-duotone',
-        color: 'success' as const,
+          'Identidade digital, credenciais verificáveis e rastreabilidade.',
+        icon: 'solar:shield-check-bold-duotone',
+        color: theme.palette.info.main,
       },
       {
-        id: 'defi',
-        title: 'Crédito Descentralizado',
+        id: 'business',
+        title: 'Inovação & Negócios',
         description:
-          'Acesso a liquidez e financiamento agrícola sem intermediários bancários.',
-        icon: 'solar:chart-2-bold-duotone',
-        color: 'info' as const,
+          'Modelos digitais escaláveis com impacto econômico e social.',
+        icon: 'solar:lightbulb-bold-duotone',
+        color: theme.palette.secondary.main,
       },
       {
-        id: 'governance',
-        title: 'Governança DAO',
+        id: 'rwa',
+        title: 'Ativos Digitais (RWA)',
         description:
-          'Poder de decisão para a comunidade ASPPIBRA através do token de governança.',
-        icon: 'solar:token-bold-duotone',
-        color: 'warning' as const,
+          'Tokenização de ativos reais conectando economia física e digital.',
+        icon: 'solar:graph-up-bold-duotone',
+        color: theme.palette.warning.main,
       },
     ],
-    []
-  );
-
-  const renderGrid = () => (
-    <Grid container columns={12} spacing={3}>
-      {ECOSYSTEM_ITEMS.map((item) => (
-        <Grid
-          key={item.id}
-          sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}
-        >
-          <m.div variants={varFade('inUp')}>
-            <Stack
-              spacing={2.5}
-              sx={{
-                p: 3.5,
-                height: '100%',
-                borderRadius: 2,
-                bgcolor: 'background.neutral',
-                border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
-                transition: theme.transitions.create(['all']),
-                '&:hover': {
-                  bgcolor: 'background.paper',
-                  boxShadow: theme.customShadows.z24,
-                  transform: 'translateY(-4px)',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  width: 64,
-                  height: 64,
-                  display: 'flex',
-                  borderRadius: 1.5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  bgcolor: alpha(theme.palette[item.color].main, 0.1),
-                }}
-              >
-                <Iconify icon={item.icon as any} width={36} />
-              </Box>
-
-              <Typography variant="h6" fontWeight={800}>
-                {item.title}
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary">
-                {item.description}
-              </Typography>
-            </Stack>
-          </m.div>
-        </Grid>
-      ))}
-    </Grid>
+    [theme]
   );
 
   return (
     <Box
       component="section"
       sx={[
-        { py: { xs: 10, md: 15 }, position: 'relative' },
+        {
+          py: { xs: 12, md: 18 },
+          background: `
+            radial-gradient(900px 500px at 15% 20%,
+              ${alpha(theme.palette.primary.main, 0.12)},
+              transparent 55%)
+          `,
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
       <MotionViewport>
-        {renderLines()}
-
         <Container>
-          <Grid container columns={12} spacing={6} alignItems="center">
+          <Grid container columns={12} spacing={6}>
+            {/* TEXTO À ESQUERDA */}
             <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 5' } }}>
-              <SectionTitle
-                caption="Ecosystem"
-                title="O Futuro do"
-                txtGradient="Agro Digital"
-              />
+              <m.div variants={varFade('inLeft')}>
+                <SectionTitle
+                  caption="Ecossistema Tecnológico"
+                  title="Infraestrutura Digital"
+                  txtGradient="de Nova Geração"
+                />
 
-              <Button
-                component={RouterLink}
-                href={paths.dashboard.root}
-                size="large"
-                variant="contained"
-                endIcon={<Iconify icon={'solar:alt-arrow-right-outline' as any} />}
-                sx={{ mt: 5 }}
-              >
-                Explorar Ecossistema
-              </Button>
+                <Typography
+                  sx={{
+                    mt: 3,
+                    maxWidth: 460,
+                    fontSize: { xs: 16, md: 18 },
+                    lineHeight: 1.8,
+                    color: 'text.secondary',
+                  }}
+                >
+                  Arquiteturas digitais seguras, escaláveis e interoperáveis
+                  para inovação, governança e impacto social.
+                </Typography>
+
+                <Button
+                  component={RouterLink}
+                  href={paths.dashboard.root}
+                  size="large"
+                  variant="contained"
+                  color="inherit"
+                  endIcon={
+                    <Iconify icon="solar:arrow-right-bold" />
+                  }
+                  sx={{
+                    mt: 6,
+                    height: 56,
+                    px: 4,
+                    fontWeight: 700,
+                    borderRadius: 1.5,
+                    boxShadow: theme.customShadows.z12,
+                  }}
+                >
+                  Explorar Ecossistema
+                </Button>
+              </m.div>
             </Grid>
 
+            {/* CARDS À DIREITA */}
             <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 7' } }}>
-              {renderGrid()}
+              <Grid container columns={12} spacing={3}>
+                {ITEMS.map((item) => (
+                  <Grid
+                    key={item.id}
+                    sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}
+                  >
+                    <m.div variants={varFade('inUp')}>
+                      <Stack
+                        spacing={3}
+                        sx={{
+                          p: 4,
+                          height: '100%',
+                          borderRadius: 2.5,
+                          bgcolor: alpha(
+                            theme.palette.background.paper,
+                            0.9
+                          ),
+                          border: `1px solid ${alpha(item.color, 0.25)}`,
+                          transition: theme.transitions.create(
+                            ['transform', 'box-shadow'],
+                            { duration: 300 }
+                          ),
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: `0 32px 64px -20px ${alpha(
+                              item.color,
+                              0.45
+                            )}`,
+                          },
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 52,
+                            height: 52,
+                            borderRadius: 1.5,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: item.color,
+                            bgcolor: alpha(item.color, 0.18),
+                          }}
+                        >
+                          <Iconify icon={item.icon} width={28} />
+                        </Box>
+
+                        <Typography variant="h6" fontWeight={800}>
+                          {item.title}
+                        </Typography>
+
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          lineHeight={1.7}
+                        >
+                          {item.description}
+                        </Typography>
+                      </Stack>
+                    </m.div>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         </Container>
