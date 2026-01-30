@@ -1,10 +1,18 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -13,6 +21,9 @@ import Typography from '@mui/material/Typography';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { _mock } from 'src/_mock';
 import { useTranslate } from 'src/locales';
 
@@ -20,8 +31,11 @@ import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
+import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 
+// ----------------------------------------------------------------------
+// Configurações
 // ----------------------------------------------------------------------
 
 const SOCIAL_CHANNELS = [
@@ -30,19 +44,17 @@ const SOCIAL_CHANNELS = [
   { name: 'Instagram', icon: 'skill-icons:instagram', color: '#E4405F' },
 ];
 
-// ----------------------------------------------------------------------
-
 const renderLines = () => (
   <>
     <Stack
       spacing={8}
       alignItems="center"
       sx={{
+        position: 'absolute',
         top: 64,
         right: 80,
-        zIndex: 2,
         bottom: 64,
-        position: 'absolute',
+        zIndex: 2,
         transform: 'translateX(50%)',
         display: { xs: 'none', md: 'flex' },
         '& span': { position: 'static', opacity: 0.12 },
@@ -55,7 +67,14 @@ const renderLines = () => (
       <FloatDotIcon />
     </Stack>
 
-    <FloatLine vertical sx={{ top: 0, right: 80, display: { xs: 'none', md: 'block' } }} />
+    <FloatLine
+      vertical
+      sx={{
+        top: 0,
+        right: 80,
+        display: { xs: 'none', md: 'block' },
+      }}
+    />
   </>
 );
 
@@ -65,48 +84,53 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
   const theme = useTheme();
   const { t } = useTranslate();
 
+  // Informações estáticas extraídas da captura de tela de referência
   const METRICS = useMemo(
     () => [
       {
         id: 'members',
-        label: t('traction.stats.members'),
-        value: t('traction.stats.members_value'),
+        label: 'NETWORK STEWARDS',
+        value: '+500',
       },
-      { id: 'area', label: t('traction.stats.area'), value: t('traction.stats.area_value') },
-      { id: 'aum', label: t('traction.stats.aum'), value: t('traction.stats.aum_value') },
+      {
+        id: 'area',
+        label: 'MANAGED HECTARES',
+        value: '+10k',
+      },
+      {
+        id: 'aum',
+        label: 'ASSETS UNDER SOVEREIGNTY',
+        value: '$7.5M',
+      },
     ],
-    [t]
-  );
-
-  const renderDescription = () => (
-    <SectionTitle
-      caption={t('traction.caption')}
-      title={t('traction.title')}
-      txtGradient={t('traction.title_highlight')}
-      description={t('traction.description')}
-      sx={{ textAlign: { xs: 'center', md: 'left' } }}
-    />
+    []
   );
 
   const renderStats = () => (
     <Box
-      component="section"
       sx={{
+        mt: 6,
         display: 'grid',
-        gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' },
         gap: { xs: 3, md: 4 },
-        mt: 5,
+        textAlign: 'left',
       }}
     >
       {METRICS.map((stat) => (
         <m.div key={stat.id} variants={varFade('inUp')}>
-          <Stack spacing={0.5} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Stack spacing={0.5}>
             <Typography variant="h3" sx={{ fontWeight: 800, color: 'primary.main' }}>
               {stat.value}
             </Typography>
+
             <Typography
               variant="caption"
-              sx={{ color: 'text.secondary', fontWeight: 'bold', textTransform: 'uppercase' }}
+              sx={{
+                color: 'text.secondary',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+              }}
             >
               {stat.label}
             </Typography>
@@ -121,46 +145,56 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
       <Box
         sx={{
           p: 5,
-          borderRadius: 3,
           position: 'relative',
-          border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
-          boxShadow: theme.customShadows?.z24 ?? undefined,
+          borderRadius: 3,
           overflow: 'hidden',
+          bgcolor: alpha(theme.palette.background.paper, 0.4),
+          backdropFilter: 'blur(12px)',
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+          boxShadow: theme.customShadows?.z24,
         }}
       >
         <Stack spacing={4}>
-          <Stack spacing={2}>
-            <Typography variant="h4">{t('traction.card.title')}</Typography>
+          <Stack spacing={2} textAlign="left">
+            <Typography variant="h4" sx={{ fontWeight: 800 }}>
+               Network Synergy
+            </Typography>
+
             <Typography
               variant="body2"
-              sx={{ color: 'text.secondary', lineHeight: 1.7, textAlign: 'justify' }}
+              sx={{ color: 'text.secondary', lineHeight: 1.7 }}
             >
-              {t('traction.card.content')}
+              Our decentralized governance integrates corporations and cooperatives into a global liquidity ecosystem, overcoming tech barriers through auditable management.
             </Typography>
           </Stack>
 
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 40, height: 40 } }}>
-              {[...Array(5)].map((_, index) => (
-                <Avatar key={index} alt={_mock.fullName(index)} src={_mock.image.avatar(index + 10)} />
+          <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-start">
+            <AvatarGroup max={4}>
+              {[...Array(3)].map((_, index) => (
+                <Avatar
+                  key={index}
+                  src={_mock.image.avatar(index + 1)}
+                />
               ))}
             </AvatarGroup>
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              {t('traction.stats.members')}
+
+            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+              Network Stewards
             </Typography>
           </Stack>
 
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={1} flexWrap="wrap">
             {SOCIAL_CHANNELS.map((channel) => (
               <Button
                 key={channel.name}
                 variant="soft"
-                color="inherit"
+                size="small"
                 startIcon={<Iconify icon={channel.icon as any} width={20} />}
                 sx={{
-                  borderRadius: 1,
                   bgcolor: alpha(channel.color, 0.08),
                   color: channel.color,
+                  fontWeight: 700,
+                  '&:hover': { bgcolor: alpha(channel.color, 0.15) }
                 }}
               >
                 {channel.name}
@@ -168,85 +202,77 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
             ))}
           </Stack>
         </Stack>
-
-        <Iconify
-          icon={'solar:chart-square-bold-duotone' as any}
-          sx={{
-            position: 'absolute',
-            bottom: -40,
-            right: -40,
-            width: 240,
-            height: 240,
-            opacity: 0.03,
-            color: theme.palette.primary.main,
-          }}
-        />
       </Box>
     </m.div>
   );
 
   return (
     <Box
-      sx={[{ position: 'relative', overflow: 'hidden', py: { xs: 10, md: 15 } }, ...(Array.isArray(sx) ? sx : [sx])]}
+      component="section"
+      sx={[
+        {
+          position: 'relative',
+          overflow: 'hidden',
+          py: { xs: 10, md: 20 },
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
       {...other}
     >
+      <HomeBackground section="community" />
+
       <MotionViewport>
         {renderLines()}
 
         <Container sx={{ position: 'relative', zIndex: 9 }}>
-          {/* Layout principal substituindo Grid: Stack responsivo */}
-          <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={{ xs: 8, md: 10 }}
-            alignItems="center"
+          <Box
+            sx={{
+              display: 'grid',
+              alignItems: 'center',
+              gap: { xs: 8, md: 10 },
+              gridTemplateColumns: { xs: '1fr', md: '1.2fr 0.8fr' },
+            }}
           >
-            {/* Coluna esquerda */}
-            <Box sx={{ flex: 1, width: '100%' }}>
-              {renderDescription()}
+            {/* COLUNA ESQUERDA: Textos e Métricas */}
+            <m.div variants={varFade('inLeft')}>
+              <SectionTitle
+                caption="INSTITUTIONAL TRACTION"
+                title="Market Potential &"
+                txtGradient="Systemic Scalability"
+                description="Consolidating solid metrics that reflect our global scaling capacity. ASPPIBRA-DAO provides the infrastructure to manage high-value assets with absolute legal security and decentralized liquidity."
+                sx={{ textAlign: 'left', mb: 0 }}
+              />
+
               {renderStats()}
-
-              <m.div variants={varFade('inUp')}>
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ mt: 5, justifyContent: { xs: 'center', md: 'flex-start' } }}
+              
+              <Stack direction="row" spacing={3} alignItems="center" sx={{ mt: 6 }}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<Iconify icon={'solar:shield-user-bold-duotone' as any} width={24} />}
+                  sx={{
+                    height: 56,
+                    px: 4,
+                    borderRadius: 1.5,
+                    fontSize: 16,
+                    fontWeight: 700,
+                    boxShadow: theme.customShadows?.primary,
+                  }}
                 >
-                  <Button
-                    variant="contained"
-                    size="large"
-                    startIcon={<Iconify icon={'solar:shield-user-bold-duotone' as any} width={24} />}
-                    sx={{
-                      height: 56,
-                      px: 4,
-                      borderRadius: 1.2,
-                      boxShadow: theme.customShadows?.primary ?? undefined,
-                    }}
-                  >
-                    {t('traction.buttons.join')}
-                  </Button>
+                  Access Governance
+                </Button>
 
-                  <Link
-                    href="#"
-                    color="inherit"
-                    variant="subtitle2"
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      opacity: 0.7,
-                      fontWeight: 700,
-                    }}
-                  >
-                    {t('traction.buttons.data')}
-                    <Iconify icon={'solar:external-link-outline' as any} width={18} />
-                  </Link>
-                </Stack>
-              </m.div>
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 700 }}>
+                  On-chain Data
+                </Typography>
+              </Stack>
+            </m.div>
+
+            {/* COLUNA DIREITA: Card de Sinergia */}
+            <Box>
+              {renderSocialHub()}
             </Box>
-
-            {/* Coluna direita */}
-            <Box sx={{ flex: 1, width: '100%' }}>{renderSocialHub()}</Box>
-          </Stack>
+          </Box>
         </Container>
       </MotionViewport>
     </Box>

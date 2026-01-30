@@ -1,9 +1,18 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
 import { useState } from 'react';
 import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -13,7 +22,12 @@ import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Accordion, { accordionClasses } from '@mui/material/Accordion';
+// CORREÇÃO: Adicionado 'alpha' ao import do styles
+import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
@@ -21,6 +35,7 @@ import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
+import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatPlusIcon, FloatTriangleDownIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
@@ -129,6 +144,7 @@ const FAQs = [
 // ----------------------------------------------------------------------
 
 export function HomeFAQs({ sx, ...other }: BoxProps) {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState<string | false>(FAQs[0].question);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -155,6 +171,8 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           display: 'flex',
           mb: { xs: 5, md: 8 },
           flexDirection: 'column',
+          position: 'relative',
+          zIndex: 2,
         },
       ]}
     >
@@ -166,7 +184,7 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           variants={varFade('inUp', { distance: 24 })}
           expanded={expanded === item.question}
           onChange={handleChange(item.question)}
-          sx={(theme) => ({
+          sx={{
             transition: theme.transitions.create(['background-color'], {
               duration: theme.transitions.duration.shorter,
             }),
@@ -174,13 +192,15 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
             px: 2.5,
             border: 'none',
             borderRadius: 2,
+            bgcolor: alpha(theme.palette.background.paper, 0.4),
+            backdropFilter: 'blur(10px)',
             '&:hover': {
-              bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
+              bgcolor: alpha(theme.palette.background.paper, 0.6),
             },
             [`&.${accordionClasses.expanded}`]: {
-              bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
+              bgcolor: alpha(theme.palette.background.paper, 0.8),
             },
-          })}
+          }}
         >
           <AccordionSummary
             id={`home-faqs-panel${index}-header`}
@@ -199,12 +219,14 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
   const renderContact = () => (
     <Box
       sx={[
-        (theme) => ({
+        {
           px: 3,
           py: 8,
+          position: 'relative',
+          zIndex: 2,
           textAlign: 'center',
           background: `linear-gradient(to left, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}, transparent)`,
-        }),
+        },
       ]}
     >
       <m.div variants={varFade('in')}>
@@ -232,11 +254,13 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
   );
 
   return (
-    <Box component="section" sx={sx} {...other}>
+    <Box component="section" sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
+      <HomeBackground section="faqs" />
+
       <MotionViewport sx={{ py: 10, position: 'relative' }}>
         {topLines()}
 
-        <Container>
+        <Container sx={{ position: 'relative', zIndex: 9 }}>
           {renderDescription()}
           {renderContent()}
         </Container>
@@ -260,6 +284,7 @@ const topLines = () => (
       sx={{
         top: 64,
         left: 80,
+        zIndex: 2,
         position: 'absolute',
         transform: 'translateX(-50%)',
       }}
@@ -275,15 +300,15 @@ const topLines = () => (
       />
     </Stack>
 
-    <FloatLine vertical sx={{ top: 0, left: 80 }} />
+    <FloatLine vertical sx={{ top: 0, left: 80, zIndex: 1 }} />
   </>
 );
 
 const bottomLines = () => (
   <>
-    <FloatLine sx={{ top: 0, left: 0 }} />
-    <FloatLine sx={{ bottom: 0, left: 0 }} />
-    <FloatPlusIcon sx={{ top: -8, left: 72 }} />
-    <FloatPlusIcon sx={{ bottom: -8, left: 72 }} />
+    <FloatLine sx={{ top: 0, left: 0, zIndex: 1 }} />
+    <FloatLine sx={{ bottom: 0, left: 0, zIndex: 1 }} />
+    <FloatPlusIcon sx={{ top: -8, left: 72, zIndex: 2 }} />
+    <FloatPlusIcon sx={{ bottom: -8, left: 72, zIndex: 2 }} />
   </>
 );

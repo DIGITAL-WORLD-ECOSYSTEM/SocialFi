@@ -1,16 +1,29 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+// CORREÇÃO: Importação padrão do Grid que suporta a prop 'size' nas versões recentes
+import Grid from '@mui/material/Grid'; 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
@@ -18,6 +31,7 @@ import { Iconify } from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
+import { HomeBackground } from './components/home-background';
 
 // ----------------------------------------------------------------------
 
@@ -29,32 +43,28 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       {
         id: 'tech',
         title: 'Tecnologia de Base',
-        description:
-          'Blockchain, IA e Web3 aplicados à digitalização de processos críticos.',
+        description: 'Blockchain, IA e Web3 aplicados à digitalização de processos críticos.',
         icon: 'solar:programming-2-bold-duotone',
         color: theme.palette.primary.main,
       },
       {
         id: 'gov',
         title: 'Governança Digital',
-        description:
-          'Identidade digital, credenciais verificáveis e rastreabilidade.',
+        description: 'Identidade digital, credenciais verificáveis e rastreabilidade.',
         icon: 'solar:shield-check-bold-duotone',
         color: theme.palette.info.main,
       },
       {
         id: 'business',
         title: 'Inovação & Negócios',
-        description:
-          'Modelos digitais escaláveis com impacto econômico e social.',
+        description: 'Modelos digitais escaláveis com impacto econômico e social.',
         icon: 'solar:lightbulb-bold-duotone',
         color: theme.palette.secondary.main,
       },
       {
         id: 'rwa',
         title: 'Ativos Digitais (RWA)',
-        description:
-          'Tokenização de ativos reais conectando economia física e digital.',
+        description: 'Tokenização de ativos reais conectando economia física e digital.',
         icon: 'solar:graph-up-bold-duotone',
         color: theme.palette.warning.main,
       },
@@ -67,22 +77,23 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       component="section"
       sx={[
         {
+          position: 'relative',
           py: { xs: 12, md: 18 },
-          background: `
-            radial-gradient(900px 500px at 15% 20%,
-              ${alpha(theme.palette.primary.main, 0.12)},
-              transparent 55%)
-          `,
+          overflow: 'hidden',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
+      <HomeBackground section="ecosystem" />
+
       <MotionViewport>
-        <Container>
-          <Grid container columns={12} spacing={6}>
-            {/* TEXTO À ESQUERDA */}
-            <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 5' } }}>
+        <Container sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Grid Container principal */}
+          <Grid container spacing={6}>
+            
+            {/* TEXTO À ESQUERDA - Usando 'size' para o novo sistema de Grid */}
+            <Grid size={{ xs: 12, md: 5 }}>
               <m.div variants={varFade('inLeft')}>
                 <SectionTitle
                   caption="Ecossistema Tecnológico"
@@ -109,9 +120,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   size="large"
                   variant="contained"
                   color="inherit"
-                  endIcon={
-                    <Iconify icon="solar:arrow-right-bold" />
-                  }
+                  endIcon={<Iconify icon="solar:arrow-right-bold" />}
                   sx={{
                     mt: 6,
                     height: 56,
@@ -127,13 +136,10 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
             </Grid>
 
             {/* CARDS À DIREITA */}
-            <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 7' } }}>
-              <Grid container columns={12} spacing={3}>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Grid container spacing={3}>
                 {ITEMS.map((item) => (
-                  <Grid
-                    key={item.id}
-                    sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}
-                  >
+                  <Grid key={item.id} size={{ xs: 12, sm: 6 }}>
                     <m.div variants={varFade('inUp')}>
                       <Stack
                         spacing={3}
@@ -141,21 +147,17 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                           p: 4,
                           height: '100%',
                           borderRadius: 2.5,
-                          bgcolor: alpha(
-                            theme.palette.background.paper,
-                            0.9
-                          ),
-                          border: `1px solid ${alpha(item.color, 0.25)}`,
+                          bgcolor: alpha(theme.palette.background.paper, 0.4),
+                          backdropFilter: 'blur(10px)',
+                          border: `1px solid ${alpha(item.color, 0.2)}`,
                           transition: theme.transitions.create(
-                            ['transform', 'box-shadow'],
+                            ['transform', 'box-shadow', 'background-color'],
                             { duration: 300 }
                           ),
                           '&:hover': {
                             transform: 'translateY(-8px)',
-                            boxShadow: `0 32px 64px -20px ${alpha(
-                              item.color,
-                              0.45
-                            )}`,
+                            bgcolor: alpha(theme.palette.background.paper, 0.7),
+                            boxShadow: `0 32px 64px -20px ${alpha(item.color, 0.3)}`,
                           },
                         }}
                       >
@@ -168,7 +170,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                             alignItems: 'center',
                             justifyContent: 'center',
                             color: item.color,
-                            bgcolor: alpha(item.color, 0.18),
+                            bgcolor: alpha(item.color, 0.12),
                           }}
                         >
                           <Iconify icon={item.icon} width={28} />

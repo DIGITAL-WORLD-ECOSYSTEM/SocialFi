@@ -1,7 +1,16 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -9,48 +18,44 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
+import { HomeBackground } from './components/home-background';
 
 // ----------------------------------------------------------------------
 
 const ROADMAP_PHASES = [
   {
-    phase: 'Fase 01',
+    phase: 'FASE 01',
     title: 'Fundação & Compliance',
-    time: 'Q3 - Q4 2025',
+    time: 'Q3 - Q4 2023',
     description:
-      'Estabelecimento da estrutura jurídica da DAO e registro oficial dos primeiros produtores rurais de Paraty e Taquari.',
-    status: 'completed',
-    icon: 'solar:document-bold-duotone',
+      'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
   },
   {
-    phase: 'Fase 02',
-    title: 'Tokenização RWA (Alpha)',
-    time: 'Q1 - Q2 2026',
+    phase: 'FASE 02',
+    title: 'Tokenização RWA (MVP)',
+    time: 'Q1 - Q2 2024',
     description:
-      'Lançamento da plataforma SocialFi e primeira tokenização de ativos reais focada na marca Café em Dobro.',
-    status: 'in_progress',
-    icon: 'solar:cup-first-bold-duotone',
+      'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
   },
   {
-    phase: 'Fase 03',
-    title: 'Paraty Integrado & Expansão',
-    time: 'Q3 - Q4 2026',
+    phase: 'FASE 03',
+    title: 'Escala & Binance Listing',
+    time: 'Q3 - Q4 2024',
     description:
-      'Realização do evento Paraty Integrado (16/08) e integração de crédito agrícola via IA para escala regional.',
-    status: 'next',
-    icon: 'solar:chart-2-bold-duotone',
+      'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
   },
   {
-    phase: 'Fase 04',
-    title: 'Governança Global Agro',
-    time: '2027+',
+    phase: 'FASE 04',
+    title: 'Ecossistema Global Agro',
+    time: '2025+',
     description:
-      'Plena descentralização dos ativos RWA internacionais sustentada pela infraestrutura tecnológica ASPPIBRA-DAO.',
-    status: 'next',
-    icon: 'solar:globus-bold-duotone',
+      'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
   },
 ];
 
@@ -72,22 +77,25 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
+      {/* INTEGRAÇÃO FASE 1: Fundo unificado configurado para o Roadmap */}
+      <HomeBackground section="roadmap" />
+
       <MotionViewport>
-        <Container>
+        <Container sx={{ position: 'relative', zIndex: 10 }}>
           <SectionTitle
-            caption="Nossa Jornada"
-            title="Roadmap de"
-            txtGradient="Transformação"
-            description="Uma trajetória guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da economia digital."
+            caption="NOSSA JORNADA"
+            title="Roteiro do"
+            txtGradient="Projeto"
+            description="Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital."
             sx={{ textAlign: 'center', mb: { xs: 8, md: 10 } }}
           />
 
           <Grid
+            container
             display="grid"
             gridTemplateColumns={{ xs: '1fr', md: '1fr 64px 1fr' }}
-            rowGap={10}
+            rowGap={8}
             columnGap={6}
-            sx={{ position: 'relative', zIndex: 10 }}
           >
             {ROADMAP_PHASES.map((item, index) => {
               const isEven = index % 2 === 0;
@@ -96,26 +104,28 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                 <Grid
                   key={item.title}
                   gridColumn={{ xs: '1 / -1', md: isEven ? '1 / 2' : '3 / 4' }}
+                  sx={{
+                    gridRow: { md: index + 1 }
+                  }}
                 >
                   <m.div variants={isEven ? varFade('inLeft') : varFade('inRight')}>
                     <Card
                       sx={{
                         p: 4,
-                        bgcolor: 'background.paper',
-                        border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-                        boxShadow: theme.customShadows.z24,
+                        borderRadius: 2,
                         textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
-                        ...(theme.palette.mode === 'dark' && {
-                          bgcolor: alpha(theme.palette.background.neutral, 0.4),
-                          backdropFilter: 'blur(10px)',
-                        }),
+                        // Estética Glassmorphism consistente com o tema dark/futurista
+                        bgcolor: alpha(theme.palette.background.paper, 0.4),
+                        backdropFilter: 'blur(12px)',
+                        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+                        boxShadow: theme.customShadows.z24,
                       }}
                     >
-                      <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800 }}>
+                      <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800 }}>
                         {item.phase} • {item.time}
                       </Typography>
 
-                      <Typography variant="h4" sx={{ mt: 1, mb: 2 }}>
+                      <Typography variant="h4" sx={{ mt: 1, mb: 2, fontWeight: 800 }}>
                         {item.title}
                       </Typography>
 

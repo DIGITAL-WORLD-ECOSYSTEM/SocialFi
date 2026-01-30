@@ -1,7 +1,5 @@
 import type { BoxProps } from '@mui/material/Box';
-import type { Theme, SxProps } from '@mui/material/styles';
 import type { Variants, MotionProps } from 'framer-motion';
-import type { PaletteColorKey } from 'src/theme/core';
 
 import { m } from 'framer-motion';
 
@@ -106,66 +104,6 @@ export function Lines({ strokeCount }: { strokeCount: number }) {
 
 // ----------------------------------------------------------------------
 
-export function Circles() {
-  const drawCircle: Variants = {
-    hidden: { opacity: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      transition: { opacity: { delay: 1 + i * 0.5, duration: 0.01 } },
-    }),
-  };
-
-  return (
-    <>
-      <m.path
-        variants={drawCircle}
-        d="M1 41C1 63.0914 18.9086 81 41 81C63.0914 81 81 63.0914 81 41C81 18.9086 63.0914 1 41 1"
-        style={{
-          strokeDasharray: 'var(--stroke-dasharray)',
-          stroke: 'var(--hero-circle-stroke-color)',
-          strokeWidth: 'var(--hero-circle-stroke-width)',
-          transform: 'translate(calc(50% - 480px), calc(50% - 80px))',
-        }}
-      />
-      <m.circle
-        cx="50%"
-        cy="50%"
-        fill="var(--hero-circle-stroke-color)"
-        style={{ transform: 'translate(calc(0% - 200px), calc(0% + 200px))' }}
-        initial={{ r: 0 }}
-        animate={{ r: 5 }}
-      />
-    </>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-export function PlusIcon() {
-  const drawPlus: Variants = {
-    hidden: { opacity: 0, pathLength: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      pathLength: 1,
-      transition: {
-        opacity: { delay: 1 + i * 0.5, duration: 0.01 },
-        pathLength: { delay: 1 + i * 0.5, bounce: 0, duration: 1.5, type: 'spring' },
-      },
-    }),
-  };
-
-  return (
-    <m.path
-      variants={drawPlus}
-      d="M8 0V16M16 8.08889H0"
-      stroke="var(--hero-plus-stroke-color)"
-      style={{ transform: 'translate(calc(50% - 448px), calc(50% - 128px))' }}
-    />
-  );
-}
-
-// ----------------------------------------------------------------------
-
 export function Texts({ sx, ...other }: BoxProps & MotionProps) {
   const theme = useTheme();
 
@@ -217,7 +155,6 @@ export function Texts({ sx, ...other }: BoxProps & MotionProps) {
                 },
               }}
             >
-              {/* CORREÇÃO DO ERRO 2322: 'as any' silencia o aviso de tipagem restrita do Iconify */}
               <Iconify icon={platform.icon as any} width={40} />
               <Typography variant="h6" sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>
                 {platform.name}
@@ -227,51 +164,5 @@ export function Texts({ sx, ...other }: BoxProps & MotionProps) {
         </m.div>
       </Box>
     </Box>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-type DotProps = Pick<MotionProps, 'animate' | 'transition'> & {
-  sx?: SxProps<Theme>;
-  color?: PaletteColorKey;
-};
-
-function Dot({ color = 'primary', animate, transition, sx, ...other }: DotProps) {
-  return (
-    <Box
-      component={m.div}
-      variants={{
-        initial: { opacity: 0 },
-        animate: { opacity: 1, transition: { duration: 0.8 } },
-      }}
-      sx={[{ width: 12, height: 12, top: '50%', left: '50%', position: 'absolute' }, ...(Array.isArray(sx) ? sx : [sx])]}
-      {...other}
-    >
-      <Box
-        component={m.div}
-        animate={animate}
-        transition={transition ?? { duration: 6, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
-        sx={[
-          (theme) => ({
-            width: 1,
-            height: 1,
-            borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.vars.palette[color].lighter}, ${theme.vars.palette[color].light})`,
-            boxShadow: `inset 0px -2px 4px ${theme.vars.palette[color].main}`,
-          }),
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-      />
-    </Box>
-  );
-}
-
-export function Dots() {
-  return (
-    <>
-      <Dot color="error" animate={{ x: [0, 20] }} sx={{ transform: 'translate(calc(50% - 400px), calc(50% - 200px))' }} />
-      <Dot color="info" animate={{ y: [0, 20] }} sx={{ transform: 'translate(calc(50% + 300px), calc(50% + 100px))' }} />
-    </>
   );
 }

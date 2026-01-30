@@ -1,16 +1,25 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { useTranslate } from 'src/locales';
-
 import { MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
+import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 import { IntegrationsDiagram } from './components/integrations-diagram';
 
@@ -113,6 +122,9 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
+      {/* INTEGRAÇÃO FASE 1: Inserção do Background unificado */}
+      <HomeBackground section="integrations" />
+
       <MotionViewport>
         {renderLines()}
 

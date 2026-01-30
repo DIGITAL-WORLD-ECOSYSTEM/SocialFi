@@ -1,9 +1,21 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
+
 import type { BoxProps } from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
+
 import { useRef } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
+
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -11,15 +23,21 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from 'src/routes/components';
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 
+import { RouterLink } from 'src/routes/components';
 import { useTranslate } from 'src/locales';
 
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionContainer } from 'src/components/animate';
 
-import { HeroBackground } from './components/hero-background';
+// Importação atualizada para o componente unificado de background
+import { HomeBackground } from './components/home-background';
 
+// ----------------------------------------------------------------------
+// Configurações
 // ----------------------------------------------------------------------
 
 const mdKey: Breakpoint = 'md';
@@ -28,14 +46,22 @@ const motionProps: MotionProps = {
   variants: varFade('inUp', { distance: 24 }),
 };
 
+// ----------------------------------------------------------------------
+// Component
+// ----------------------------------------------------------------------
+
 export function HomeHero({ sx, ...other }: BoxProps) {
   const { t } = useTranslate();
-  
-  // Refatorado para performance: removemos o 'percent' que disparava re-renders
+
+  // Scroll otimizado usando Refs para evitar re-renderizações desnecessárias
   const { elementRef, scrollY } = useScrollData();
 
-  // Efeito de fade-out suave ao scrollar (0 a 400px)
+  // Fade-out progressivo do conteúdo textual ao scrollar para a próxima seção
   const opacity: MotionValue<number> = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // ----------------------------------------------------------------------
+  // Render helpers
+  // ----------------------------------------------------------------------
 
   const renderHeading = () => (
     <m.div {...motionProps}>
@@ -54,14 +80,19 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           fontFamily: theme.typography.fontSecondaryFamily,
         })}
       >
-        {t('hero.title')} <br />
+        {t('hero.title')}
+        <br />
+
         <Box
           component={m.span}
           animate={{ backgroundPosition: '200% center' }}
           transition={{ duration: 12, ease: 'linear', repeat: Infinity }}
           sx={(theme) => ({
             ...theme.mixins.textGradient(
-              `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.info.main} 50%, ${theme.vars.palette.primary.main} 100%`
+              `300deg,
+              ${theme.vars.palette.primary.main} 0%,
+              ${theme.vars.palette.info.main} 50%,
+              ${theme.vars.palette.primary.main} 100%`
             ),
             backgroundSize: '200%',
           })}
@@ -78,11 +109,14 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         sx={{
           mx: 'auto',
           maxWidth: 900,
+          mt: 3,
           color: 'text.secondary',
           fontSize: { xs: 17, md: 20 },
           lineHeight: 1.6,
-          mt: 3,
-          '& strong': { color: 'text.primary', fontWeight: 700 },
+          '& strong': {
+            color: 'text.primary',
+            fontWeight: 700,
+          },
         }}
       >
         {t('hero.description')}
@@ -144,6 +178,10 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     </Stack>
   );
 
+  // ----------------------------------------------------------------------
+  // Render Principal
+  // ----------------------------------------------------------------------
+
   return (
     <Box
       ref={elementRef}
@@ -155,8 +193,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           display: 'flex',
           alignItems: 'center',
           overflow: 'hidden',
-          // Gradiente radial para profundidade visual
-          background: `radial-gradient(circle at 50% -10%, ${theme.vars.palette.primary.lighter} 0%, transparent 60%)`,
+          // Ajuste compensatório para o header desktop
           [theme.breakpoints.up(mdKey)]: {
             mt: `calc(var(--layout-header-desktop-height) * -1)`,
           },
@@ -165,10 +202,15 @@ export function HomeHero({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      <Box 
-        component={m.div} 
-        style={{ opacity }} 
-        sx={{ width: 1, position: 'relative', zIndex: 10 }}
+      {/* Container de Conteúdo Animado */}
+      <Box
+        component={m.div}
+        style={{ opacity }}
+        sx={{
+          width: 1,
+          position: 'relative',
+          zIndex: 10,
+        }}
       >
         <Container component={MotionContainer} sx={{ textAlign: 'center' }}>
           {renderHeading()}
@@ -177,12 +219,16 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         </Container>
       </Box>
 
-      <HeroBackground />
+      {/* INTEGRAÇÃO FASE 1: Fundo unificado com contexto de seção */}
+      <HomeBackground section="hero" />
     </Box>
   );
 }
 
-// Hook de auxílio para manter o scroll performático
+// ----------------------------------------------------------------------
+// Hook auxiliar — scroll performático (sem re-render)
+// ----------------------------------------------------------------------
+
 function useScrollData() {
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();

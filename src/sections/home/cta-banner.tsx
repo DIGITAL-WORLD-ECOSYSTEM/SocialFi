@@ -1,13 +1,25 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
 import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
@@ -15,6 +27,7 @@ import { CONFIG } from 'src/global-config';
 
 import { varFade, MotionViewport } from 'src/components/animate';
 
+import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatPlusIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
@@ -23,9 +36,12 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
   return (
     <Box
       component="section"
-      sx={[{ position: 'relative', marginBottom: 10 }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ position: 'relative', marginBottom: 10, overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
+      {/* INTEGRAÇÃO FASE 1: Fundo unificado configurado para o CTA */}
+      <HomeBackground section="cta" />
+
       <MotionViewport>
         {renderLines()}
 
@@ -42,7 +58,6 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
               }),
               py: 8,
               px: 5,
-              spacing: 5,
               borderRadius: 3,
               display: 'flex',
               overflow: 'hidden',
@@ -83,6 +98,7 @@ const renderDescription = () => (
         m: 0,
         color: 'common.white',
         typography: { xs: 'h2', md: 'h1' },
+        fontWeight: 800,
       }}
     >
       Pronto para
@@ -100,12 +116,13 @@ const renderDescription = () => (
       <m.div variants={varFade('inRight', { distance: 24 })}>
         <Button
           component={RouterLink}
-          href={paths.pricing}
+          href={paths.post.root}
           color="primary"
           size="large"
           variant="contained"
+          sx={{ fontWeight: 700, px: 4, height: 48 }}
         >
-          Ver Planos
+          Explorar Agora
         </Button>
       </m.div>
     </Box>
@@ -117,7 +134,7 @@ const renderImage = () => (
     <Box
       component={m.img}
       animate={{ y: [-20, 0, -20] }}
-      transition={{ duration: 4, repeat: Infinity }}
+      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       alt="Rocket"
       src={`${CONFIG.assetsDir}/assets/illustrations/illustration-rocket-large.webp`}
       sx={{
@@ -142,7 +159,7 @@ const renderBlur = () => (
       maxWidth: 420,
       aspectRatio: '1/1',
       position: 'absolute',
-      backgroundImage: `radial-gradient(farthest-side at top right, ${theme.vars.palette.grey[500]} 0%, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)} 75%, transparent 90%)`,
+      backgroundImage: `radial-gradient(farthest-side at top right, ${theme.vars.palette.primary.main} 0%, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.08)} 75%, transparent 90%)`,
     })}
   />
 );

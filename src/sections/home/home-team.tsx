@@ -1,6 +1,18 @@
+// ----------------------------------------------------------------------
+// Imports — tipos
+// ----------------------------------------------------------------------
+
 import type { BoxProps } from '@mui/material/Box';
 
+// ----------------------------------------------------------------------
+// Imports — react & motion
+// ----------------------------------------------------------------------
+
 import { m } from 'framer-motion';
+
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,6 +20,10 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+
+// ----------------------------------------------------------------------
+// Imports — app
+// ----------------------------------------------------------------------
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -18,6 +34,9 @@ import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components/carousel';
+
+// Inserindo o background unificado para a Fase 1
+import { HomeBackground } from './components/home-background';
 
 // ----------------------------------------------------------------------
 
@@ -36,10 +55,16 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
   return (
     <Box
       component="section"
-      sx={[{ overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
-      <Container component={MotionViewport} sx={{ textAlign: 'center', py: { xs: 10, md: 15 } }}>
+      {/* Integração do Fundo: Ativa o Grid no chão específico para o Team */}
+      <HomeBackground section="team" />
+
+      <Container 
+        component={MotionViewport} 
+        sx={{ position: 'relative', zIndex: 1, textAlign: 'center', py: { xs: 10, md: 15 } }}
+      >
         <m.div variants={varFade('inDown')}>
           <Typography variant="overline" sx={{ color: 'text.disabled' }}>
             Dream team
@@ -83,7 +108,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
             size="large"
             color="inherit"
             variant="outlined"
-            endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={24} />}
+            endIcon={<Iconify icon={"eva:arrow-ios-forward-fill" as any} width={24} />}
             sx={{ mx: 'auto' }}
           >
             All members
@@ -102,7 +127,7 @@ type MemberCardProps = {
 
 function MemberCard({ member }: MemberCardProps) {
   return (
-    <Card>
+    <Card sx={{ backdropFilter: 'blur(16px)', position: 'relative', zIndex: 1 }}>
       <Typography variant="subtitle1" sx={{ mt: 2.5, mb: 0.5 }}>
         {member.name}
       </Typography>
@@ -125,10 +150,10 @@ function MemberCard({ member }: MemberCardProps) {
       >
         {_socials.map((social) => (
           <IconButton key={social.label}>
-            {social.value === 'twitter' && <Iconify icon="socials:twitter" />}
-            {social.value === 'facebook' && <Iconify icon="socials:facebook" />}
-            {social.value === 'instagram' && <Iconify icon="socials:instagram" />}
-            {social.value === 'linkedin' && <Iconify icon="socials:linkedin" />}
+            {social.value === 'twitter' && <Iconify icon={"socials:twitter" as any} />}
+            {social.value === 'facebook' && <Iconify icon={"socials:facebook" as any} />}
+            {social.value === 'instagram' && <Iconify icon={"socials:instagram" as any} />}
+            {social.value === 'linkedin' && <Iconify icon={"socials:linkedin" as any} />}
           </IconButton>
         ))}
       </Box>
