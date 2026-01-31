@@ -1,7 +1,6 @@
 'use client';
 
 import type { Theme, SxProps } from '@mui/material/styles';
-import type { IPostItem } from 'src/types/blog';
 
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -22,22 +21,60 @@ import { Carousel, useCarousel, CarouselDotButtons, CarouselArrowBasicButtons } 
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  posts: IPostItem[];
-  sx?: SxProps<Theme>;
-};
+const staticFeaturedPosts = [
+  {
+    id: 'feat-1',
+    title: 'Revolução Silenciosa: Como a Prova de Conhecimento Zero (ZKP) está redefinindo a privacidade em blockchains e além',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/marketing/marketing_post_01.jpg',
+    description: 'Mergulhe na tecnologia que permite transações e interações verificáveis sem revelar dados sensíveis, abrindo portas para uma nova era de segurança e confiança digital.',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/avatar/avatar_01.jpg' },
+    createdAt: new Date(),
+    duration: '15 min de leitura',
+  },
+  {
+    id: 'feat-2',
+    title: 'Adoção Institucional de Cripto: O catalisador silencioso que pode levar o Bitcoin a US$ 250.000 em 2026',
+    category: 'Economia',
+    coverUrl: '/assets/images/marketing/marketing_post_02.jpg',
+    description: 'Analistas apontam para a entrada massiva de fundos de pensão, seguradoras e grandes bancos como o principal motor para a próxima grande alta do mercado.',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/avatar/avatar_02.jpg' },
+    createdAt: new Date(),
+    duration: '12 min de leitura',
+  },
+  {
+    id: 'feat-3',
+    title: 'Guerra Fria 2.0: A corrida global pela supremacia em semicondutores e o papel estratégico de Taiwan',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/marketing/marketing_post_03.jpg',
+    description: 'Entenda a complexa teia de alianças, espionagem industrial e poderio militar que define a batalha pela tecnologia mais crucial do século XXI.',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/avatar/avatar_03.jpg' },
+    createdAt: new Date(),
+    duration: '18 min de leitura',
+  },
+  {
+    id: 'feat-4',
+    title: 'Finanças Regenerativas (ReFi): Onde a tecnologia blockchain encontra a sustentabilidade para curar o planeta',
+    category: 'Meio Ambiente',
+    coverUrl: '/assets/images/marketing/marketing_post_04.jpg',
+    description: 'Descubra como projetos inovadores estão usando DeFi, DAOs e NFTs para financiar a regeneração de ecossistemas e combater as mudanças climáticas de forma transparente.',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/avatar/avatar_04.jpg' },
+    createdAt: new Date(),
+    duration: '14 min de leitura',
+  },
+];
 
-/**
- * Secção 1: Hero (PostFeatured)
- * Implementa o Carousel principal com efeito de Glassmorphism.
- */
-export function PostFeatured({ posts, sx }: Props) {
+// ----------------------------------------------------------------------
+
+export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
   const carousel = useCarousel(
     {
       loop: true,
     },
     [Autoplay({ delay: 5000, stopOnInteraction: false })]
   );
+
+  const posts = staticFeaturedPosts;
 
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden', ...sx }}>
@@ -47,7 +84,6 @@ export function PostFeatured({ posts, sx }: Props) {
         ))}
       </Carousel>
 
-      {/* Navegação: Setas circulares customizadas (#FA541C) */}
       <CarouselArrowBasicButtons
         {...carousel.arrows}
         options={carousel.options}
@@ -63,11 +99,10 @@ export function PostFeatured({ posts, sx }: Props) {
           '& button': {
             bgcolor: alpha('#000', 0.3),
             '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff' },
-          }
+          },
         }}
       />
 
-      {/* Navegação: Dots estilo Pill */}
       <CarouselDotButtons
         {...carousel.dots}
         sx={{
@@ -82,8 +117,8 @@ export function PostFeatured({ posts, sx }: Props) {
             width: 8,
             height: 8,
             transition: 'all 0.3s',
-            '&.Mui-selected': { width: 24, borderRadius: 8 }
-          }
+            '&.Mui-selected': { width: 24, borderRadius: 8 },
+          },
         }}
       />
     </Box>
@@ -92,9 +127,9 @@ export function PostFeatured({ posts, sx }: Props) {
 
 // ----------------------------------------------------------------------
 
-function PostItem({ post }: { post: IPostItem }) {
+function PostItem({ post }: { post: any }) {
   const theme = useTheme();
-  const { coverUrl, title, author, createdAt, description } = post;
+  const { coverUrl, title, author, createdAt, description, duration } = post;
 
   return (
     <Box
@@ -108,7 +143,6 @@ function PostItem({ post }: { post: IPostItem }) {
         px: { xs: 2, md: 10 },
       }}
     >
-      {/* 1. Camada de Fundo: Desfoque (12px) e Overlay (0.5) */}
       <Box
         sx={{
           top: 0,
@@ -130,20 +164,19 @@ function PostItem({ post }: { post: IPostItem }) {
           },
         }}
       >
-        <Image 
-          alt={title} 
-          src={coverUrl} 
-          sx={{ 
-            width: 1, 
-            height: 1, 
-            filter: 'blur(12px)', 
+        <Image
+          alt={title}
+          src={coverUrl}
+          sx={{
+            width: 1,
+            height: 1,
+            filter: 'blur(12px)',
             objectFit: 'cover',
-            objectPosition: 'center'
-          }} 
+            objectPosition: 'center',
+          }}
         />
       </Box>
 
-      {/* 2. Camada de Conteúdo: Card Glassmorphism (blur 20px) */}
       <Card
         sx={{
           width: 1,
@@ -170,8 +203,11 @@ function PostItem({ post }: { post: IPostItem }) {
             sx={{ mb: 2, typography: 'caption', color: 'text.secondary' }}
           >
             {fDate(createdAt)}
-            <Box component="span" sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }} />
-            5 min read
+            <Box
+              component="span"
+              sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }}
+            />
+            {duration}
           </Stack>
 
           <Typography
@@ -209,7 +245,9 @@ function PostItem({ post }: { post: IPostItem }) {
 
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 'auto' }}>
             <Avatar src={author?.avatarUrl} alt={author?.name} />
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>{author?.name}</Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              {author?.name}
+            </Typography>
           </Stack>
         </Stack>
       </Card>

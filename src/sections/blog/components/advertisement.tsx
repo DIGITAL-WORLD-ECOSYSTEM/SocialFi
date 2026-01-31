@@ -20,13 +20,13 @@ type Props = {
 };
 
 /**
- * Secção 5: PUB (PostBanner)
+ * Secção 8: Publicidade (PostAdvertisement)
  * Banner de largura total para publicidade ou anúncios internos.
  */
-export function PostBanner({
+export function PostAdvertisement({
   title = 'Anuncie no Maior Portal Cripto',
   description = 'Alcance milhares de investidores e entusiastas do ecossistema blockchain todos os dias.',
-  imageUrl = '/assets/illustrations/illustration-crypto-ads.svg', // Exemplo de imagem no R2
+  imageUrl = '/assets/illustrations/illustration-crypto-ads.svg',
   ctaText = 'Saiba Mais',
   ctaHref = '#',
 }: Props) {

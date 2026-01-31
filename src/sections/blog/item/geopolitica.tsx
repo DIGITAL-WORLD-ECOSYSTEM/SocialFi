@@ -1,41 +1,92 @@
+'use client';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container'; // <--- Essencial para centralizar
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-
-import { getPosts } from 'src/actions/blog-ssr';
 
 import { PostItem, PostItemLatest } from './item';
 
 // ----------------------------------------------------------------------
 
-export async function Geopolitica() {
-  // 1. Busca os dados
-  const data = await getPosts();
+const staticGeopoliticaPosts = [
+  {
+    id: 'g1',
+    title: 'Guerra Fria 2.0: A disputa pela supremacia em semicondutores',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-22.webp',
+    createdAt: new Date(),
+    duration: '15 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-22.webp' },
+  },
+  {
+    id: 'g2',
+    title: 'A ascensão do Sul Global e o novo equilíbrio de poder',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-23.webp',
+    createdAt: new Date(),
+    duration: '12 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-23.webp' },
+  },
+  {
+    id: 'g3',
+    title: 'CBDCs: A nova fronteira da soberania monetária digital',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-24.webp',
+    createdAt: new Date(),
+    duration: '10 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-24.webp' },
+  },
+  {
+    id: 'g4',
+    title: 'Regulação de Criptoativos: O embate entre EUA, Europa e Ásia',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-1.webp',
+    createdAt: new Date(),
+    duration: '8 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-1.webp' },
+  },
+  {
+    id: 'g5',
+    title: 'A influência da China na infraestrutura digital da África',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-2.webp',
+    createdAt: new Date(),
+    duration: '9 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-2.webp' },
+  },
+  {
+    id: 'g6',
+    title: 'A corrida espacial do século 21 e a mineração de asteroides',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-3.webp',
+    createdAt: new Date(),
+    duration: '11 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-3.webp' },
+  },
+  {
+    id: 'g7',
+    title: 'Sanções econômicas e o papel do Bitcoin como ativo de refúgio',
+    category: 'Geopolítica',
+    coverUrl: '/assets/images/mock/cover/cover-4.webp',
+    createdAt: new Date(),
+    duration: '10 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-4.webp' },
+  },
+];
 
-  // Extração segura do array
-  const allPosts = Array.isArray(data) ? data : data?.posts || [];
+// ----------------------------------------------------------------------
 
-  // 2. Filtra pela categoria 'Geopolítica'
-  const geopoliticaPosts = allPosts.filter((post: any) => post.category === 'Geopolítica');
-
-  // 3. Lógica de Preenchimento (Garantir 7 itens: 3 destaque + 4 lista)
-  const viewPosts = geopoliticaPosts.length < 7 && geopoliticaPosts.length > 0
-    ? [...geopoliticaPosts, ...geopoliticaPosts, ...geopoliticaPosts].slice(0, 7)
-    : geopoliticaPosts.slice(0, 7);
-
-  // Se não houver dados, retorna null para não quebrar a UI
-  if (!viewPosts.length) return null;
+export function Geopolitica() {
+  const viewPosts = staticGeopoliticaPosts;
 
   return (
     <Box
       id="geopolitica"
       sx={{
         py: { xs: 8, md: 10 },
-        // Sem bgcolor aqui para alternar com a seção anterior (Meio Ambiente) que era cinza
       }}
     >
       <Container>
@@ -50,10 +101,7 @@ export async function Geopolitica() {
         </Typography>
 
         <Grid container spacing={3}>
-          
-          {/* --- LINHA 1: Destaques (3 Itens) --- */}
-          {/* Item 0 = 50% largura (lg=6), Itens 1 e 2 = 25% (lg=3) */}
-          {viewPosts.slice(0, 3).map((post: any, index: number) => (
+          {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`geo-top-${post.id}-${index}`}
               sx={{ display: { xs: 'none', lg: 'block' } }}
@@ -64,38 +112,26 @@ export async function Geopolitica() {
                 lg: index === 0 ? 6 : 3,
               }}
             >
-              <PostItemLatest 
-                post={post} 
-                index={index} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              <PostItemLatest post={post as any} index={index} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
 
-          {/* Versão Mobile/Tablet para a Linha 1 */}
-          {viewPosts.slice(0, 3).map((post: any, index: number) => (
+          {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`geo-mb-${post.id}-${index}`}
               sx={{ display: { lg: 'none' } }}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
 
-          {/* --- LINHA 2: Lista Padrão (4 Itens) --- */}
-          {viewPosts.slice(3, 7).map((post: any, index: number) => (
+          {viewPosts.slice(3, 7).map((post, index) => (
             <Grid
               key={`geo-list-${post.id}-${index}`}
-              size={{ xs: 12, sm: 6, md: 4, lg: 3 }} // 4 colunas em telas grandes
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
         </Grid>

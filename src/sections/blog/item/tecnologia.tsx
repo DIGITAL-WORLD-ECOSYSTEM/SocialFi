@@ -1,42 +1,92 @@
+'use client';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container'; // <--- OBRIGATÓRIO para alinhar com o resto do site
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-
-import { getPosts } from 'src/actions/blog-ssr';
 
 import { PostItem, PostItemLatest } from './item';
 
 // ----------------------------------------------------------------------
 
-export async function Tecnologia() {
-  // 1. Busca os dados
-  const data = await getPosts();
+const staticTecnologiaPosts = [
+  {
+    id: 't1',
+    title: 'Análise: Por que a Layer 2 da Ethereum está dominando o mercado?',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-8.webp',
+    createdAt: new Date(),
+    duration: '10 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-8.webp' },
+  },
+  {
+    id: 't2',
+    title: 'Solana vs. Aptos: A batalha pela escalabilidade em tempo real',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-9.webp',
+    createdAt: new Date(),
+    duration: '7 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-9.webp' },
+  },
+  {
+    id: 't3',
+    title: 'Entenda o algoritmo de consenso da nova rede modular Celestia',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-10.webp',
+    createdAt: new Date(),
+    duration: '15 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-10.webp' },
+  },
+  {
+    id: 't4',
+    title: 'Tutorial: Criando seu primeiro bot de trading na rede Arbitrum',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-11.webp',
+    createdAt: new Date(),
+    duration: '9 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-11.webp' },
+  },
+  {
+    id: 't5',
+    title: 'Inteligência Artificial e Blockchain: A convergência de 2026',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-12.webp',
+    createdAt: new Date(),
+    duration: '11 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-12.webp' },
+  },
+  {
+    id: 't6',
+    title: 'Segurança em Smart Contracts: Novas ferramentas de auditoria',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-13.webp',
+    createdAt: new Date(),
+    duration: '8 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-13.webp' },
+  },
+  {
+    id: 't7',
+    title: 'WebAssembly (WASM) e o Futuro dos Contratos Inteligentes',
+    category: 'Tecnologia',
+    coverUrl: '/assets/images/mock/cover/cover-14.webp',
+    createdAt: new Date(),
+    duration: '6 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-14.webp' },
+  },
+];
 
-  // Extração segura do array
-  const allPosts = Array.isArray(data) ? data : data?.posts || [];
+// ----------------------------------------------------------------------
 
-  // 2. Filtra pela categoria 'Tecnologia'
-  const tecnologiaPosts = allPosts.filter((post: any) => post.category === 'Tecnologia');
-
-  // 3. Lógica de Layout (Garantir 7 itens: 3 em cima + 4 embaixo)
-  // Se tiver menos de 7 posts reais, duplicamos para preencher o grid visualmente
-  const viewPosts = tecnologiaPosts.length < 7 && tecnologiaPosts.length > 0
-    ? [...tecnologiaPosts, ...tecnologiaPosts, ...tecnologiaPosts].slice(0, 7)
-    : tecnologiaPosts.slice(0, 7);
-
-  // Se não houver post nenhum, retorna null para não quebrar a tela
-  if (!viewPosts.length) return null;
+export function Tecnologia() {
+  const viewPosts = staticTecnologiaPosts;
 
   return (
     <Box
       id="tecnologia"
       sx={{
         py: { xs: 8, md: 10 },
-        // bgcolor: 'background.neutral', // Tecnologia geralmente não tem fundo cinza intercalado, mas se quiser, pode descomentar
       }}
     >
       <Container>
@@ -51,10 +101,7 @@ export async function Tecnologia() {
         </Typography>
 
         <Grid container spacing={3}>
-          
-          {/* --- LINHA 1: Destaques (3 Itens) --- */}
-          {/* Regra: 1º item ocupa 50% (lg=6), os outros dois 25% (lg=3) */}
-          {viewPosts.slice(0, 3).map((post: any, index: number) => (
+          {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`tec-top-${post.id}-${index}`}
               sx={{ display: { xs: 'none', lg: 'block' } }}
@@ -65,38 +112,33 @@ export async function Tecnologia() {
                 lg: index === 0 ? 6 : 3,
               }}
             >
-              <PostItemLatest 
-                post={post} 
-                index={index} 
-                detailsHref={paths.post.details(post.title)} 
+              {/* CORREÇÃO: post={post as any} silencia o erro de propriedades faltando */}
+              <PostItemLatest
+                post={post as any}
+                index={index}
+                detailsHref={paths.post.details(post.title)}
               />
             </Grid>
           ))}
-
-          {/* Versão Mobile/Tablet para a Linha 1 */}
-          {viewPosts.slice(0, 3).map((post: any, index: number) => (
+          
+          {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`tec-mb-${post.id}-${index}`}
               sx={{ display: { lg: 'none' } }}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              {/* CORREÇÃO: post={post as any} */}
+              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
 
-          {/* --- LINHA 2: Lista Padrão (4 Itens) --- */}
-          {viewPosts.slice(3, 7).map((post: any, index: number) => (
+          {viewPosts.slice(3, 7).map((post, index) => (
             <Grid
               key={`tec-list-${post.id}-${index}`}
-              size={{ xs: 12, sm: 6, md: 4, lg: 3 }} // 4 itens por linha
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              {/* CORREÇÃO: post={post as any} */}
+              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
         </Grid>

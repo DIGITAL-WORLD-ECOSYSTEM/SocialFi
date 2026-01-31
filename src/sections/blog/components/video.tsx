@@ -8,7 +8,6 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { Carousel, useCarousel, CarouselArrowBasicButtons } from 'src/components/carousel';
 
 // --- DADOS DOS VÍDEOS ---
 
@@ -87,53 +86,55 @@ const VIDEOS_INT = [
 export function PostVideo() {
   const theme = useTheme();
 
-  // Carrossel para a Comunidade Brasileira
-  const carouselBr = useCarousel({
-    slidesToShow: { xs: 1, sm: 2, md: 3, lg: 4 },
-    slideSpacing: '20px', 
-  });
-
-  // Carrossel para a Comunidade Internacional
-  const carouselInt = useCarousel({
-    slidesToShow: { xs: 1, sm: 2, md: 3, lg: 4 },
-    slideSpacing: '20px', 
-  });
-
   return (
     <Container sx={{ py: { xs: 5, md: 8 } }}>
       
       {/* SEÇÃO 1: BRASIL */}
       <Box sx={{ mb: 6 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 4 }}>
-          <Box>
-            <Typography variant="h4">Comunidade Brasileira</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>Insights do mercado nacional</Typography>
-          </Box>
-          <CarouselArrowBasicButtons {...carouselBr.arrows} options={carouselBr.options} />
-        </Stack>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4">Comunidade Brasileira</Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>Insights do mercado nacional</Typography>
+        </Box>
 
-        <Carousel carousel={carouselBr}>
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 3,
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr)',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)',
+            },
+          }}
+        >
           {VIDEOS_BR.map((video) => (
             <VideoItem key={video.id} video={video} theme={theme} />
           ))}
-        </Carousel>
+        </Box>
       </Box>
 
       {/* SEÇÃO 2: INTERNACIONAL */}
       <Box>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 4 }}>
-          <Box>
-            <Typography variant="h4">Comunidade Internacional</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>O que está acontecendo no mundo</Typography>
-          </Box>
-          <CarouselArrowBasicButtons {...carouselInt.arrows} options={carouselInt.options} />
-        </Stack>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4">Comunidade Internacional</Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>O que está acontecendo no mundo</Typography>
+        </Box>
 
-        <Carousel carousel={carouselInt}>
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 3,
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr)',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)',
+            },
+          }}
+        >
           {VIDEOS_INT.map((video) => (
             <VideoItem key={video.id} video={video} theme={theme} />
           ))}
-        </Carousel>
+        </Box>
       </Box>
 
     </Container>
@@ -142,7 +143,6 @@ export function PostVideo() {
 
 // ----------------------------------------------------------------------
 
-// Componente de Card extraído para evitar repetição de código
 function VideoItem({ video, theme }: { video: any, theme: any }) {
   return (
     <Box 

@@ -1,34 +1,85 @@
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container'; // <--- IMPORTANTE: Importação nova
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-
-import { getPosts } from 'src/actions/blog-ssr';
 
 import { PostItem, PostItemLatest } from './item';
 
 // ----------------------------------------------------------------------
 
-export async function Economia() {
-  // 1. Busca os dados do Mock/API
-  const data = await getPosts();
-  
-  // Extração segura do array
-  const allPosts = Array.isArray(data) ? data : data?.posts || [];
+const staticEconomiaPosts = [
+  {
+    id: 'e1',
+    title: 'Bitcoin rompe barreira histórica: O que esperar para o próximo trimestre?',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-1.webp',
+    createdAt: new Date(),
+    duration: '8 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-1.webp' },
+  },
+  {
+    id: 'e2',
+    title: 'Inflação Global e Bitcoin: A reserva de valor definitiva?',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-2.webp',
+    createdAt: new Date(),
+    duration: '5 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-2.webp' },
+  },
+  {
+    id: 'e3',
+    title: 'O impacto das taxas de juros do FED no mercado cripto',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-3.webp',
+    createdAt: new Date(),
+    duration: '12 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-3.webp' },
+  },
+  {
+    id: 'e4',
+    title: 'Tokenização de Ativos Reais (RWA): O futuro da economia global',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-4.webp',
+    createdAt: new Date(),
+    duration: '7 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-4.webp' },
+  },
+  {
+    id: 'e5',
+    title: 'Dólar Digital vs. Euro Digital: A corrida das CBDCs',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-5.webp',
+    createdAt: new Date(),
+    duration: '9 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-5.webp' },
+  },
+  {
+    id: 'e6',
+    title: 'Análise Macro: Como a recessão técnica afeta o DeFi',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-6.webp',
+    createdAt: new Date(),
+    duration: '6 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-6.webp' },
+  },
+  {
+    id: 'e7',
+    title: 'A Web3 pode resolver a crise da cadeia de suprimentos global?',
+    category: 'Economia',
+    coverUrl: '/assets/images/mock/cover/cover-7.webp',
+    createdAt: new Date(),
+    duration: '10 min de leitura',
+    author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-7.webp' },
+  },
+];
 
-  // 2. Filtra pela categoria 'Economia'
-  const economiaPosts = allPosts.filter((post: any) => post.category === 'Economia');
+// ----------------------------------------------------------------------
 
-  // 3. Lógica de Fallback e Preenchimento (Para garantir 7 itens no layout)
-  const viewPosts = economiaPosts.length < 7 && economiaPosts.length > 0
-    ? [...economiaPosts, ...economiaPosts, ...economiaPosts].slice(0, 7)
-    : economiaPosts.slice(0, 7);
-
-  // Se não houver nenhum post, não renderiza nada
-  if (!viewPosts.length) return null;
+export function Economia() {
+  const viewPosts = staticEconomiaPosts;
 
   return (
     <Box
@@ -38,10 +89,7 @@ export async function Economia() {
         bgcolor: 'background.neutral',
       }}
     >
-      {/* ADICIONEI O CONTAINER AQUI 
-         Ele centraliza o conteúdo e segura as margens laterais 
-      */}
-      <Container> 
+      <Container>
         <Typography
           variant="h3"
           sx={{
@@ -53,8 +101,6 @@ export async function Economia() {
         </Typography>
 
         <Grid container spacing={3}>
-          
-          {/* --- LINHA 1: Destaques (3 Itens) --- */}
           {viewPosts.slice(0, 3).map((post: any, index: number) => (
             <Grid
               key={`eco-top-${post.id}-${index}`}
@@ -63,41 +109,33 @@ export async function Economia() {
                 xs: 12,
                 sm: 6,
                 md: 4,
-                lg: index === 0 ? 6 : 3, // O 1º ocupa 50%, os outros 25%
+                lg: index === 0 ? 6 : 3,
               }}
             >
-              <PostItemLatest 
-                post={post} 
-                index={index} 
-                detailsHref={paths.post.details(post.title)} 
+              <PostItemLatest
+                post={post}
+                index={index}
+                detailsHref={paths.post.details(post.title)}
               />
             </Grid>
           ))}
 
-          {/* Versão Mobile/Tablet para a Linha 1 */}
           {viewPosts.slice(0, 3).map((post: any, index: number) => (
             <Grid
               key={`eco-mb-${post.id}-${index}`}
               sx={{ display: { lg: 'none' } }}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              <PostItem post={post} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
 
-          {/* --- LINHA 2: Lista Padrão (4 Itens) --- */}
           {viewPosts.slice(3, 7).map((post: any, index: number) => (
             <Grid
               key={`eco-list-${post.id}-${index}`}
-              size={{ xs: 12, sm: 6, md: 4, lg: 3 }} // 4 itens por linha
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem 
-                post={post} 
-                detailsHref={paths.post.details(post.title)} 
-              />
+              <PostItem post={post} detailsHref={paths.post.details(post.title)} />
             </Grid>
           ))}
         </Grid>
