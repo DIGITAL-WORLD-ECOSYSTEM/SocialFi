@@ -54,6 +54,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
 
   return (
     <Box
+      id="team"
       component="section"
       sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}

@@ -254,7 +254,7 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
   );
 
   return (
-    <Box component="section" sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
+    <Box id="faqs" component="section" sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
       <HomeBackground section="faqs" />
 
       <MotionViewport sx={{ py: 10, position: 'relative' }}>

@@ -300,3 +300,24 @@ Ao aproveitar o componente `<Image />` do projeto (que provavelmente envolve o `
 
 -   A imagem de fundo é carregada e otimizada pelo Next.js.
 -   O efeito de desfoque é um filtro CSS, que é acelerado por hardware e processado pela GPU do navegador. Isso garante animações e transições suaves entre os slides do carrossel sem impactar o desempenho.
+
+---
+## Diretrizes de Código e Padrões
+
+### Sistema de Grid do Material-UI (Grid v2)
+
+**Contexto:** O Material-UI (MUI) atualizou seu sistema de Grid na v7. O componente `Grid` original foi marcado como obsoleto e renomeado para `GridLegacy`, enquanto o novo e mais performático `Grid2` foi promovido para se tornar o `Grid` padrão.
+
+**Ação Realizada:** Para alinhar o projeto com as melhores práticas e garantir a compatibilidade futura, executamos o codemod oficial do MUI em toda a base de código:
+```sh
+npx @mui/codemod v7.0.0/grid-props ./src
+```
+Este script atualizou automaticamente todas as instâncias do antigo `Grid` para a nova API, garantindo uma transição suave.
+
+**Diretriz para Desenvolvedores:**
+- **Use sempre o componente `<Grid>` importado de `@mui/material/Grid`**. Este é agora o componente de grid padrão e recomendado, baseado no antigo `Grid2`.
+- **Não utilize `<GridLegacy>`**. Ele só existe para fins de compatibilidade e será removido em versões futuras.
+- **Não há mais necessidade de importar `Unstable_Grid2`**. O uso foi unificado no componente `Grid`.
+
+Esta atualização resolve as inconsistências anteriores e simplifica o desenvolvimento, fornecendo um sistema de layout mais poderoso e previsível.
+

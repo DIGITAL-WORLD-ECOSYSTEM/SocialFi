@@ -66,6 +66,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
 
   return (
     <Box
+      id="roadmap"
       component="section"
       sx={[
         {

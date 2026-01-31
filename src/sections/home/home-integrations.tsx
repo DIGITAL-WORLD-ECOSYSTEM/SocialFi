@@ -1,76 +1,102 @@
-// ----------------------------------------------------------------------
-// Imports — tipos
-// ----------------------------------------------------------------------
+'use client';
+
+import dynamic from 'next/dynamic';
+import { m, Variants } from 'framer-motion';
 import type { BoxProps } from '@mui/material/Box';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
-import { useTranslate } from 'src/locales';
 import { MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
 import { HomeBackground } from './components/home-background';
-import { FloatLine, FloatDotIcon } from './components/svg-elements';
-import { IntegrationsDiagram } from './components/integrations-diagram';
 
 // ----------------------------------------------------------------------
 
-const renderLines = () => (
-  <>
-    <Stack
-      spacing={8}
-      alignItems="center"
+const World = dynamic(() => import('src/components/threeglobe/globe').then((m) => m.World), {
+  ssr: false,
+  loading: () => (
+    <Box
       sx={{
-        top: 64,
-        left: 80,
-        zIndex: 2,
-        bottom: 64,
-        position: 'absolute',
-        transform: 'translateX(-50%)',
-        display: { xs: 'none', md: 'flex' },
-        '& span': { position: 'static', opacity: 0.12 },
+        height: { xs: 400, md: 600 },
+        bgcolor: 'background.neutral',
+        borderRadius: 2,
+        opacity: 0.1,
       }}
-    >
-      <FloatDotIcon />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <Box sx={{ flexGrow: 1 }} />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <FloatDotIcon />
-    </Stack>
-
-    <FloatLine
-      vertical
-      sx={{ top: 0, left: 80, display: { xs: 'none', md: 'block' } }}
     />
-  </>
-);
+  ),
+});
 
 // ----------------------------------------------------------------------
+
+const sampleArcs = [
+  {
+    order: 1,
+    startLat: -15.78,
+    startLng: -47.92,
+    endLat: 40.71,
+    endLng: -74.0,
+    arcAlt: 0.3,
+    color: '#00AB55',
+  },
+  {
+    order: 2,
+    startLat: -15.78,
+    startLng: -47.92,
+    endLat: 51.5,
+    endLng: -0.12,
+    arcAlt: 0.4,
+    color: '#00AB55',
+  },
+  {
+    order: 3,
+    startLat: -15.78,
+    startLng: -47.92,
+    endLat: 1.35,
+    endLng: 103.8,
+    arcAlt: 0.5,
+    color: '#00AB55',
+  },
+];
+
+// ----------------------------------------------------------------------
+
+const fadeRight: Variants = {
+  hidden: { opacity: 0, x: 48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+};
 
 export function HomeIntegrations({ sx, ...other }: BoxProps) {
   const theme = useTheme();
-  const { t } = useTranslate();
+  const isLight = theme.palette.mode === 'light';
+
+  const globeConfig = {
+    pointSize: 4,
+    globeColor: isLight ? theme.palette.grey[300] : '#062056',
+    showAtmosphere: true,
+    atmosphereColor: theme.palette.primary.main,
+    atmosphereAltitude: 0.1,
+    polygonColor: isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.7)',
+    autoRotate: true,
+    autoRotateSpeed: 1,
+  };
 
   const renderDescription = () => (
     <SectionTitle
-      caption={t('infrastructure.caption') || 'Infraestrutura'}
-      title={t('infrastructure.title') || 'Ecossistema'}
-      txtGradient={t('infrastructure.title_highlight') || 'Conectado'}
+      caption="Infraestrutura RWA"
+      title="Ecossistema"
+      txtGradient="Conectado"
       description={
         <>
           <Box component="span" sx={{ mb: 2, display: 'block', lineHeight: 1.7 }}>
-            {t('infrastructure.description') ||
-              'Integração nativa com protocolos de auditoria e redes blockchain para garantir a transparência dos ativos RWA.'}
+            Nossa rede sincroniza ativos tangíveis brasileiros com a liquidez global descentralizada,
+            garantindo auditabilidade e transparência on-chain.
           </Box>
 
           <Box
@@ -82,11 +108,9 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              justifyContent: { xs: 'center', md: 'flex-start' },
             }}
           >
-            {t('infrastructure.footnote') ||
-              '• Protocolos auditados por CertiK & OpenZeppelin'}
+            • Infraestrutura escalável operada via Cloudflare Edge
           </Box>
         </>
       }
@@ -94,18 +118,23 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
     />
   );
 
-  const renderImage = () => (
-    <Box
-      sx={{
-        filter: `drop-shadow(0 24px 48px ${
-          theme.palette.mode === 'dark'
-            ? '#000'
-            : alpha(theme.palette.primary.main, 0.16)
-        })`,
-      }}
-    >
-      <IntegrationsDiagram />
-    </Box>
+  const renderGlobe = () => (
+    <m.div variants={fadeRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}>
+      <Box
+        sx={{
+          height: { xs: 400, md: 600 },
+          width: '100%',
+          position: 'relative',
+          filter: `drop-shadow(0 24px 48px ${
+            theme.palette.mode === 'dark' ? '#000' : alpha(theme.palette.primary.main, 0.12)
+          })`,
+          borderRadius: 2,
+          overflow: 'hidden',
+        }}
+      >
+        <World data={sampleArcs} globeConfig={globeConfig} />
+      </Box>
+    </m.div>
   );
 
   return (
@@ -122,30 +151,23 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      {/* INTEGRAÇÃO FASE 1: Inserção do Background unificado */}
       <HomeBackground section="integrations" />
 
-      <MotionViewport>
-        {renderLines()}
-
-        <Container sx={{ position: 'relative', zIndex: 9 }}>
-          <Grid
-            display="grid"
-            gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
-            columnGap={{ xs: 4, md: 8 }}
-            rowGap={{ xs: 6, md: 0 }}
-            alignItems="center"
-          >
-            <Grid>
-              {renderDescription()}
-            </Grid>
-
-            <Grid sx={{ textAlign: { xs: 'center', md: 'right' } }}>
-              {renderImage()}
-            </Grid>
-          </Grid>
-        </Container>
-      </MotionViewport>
+      <Container component={MotionViewport} sx={{ position: 'relative', zIndex: 9 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            gap: { xs: 6, md: 3 },
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(12, 1fr)' },
+            width: '100%',
+          }}
+        >
+          <Box sx={{ gridColumn: { xs: '1 / -1', md: 'span 5' } }}>{renderDescription()}</Box>
+          <Box sx={{ gridColumn: { xs: '1 / -1', md: 'span 6' } }}>{renderGlobe()}</Box>
+        </Box>
+      </Container>
     </Box>
   );
 }

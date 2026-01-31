@@ -74,6 +74,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
 
   return (
     <Box
+      id="ecosystem"
       component="section"
       sx={[
         {

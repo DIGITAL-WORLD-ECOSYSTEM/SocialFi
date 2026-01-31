@@ -208,6 +208,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
 
   return (
     <Box
+      id="community"
       component="section"
       sx={[
         {
