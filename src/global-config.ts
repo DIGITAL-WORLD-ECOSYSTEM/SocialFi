@@ -9,7 +9,8 @@ import packageJson from '../package.json';
 export type ConfigValue = {
   appName: string;
   appVersion: string;
-  serverUrl: string;
+  serverUrl: string;    // Backend API
+  siteUrl: string;      // Frontend SEO 2026
   assetsDir: string;
   isStaticExport: boolean;
   auth: {
@@ -22,11 +23,19 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'DEX World',
+  appName: 'ASPPIBRA',
   appVersion: packageJson.version,
-  // O .replace(/\/$/, '') garante que mesmo se houver uma barra no dashboard da Vercel, 
-  // ela será removida aqui para evitar caminhos como //posts
-  serverUrl: (process.env.NEXT_PUBLIC_HOST_API ?? '').replace(/\/$/, ''), 
+  /**
+   * BACKEND API URL
+   * Local de onde os dados são consumidos
+   */
+  serverUrl: (process.env.NEXT_PUBLIC_HOST_API ?? 'https://api.asppibra.com').replace(/\/$/, ''), 
+  /**
+   * FRONTEND SITE URL
+   * Base para geração de Sitemap, Robots e Metadados dinâmicos
+   */
+  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.asppibra.com').replace(/\/$/, ''),
+  
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
   isStaticExport: JSON.parse(process.env.BUILD_STATIC_EXPORT ?? 'false'),
   /**
