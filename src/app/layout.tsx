@@ -13,7 +13,6 @@ import { themeConfig, primary as primaryColor } from 'src/theme';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
-// Novo Componente de SEO que revisamos na árvore
 import { JsonLd } from 'src/components/seo/json-ld'; 
 
 import App from './app';
@@ -28,38 +27,35 @@ export const viewport: Viewport = {
   themeColor: primaryColor.main,
 };
 
-// 🟢 METADATA PROFISSIONAL 2026
+// 🟢 CORREÇÃO SEO 2026: Usando CONFIG.siteUrl e corrigindo branding
 export const metadata: Metadata = {
-  metadataBase: new URL(CONFIG.site.baseUrl), // Vital para links canônicos e OG images
+  metadataBase: new URL(CONFIG.siteUrl), 
   title: {
-    default: 'SocialFi - Rede Social Descentralizada',
-    template: `%s | SocialFi`, // Permite que páginas internas usem apenas o nome específico
+    default: 'ASPPIBRA - Associação dos Pequenos Produtores Integrados do Brasil',
+    template: `%s | ASPPIBRA`, 
   },
-  description: 'Conecte-se, crie e monetize na nova era da internet. Construído com Next.js e Web3.',
-  keywords: ['Web3', 'SocialFi', 'Blockchain', 'Rede Social', 'Cripto'],
-  authors: [{ name: 'SocialFi Team' }],
+  description: 'Conecte-se e gerencie sua produção com tecnologia e transparência.',
+  keywords: ['ASPPIBRA', 'Agronegócio', 'Blockchain', 'Produtor Rural', 'Sustentabilidade'],
   icons: [
-    { rel: 'icon', url: `${CONFIG.assetsDir}/favicon.ico` },
-    { rel: 'apple-touch-icon', url: `${CONFIG.assetsDir}/apple-touch-icon.png` },
+    { rel: 'icon', url: `/favicon.ico` },
+    { rel: 'apple-touch-icon', url: `/apple-touch-icon.png` },
   ],
-  // Fallback para OpenGraph (Home)
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: CONFIG.site.baseUrl,
-    siteName: 'SocialFi',
+    url: CONFIG.siteUrl,
+    siteName: 'ASPPIBRA',
     images: [
       {
-        url: '/opengraph-image', // Aponta para o seu arquivo src/app/opengraph-image.tsx
+        url: '/opengraph-image.png',
         width: 1200,
         height: 630,
-        alt: 'SocialFi - Preview',
+        alt: 'ASPPIBRA - Preview',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@socialfi',
   },
 };
 
@@ -74,7 +70,8 @@ async function getAppConfig() {
   return {
     lang,
     dir: lang === 'ar' ? 'rtl' : 'ltr',
-    i18nLang: { id: lang, label: '', icon: '' },
+    // 🟢 CORREÇÃO ERRO 2322: O provider espera apenas a string do ID (ex: 'pt')
+    i18nLang: lang, 
     cookieSettings: settings,
   };
 }
@@ -85,13 +82,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
       <head>
-        {/* 🟢 Injeção de Dados Estruturados Globais (SGE Ready) */}
+        {/* 🟢 CORREÇÃO: JsonLd usando a propriedade correta do CONFIG */}
         <JsonLd 
           schema={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "SocialFi",
-            "url": CONFIG.site.baseUrl
+            "name": "ASPPIBRA",
+            "url": CONFIG.siteUrl
           }} 
         />
       </head>
