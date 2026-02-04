@@ -1,18 +1,20 @@
-import { MetadataRoute } from 'next';
-// Importamos o CONFIG para manter a cor do tema sincronizada
+import type { MetadataRoute } from 'next';
+
 import { CONFIG } from 'src/global-config';
+
+// ----------------------------------------------------------------------
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'SocialFi - Sua Rede Social Descentralizada',
-    short_name: 'SocialFi',
-    description: 'Conecte-se, crie e monetize na nova era da internet. Construído com Next.js e Web3.',
+    name: CONFIG.appName, // 🟢 Agora usa "ASPPIBRA" vindo do global-config
+    short_name: CONFIG.appName,
+    description: 'Associação dos Pequenos Produtores Integrados do Brasil - Conectando o agronegócio à tecnologia.',
     start_url: '/',
     display: 'standalone',
-    orientation: 'portrait', // Garante a melhor experiência mobile
     background_color: '#000000',
-    theme_color: '#000000', // Sincronizado com sua marca
-    categories: ['social', 'finance', 'crypto'], // Ajuda no SEO de Apps
+    theme_color: '#000000',
+    orientation: 'portrait' as const, // 🟢 O "as const" resolve erros de tipagem
+    categories: ['business', 'productivity', 'education'], 
     icons: [
       {
         src: '/favicon.ico',
@@ -23,13 +25,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/logo/android-chrome-192x192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'any', 
+        purpose: 'any' as const, // 🟢 Resolvendo tipagem literal
       },
       {
         src: '/logo/android-chrome-192x192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'maskable', // 🟢 VITAL: Permite que o Android molde o ícone (círculo, quadrado, etc)
+        purpose: 'maskable' as const, // 🟢 Resolvendo tipagem literal
       },
       {
         src: '/logo/android-chrome-512x512.png',
