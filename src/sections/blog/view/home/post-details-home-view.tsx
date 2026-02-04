@@ -1,11 +1,13 @@
+'use client';
+
 import type { IPostItem } from 'src/types/blog';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid'; 
 
 import { paths } from 'src/routes/paths';
 
@@ -13,9 +15,10 @@ import { Markdown } from 'src/components/markdown';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { JsonLd, generateBreadcrumbs, generateArticleSchema } from 'src/components/seo/json-ld';
 
-import { PostItem } from '../item/post-item';
-import { PostDetailsHero } from '../components/post-details-hero';
-import { PostCommentList, PostCommentForm } from '../components/post-comment';
+import { PostItem } from '../../item/item';
+import { PostDetailsHero } from '../../details/post-details-hero';
+import { PostCommentList } from '../../details/post-comment-list';
+import { PostCommentForm } from '../../forms/post-comment-form';
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +34,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
     { name: post?.title ?? 'Post', href: post?.title ? paths.post.details(post.title) : '' },
   ];
 
-  if (!post) {
-    return null;
-  }
+  if (!post) return null;
 
   return (
     <>
@@ -43,7 +44,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
           title: post.title,
           description: post.description,
           coverUrl: post.coverUrl,
-          createdAt: post.createdAt,
+          createdAt: post.createdAt ? String(post.createdAt) : new Date().toISOString(),
           authorName: post.author.name,
           url: `${paths.post.details(post.title)}`,
         })}
@@ -64,7 +65,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
           borderBottom: (theme) => `solid 1px ${theme.vars.palette.divider}`,
         }}
       >
-        <CustomBreadcrumbs links={breadcrumbs} sx={{ ml: `calc(var(--layout-simple-content-px) * -1)` }} />
+        <CustomBreadcrumbs links={breadcrumbs} sx={{ maxWidth: 720, mx: 'auto' }} />
       </Container>
 
       <Container maxWidth={false}>
@@ -73,13 +74,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
             {post.description}
           </Typography>
 
-          <Markdown
-            sx={{
-              '& p': {
-                mb: 3,
-              },
-            }}
-          >
+          <Markdown sx={{ '& p': { mb: 3 } }}>
             {post.content}
           </Markdown>
 
@@ -90,13 +85,16 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
               </Typography>
               <Stack direction="row" flexWrap="wrap" spacing={1}>
                 {post.tags.map((tag) => (
-                  <Chip key={tag} size="small" label={tag} variant="soft" onClick={() => {}} />
+                  <Chip key={tag} size="small" label={tag} variant="soft" />
                 ))}
               </Stack>
             </Stack>
           )}
 
-          <PostCommentForm sx={{ my: 5 }} />
+          {/* 🟢 CORREÇÃO: Envolve o formulário em um Box para aplicar o estilo. */}
+          <Box sx={{ my: 5 }}>
+            <PostCommentForm />
+          </Box>
 
           {post.comments.length > 0 && <PostCommentList comments={post.comments} />}
         </Stack>
