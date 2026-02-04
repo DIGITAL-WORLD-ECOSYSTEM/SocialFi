@@ -1,29 +1,23 @@
 import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
-
 import { Analytics } from '@vercel/analytics/next';
-
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import { CONFIG } from 'src/global-config';
-import { LocalizationProvider } from 'src/locales';
 import { detectLanguage } from 'src/locales/server';
 import { I18nProvider } from 'src/locales/i18n-provider';
+import { LocalizationProvider } from 'src/locales';
 import { themeConfig, primary as primaryColor } from 'src/theme';
-
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
+// Novo Componente de SEO que revisamos na árvore
+import { JsonLd } from 'src/components/seo/json-ld'; 
 
 import App from './app';
 
-// ----------------------------------------------------------------------
-
-// CORREÇÃO CRÍTICA PARA CLOUDFLARE PAGES:
-// Isso força todas as rotas da aplicação a rodarem no Edge Runtime.
 export const runtime = 'edge'; 
 
 const AuthProvider = JwtAuthProvider;
@@ -34,39 +28,55 @@ export const viewport: Viewport = {
   themeColor: primaryColor.main,
 };
 
+// 🟢 METADATA PROFISSIONAL 2026
 export const metadata: Metadata = {
+  metadataBase: new URL(CONFIG.site.baseUrl), // Vital para links canônicos e OG images
+  title: {
+    default: 'SocialFi - Rede Social Descentralizada',
+    template: `%s | SocialFi`, // Permite que páginas internas usem apenas o nome específico
+  },
+  description: 'Conecte-se, crie e monetize na nova era da internet. Construído com Next.js e Web3.',
+  keywords: ['Web3', 'SocialFi', 'Blockchain', 'Rede Social', 'Cripto'],
+  authors: [{ name: 'SocialFi Team' }],
   icons: [
-    {
-      rel: 'icon',
-      url: `${CONFIG.assetsDir}/favicon.ico`,
-    },
+    { rel: 'icon', url: `${CONFIG.assetsDir}/favicon.ico` },
+    { rel: 'apple-touch-icon', url: `${CONFIG.assetsDir}/apple-touch-icon.png` },
   ],
+  // Fallback para OpenGraph (Home)
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: CONFIG.site.baseUrl,
+    siteName: 'SocialFi',
+    images: [
+      {
+        url: '/opengraph-image', // Aponta para o seu arquivo src/app/opengraph-image.tsx
+        width: 1200,
+        height: 630,
+        alt: 'SocialFi - Preview',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@socialfi',
+  },
 };
-
-// ----------------------------------------------------------------------
 
 type RootLayoutProps = {
   children: React.ReactNode;
 };
 
 async function getAppConfig() {
-  if (CONFIG.isStaticExport) {
-    return {
-      lang: 'en',
-      i18nLang: undefined,
-      cookieSettings: undefined,
-      dir: defaultSettings.direction,
-    };
-  } else {
-    const [lang, settings] = await Promise.all([detectLanguage(), detectSettings()]);
+  const lang = await detectLanguage();
+  const settings = await detectSettings();
 
-    return {
-      lang,
-      i18nLang: lang,
-      cookieSettings: settings,
-      dir: settings.direction,
-    };
-  }
+  return {
+    lang,
+    dir: lang === 'ar' ? 'rtl' : 'ltr',
+    i18nLang: { id: lang, label: '', icon: '' },
+    cookieSettings: settings,
+  };
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
@@ -74,6 +84,17 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
+      <head>
+        {/* 🟢 Injeção de Dados Estruturados Globais (SGE Ready) */}
+        <JsonLd 
+          schema={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SocialFi",
+            "url": CONFIG.site.baseUrl
+          }} 
+        />
+      </head>
       <body>
         <InitColorSchemeScript
           modeStorageKey={themeConfig.modeStorageKey}
