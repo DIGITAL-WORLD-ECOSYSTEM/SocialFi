@@ -1,3 +1,5 @@
+'use client';
+
 // ----------------------------------------------------------------------
 // Imports — tipos
 // ----------------------------------------------------------------------
@@ -78,7 +80,6 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      {/* INTEGRAÇÃO FASE 1: Fundo unificado configurado para o Roadmap */}
       <HomeBackground section="roadmap" />
 
       <MotionViewport>
@@ -110,33 +111,68 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                   }}
                 >
                   <m.div variants={isEven ? varFade('inLeft') : varFade('inRight')}>
-                    <Card
+                    <Box
                       sx={{
-                        p: 4,
+                        position: 'relative',
+                        p: '2px', // Largura da borda animada
                         borderRadius: 2,
-                        textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
-                        // Estética Glassmorphism consistente com o tema dark/futurista
-                        bgcolor: alpha(theme.palette.background.paper, 0.4),
-                        backdropFilter: 'blur(12px)',
-                        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
-                        boxShadow: theme.customShadows.z24,
+                        overflow: 'hidden',
+                        display: 'flex',
+                        transition: theme.transitions.create('transform'),
+                        '&:hover': { 
+                          transform: 'translateY(-8px)',
+                          '& .roadmap-shine': { animationDuration: '3s' } // Acelera ao passar o mouse
+                        },
                       }}
                     >
-                      <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800 }}>
-                        {item.phase} • {item.time}
-                      </Typography>
+                      {/* EFEITO SHINE ANIMADO (CAMADA DE FUNDO) */}
+                      <Box
+                        className="roadmap-shine"
+                        sx={{
+                          inset: '-50%',
+                          zIndex: 0,
+                          position: 'absolute',
+                          // Cores fluorescente/neon combinando com sua marca
+                          background: `conic-gradient(from 0deg, transparent 0%, #00FFCC 15%, transparent 30%, #7A5AF8 50%, transparent 100%)`,
+                          animation: 'rotate-shine 6s linear infinite',
+                          '@keyframes rotate-shine': {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                          },
+                        }}
+                      />
 
-                      <Typography variant="h4" sx={{ mt: 1, mb: 2, fontWeight: 800 }}>
-                        {item.title}
-                      </Typography>
-
-                      <Typography
-                        variant="body2"
-                        sx={{ color: 'text.secondary', lineHeight: 1.8 }}
+                      {/* CONTEÚDO DO CARD (CAMADA SUPERIOR) */}
+                      <Card
+                        sx={{
+                          p: 4,
+                          width: 1,
+                          zIndex: 1,
+                          borderRadius: 'inherit',
+                          textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
+                          bgcolor: alpha(theme.palette.background.paper, 0.9),
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                          border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
+                          boxShadow: theme.customShadows.z24,
+                        }}
                       >
-                        {item.description}
-                      </Typography>
-                    </Card>
+                        <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800 }}>
+                          {item.phase} • {item.time}
+                        </Typography>
+
+                        <Typography variant="h4" sx={{ mt: 1, mb: 2, fontWeight: 800 }}>
+                          {item.title}
+                        </Typography>
+
+                        <Typography
+                          variant="body2"
+                          sx={{ color: 'text.secondary', lineHeight: 1.8 }}
+                        >
+                          {item.description}
+                        </Typography>
+                      </Card>
+                    </Box>
                   </m.div>
                 </Grid>
               );

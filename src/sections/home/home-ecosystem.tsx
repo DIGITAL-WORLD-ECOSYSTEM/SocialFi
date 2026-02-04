@@ -1,19 +1,10 @@
-// ----------------------------------------------------------------------
-// Imports — tipos
-// ----------------------------------------------------------------------
-import type { BoxProps } from '@mui/material/Box';
+'use client';
 
-// ----------------------------------------------------------------------
-// Imports — react & motion
-// ----------------------------------------------------------------------
+import type { BoxProps } from '@mui/material/Box';
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
-// CORREÇÃO: Importação padrão do Grid que suporta a prop 'size' nas versões recentes
 import Grid from '@mui/material/Grid'; 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -21,12 +12,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
 import { Iconify } from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
@@ -77,11 +64,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       id="ecosystem"
       component="section"
       sx={[
-        {
-          position: 'relative',
-          py: { xs: 12, md: 18 },
-          overflow: 'hidden',
-        },
+        { position: 'relative', py: { xs: 12, md: 18 }, overflow: 'hidden' },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
@@ -90,10 +73,9 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
 
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 1 }}>
-          {/* Grid Container principal */}
           <Grid container spacing={6}>
             
-            {/* TEXTO À ESQUERDA - Usando 'size' para o novo sistema de Grid */}
+            {/* LADO ESQUERDO: TEXTO E CTA */}
             <Grid size={{ xs: 12, md: 5 }}>
               <m.div variants={varFade('inLeft')}>
                 <SectionTitle
@@ -101,7 +83,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   title="Infraestrutura Digital"
                   txtGradient="de Nova Geração"
                 />
-
                 <Typography
                   sx={{
                     mt: 3,
@@ -111,17 +92,17 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                     color: 'text.secondary',
                   }}
                 >
-                  Arquiteturas digitais seguras, escaláveis e interoperáveis
-                  para inovação, governança e impacto social.
+                  Arquiteturas digitais seguras, escaláveis e interoperáveis para inovação, governança e impacto social.
                 </Typography>
-
+                
                 <Button
                   component={RouterLink}
                   href={paths.dashboard.root}
                   size="large"
                   variant="contained"
                   color="inherit"
-                  endIcon={<Iconify icon="solar:arrow-right-bold" />}
+                  /* CORREÇÃO TS: 'as any' para ignorar restrição de string do Iconify */
+                  endIcon={<Iconify icon={"solar:arrow-right-bold" as any} />}
                   sx={{
                     mt: 6,
                     height: 56,
@@ -136,59 +117,82 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
               </m.div>
             </Grid>
 
-            {/* CARDS À DIREITA */}
+            {/* LADO DIREITO: CARDS COM SHINE BORDER */}
             <Grid size={{ xs: 12, md: 7 }}>
               <Grid container spacing={3}>
                 {ITEMS.map((item) => (
                   <Grid key={item.id} size={{ xs: 12, sm: 6 }}>
                     <m.div variants={varFade('inUp')}>
-                      <Stack
-                        spacing={3}
+                      <Box
                         sx={{
-                          p: 4,
-                          height: '100%',
+                          position: 'relative',
+                          p: '1.5px', // Espessura da borda brilhante
                           borderRadius: 2.5,
-                          bgcolor: alpha(theme.palette.background.paper, 0.4),
-                          backdropFilter: 'blur(10px)',
-                          border: `1px solid ${alpha(item.color, 0.2)}`,
-                          transition: theme.transitions.create(
-                            ['transform', 'box-shadow', 'background-color'],
-                            { duration: 300 }
-                          ),
-                          '&:hover': {
+                          height: '100%',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          transition: theme.transitions.create('transform'),
+                          '&:hover': { 
                             transform: 'translateY(-8px)',
-                            bgcolor: alpha(theme.palette.background.paper, 0.7),
-                            boxShadow: `0 32px 64px -20px ${alpha(item.color, 0.3)}`,
+                            '& .shine-layer': { animationDuration: '2s' } // Acelera ao passar o mouse
                           },
                         }}
                       >
+                        {/* CAMADA 1: O BRILHO ROTATIVO (Fundo) */}
                         <Box
+                          className="shine-layer"
                           sx={{
-                            width: 52,
-                            height: 52,
-                            borderRadius: 1.5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: item.color,
-                            bgcolor: alpha(item.color, 0.12),
+                            inset: '-50%', // Expande para cobrir as bordas ao rotacionar
+                            zIndex: 0,
+                            position: 'absolute',
+                            background: `conic-gradient(from 0deg, transparent 0%, ${item.color} 15%, transparent 30%, ${alpha(item.color, 0.5)} 50%, transparent 100%)`,
+                            animation: 'rotate-shine 4s linear infinite',
+                            '@keyframes rotate-shine': {
+                              '0%': { transform: 'rotate(0deg)' },
+                              '100%': { transform: 'rotate(360deg)' },
+                            },
+                          }}
+                        />
+
+                        {/* CAMADA 2: CONTEÚDO DO CARD (Sobreposto) */}
+                        <Stack
+                          spacing={3}
+                          sx={{
+                            p: 4,
+                            width: 1,
+                            zIndex: 1,
+                            borderRadius: 'inherit',
+                            bgcolor: alpha(theme.palette.background.paper, 0.92),
+                            backdropFilter: 'blur(10px)',
+                            WebkitBackdropFilter: 'blur(10px)',
+                            border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
                           }}
                         >
-                          <Iconify icon={item.icon} width={28} />
-                        </Box>
+                          <Box
+                            sx={{
+                              width: 52,
+                              height: 52,
+                              borderRadius: 1.5,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: item.color,
+                              bgcolor: alpha(item.color, 0.12),
+                            }}
+                          >
+                            {/* CORREÇÃO TS: 'as any' no mapeamento dinâmico */}
+                            <Iconify icon={item.icon as any} width={28} />
+                          </Box>
 
-                        <Typography variant="h6" fontWeight={800}>
-                          {item.title}
-                        </Typography>
+                          <Typography variant="h6" fontWeight={800}>
+                            {item.title}
+                          </Typography>
 
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          lineHeight={1.7}
-                        >
-                          {item.description}
-                        </Typography>
-                      </Stack>
+                          <Typography variant="body2" color="text.secondary" lineHeight={1.7}>
+                            {item.description}
+                          </Typography>
+                        </Stack>
+                      </Box>
                     </m.div>
                   </Grid>
                 ))}

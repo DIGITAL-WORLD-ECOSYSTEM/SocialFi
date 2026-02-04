@@ -1,3 +1,5 @@
+'use client';
+
 // ----------------------------------------------------------------------
 // Imports — tipos
 // ----------------------------------------------------------------------
@@ -22,7 +24,6 @@ import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Accordion, { accordionClasses } from '@mui/material/Accordion';
-// CORREÇÃO: Adicionado 'alpha' ao import do styles
 import { alpha, useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -154,27 +155,25 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
   const renderDescription = () => (
     <SectionTitle
       caption="FAQs"
-      title="We’ve got the"
-      txtGradient="answers"
+      title="Temos as"
+      txtGradient="respostas"
       sx={{ textAlign: 'center' }}
     />
   );
 
   const renderContent = () => (
     <Box
-      sx={[
-        {
-          mt: 8,
-          gap: 1,
-          mx: 'auto',
-          maxWidth: 720,
-          display: 'flex',
-          mb: { xs: 5, md: 8 },
-          flexDirection: 'column',
-          position: 'relative',
-          zIndex: 2,
-        },
-      ]}
+      sx={{
+        mt: 8,
+        gap: 2,
+        mx: 'auto',
+        maxWidth: 720,
+        display: 'flex',
+        mb: { xs: 5, md: 8 },
+        flexDirection: 'column',
+        position: 'relative',
+        zIndex: 2,
+      }}
     >
       {FAQs.map((item, index) => (
         <Accordion
@@ -185,32 +184,47 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           expanded={expanded === item.question}
           onChange={handleChange(item.question)}
           sx={{
-            transition: theme.transitions.create(['background-color'], {
-              duration: theme.transitions.duration.shorter,
-            }),
-            py: 1,
-            px: 2.5,
-            border: 'none',
+            py: 0.5,
+            px: 1,
             borderRadius: 2,
+            position: 'relative',
             bgcolor: alpha(theme.palette.background.paper, 0.4),
             backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            transition: theme.transitions.create(['background-color', 'border-color']),
+            
+            // BORDA ESTÁTICA EM DEGRADÊ (Técnica padding-box/border-box)
+            border: '2px solid transparent',
+            backgroundClip: 'padding-box, border-box',
+            backgroundOrigin: 'padding-box, border-box',
+            backgroundImage: `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}), 
+                             linear-gradient(to right, #00FFCC 0%, #7A5AF8 100%)`,
+            
+            '&:before': { display: 'none' }, // Remove divisor padrão do MUI
+            
             '&:hover': {
               bgcolor: alpha(theme.palette.background.paper, 0.6),
             },
             [`&.${accordionClasses.expanded}`]: {
               bgcolor: alpha(theme.palette.background.paper, 0.8),
+              // Inverte levemente o degradê ao expandir para dar destaque visual
+              backgroundImage: `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}), 
+                               linear-gradient(to right, #00FFCC 20%, #7A5AF8 100%)`,
             },
           }}
         >
           <AccordionSummary
             id={`home-faqs-panel${index}-header`}
             aria-controls={`home-faqs-panel${index}-content`}
+            expandIcon={<Iconify icon={"eva:arrow-ios-downward-fill" as any} />}
           >
             <Typography component="span" variant="h6">
               {item.question}
             </Typography>
           </AccordionSummary>
-          <AccordionDetails>{item.answer}</AccordionDetails>
+          <AccordionDetails sx={{ color: 'text.secondary' }}>
+            {item.answer}
+          </AccordionDetails>
         </Accordion>
       ))}
     </Box>
@@ -230,12 +244,12 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
       ]}
     >
       <m.div variants={varFade('in')}>
-        <Typography variant="h4">Still have questions?</Typography>
+        <Typography variant="h4">Ainda tem dúvidas?</Typography>
       </m.div>
 
       <m.div variants={varFade('in')}>
         <Typography sx={{ mt: 2, mb: 3, color: 'text.secondary' }}>
-          Please describe your case to receive the most accurate advice
+          Por favor, descreva o seu caso para receber o conselho mais preciso.
         </Typography>
       </m.div>
 
@@ -245,9 +259,9 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
           href={paths.contact}
           color="inherit"
           variant="contained"
-          startIcon={<Iconify icon="solar:letter-bold" />}
+          startIcon={<Iconify icon={"solar:letter-bold" as any} />}
         >
-          Contact us
+          Contate-nos
         </Button>
       </m.div>
     </Box>

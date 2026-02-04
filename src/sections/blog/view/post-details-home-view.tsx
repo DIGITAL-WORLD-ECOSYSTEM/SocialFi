@@ -21,6 +21,7 @@ import { fShortenNumber } from 'src/utils/format-number';
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { JsonLd, generateBreadcrumbs } from 'src/components/seo/json-ld';
 
 import { PostItem } from '../item/item';
 import { PostCommentForm } from '../forms/post-comment-form';
@@ -35,8 +36,15 @@ type Props = {
 };
 
 export function PostDetailsHomeView({ post, latestPosts }: Props) {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Blog', href: paths.post.root },
+    { name: post?.title ?? '', href: post?.title ? paths.post.details(post.title) : '' },
+  ];
+
   return (
     <>
+      <JsonLd schema={generateBreadcrumbs(breadcrumbs)} />
       <PostDetailsHero
         title={post?.title ?? ''}
         author={post?.author}
@@ -50,14 +58,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
           (theme) => ({ py: 3, mb: 5, borderBottom: `solid 1px ${theme.vars.palette.divider}` }),
         ]}
       >
-        <CustomBreadcrumbs
-          links={[
-            { name: 'Home', href: '/' },
-            { name: 'Blog', href: paths.post.root },
-            { name: post?.title },
-          ]}
-          sx={{ maxWidth: 720, mx: 'auto' }}
-        />
+        <CustomBreadcrumbs links={breadcrumbs} sx={{ maxWidth: 720, mx: 'auto' }} />
       </Container>
 
       <Container maxWidth={false}>

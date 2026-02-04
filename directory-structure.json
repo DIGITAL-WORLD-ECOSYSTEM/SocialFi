@@ -1,0 +1,5364 @@
+{
+  "name": "SocialFi",
+  "type": "directory",
+  "children": [
+    {
+      "name": ".editorconfig",
+      "type": "file"
+    },
+    {
+      "name": ".env",
+      "type": "file"
+    },
+    {
+      "name": ".gitignore",
+      "type": "file"
+    },
+    {
+      "name": ".idx",
+      "type": "directory",
+      "children": [
+        {
+          "name": "dev.nix",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": ".prettierignore",
+      "type": "file"
+    },
+    {
+      "name": ".vercel",
+      "type": "directory",
+      "children": [
+        {
+          "name": "README.txt",
+          "type": "file"
+        },
+        {
+          "name": "project.json",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "type": "file"
+    },
+    {
+      "name": "directory-structure.json",
+      "type": "file"
+    },
+    {
+      "name": "eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "generate-tree.js",
+      "type": "file"
+    },
+    {
+      "name": "next-env.d.ts",
+      "type": "file"
+    },
+    {
+      "name": "next.config.ts",
+      "type": "file"
+    },
+    {
+      "name": "package.json",
+      "type": "file"
+    },
+    {
+      "name": "pnpm-lock.yaml",
+      "type": "file"
+    },
+    {
+      "name": "prettier.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "public",
+      "type": "directory",
+      "children": [
+        {
+          "name": "assets",
+          "type": "directory",
+          "children": [
+            {
+              "name": "background",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "background-3-blur.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "background-3.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "background-4.jpg",
+                  "type": "file"
+                },
+                {
+                  "name": "background-5.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "background-6.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "background-7.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "overlay.svg",
+                  "type": "file"
+                },
+                {
+                  "name": "shape-circle-1.svg",
+                  "type": "file"
+                },
+                {
+                  "name": "shape-circle-3.svg",
+                  "type": "file"
+                },
+                {
+                  "name": "shape-square.svg",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "icons",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "apps",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-app-1.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-2.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-3.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-4.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-5.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-drive.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-dropbox.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-app-onedrive.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-accordion.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-alert.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-autocomplete.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-avatar.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-badge.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-breadcrumbs.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-buttons.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-checkbox.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-chip.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-colors.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-data-grid.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-date-pickers.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-dialog.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-drawer.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-animate.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-carousel.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-chart.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-dnd.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-editor.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-form-validation.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-form-wizard.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-image.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-label.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-layout.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-lightbox.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-map.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-markdown.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-mega-menu.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-multi-language.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-navigation-bar.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-organization-chart.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-scroll-progress.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-scrollbar.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-snackbar.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-upload.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-utilities.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-extra-walktour.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-grid.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-icons.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-list.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-menu.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-pagination.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-popover.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-progress.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-radio-button.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-rating.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-shadows.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-slider.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-stepper.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-switch.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-table.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-tabs.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-text-field.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-timeline.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-tooltip.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-transfer-list.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-tree-view.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-typography.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "courses",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-courses-certificates.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-courses-completed.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-courses-progress.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "empty",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-cart.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-content.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-email-disabled.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-email-selected.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-folder-empty.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-mail.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "faqs",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-account.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-assurances.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-delivery.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-package.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-payment.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-refund.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "files",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-ai.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-audio.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-document.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-excel.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-file.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-folder.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-img.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-js.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-pdf.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-power-point.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-pts.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-txt.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-video.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-word.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-zip.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "glass",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-glass-bag.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-glass-buy.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-glass-message.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-glass-users.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "navbar",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-analytics.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-banking.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-blank.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-blog.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-booking.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-calendar.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-course.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-dashboard.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-disabled.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-ecommerce.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-external.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-file.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-folder.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-invoice.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-job.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-kanban.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-label.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-lock.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-mail.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-menu-item.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-order.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-params.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-product.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-subpaths.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-tour.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-user.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "platforms",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ic-amplify.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-auth0.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-figma.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-firebase.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-js.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-jwt.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-mui.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-nextjs.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-react.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-ts.svg",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ic-vite.svg",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "workspaces",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "logo-1.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "logo-2.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "logo-3.webp",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "illustrations",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "characters",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "character-fly.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-happy-jump.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-maintenance.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-notification.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-present.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-question.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-reject.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "character-study.webp",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "illustration-dashboard.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "illustration-integration.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "illustration-receipt.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "illustration-rocket-large.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "illustration-rocket-small.webp",
+                  "type": "file"
+                },
+                {
+                  "name": "illustration-upgrade.webp",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "images",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "about",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "hero.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "testimonials.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "vision.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "what-large.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "what-small.webp",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "contact",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "hero.webp",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "faqs",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "hero.webp",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "home",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "bundle-dark-1.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "bundle-dark-2.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "bundle-light-1.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "bundle-light-2.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "for-designer.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "hero-blur.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-darkmode.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-presets-1.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-presets-2.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-presets-3.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-presets-4.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-presets-5.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "highlight-rtl.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "home-chart.webp",
+                      "type": "file"
+                    },
+                    {
+                      "name": "zone-landing.webp",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "mock",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "avatar",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "avatar-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-13.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-14.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-15.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-16.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-17.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-18.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-19.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-20.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-21.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-22.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-23.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-24.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-25.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "avatar-9.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "company",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "company-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "company-9.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "course",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "about-summary.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-9.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-large-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-large-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "course-large-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "download-app.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "home-summary.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "teacher-hero.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "cover",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "cover-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-13.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-14.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-15.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-16.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-17.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-18.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-19.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-20.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-21.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-22.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-23.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-24.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "cover-9.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "m-product",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "product-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-13.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-14.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-15.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-16.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-17.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-18.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-19.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-20.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-21.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-22.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-23.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-24.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "product-9.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "portrait",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "portrait-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "portrait-8.webp",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "travel",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "travel-1.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-10.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-11.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-12.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-13.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-14.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-15.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-16.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-2.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-3.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-4.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-5.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-6.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-7.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-8.webp",
+                          "type": "file"
+                        },
+                        {
+                          "name": "travel-9.webp",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "favicon-16x16.png",
+          "type": "file"
+        },
+        {
+          "name": "favicon-32x32.png",
+          "type": "file"
+        },
+        {
+          "name": "favicon.ico",
+          "type": "file"
+        },
+        {
+          "name": "fonts",
+          "type": "directory",
+          "children": [
+            {
+              "name": "Roboto-Bold.ttf",
+              "type": "file"
+            },
+            {
+              "name": "Roboto-Regular.ttf",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "logo",
+          "type": "directory",
+          "children": [
+            {
+              "name": "android-chrome-192x192.png",
+              "type": "file"
+            },
+            {
+              "name": "android-chrome-512x512.png",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "src",
+      "type": "directory",
+      "children": [
+        {
+          "name": "_mock",
+          "type": "directory",
+          "children": [
+            {
+              "name": "_blog.ts",
+              "type": "file"
+            },
+            {
+              "name": "_mock.ts",
+              "type": "file"
+            },
+            {
+              "name": "_others.ts",
+              "type": "file"
+            },
+            {
+              "name": "_overview.ts",
+              "type": "file"
+            },
+            {
+              "name": "_user.ts",
+              "type": "file"
+            },
+            {
+              "name": "assets.ts",
+              "type": "file"
+            },
+            {
+              "name": "index.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "actions",
+          "type": "directory",
+          "children": [
+            {
+              "name": "blog-ssr.ts",
+              "type": "file"
+            },
+            {
+              "name": "blog.ts",
+              "type": "file"
+            },
+            {
+              "name": "mappers",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "blog-mapper.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "app",
+          "type": "directory",
+          "children": [
+            {
+              "name": "(home)",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "app.tsx",
+              "type": "file"
+            },
+            {
+              "name": "apple-icon.tsx",
+              "type": "file"
+            },
+            {
+              "name": "auth",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "reset",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "layout.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "sign-in",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "layout.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "sign-up",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "layout.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "update",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "layout.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "verify",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "layout.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "dashboard",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "loading.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "post",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "[title]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "(details)",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "error.tsx",
+                              "type": "file"
+                            },
+                            {
+                              "name": "loading.tsx",
+                              "type": "file"
+                            },
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "edit",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "new",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "user",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "edit",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "account",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "change-password",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "layout.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "notifications",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "socials",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "page.tsx",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "cards",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "list",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "new",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "layout.tsx",
+              "type": "file"
+            },
+            {
+              "name": "loading.tsx",
+              "type": "file"
+            },
+            {
+              "name": "manifest.ts",
+              "type": "file"
+            },
+            {
+              "name": "not-found.tsx",
+              "type": "file"
+            },
+            {
+              "name": "opengraph-image.tsx",
+              "type": "file"
+            },
+            {
+              "name": "post",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "[title]",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "error.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "loading.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "opengraph-image.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "twitter-image.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "category",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "[slug]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "error.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "loading.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "sitemap.ts",
+              "type": "file"
+            },
+            {
+              "name": "twitter-image.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "assets",
+          "type": "directory",
+          "children": [
+            {
+              "name": "data",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "countries.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "icons",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "email-inbox-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "new-password-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "password-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "plan-free-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "plan-premium-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "plan-starter-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "sent-icon.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "illustrations",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "avatar-shape.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "background-shape.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "booking-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "check-in-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "check-out-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "coming-soon-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "forbidden-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "maintenance-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "motivation-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "order-complete-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "page-not-found-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "seo-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "server-error-illustration.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "upload-illustration.tsx",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "auth",
+          "type": "directory",
+          "children": [
+            {
+              "name": "components",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "form-head.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "form-resend-code.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "form-return-link.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "sign-up-terms.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "context",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "action.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "auth-context.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "auth-provider.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "constant.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "guard",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "auth-guard.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "guest-guard.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "role-based-guard.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "hooks",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-auth-context.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-mocked-user.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "types.ts",
+              "type": "file"
+            },
+            {
+              "name": "utils",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "error-message.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "view",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "reset.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "sign-in.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "sign-up.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "update.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "verify.tsx",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "components",
+          "type": "directory",
+          "children": [
+            {
+              "name": "animate",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "animate-border.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "animate-count-up.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "animate-logo.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "animate-text.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "back-to-top-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "features.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "motion-container.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "motion-lazy.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "motion-viewport.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "scroll-progress",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "scroll-progress.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-scroll-progress.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "variants",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "actions.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "background.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "bounce.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "container.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "fade.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "flip.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "path.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "rotate.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "scale.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "slide.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "transition.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "zoom.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "carousel",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "breakpoints.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "carousel.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "arrow-button.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-arrow-buttons.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-dot-buttons.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-progress-bar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-slide.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-thumb.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "carousel-thumbs.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "hooks",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "use-carousel-arrows.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel-auto-scroll.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel-autoplay.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel-dots.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel-parallax.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel-progress.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-carousel.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-thumbs.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "chart",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "chart.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "chart-legends.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "chart-loading.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "chart-select.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.css",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-chart.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "color-utils",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "color-picker.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "color-preview.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "country-select",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "country-select.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "custom-breadcrumbs",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "back-link.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "breadcrumb-link.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "custom-breadcrumbs.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "more-links.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "custom-data-grid",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "grid-actions-cell-item.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "toolbar-core.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "toolbar-extend-settings.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "custom-date-range-picker",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "custom-date-range-picker.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-date-range-picker.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "custom-dialog",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "confirm-dialog.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "custom-popover",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "custom-popover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "hooks.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "editor",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "bubble-toolbar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "code-highlight-block.css",
+                      "type": "file"
+                    },
+                    {
+                      "name": "code-highlight-block.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "heading-block.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "image-block.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "link-block.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "toolbar-icons.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "toolbar-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "toolbar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-toolbar-state.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "editor.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "extension",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "clear-format.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "text-transform.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "empty-content",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "empty-content.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "file-thumbnail",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "file-thumbnail.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-file-preview.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "filters-result",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "filters-block.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "filters-result.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "flag-icon",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "flag-icon.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "hook-form",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "fields.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "form-provider.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "help-text.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-autocomplete.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-checkbox.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-code.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-country-select.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-date-picker.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-editor.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-number-input.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-phone-input.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-radio-group.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-rating.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-select.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-slider.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-switch.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-text-field.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "rhf-upload.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "schema-utils.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "iconify",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "icon-sets.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "iconify.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "register-icons.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "image",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "image.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "label.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "lightbox",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "lightbox.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.css",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-lightbox.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "loading-screen",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "loading-screen.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "splash-screen.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "logo",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "logo.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "markdown",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "code-highlight-block.css",
+                  "type": "file"
+                },
+                {
+                  "name": "html-tags.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "html-to-markdown.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "markdown.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "mega-menu",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-carousel.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-drawer.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-dropdown-content.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-dropdown.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-elements.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-sub-list.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "horizontal",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mega-menu-horizontal.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "mobile",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mega-menu-mobile.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list-collapse.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list-drawer.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "styles",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "classes.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "css-vars.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item-styles.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "create-nav-item.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mega-menu-vertical.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "nav-basic",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-collapse.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-dropdown.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-elements.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "desktop",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-basic-desktop.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "mobile",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-basic-mobile.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "styles",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "classes.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "css-vars.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item-styles.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "create-nav-item.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "nav-section",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-collapse.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-dropdown.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-elements.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-subheader.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "horizontal",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-section-horizontal.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "mini",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-section-mini.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "styles",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "classes.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "css-vars.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item-styles.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "create-nav-item.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-section-vertical.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "number-input",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "number-input.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "organizational-chart",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "organizational-chart.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "phone-input",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "list-popover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "phone-input.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "progress-bar",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "progress-bar.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.css",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "scrollbar",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "scrollbar.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.css",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "search-not-found",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "search-not-found.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "seo",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "analytics.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "json-ld.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "settings",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "context",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "settings-context.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "settings-provider.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "use-settings-context.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "drawer",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "base-option.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "font-options.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "fullscreen-button.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "icons.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "nav-layout-option.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "presets-options.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "settings-drawer.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "styles.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "server.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "settings-config.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "snackbar",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "snackbar.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "styles.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "svg-color",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "svg-color.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "table",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "table-empty-rows.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "table-head-custom.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "table-no-data.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "table-pagination-custom.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "table-selected-action.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "table-skeleton.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "use-table.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "utils.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "threeglobe",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "globe.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "world.json",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "upload",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "avatar",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "styles.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "upload-avatar.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "box",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "styles.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "upload-box.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "multi-file-preview.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "rejected-files.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "single-file-preview.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "default",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "styles.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "upload-default.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "types.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "global-config.ts",
+          "type": "file"
+        },
+        {
+          "name": "global.css",
+          "type": "file"
+        },
+        {
+          "name": "hooks",
+          "type": "directory",
+          "children": [
+            {
+              "name": "use-blog.ts",
+              "type": "file"
+            },
+            {
+              "name": "use-boolean.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "layouts",
+          "type": "directory",
+          "children": [
+            {
+              "name": "auth",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "content.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "blog",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "components",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "account-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-drawer.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-popover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "contacts-popover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "core-nav.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "language-popover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "menu-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav-toggle-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav-upgrade.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "notifications-drawer",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "icons.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "notification-item.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "searchbar",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "result-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "searchbar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "utils.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "sign-in-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "sign-out-button.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "workspaces-popover.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "core",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "classes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "css-vars.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "header-section.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout-section.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "main-section.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "dashboard",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "content.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "css-vars.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav-horizontal.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav-mobile.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav-vertical.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "main",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "footer.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "nav",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "components",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "index.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-dropdown.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-elements.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "desktop",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "index.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-desktop-item-dashboard.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-desktop-item.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-desktop-list.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-desktop.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "mobile",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "index.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-mobile-item.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-mobile-list.tsx",
+                          "type": "file"
+                        },
+                        {
+                          "name": "nav-mobile.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "types.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "nav-config-account.tsx",
+              "type": "file"
+            },
+            {
+              "name": "nav-config-blog.tsx",
+              "type": "file"
+            },
+            {
+              "name": "nav-config-dashboard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "nav-config-main-demo.tsx",
+              "type": "file"
+            },
+            {
+              "name": "nav-config-main.tsx",
+              "type": "file"
+            },
+            {
+              "name": "nav-config-workspace.tsx",
+              "type": "file"
+            },
+            {
+              "name": "simple",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "content.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "layout.tsx",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lib",
+          "type": "directory",
+          "children": [
+            {
+              "name": "axios.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "locales",
+          "type": "directory",
+          "children": [
+            {
+              "name": "i18n-provider.tsx",
+              "type": "file"
+            },
+            {
+              "name": "index.ts",
+              "type": "file"
+            },
+            {
+              "name": "langs",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "ar",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "messages.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "navbar.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "cn",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "messages.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "navbar.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "en",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "messages.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "navbar.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "es",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "fr",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "messages.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "navbar.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "pt",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "ru",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "vi",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "common.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "messages.json",
+                      "type": "file"
+                    },
+                    {
+                      "name": "navbar.json",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "locales-config.ts",
+              "type": "file"
+            },
+            {
+              "name": "localization-provider.tsx",
+              "type": "file"
+            },
+            {
+              "name": "server.ts",
+              "type": "file"
+            },
+            {
+              "name": "use-locales.ts",
+              "type": "file"
+            },
+            {
+              "name": "utils",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "number-format-locale.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "routes",
+          "type": "directory",
+          "children": [
+            {
+              "name": "components",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "router-link.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "hooks",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-params.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-pathname.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-router.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "use-search-params.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "paths.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "schemas",
+          "type": "directory",
+          "children": [
+            {
+              "name": "blog-zod.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "sections",
+          "type": "directory",
+          "children": [
+            {
+              "name": "account",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "account-change-password.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-general.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-layout.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-notifications.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "account-socials.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "view",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "account-change-password-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "account-general-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "account-notifications-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "account-socials-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "blog",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "advertisement.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "authors.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "community.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "featured.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-search.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-sort.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "video.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "constants.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "details",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "post-comment-item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-comment-list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-details-hero.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-details-toolbar.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "forms",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "newsletter.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-comment-form.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "item",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "economia.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "geopolitica.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "item-horizontal.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "item.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "list-horizontal.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "meio-ambiente.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "recent.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "skeleton.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "tecnologia.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "trending.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "management",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "post-create-edit-form.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-create-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-details-preview.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-edit-view.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "view",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-details-home-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-details-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-list-home-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "post-list-view.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "error",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "403-view.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "500-view.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "not-found-view.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "home",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "hero-svg.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "home-background.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "home-countdown-dialog.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "integrations-diagram.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "section-title.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "svg-elements.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "cta-banner.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-community.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-ecosystem.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-faqs.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-hero.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-integrations.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-latest-news.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-roadmap.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "home-team.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "view",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "home-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "overview",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "app",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "app-area-installed.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-current-download.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-featured.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-top-authors.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-top-installed-countries.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-top-related.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-welcome.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-widget-summary.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "app-widget.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "view",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "index.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "overview-app-view.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "user",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "profile-cover.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "profile-followers.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "profile-friends.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "profile-gallery.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "profile-home.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "profile-post-item.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-card-list.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-card.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-create-edit-form.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-quick-edit-form.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-table-filters-result.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-table-row.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "user-table-toolbar.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "view",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "user-cards-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "user-create-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "user-edit-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "user-list-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "user-profile-view.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "theme",
+          "type": "directory",
+          "children": [
+            {
+              "name": "core",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "accordion.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "alert.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "appbar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "autocomplete.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "avatar.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "backdrop.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "badge.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "breadcrumbs.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "button-fab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "button-group.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "button-icon.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "button-toggle.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "button.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "card.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "checkbox.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "chip.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "dialog.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "drawer.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "form.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "link.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "list.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "menu.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mui-x-data-grid.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mui-x-date-picker.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mui-x-tree-view.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "pagination.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "paper.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "popover.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "progress.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "radio.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "rating.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "select.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "skeleton.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "slider.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "stack.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "stepper.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "svg-icon.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "switch.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "table.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "tabs.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "text-field.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "timeline.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "tooltip.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "custom-shadows.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "mixins",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "background.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "border.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "global-styles-components.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "index.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "mixins.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "text.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "opacity.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "palette.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "shadows.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "typography.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "create-classes.ts",
+              "type": "file"
+            },
+            {
+              "name": "create-theme.ts",
+              "type": "file"
+            },
+            {
+              "name": "extend-theme-types.d.ts",
+              "type": "file"
+            },
+            {
+              "name": "index.ts",
+              "type": "file"
+            },
+            {
+              "name": "theme-config.ts",
+              "type": "file"
+            },
+            {
+              "name": "theme-overrides.ts",
+              "type": "file"
+            },
+            {
+              "name": "types.ts",
+              "type": "file"
+            },
+            {
+              "name": "with-settings",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "color-presets.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "index.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "right-to-left.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "update-components.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "update-core.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "types",
+          "type": "directory",
+          "children": [
+            {
+              "name": "blog.ts",
+              "type": "file"
+            },
+            {
+              "name": "common.ts",
+              "type": "file"
+            },
+            {
+              "name": "user.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "utils",
+          "type": "directory",
+          "children": [
+            {
+              "name": "format-number.ts",
+              "type": "file"
+            },
+            {
+              "name": "format-time.ts",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tsconfig.json",
+      "type": "file"
+    }
+  ]
+}

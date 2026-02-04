@@ -1,17 +1,9 @@
-// ----------------------------------------------------------------------
-// Imports — tipos
-// ----------------------------------------------------------------------
-import type { BoxProps } from '@mui/material/Box';
+'use client';
 
-// ----------------------------------------------------------------------
-// Imports — react & motion
-// ----------------------------------------------------------------------
+import type { BoxProps } from '@mui/material/Box';
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -21,12 +13,7 @@ import Typography from '@mui/material/Typography';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
 import { _mock } from 'src/_mock';
-import { useTranslate } from 'src/locales';
-
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
@@ -34,8 +21,6 @@ import { SectionTitle } from './components/section-title';
 import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 
-// ----------------------------------------------------------------------
-// Configurações
 // ----------------------------------------------------------------------
 
 const SOCIAL_CHANNELS = [
@@ -66,15 +51,7 @@ const renderLines = () => (
       <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
       <FloatDotIcon />
     </Stack>
-
-    <FloatLine
-      vertical
-      sx={{
-        top: 0,
-        right: 80,
-        display: { xs: 'none', md: 'block' },
-      }}
-    />
+    <FloatLine vertical sx={{ top: 0, right: 80, display: { xs: 'none', md: 'block' } }} />
   </>
 );
 
@@ -82,26 +59,12 @@ const renderLines = () => (
 
 export function HomeCommunity({ sx, ...other }: BoxProps) {
   const theme = useTheme();
-  const { t } = useTranslate();
 
-  // Informações estáticas extraídas da captura de tela de referência
   const METRICS = useMemo(
     () => [
-      {
-        id: 'members',
-        label: 'NETWORK STEWARDS',
-        value: '+500',
-      },
-      {
-        id: 'area',
-        label: 'MANAGED HECTARES',
-        value: '+10k',
-      },
-      {
-        id: 'aum',
-        label: 'ASSETS UNDER SOVEREIGNTY',
-        value: '$7.5M',
-      },
+      { id: 'members', label: 'NETWORK STEWARDS', value: '+500' },
+      { id: 'area', label: 'MANAGED HECTARES', value: '+10k' },
+      { id: 'aum', label: 'ASSETS UNDER SOVEREIGNTY', value: '$7.5M' },
     ],
     []
   );
@@ -122,16 +85,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
             <Typography variant="h3" sx={{ fontWeight: 800, color: 'primary.main' }}>
               {stat.value}
             </Typography>
-
-            <Typography
-              variant="caption"
-              sx={{
-                color: 'text.secondary',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-              }}
-            >
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
               {stat.label}
             </Typography>
           </Stack>
@@ -142,28 +96,35 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
 
   const renderSocialHub = () => (
     <m.div variants={varFade('inRight')}>
+      {/* WRAPPER PARA O BRILHO DA BORDA */}
       <Box
         sx={{
-          p: 5,
           position: 'relative',
+          p: '2px', // Espessura da borda degradê
           borderRadius: 3,
           overflow: 'hidden',
-          bgcolor: alpha(theme.palette.background.paper, 0.4),
-          backdropFilter: 'blur(12px)',
-          border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-          boxShadow: theme.customShadows?.z24,
+          display: 'flex',
+          background: `linear-gradient(to right, #00FFCC 0%, #7A5AF8 100%)`,
+          boxShadow: `0 0 20px 0 ${alpha('#00FFCC', 0.15)}`,
         }}
       >
-        <Stack spacing={4}>
+        <Stack
+          spacing={4}
+          sx={{
+            p: 5,
+            width: 1,
+            zIndex: 1,
+            borderRadius: 'inherit',
+            bgcolor: alpha(theme.palette.background.paper, 0.9),
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+        >
           <Stack spacing={2} textAlign="left">
             <Typography variant="h4" sx={{ fontWeight: 800 }}>
                Network Synergy
             </Typography>
-
-            <Typography
-              variant="body2"
-              sx={{ color: 'text.secondary', lineHeight: 1.7 }}
-            >
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
               Our decentralized governance integrates corporations and cooperatives into a global liquidity ecosystem, overcoming tech barriers through auditable management.
             </Typography>
           </Stack>
@@ -171,13 +132,9 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
           <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-start">
             <AvatarGroup max={4}>
               {[...Array(3)].map((_, index) => (
-                <Avatar
-                  key={index}
-                  src={_mock.image.avatar(index + 1)}
-                />
+                <Avatar key={index} src={_mock.image.avatar(index + 1)} />
               ))}
             </AvatarGroup>
-
             <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
               Network Stewards
             </Typography>
@@ -210,14 +167,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
     <Box
       id="community"
       component="section"
-      sx={[
-        {
-          position: 'relative',
-          overflow: 'hidden',
-          py: { xs: 10, md: 20 },
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ position: 'relative', overflow: 'hidden', py: { xs: 10, md: 20 } }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
       <HomeBackground section="community" />
@@ -234,7 +184,6 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
               gridTemplateColumns: { xs: '1fr', md: '1.2fr 0.8fr' },
             }}
           >
-            {/* COLUNA ESQUERDA: Textos e Métricas */}
             <m.div variants={varFade('inLeft')}>
               <SectionTitle
                 caption="INSTITUTIONAL TRACTION"
@@ -269,7 +218,6 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
               </Stack>
             </m.div>
 
-            {/* COLUNA DIREITA: Card de Sinergia */}
             <Box>
               {renderSocialHub()}
             </Box>
