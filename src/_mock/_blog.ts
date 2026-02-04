@@ -76,8 +76,8 @@ export const _posts = POST_TITLES.map((title, index) => {
     description: 'This is a mock description.',
     content: 'This is mock content.',
     coverUrl: _mock.image.cover(index),
-    // Forçamos quase tudo como 'published' para não sumir da tela
-    publish: index % 10 === 0 ? 'draft' : 'published', 
+    // CORREÇÃO: Convertido para boolean para alinhar com a interface IPostItem
+    publish: index % 10 !== 0,
     createdAt: _mock.time(index),
     totalViews: _mock.number.nativeL(index),
     totalShares: _mock.number.nativeL(index + 1),
