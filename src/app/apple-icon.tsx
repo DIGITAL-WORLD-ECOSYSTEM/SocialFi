@@ -1,35 +1,45 @@
 import { ImageResponse } from 'next/og';
+import { CONFIG } from 'src/global-config';
 
-// Route segment config
+// ----------------------------------------------------------------------
+
 export const runtime = 'edge';
 
-// Image metadata
 export const size = {
   width: 180,
   height: 180,
 };
+
 export const contentType = 'image/png';
 
-// Image generation
+// ----------------------------------------------------------------------
+
 export default function Icon() {
-  // Como um logotipo específico não foi fornecido, usarei a primeira letra do nome do projeto (SocialFi).
-  // Isso garante um ícone pixel-perfect e dinâmico.
   return new ImageResponse(
     (
       <div
         style={{
-          fontSize: 128,
-          background: '#1a202c', // Um fundo escuro e elegante
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
-          borderRadius: '36px', // Bordas arredondadas padrão da Apple
+          background: '#000000', // Fundo preto profundo
+          borderRadius: '40px', // Curvatura contínua (estilo iOS squircle)
+          border: '4px solid #65C4A8', // Bordas na cor primária da ASPPIBRA
         }}
       >
-        S
+        <div
+          style={{
+            fontSize: 100,
+            fontWeight: 'bold',
+            color: '#65C4A8',
+            display: 'flex',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          {CONFIG.appName.substring(0, 1)}
+        </div>
       </div>
     ),
     {
