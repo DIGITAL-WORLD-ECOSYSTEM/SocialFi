@@ -1,14 +1,31 @@
-
 import { ImageResponse } from 'next/og';
-import { _allPosts } from 'src/_mock/_blog';
+import { kebabCase } from 'es-toolkit';
+
+import { CONFIG } from 'src/global-config';
+import { _posts } from 'src/_mock/_blog';
 
 // ----------------------------------------------------------------------
 
+export const runtime = 'edge';
+
 export const size = { width: 1200, height: 630 };
+
 export const contentType = 'image/png';
 
-export default async function Image({ params }: { params: { title: string } }) {
-  const post = _allPosts.find((post) => post.title === params.title);
+// ----------------------------------------------------------------------
+
+type Props = {
+  params: { title: string };
+};
+
+export default async function Image({ params }: Props) {
+  // 🟢 CORREÇÃO: Busca usando kebabCase para bater com a URL
+  const post = _posts.find((p) => kebabCase(p.title) === params.title);
+
+  // Fonte para branding profissional
+  const fontData = await fetch(
+    new URL('https://fonts.cdnfonts.com/s/15068/Inter-Bold.woff')
+  ).then((res) => res.arrayBuffer());
 
   return new ImageResponse(
     (
@@ -17,20 +34,61 @@ export default async function Image({ params }: { params: { title: string } }) {
           width: '100%',
           height: '100%',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 80,
-          background: 'black',
-          color: 'white',
-          textAlign: 'center',
-          padding: '40px',
+          flexDirection: 'column',
+          backgroundColor: '#000',
+          backgroundImage: 'radial-gradient(circle at 25% 25%, #1a1a1a 0%, #000 100%)',
+          padding: '80px',
+          fontFamily: '"Inter"',
         }}
       >
-        {post?.title || 'Post não encontrado'}
+        {/* Header: Nome da Associação e Cor Primária */}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px' }}>
+          <div style={{ 
+            width: '12px', 
+            height: '40px', 
+            backgroundColor: '#65C4A8', 
+            marginRight: '20px',
+            borderRadius: '4px' 
+          }} />
+          <span style={{ color: '#65C4A8', fontSize: '32px', fontWeight: 'bold', letterSpacing: '2px' }}>
+            {CONFIG.appName}
+          </span>
+        </div>
+
+        {/* Categoria do Post */}
+        <div style={{ 
+          color: '#fff', 
+          fontSize: '24px', 
+          opacity: 0.5, 
+          textTransform: 'uppercase',
+          marginBottom: '20px'
+        }}>
+          {post?.category || 'Notícias'}
+        </div>
+
+        {/* Título Dinâmico */}
+        <div
+          style={{
+            fontSize: '72px',
+            fontWeight: 'bold',
+            color: 'white',
+            lineHeight: 1.1,
+            display: 'flex',
+            flexWrap: 'wrap',
+          }}
+        >
+          {post?.title || 'Conteúdo ASPPIBRA'}
+        </div>
+
+        {/* Footer: URL Oficial */}
+        <div style={{ marginTop: 'auto', display: 'flex', opacity: 0.4, color: '#fff', fontSize: '28px' }}>
+          {CONFIG.siteUrl.replace('https://', '')}
+        </div>
       </div>
     ),
     {
       ...size,
+      fonts: [{ name: 'Inter', data: fontData, style: 'normal', weight: 700 }],
     }
   );
 }
