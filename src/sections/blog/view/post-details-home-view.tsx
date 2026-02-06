@@ -1,10 +1,9 @@
 'use client';
 
-import type { IPostItem } from 'src/types/blog';
+import type { IPostItem, IPostComment } from 'src/types/blog';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -36,56 +35,85 @@ type Props = {
 };
 
 export function PostDetailsHomeView({ post, latestPosts }: Props) {
+  // --- Valores normalizados e tipados ---
+  const title: string = post?.title ?? '';
+  const description: string = post?.description ?? '';
+  const content: string = post?.content ?? '';
+  const coverUrl: string = post?.coverUrl ?? '';
+  const createdAt = post?.createdAt;
+  const author = post?.author;
+
+  const tags: string[] = post?.tags ?? [];
+
+  const favoritePeople: {
+    name?: string;
+    avatarUrl?: string;
+  }[] = post?.favoritePerson ?? [];
+
+  // ✅ Correção do TS2322
+  const comments: IPostComment[] = post?.comments ?? [];
+
+  const totalFavorites: number = Number(post?.totalFavorites ?? 0);
+
+  const latest: IPostItem[] = latestPosts ?? [];
+
+  // ✅ Pré-calcular posts recentes
+  const recentPosts: IPostItem[] = latest.slice(
+    Math.max(0, latest.length - 4)
+  );
+
+  // ✅ Breadcrumbs simples
   const breadcrumbs = [
     { name: 'Home', href: '/' },
     { name: 'Blog', href: paths.post.root },
-    { name: post?.title ?? '', href: post?.title ? paths.post.details(post.title) : '' },
+    { name: title, href: title ? paths.post.details(title) : '' },
   ];
 
   return (
     <>
       <JsonLd schema={generateBreadcrumbs(breadcrumbs)} />
+
       <PostDetailsHero
-        title={post?.title ?? ''}
-        author={post?.author}
-        coverUrl={post?.coverUrl ?? ''}
-        createdAt={post?.createdAt}
+        title={title}
+        author={author}
+        coverUrl={coverUrl}
+        createdAt={createdAt}
       />
 
       <Container
         maxWidth={false}
-        sx={[
-          (theme) => ({ py: 3, mb: 5, borderBottom: `solid 1px ${theme.vars.palette.divider}` }),
-        ]}
+        sx={(theme) => ({
+          py: 3,
+          mb: 5,
+          borderBottom: `solid 1px ${theme.vars.palette.divider}`,
+        })}
       >
         <CustomBreadcrumbs links={breadcrumbs} sx={{ maxWidth: 720, mx: 'auto' }} />
       </Container>
 
       <Container maxWidth={false}>
         <Stack sx={{ maxWidth: 720, mx: 'auto' }}>
-          <Typography variant="subtitle1">{post?.description}</Typography>
+          <Typography variant="subtitle1">{description}</Typography>
 
-          <Markdown children={post?.content} />
+          <Markdown children={content} />
 
           <Stack
             spacing={3}
-            sx={[
-              (theme) => ({
-                py: 3,
-                borderTop: `dashed 1px ${theme.vars.palette.divider}`,
-                borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
-              }),
-            ]}
+            sx={(theme) => ({
+              py: 3,
+              borderTop: `dashed 1px ${theme.vars.palette.divider}`,
+              borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
+            })}
           >
             <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-              {post?.tags.map((tag) => (
+              {tags.map((tag) => (
                 <Chip key={tag} label={tag} variant="soft" />
               ))}
             </Box>
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <FormControlLabel
-                label={fShortenNumber(post?.totalFavorites)}
+                label={fShortenNumber(totalFavorites)}
                 control={
                   <Checkbox
                     defaultChecked
@@ -93,12 +121,6 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
                     color="error"
                     icon={<Iconify icon="solar:heart-bold" />}
                     checkedIcon={<Iconify icon="solar:heart-bold" />}
-                    slotProps={{
-                      input: {
-                        id: 'favorite-checkbox',
-                        'aria-label': 'Favorite checkbox',
-                      },
-                    }}
                   />
                 }
                 sx={{ mr: 1 }}
@@ -112,18 +134,21 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
                   },
                 }}
               >
-                {post?.favoritePerson.map((person) => (
-                  <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
+                {favoritePeople.map((person, idx) => (
+                  <Avatar
+                    key={person.name ?? person.avatarUrl ?? idx}
+                    alt={person.name ?? ''}
+                    src={person.avatarUrl}
+                  />
                 ))}
               </AvatarGroup>
             </Box>
           </Stack>
 
-          <Box sx={{ mb: 3, mt: 5, display: 'flex' }}>
+          <Box sx={{ mb: 3, mt: 5, display: 'flex', gap: 1 }}>
             <Typography variant="h4">Comments</Typography>
-
             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-              ({post?.comments.length})
+              ({comments.length})
             </Typography>
           </Box>
 
@@ -131,31 +156,42 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
 
           <Divider sx={{ mt: 5, mb: 2 }} />
 
-          <PostCommentList comments={post?.comments} />
+          {/* ✅ Tipagem correta */}
+          <PostCommentList comments={comments} />
         </Stack>
       </Container>
 
-      {!!latestPosts?.length && (
+      {recentPosts.length > 0 && (
         <Container sx={{ pb: 15 }}>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Recent Posts
           </Typography>
 
-          <Grid container spacing={3}>
-            {latestPosts?.slice(latestPosts.length - 4).map((latestPost) => (
-              <Grid
-                key={latestPost.id}
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  md: 4,
-                  lg: 3,
-                }}
-              >
-                <PostItem post={latestPost} detailsHref={paths.post.details(latestPost.title)} />
-              </Grid>
-            ))}
-          </Grid>
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 3,
+              gridTemplateColumns: {
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(4, 1fr)',
+              },
+            }}
+          >
+            {recentPosts.map((latestPost) => {
+              // ✅ Quebra da inferência complexa
+              const detailsHref: string = paths.post.details(latestPost.title);
+
+              return (
+                <PostItem
+                  key={latestPost.id}
+                  post={latestPost}
+                  detailsHref={detailsHref}
+                />
+              );
+            })}
+          </Box>
         </Container>
       )}
     </>

@@ -1,22 +1,23 @@
 'use client';
 
-import type { AuthState } from '../types';
-
+import type { AuthState, User } from '../types';
 import { useSetState } from 'minimal-shared/hooks';
 import { useMemo, useEffect, useCallback } from 'react';
-
-// Importamos o axios e os endpoints configurados
 import axios, { endpoints } from 'src/lib/axios';
-
 import { JWT_STORAGE_KEY } from './constant';
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
 
-// ----------------------------------------------------------------------
+type Props = { children: React.ReactNode };
 
-type Props = {
-  children: React.ReactNode;
-};
+// Função de mapeamento para alinhar o usuário do Backend (D1) com o Frontend (React)
+const mapUser = (user: any, accessToken: string): User => ({
+  ...user,
+  displayName: `${user.firstName} ${user.lastName}`.trim(),
+  role: user.role || 'user', 
+  photoURL: user.photoURL || '/assets/icons/glass/ic_glass_users.png',
+  accessToken,
+});
 
 export function AuthProvider({ children }: Props) {
   const { state, setState } = useSetState<AuthState>({ 
@@ -24,48 +25,71 @@ export function AuthProvider({ children }: Props) {
     loading: true 
   });
 
+  // [CHECK SESSION] - Nível 10/10 com blindagem de rede
   const checkUserSession = useCallback(async () => {
     try {
-      // 1. Buscamos o token real armazenado (localStorage ou sessionStorage)
-      const accessToken = sessionStorage.getItem(JWT_STORAGE_KEY);
+      const accessToken = localStorage.getItem(JWT_STORAGE_KEY);
 
-      // 2. Verificamos se o token existe e se não está expirado
       if (accessToken && isValidToken(accessToken)) {
-        // Define o token no cabeçalho do Axios: Authorization: Bearer <token>
         setSession(accessToken);
-
-        // 3. Chamada REAL para o seu Backend na Cloudflare
-        // Rota: GET https://api.asppibra.com/api/core/auth/me
         const res = await axios.get(endpoints.auth.me);
-        
-        const { user } = res.data;
+        const { user } = res.data.data; 
 
-        // 4. Define o usuário real no estado global do React
-        setState({ 
-          user: { 
-            ...user, 
-            accessToken,
-            role: user?.role ?? 'citizen' // Role padrão caso não venha do banco
-          }, 
-          loading: false 
-        });
+        const sessionUser = mapUser(user, accessToken);
+        setState({ user: sessionUser, loading: false });
       } else {
-        // Se não houver token válido, limpa a sessão e desloga
+        throw new Error('Token inválido ou ausente');
+      }
+    } catch (error: any) {
+      // 🛡️ MELHORIA: Tratamento de erro de rede vs erro de auth
+      if (!error.response) {
+        // Erro de Rede (Servidor Offline) - Mantemos a sessão local
+        console.warn('⚠️ ASPPIBRA-DAO Offline: Tentando manter sessão local.');
+        const backupToken = localStorage.getItem(JWT_STORAGE_KEY);
+        if (backupToken) setSession(backupToken);
+        setState((prevState) => ({ ...prevState, loading: false }));
+      } else {
+        // Erro de Autenticação Real (401, 500) - Limpa tudo
         setSession(null);
         setState({ user: null, loading: false });
       }
-    } catch (error) {
-      console.error('Erro na sessão do usuário:', error);
-      setSession(null);
-      setState({ user: null, loading: false });
     }
   }, [setState]);
-  
+
+  // [LOGIN] - 🔥 Versão "Blindada" 10/10 com mapeamento do D1
+  const signIn = useCallback(async (email: string, password: string) => {
+    try {
+      const res = await axios.post(endpoints.auth.login, { email, password });
+      
+      const { accessToken, user } = res.data.data;
+
+      if (!accessToken) throw new Error('Falha na emissão do passaporte digital.');
+
+      const sessionUser = mapUser(user, accessToken);
+      
+      setSession(accessToken); 
+      setState({ user: sessionUser, loading: false });
+
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Erro na comunicação com a DAO';
+      
+      if (error.response?.status === 403) {
+        throw new Error('Acesso pendente de aprovação (KYC).');
+      }
+      
+      throw new Error(message);
+    }
+  }, [setState]);
+
+  // [LOGOUT] - Limpeza de sessão robusta e imediata
+  const signOut = useCallback(async () => {
+    setSession(null); // Limpa o header do Axios e o localStorage
+    setState({ user: null, loading: false });
+  }, [setState]);
+
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
-
-  // ----------------------------------------------------------------------
 
   const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
   const status = state.loading ? 'loading' : checkAuthenticated;
@@ -73,13 +97,15 @@ export function AuthProvider({ children }: Props) {
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
+      signIn,
+      signOut,
       checkUserSession,
       loading: status === 'loading',
       authenticated: status === 'authenticated',
       unauthenticated: status === 'unauthenticated',
     }),
-    [checkUserSession, state.user, status]
+    [checkUserSession, state.user, status, signIn, signOut]
   );
 
-  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={memoi""zedValue}>{children}</AuthContext.Provider>;
 }

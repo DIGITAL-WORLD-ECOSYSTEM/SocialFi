@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
@@ -32,6 +33,14 @@ import { PostDetailsToolbar } from '../details/post-details-toolbar';
 
 // ----------------------------------------------------------------------
 
+// 🟢 CORREÇÃO DEFINITIVA: Componente AvatarGroup estilizado para isolar a complexidade do seletor.
+const StyledAvatarGroup = styled(AvatarGroup)({
+  [`& .${avatarGroupClasses.avatar}`]: {
+    width: 32,
+    height: 32,
+  },
+});
+
 type Props = {
   post?: IPostItem;
 };
@@ -45,9 +54,13 @@ export function PostDetailsView({ post }: Props) {
 
   useEffect(() => {
     if (post) {
-      setPublish(post?.publish);
+      setPublish(post.publish ? 'published' : 'draft');
     }
   }, [post]);
+
+  const avatars = (post?.favoritePerson || []).map((person) => (
+    <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
+  ));
 
   return (
     <DashboardContent maxWidth={false} disablePadding>
@@ -114,18 +127,7 @@ export function PostDetailsView({ post }: Props) {
               sx={{ mr: 1 }}
             />
 
-            <AvatarGroup
-              sx={{
-                [`& .${avatarGroupClasses.avatar}`]: {
-                  width: 32,
-                  height: 32,
-                },
-              }}
-            >
-              {(post?.favoritePerson || []).map((person) => (
-                <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
-              ))}
-            </AvatarGroup>
+            <StyledAvatarGroup>{avatars}</StyledAvatarGroup>
           </Box>
         </Stack>
 

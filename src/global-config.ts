@@ -1,4 +1,3 @@
-'use client';
 
 import { paths } from 'src/routes/paths';
 

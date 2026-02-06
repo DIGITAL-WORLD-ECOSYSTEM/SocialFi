@@ -91,7 +91,6 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
             </Stack>
           )}
 
-          {/* 🟢 CORREÇÃO: Envolve o formulário em um Box para aplicar o estilo. */}
           <Box sx={{ my: 5 }}>
             <PostCommentForm />
           </Box>
@@ -108,7 +107,7 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
 
           <Grid container spacing={3}>
             {latestPosts.slice(0, 4).map((latestPost) => (
-              <Grid key={latestPost.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid item key={latestPost.id} xs={12} sm={6} md={4} lg={3}>
                 <PostItem post={latestPost} detailsHref={paths.post.details(latestPost.title)} />
               </Grid>
             ))}
