@@ -1,12 +1,16 @@
 'use client';
 
-import type { AuthState, User } from '../types';
-import { useSetState } from 'minimal-shared/hooks';
 import { useMemo, useEffect, useCallback } from 'react';
+import { useSetState } from 'minimal-shared/hooks';
+
 import axios, { endpoints } from 'src/lib/axios';
-import { JWT_STORAGE_KEY } from './constant';
+
 import { AuthContext } from './auth-context';
+import { JWT_STORAGE_KEY } from './constant';
 import { setSession, isValidToken } from './utils';
+
+// ✅ Importando tipos corretamente - Certifique-se de que 'User' está exportado em '../types'
+import type { AuthState, User } from '../types';
 
 type Props = { children: React.ReactNode };
 
@@ -20,7 +24,7 @@ const mapUser = (user: any, accessToken: string): User => ({
 });
 
 export function AuthProvider({ children }: Props) {
-  const { state, setState } = useSetState<AuthState>({ 
+  const { state, setState } = useSetState<AuthState>({
     user: null, 
     loading: true 
   });
@@ -38,16 +42,16 @@ export function AuthProvider({ children }: Props) {
         const sessionUser = mapUser(user, accessToken);
         setState({ user: sessionUser, loading: false });
       } else {
-        throw new Error('Token inválido ou ausente');
+        setSession(null);
+        setState({ user: null, loading: false });
       }
     } catch (error: any) {
-      // 🛡️ MELHORIA: Tratamento de erro de rede vs erro de auth
       if (!error.response) {
         // Erro de Rede (Servidor Offline) - Mantemos a sessão local
         console.warn('⚠️ ASPPIBRA-DAO Offline: Tentando manter sessão local.');
         const backupToken = localStorage.getItem(JWT_STORAGE_KEY);
         if (backupToken) setSession(backupToken);
-        setState((prevState) => ({ ...prevState, loading: false }));
+        setState({ loading: false });
       } else {
         // Erro de Autenticação Real (401, 500) - Limpa tudo
         setSession(null);
@@ -59,7 +63,8 @@ export function AuthProvider({ children }: Props) {
   // [LOGIN] - 🔥 Versão "Blindada" 10/10 com mapeamento do D1
   const signIn = useCallback(async (email: string, password: string) => {
     try {
-      const res = await axios.post(endpoints.auth.login, { email, password });
+      // ✅ Corrigido: usando 'signIn' conforme definido no seu axios.ts
+      const res = await axios.post(endpoints.auth.signIn, { email, password });
       
       const { accessToken, user } = res.data.data;
 
@@ -81,9 +86,8 @@ export function AuthProvider({ children }: Props) {
     }
   }, [setState]);
 
-  // [LOGOUT] - Limpeza de sessão robusta e imediata
   const signOut = useCallback(async () => {
-    setSession(null); // Limpa o header do Axios e o localStorage
+    setSession(null);
     setState({ user: null, loading: false });
   }, [setState]);
 
@@ -107,5 +111,5 @@ export function AuthProvider({ children }: Props) {
     [checkUserSession, state.user, status, signIn, signOut]
   );
 
-  return <AuthContext.Provider value={memoi""zedValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
 }
