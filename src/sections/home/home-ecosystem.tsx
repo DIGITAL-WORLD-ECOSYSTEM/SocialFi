@@ -18,7 +18,8 @@ import { Iconify } from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
-import { HomeBackground } from './components/home-background';
+
+// ✅ REMOVIDO: HomeBackground não é mais necessário aqui, pois já está no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -64,12 +65,18 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       id="ecosystem"
       component="section"
       sx={[
-        { position: 'relative', py: { xs: 12, md: 18 }, overflow: 'hidden' },
+        { 
+          position: 'relative', 
+          py: { xs: 12, md: 18 }, 
+          overflow: 'hidden',
+          // ✅ GARANTINDO TRANSPARÊNCIA: Essencial para ver o fundo único
+          bgcolor: 'transparent' 
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      <HomeBackground section="ecosystem" />
+      {/* ✅ LINHA REMOVIDA: <HomeBackground section="ecosystem" /> */}
 
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 1 }}>
@@ -101,7 +108,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   size="large"
                   variant="contained"
                   color="inherit"
-                  /* CORREÇÃO TS: 'as any' para ignorar restrição de string do Iconify */
                   endIcon={<Iconify icon={"solar:arrow-right-bold" as any} />}
                   sx={{
                     mt: 6,
@@ -126,7 +132,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                       <Box
                         sx={{
                           position: 'relative',
-                          p: '1.5px', // Espessura da borda brilhante
+                          p: '1.5px',
                           borderRadius: 2.5,
                           height: '100%',
                           overflow: 'hidden',
@@ -134,15 +140,14 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                           transition: theme.transitions.create('transform'),
                           '&:hover': { 
                             transform: 'translateY(-8px)',
-                            '& .shine-layer': { animationDuration: '2s' } // Acelera ao passar o mouse
+                            '& .shine-layer': { animationDuration: '2s' }
                           },
                         }}
                       >
-                        {/* CAMADA 1: O BRILHO ROTATIVO (Fundo) */}
                         <Box
                           className="shine-layer"
                           sx={{
-                            inset: '-50%', // Expande para cobrir as bordas ao rotacionar
+                            inset: '-50%',
                             zIndex: 0,
                             position: 'absolute',
                             background: `conic-gradient(from 0deg, transparent 0%, ${item.color} 15%, transparent 30%, ${alpha(item.color, 0.5)} 50%, transparent 100%)`,
@@ -154,7 +159,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                           }}
                         />
 
-                        {/* CAMADA 2: CONTEÚDO DO CARD (Sobreposto) */}
                         <Stack
                           spacing={3}
                           sx={{
@@ -162,7 +166,8 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                             width: 1,
                             zIndex: 1,
                             borderRadius: 'inherit',
-                            bgcolor: alpha(theme.palette.background.paper, 0.92),
+                            // ✅ EFEITO VIDRO: Permite que o fundo Vortex 3D apareça sutilmente
+                            bgcolor: alpha(theme.palette.background.paper, 0.8),
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)',
                             border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
@@ -180,7 +185,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                               bgcolor: alpha(item.color, 0.12),
                             }}
                           >
-                            {/* CORREÇÃO TS: 'as any' no mapeamento dinâmico */}
                             <Iconify icon={item.icon as any} width={28} />
                           </Box>
 

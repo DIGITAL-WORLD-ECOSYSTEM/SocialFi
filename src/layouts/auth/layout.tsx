@@ -13,12 +13,11 @@ import Alert from '@mui/material/Alert';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { CONFIG } from 'src/global-config';
-
 import { Logo } from 'src/components/logo';
 
 import { AuthCenteredContent } from './content';
 import { MainSection, LayoutSection, HeaderSection } from '../core';
+import { AuthBackgroundAnimation } from './background-animation';
 
 // ----------------------------------------------------------------------
 
@@ -49,15 +48,9 @@ export function AuthCenteredLayout({
           This is an info Alert.
         </Alert>
       ),
-      leftArea: (
-        <>
-          {/** @slot Logo */}
-          <Logo />
-        </>
-      ),
+      leftArea: <Logo />,
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
-          {/** @slot Help link */}
           <Link
             href={paths.faqs}
             component={RouterLink}
@@ -78,7 +71,10 @@ export function AuthCenteredLayout({
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={merge(headerSlotProps, slotProps?.header?.slotProps ?? {})}
         sx={[
-          { position: { [layoutQuery]: 'fixed' } },
+          { 
+            position: { [layoutQuery]: 'fixed' },
+            bgcolor: 'transparent', // Garante que o header não bloqueie o fundo
+          },
           ...(Array.isArray(slotProps?.header?.sx) ? slotProps.header.sx : [slotProps?.header?.sx]),
         ]}
       />
@@ -93,6 +89,8 @@ export function AuthCenteredLayout({
       sx={[
         (theme) => ({
           alignItems: 'center',
+          display: 'flex',
+          background: 'transparent', // ✅ OBRIGATÓRIO: Remove o fundo sólido do Main
           p: theme.spacing(3, 2, 10, 2),
           [theme.breakpoints.up(layoutQuery)]: {
             justifyContent: 'center',
@@ -108,26 +106,22 @@ export function AuthCenteredLayout({
 
   return (
     <LayoutSection
-      /** **************************************
-       * @Header
-       *************************************** */
       headerSection={renderHeader()}
-      /** **************************************
-       * @Footer
-       *************************************** */
       footerSection={renderFooter()}
-      /** **************************************
-       * @Styles
-       *************************************** */
-      cssVars={{ '--layout-auth-content-width': '420px', ...cssVars }}
+      cssVars={{ '--layout-auth-content-width': '380px', ...cssVars }}
       sx={[
-        (theme) => ({
-          position: 'relative',
-          '&::before': backgroundStyles(theme),
-        }),
+        { 
+            position: 'relative',
+            overflow: 'hidden', // Evita scroll causado pelas partículas
+            bgcolor: '#030712' // Cor de base bem escura (DEX World)
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
+      {/* 1. O fundo 3D fica na camada mais baixa */}
+      <AuthBackgroundAnimation />
+
+      {/* 2. O conteúdo da autenticação fica por cima */}
       {renderMain()}
     </LayoutSection>
   );
@@ -135,17 +129,12 @@ export function AuthCenteredLayout({
 
 // ----------------------------------------------------------------------
 
+// Ajustamos o backgroundStyles para ser apenas uma camada de suporte transparente
 const backgroundStyles = (theme: Theme): CSSObject => ({
-  ...theme.mixins.bgGradient({
-    images: [`url(${CONFIG.assetsDir}/assets/background/background-3-blur.webp)`],
-  }),
-  zIndex: 1,
-  opacity: 0.24,
+  zIndex: -1, // Empurra para trás do Canvas de animação
   width: '100%',
   height: '100%',
   content: "''",
   position: 'absolute',
-  ...theme.applyStyles('dark', {
-    opacity: 0.08,
-  }),
+  backgroundColor: 'transparent',
 });

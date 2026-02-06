@@ -18,7 +18,6 @@ import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
-import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
@@ -28,32 +27,6 @@ const SOCIAL_CHANNELS = [
   { name: 'Telegram', icon: 'logos:telegram', color: '#0088cc' },
   { name: 'Instagram', icon: 'skill-icons:instagram', color: '#E4405F' },
 ];
-
-const renderLines = () => (
-  <>
-    <Stack
-      spacing={8}
-      alignItems="center"
-      sx={{
-        position: 'absolute',
-        top: 64,
-        right: 80,
-        bottom: 64,
-        zIndex: 2,
-        transform: 'translateX(50%)',
-        display: { xs: 'none', md: 'flex' },
-        '& span': { position: 'static', opacity: 0.12 },
-      }}
-    >
-      <FloatDotIcon />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <Box sx={{ flexGrow: 1 }} />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <FloatDotIcon />
-    </Stack>
-    <FloatLine vertical sx={{ top: 0, right: 80, display: { xs: 'none', md: 'block' } }} />
-  </>
-);
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +40,32 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
       { id: 'aum', label: 'ASSETS UNDER SOVEREIGNTY', value: '$7.5M' },
     ],
     []
+  );
+
+  const renderLines = () => (
+    <>
+      <Stack
+        spacing={8}
+        alignItems="center"
+        sx={{
+          position: 'absolute',
+          top: 64,
+          right: 80,
+          bottom: 64,
+          zIndex: 2,
+          transform: 'translateX(50%)',
+          display: { xs: 'none', md: 'flex' },
+          '& span': { position: 'static', opacity: 0.12 },
+        }}
+      >
+        <FloatDotIcon />
+        <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
+        <Box sx={{ flexGrow: 1 }} />
+        <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
+        <FloatDotIcon />
+      </Stack>
+      <FloatLine vertical sx={{ top: 0, right: 80, display: { xs: 'none', md: 'block' } }} />
+    </>
   );
 
   const renderStats = () => (
@@ -96,11 +95,10 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
 
   const renderSocialHub = () => (
     <m.div variants={varFade('inRight')}>
-      {/* WRAPPER PARA O BRILHO DA BORDA */}
       <Box
         sx={{
           position: 'relative',
-          p: '2px', // Espessura da borda degradê
+          p: '2px',
           borderRadius: 3,
           overflow: 'hidden',
           display: 'flex',
@@ -115,7 +113,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
             width: 1,
             zIndex: 1,
             borderRadius: 'inherit',
-            bgcolor: alpha(theme.palette.background.paper, 0.9),
+            bgcolor: alpha(theme.palette.background.paper, 0.85),
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
           }}
@@ -125,7 +123,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                Network Synergy
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
-              Our decentralized governance integrates corporations and cooperatives into a global liquidity ecosystem, overcoming tech barriers through auditable management.
+              Nossa governança descentralizada integra corporações e cooperativas em um ecossistema de liquidez global focado em ativos reais.
             </Typography>
           </Stack>
 
@@ -167,11 +165,17 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
     <Box
       id="community"
       component="section"
-      sx={[{ position: 'relative', overflow: 'hidden', py: { xs: 10, md: 20 } }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[
+        { 
+          position: 'relative', 
+          overflow: 'hidden', 
+          py: { xs: 10, md: 20 },
+          bgcolor: 'transparent' 
+        },
+        ...(Array.isArray(sx) ? sx : [sx])
+      ]}
       {...other}
     >
-      <HomeBackground section="community" />
-
       <MotionViewport>
         {renderLines()}
 
@@ -189,7 +193,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 caption="INSTITUTIONAL TRACTION"
                 title="Market Potential &"
                 txtGradient="Systemic Scalability"
-                description="Consolidating solid metrics that reflect our global scaling capacity. ASPPIBRA-DAO provides the infrastructure to manage high-value assets with absolute legal security and decentralized liquidity."
+                description="A ASPPIBRA-DAO provê infraestrutura para gerir ativos de alto valor, como a produção de café agroecológico, com segurança jurídica e liquidez."
                 sx={{ textAlign: 'left', mb: 0 }}
               />
 
@@ -199,6 +203,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 <Button
                   variant="contained"
                   size="large"
+                  // ✅ FIX: Forçando tipagem para evitar erro de união complexa
                   startIcon={<Iconify icon={'solar:shield-user-bold-duotone' as any} width={24} />}
                   sx={{
                     height: 56,
@@ -206,7 +211,8 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                     borderRadius: 1.5,
                     fontSize: 16,
                     fontWeight: 700,
-                    boxShadow: theme.customShadows?.primary,
+                    // ✅ FIX: Asserção de tipo simples para 'customShadows'
+                    boxShadow: (theme.customShadows as any).primary,
                   }}
                 >
                   Access Governance

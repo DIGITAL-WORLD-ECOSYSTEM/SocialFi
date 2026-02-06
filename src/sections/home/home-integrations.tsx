@@ -9,9 +9,9 @@ import Container from '@mui/material/Container';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { MotionViewport } from 'src/components/animate';
-
 import { SectionTitle } from './components/section-title';
-import { HomeBackground } from './components/home-background';
+
+// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está centralizado no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -31,38 +31,6 @@ const World = dynamic(() => import('src/components/threeglobe/globe').then((m) =
 
 // ----------------------------------------------------------------------
 
-const sampleArcs = [
-  {
-    order: 1,
-    startLat: -15.78,
-    startLng: -47.92,
-    endLat: 40.71,
-    endLng: -74.0,
-    arcAlt: 0.3,
-    color: '#00AB55',
-  },
-  {
-    order: 2,
-    startLat: -15.78,
-    startLng: -47.92,
-    endLat: 51.5,
-    endLng: -0.12,
-    arcAlt: 0.4,
-    color: '#00AB55',
-  },
-  {
-    order: 3,
-    startLat: -15.78,
-    startLng: -47.92,
-    endLat: 1.35,
-    endLng: 103.8,
-    arcAlt: 0.5,
-    color: '#00AB55',
-  },
-];
-
-// ----------------------------------------------------------------------
-
 const fadeRight: Variants = {
   hidden: { opacity: 0, x: 48 },
   show: {
@@ -74,6 +42,8 @@ const fadeRight: Variants = {
 
 export function HomeIntegrations({ sx, ...other }: BoxProps) {
   const theme = useTheme();
+  
+  // ✅ AJUSTE: Forçamos o fundo para transparente para ver o Vortex unificado
   const isLight = theme.palette.mode === 'light';
 
   const globeConfig = {
@@ -145,13 +115,14 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
           py: { xs: 10, md: 15 },
           position: 'relative',
           overflow: 'hidden',
-          bgcolor: 'background.default',
+          // ✅ CRUCIAL: Alterado de 'background.default' para 'transparent'
+          bgcolor: 'transparent', 
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      <HomeBackground section="integrations" />
+      {/* ✅ LINHA REMOVIDA: <HomeBackground section="integrations" /> */}
 
       <Container component={MotionViewport} sx={{ position: 'relative', zIndex: 9 }}>
         <Box
@@ -171,3 +142,10 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
     </Box>
   );
 }
+
+// sampleArcs permanece o mesmo...
+const sampleArcs = [
+  { order: 1, startLat: -15.78, startLng: -47.92, endLat: 40.71, endLng: -74.0, arcAlt: 0.3, color: '#00AB55' },
+  { order: 2, startLat: -15.78, startLng: -47.92, endLat: 51.5, endLng: -0.12, arcAlt: 0.4, color: '#00AB55' },
+  { order: 3, startLat: -15.78, startLng: -47.92, endLat: 1.35, endLng: 103.8, arcAlt: 0.5, color: '#00AB55' },
+];

@@ -1,11 +1,9 @@
-// ----------------------------------------------------------------------
-// Imports — tipos
-// ----------------------------------------------------------------------
-import type { BoxProps } from '@mui/material/Box';
+'use client';
 
 // ----------------------------------------------------------------------
-// Imports — react & motion
+// Imports — tipos e react/motion
 // ----------------------------------------------------------------------
+import type { BoxProps } from '@mui/material/Box';
 import { m } from 'framer-motion';
 
 // ----------------------------------------------------------------------
@@ -25,18 +23,15 @@ import { alpha, useTheme } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
 import { fDate } from 'src/utils/format-time';
-
 import { _mock } from 'src/_mock';
-import { useTranslate } from 'src/locales';
-
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { SectionTitle } from './components/section-title';
-import { HomeBackground } from './components/home-background';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
+
+// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -62,7 +57,6 @@ const renderLines = () => (
       <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
       <FloatDotIcon />
     </Stack>
-
     <FloatLine vertical sx={{ top: 0, left: 80, display: { xs: 'none', md: 'block' } }} />
   </>
 );
@@ -71,22 +65,20 @@ const renderLines = () => (
 
 export function HomeLatestNews({ sx, ...other }: BoxProps) {
   const theme = useTheme();
-  const { t } = useTranslate();
 
-  // Dados estáticos baseados na captura de tela de referência
   const displayPosts = [
     {
       id: 'post-1',
       title: 'Lançamento da DEX V2: Mais Rápida e Segura',
-      description: 'Lançamento da DEX V2: Mais Rápida e Segura lançamento da...',
+      description: 'Aprimoramos nossa infraestrutura para garantir liquidez descentralizada e auditabilidade on-chain.',
       coverUrl: _mock.image.cover(4),
       createdAt: new Date().toISOString(),
       category: 'NOVOS RECURSOS',
     },
     {
       id: 'post-2',
-      title: 'Parceria Estratégica com Grande Protocolo DeFi',
-      description: 'Parceria Estratégica com Grande Protocolo DeFi o nosso ecossistema D...',
+      title: 'Parceria Estratégica: Agroecologia e Web3',
+      description: 'Integramos produtores de café agroecológico de Paraty ao nosso ecossistema de ativos reais.',
       coverUrl: _mock.image.cover(5),
       createdAt: new Date().toISOString(),
       category: 'PARCERIA',
@@ -94,7 +86,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
     {
       id: 'post-3',
       title: 'O Futuro dos NFTs e a Governança DAO',
-      description: 'O Futuro dos NFTs e a provoperztade a análise de...',
+      description: 'Como a ASPPIBRA-DAO utiliza governança institucional para gerir ativos tangíveis com segurança jurídica.',
       coverUrl: _mock.image.cover(6),
       createdAt: new Date().toISOString(),
       category: 'ANÁLISE DE MERCADO',
@@ -105,12 +97,18 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
     <Box
       component="section"
       sx={[
-        { py: { xs: 10, md: 15 }, position: 'relative', overflow: 'hidden' },
+        { 
+          py: { xs: 10, md: 15 }, 
+          position: 'relative', 
+          overflow: 'hidden',
+          // ✅ TRANSPARÊNCIA: Essencial para revelar o fundo unificado
+          bgcolor: 'transparent' 
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      <HomeBackground section="news" />
+      {/* ✅ LINHA REMOVIDA: <HomeBackground section="news" /> */}
 
       <MotionViewport>
         {renderLines()}
@@ -129,7 +127,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                 caption="BLOG & ARTIGOS RECENTES"
                 title="Últimas Notícias"
                 txtGradient="e Atualizações"
-                description="Fique por dentro das novidades, anúncios e análises do nosso ecossistema DeFi."
+                description="Fique por dentro das novidades, anúncios e análises do ecossistema ASPPIBRA-DAO."
                 sx={{ textAlign: { xs: 'center', md: 'left' }, mb: 5 }}
               />
 
@@ -148,6 +146,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                     borderWidth: 2,
                     fontWeight: 700,
                     display: { xs: 'none', md: 'inline-flex' },
+                    backdropFilter: 'blur(8px)',
                     '&:hover': { borderWidth: 2 }
                   }}
                 >
@@ -174,8 +173,8 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                         height: 1,
                         display: 'flex',
                         flexDirection: 'column',
-                        textDecoration: 'none',
                         borderRadius: 3,
+                        // ✅ ESTILO VIDRO LÍQUIDO: Harmoniza com o Vortex galáctico
                         bgcolor: alpha(theme.palette.background.paper, 0.4),
                         backdropFilter: 'blur(12px)',
                         border: `solid 1px ${alpha(theme.palette.primary.main, 0.1)}`,
@@ -183,14 +182,12 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                         '&:hover': {
                           transform: 'translateY(-12px)',
                           boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.2)}`,
-                          '& .card-image': { transform: 'scale(1.1)' },
                         },
                       }}
                     >
                       <Box sx={{ position: 'relative', pt: '66%', overflow: 'hidden' }}>
                         <Box
                           component="img"
-                          className="card-image"
                           alt={post.title}
                           src={post.coverUrl}
                           sx={{
@@ -199,19 +196,13 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                             width: 1,
                             height: 1,
                             objectFit: 'cover',
-                            transition: theme.transitions.create('transform', {
-                              duration: theme.transitions.duration.complex,
-                            }),
                           }}
                         />
                       </Box>
 
                       <Stack spacing={2} sx={{ p: 3, flexGrow: 1 }}>
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
-                          <Typography
-                            variant="overline"
-                            sx={{ color: 'info.main', fontWeight: 800, fontSize: 11 }}
-                          >
+                          <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800, fontSize: 11 }}>
                             {post.category}
                           </Typography>
                           <Typography variant="caption" sx={{ color: 'text.disabled' }}>
@@ -219,30 +210,11 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                           </Typography>
                         </Stack>
 
-                        <Typography
-                          variant="subtitle1"
-                          sx={{
-                            fontWeight: 800,
-                            lineHeight: 1.4,
-                            overflow: 'hidden',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                          }}
-                        >
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4 }}>
                           {post.title}
                         </Typography>
 
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: 'text.secondary',
-                            overflow: 'hidden',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                          }}
-                        >
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                           {post.description}
                         </Typography>
                       </Stack>

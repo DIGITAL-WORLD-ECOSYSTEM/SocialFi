@@ -1,13 +1,9 @@
 'use client';
 
 // ----------------------------------------------------------------------
-// Imports — tipos
+// Imports — tipos e motion
 // ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
-
-// ----------------------------------------------------------------------
-// Imports — react & motion
-// ----------------------------------------------------------------------
 import { m } from 'framer-motion';
 
 // ----------------------------------------------------------------------
@@ -24,9 +20,9 @@ import { alpha, useTheme } from '@mui/material/styles';
 // Imports — app
 // ----------------------------------------------------------------------
 import { varFade, MotionViewport } from 'src/components/animate';
-
 import { SectionTitle } from './components/section-title';
-import { HomeBackground } from './components/home-background';
+
+// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está centralizado no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -75,12 +71,14 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
           py: { xs: 10, md: 15 },
           position: 'relative',
           overflow: 'hidden',
+          // ✅ GARANTINDO TRANSPARÊNCIA: Essencial para ver o fundo unificado
+          bgcolor: 'transparent', 
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      <HomeBackground section="roadmap" />
+      {/* ✅ LINHA REMOVIDA: <HomeBackground section="roadmap" /> */}
 
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 10 }}>
@@ -114,25 +112,23 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                     <Box
                       sx={{
                         position: 'relative',
-                        p: '2px', // Largura da borda animada
+                        p: '2px', 
                         borderRadius: 2,
                         overflow: 'hidden',
                         display: 'flex',
                         transition: theme.transitions.create('transform'),
                         '&:hover': { 
                           transform: 'translateY(-8px)',
-                          '& .roadmap-shine': { animationDuration: '3s' } // Acelera ao passar o mouse
+                          '& .roadmap-shine': { animationDuration: '3s' } 
                         },
                       }}
                     >
-                      {/* EFEITO SHINE ANIMADO (CAMADA DE FUNDO) */}
                       <Box
                         className="roadmap-shine"
                         sx={{
                           inset: '-50%',
                           zIndex: 0,
                           position: 'absolute',
-                          // Cores fluorescente/neon combinando com sua marca
                           background: `conic-gradient(from 0deg, transparent 0%, #00FFCC 15%, transparent 30%, #7A5AF8 50%, transparent 100%)`,
                           animation: 'rotate-shine 6s linear infinite',
                           '@keyframes rotate-shine': {
@@ -142,7 +138,6 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                         }}
                       />
 
-                      {/* CONTEÚDO DO CARD (CAMADA SUPERIOR) */}
                       <Card
                         sx={{
                           p: 4,
@@ -150,7 +145,8 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                           zIndex: 1,
                           borderRadius: 'inherit',
                           textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
-                          bgcolor: alpha(theme.palette.background.paper, 0.9),
+                          // ✅ VIDRO LÍQUIDO: Transparência ajustada para mostrar o Vortex 3D
+                          bgcolor: alpha(theme.palette.background.paper, 0.85),
                           backdropFilter: 'blur(12px)',
                           WebkitBackdropFilter: 'blur(12px)',
                           border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,

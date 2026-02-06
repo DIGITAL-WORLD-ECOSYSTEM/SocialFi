@@ -1,42 +1,34 @@
-// ----------------------------------------------------------------------
-// Imports — tipos
-// ----------------------------------------------------------------------
+'use client';
 
+// ----------------------------------------------------------------------
+// Imports — tipos e react/motion
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
-
-// ----------------------------------------------------------------------
-// Imports — react & motion
-// ----------------------------------------------------------------------
-
 import { m } from 'framer-motion';
 
 // ----------------------------------------------------------------------
 // Imports — MUI
 // ----------------------------------------------------------------------
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { alpha } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 // Imports — app
 // ----------------------------------------------------------------------
-
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
 import { _socials, _carouselsMembers } from 'src/_mock';
-
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components/carousel';
 
-// Inserindo o background unificado para a Fase 1
-import { HomeBackground } from './components/home-background';
+// ✅ REMOVIDO: HomeBackground não é mais necessário aqui, pois já está no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -44,23 +36,25 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
   const carousel = useCarousel({
     align: 'start',
     slideSpacing: '24px',
-    slidesToShow: {
-      xs: 1,
-      sm: 2,
-      md: 3,
-      lg: 4,
-    },
+    slidesToShow: { xs: 1, sm: 2, md: 3, lg: 4 },
   });
 
   return (
     <Box
       id="team"
       component="section"
-      sx={[{ position: 'relative', overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[
+        { 
+          position: 'relative', 
+          overflow: 'hidden',
+          // ✅ GARANTINDO TRANSPARÊNCIA: Permite ver o fundo unificado através da seção
+          bgcolor: 'transparent' 
+        },
+        ...(Array.isArray(sx) ? sx : [sx])
+      ]}
       {...other}
     >
-      {/* Integração do Fundo: Ativa o Grid no chão específico para o Team */}
-      <HomeBackground section="team" />
+      {/* ✅ LINHA REMOVIDA: <HomeBackground section="team" /> */}
 
       <Container 
         component={MotionViewport} 
@@ -80,8 +74,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
 
         <m.div variants={varFade('inUp')}>
           <Typography sx={{ mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
-            Minimal will provide you support if you have any problems, our support team will reply
-            within a day and we also have detailed documentation.
+            A equipe ASPPIBRA-DAO combina expertise em agroecologia, tecnologia blockchain e governança para transformar o setor rural.
           </Typography>
         </m.div>
 
@@ -128,7 +121,17 @@ type MemberCardProps = {
 
 function MemberCard({ member }: MemberCardProps) {
   return (
-    <Card sx={{ backdropFilter: 'blur(16px)', position: 'relative', zIndex: 1 }}>
+    <Card 
+      sx={(theme) => ({ 
+        // ✅ EFEITO VIDRO LÍQUIDO: Harmoniza com o Vortex galáctico do fundo
+        bgcolor: alpha(theme.palette.background.paper, 0.8),
+        backdropFilter: 'blur(16px)', 
+        WebkitBackdropFilter: 'blur(16px)',
+        border: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
+        position: 'relative', 
+        zIndex: 1 
+      })}
+    >
       <Typography variant="subtitle1" sx={{ mt: 2.5, mb: 0.5 }}>
         {member.name}
       </Typography>
@@ -141,14 +144,7 @@ function MemberCard({ member }: MemberCardProps) {
         <Image alt={member.name} src={member.avatarUrl} ratio="1/1" sx={{ borderRadius: 2 }} />
       </Box>
 
-      <Box
-        sx={{
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {_socials.map((social) => (
           <IconButton key={social.label}>
             {social.value === 'twitter' && <Iconify icon={"socials:twitter" as any} />}
