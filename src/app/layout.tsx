@@ -17,7 +17,8 @@ import { JsonLd } from 'src/components/seo/json-ld';
 
 import App from './app';
 
-export const runtime = 'edge'; 
+// ✅ CORREÇÃO DE DEPLOY: Alterado de 'edge' para 'nodejs' para remover o limite de 1MB
+export const runtime = 'nodejs'; 
 
 const AuthProvider = JwtAuthProvider;
 
@@ -27,7 +28,6 @@ export const viewport: Viewport = {
   themeColor: primaryColor.main,
 };
 
-// 🟢 CORREÇÃO SEO 2026: Usando CONFIG.siteUrl e corrigindo branding
 export const metadata: Metadata = {
   metadataBase: new URL(CONFIG.siteUrl), 
   title: {
@@ -70,7 +70,6 @@ async function getAppConfig() {
   return {
     lang,
     dir: lang === 'ar' ? 'rtl' : 'ltr',
-    // 🟢 CORREÇÃO ERRO 2322: O provider espera apenas a string do ID (ex: 'pt')
     i18nLang: lang, 
     cookieSettings: settings,
   };
@@ -82,7 +81,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
       <head>
-        {/* 🟢 CORREÇÃO: JsonLd usando a propriedade correta do CONFIG */}
         <JsonLd 
           schema={{
             "@context": "https://schema.org",
@@ -107,6 +105,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             >
               <LocalizationProvider>
                 <AppRouterCacheProvider options={{ key: 'css' }}>
+                  {/* O componente App aqui já lida com o roteamento e providers internos */}
                   <App>{children}</App>
                 </AppRouterCacheProvider>
               </LocalizationProvider>

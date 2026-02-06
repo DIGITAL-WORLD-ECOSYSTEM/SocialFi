@@ -8,20 +8,20 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { BackToTopButton } from 'src/components/animate/back-to-top-button';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
-// Componentes críticos: Carregamento imediato
+// Componentes Críticos (Immediate Loading)
 import { HomeBackground } from '../components/home-background';
 import { HomeHero } from '../home-hero';
 import { HomeEcosystem } from '../home-ecosystem';
 
-// ✅ MELHORIA: Lazy Loading para seções pesadas e abaixo da dobra
-const HomeIntegrations = dynamic(() => import('../home-integrations').then((m) => m.HomeIntegrations));
-const HomeCommunity = dynamic(() => import('../home-community').then((m) => m.HomeCommunity));
-const HomeTeam = dynamic(() => import('../home-team').then((m) => m.HomeTeam));
-const HomeLatestNews = dynamic(() => import('../home-latest-news').then((m) => m.HomeLatestNews));
-const HomeRoadmap = dynamic(() => import('../home-roadmap').then((m) => m.HomeRoadmap));
-const HomeFAQs = dynamic(() => import('../home-faqs').then((m) => m.HomeFAQs));
-const CtaBanner = dynamic(() => import('../cta-banner').then((m) => m.CtaBanner));
-const HomeCountdownDialog = dynamic(() => import('../components/home-countdown-dialog'));
+// ✅ Lazy Loading Otimizado para Produção
+const HomeIntegrations = dynamic(() => import('../home-integrations').then((m) => m.HomeIntegrations), { ssr: false });
+const HomeCommunity = dynamic(() => import('../home-community').then((m) => m.HomeCommunity), { ssr: false });
+const HomeTeam = dynamic(() => import('../home-team').then((m) => m.HomeTeam), { ssr: false });
+const HomeLatestNews = dynamic(() => import('../home-latest-news').then((m) => m.HomeLatestNews), { ssr: false });
+const HomeRoadmap = dynamic(() => import('../home-roadmap').then((m) => m.HomeRoadmap), { ssr: false });
+const HomeFAQs = dynamic(() => import('../home-faqs').then((m) => m.HomeFAQs), { ssr: false });
+const CtaBanner = dynamic(() => import('../cta-banner').then((m) => m.CtaBanner), { ssr: false });
+const HomeCountdownDialog = dynamic(() => import('../components/home-countdown-dialog'), { ssr: false });
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ export function HomeView() {
   const pageProgress = useScrollProgress();
   const countdown = useBoolean(true);
 
-  // DATA ALVO: Lançamento SocialFi Alpha
+  // DATA ALVO: Lançamento SocialFi Alpha (15 de Fevereiro de 2026)
   const TARGET_DATE = new Date('2026-02-15T00:00:00');
 
   return (
@@ -42,10 +42,10 @@ export function HomeView() {
 
       <BackToTopButton />
 
-      {/* FUNDO ÚNICO: Persistente para ASPPIBRA-DAO */}
+      {/* FUNDO ÚNICO: Persistente para ASPPIBRA-DAO e infraestrutura RWA */}
       <HomeBackground />
 
-      {/* Conteúdo Principal */}
+      {/* Conteúdo Principal flutuando sobre o Vortex Galáctico */}
       <Box component="main" sx={{ position: 'relative', zIndex: 1 }}>
         <HomeHero />
 
@@ -68,6 +68,7 @@ export function HomeView() {
         </Stack>
       </Box>
 
+      {/* Dialog de contagem regressiva para 15/02/2026 */}
       <HomeCountdownDialog
         open={countdown.value}
         onClose={countdown.onFalse}
