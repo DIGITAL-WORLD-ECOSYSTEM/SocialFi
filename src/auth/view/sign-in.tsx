@@ -17,7 +17,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
-import { signInWithPassword } from '../context/action';
+import { useAuthContext } from '../hooks';
 import { Form, Field, Iconify, FormHead, schemaUtils, AnimateLogoRotate } from '../components';
 
 // ----------------------------------------------------------------------
@@ -33,6 +33,7 @@ export const SignInSchema = z.object({
 
 export function CenteredSignInView() {
   const router = useRouter();
+  const { signIn } = useAuthContext();
   const showPassword = useBoolean();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -51,19 +52,12 @@ export function CenteredSignInView() {
     formState: { isSubmitting },
   } = methods;
 
-  // CORREÇÃO AQUI: Adicionamos o tipo explícito ": SignInSchemaType"
   const onSubmit = handleSubmit(async (data: SignInSchemaType) => {
     try {
       setErrorMessage(null);
       
-      // Chamada real para o seu Backend na Cloudflare
-      await signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
+      await signIn(data.email, data.password);
 
-      // Se o login for bem sucedido, o setSession já foi chamado dentro do action.ts
-      // Redirecionamos para o dashboard
       router.push(paths.dashboard.root);
       
     } catch (error: any) {
