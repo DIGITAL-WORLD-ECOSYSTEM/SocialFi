@@ -1,63 +1,60 @@
 'use client';
 
-import type { Theme, SxProps } from '@mui/material/styles';
-
+import type { SxProps } from '@mui/material/styles';
 import { m } from 'framer-motion';
 
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { Theme, useTheme } from '@mui/material/styles';
+import Container, { ContainerProps } from '@mui/material/Container';
 
+import { varBounce, MotionContainer } from 'src/components/animate';
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
-import { varBounce, MotionContainer } from '../components';
+import { User } from '../types';
 
 // ----------------------------------------------------------------------
 
-/**
- * NOTE:
- * This component is for reference only.
- * You can customize the logic and conditions to better suit your application's requirements.
- */
-
-export type RoleBasedGuardProp = {
-  sx?: SxProps<Theme>;
-  currentRole: string;
+type RoleBasedGuardProp = {
   hasContent?: boolean;
-  allowedRoles: string | string[];
+  allowedRoles: (User['role'])[]; // 🛡️ Tipagem forte com base no nosso tipo User
+  currentRole: User['role'] | undefined;
   children: React.ReactNode;
+  sx?: SxProps<Theme>;
 };
 
-export function RoleBasedGuard({
-  sx,
-  children,
-  hasContent,
-  currentRole,
-  allowedRoles,
-}: RoleBasedGuardProp) {
-  if (currentRole && allowedRoles && !allowedRoles.includes(currentRole)) {
+export default function RoleBasedGuard({ hasContent, allowedRoles, currentRole, children, sx }: RoleBasedGuardProp) {
+  const theme = useTheme();
+
+  // 🛡️ Lógica de validação 10/10 - Normaliza a entrada para sempre ser um array
+  const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
+
+  // Se o cargo atual não estiver na lista de permitidos, bloqueia o acesso.
+  if (!currentRole || !roles.includes(currentRole)) {
     return hasContent ? (
-      <Container
-        component={MotionContainer}
-        sx={[{ textAlign: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
-      >
-        <m.div variants={varBounce('in')}>
+      <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
+        <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
-            Permission denied
+            Acesso não autorizado
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce('in')}>
+        <m.div variants={varBounce().in}>
           <Typography sx={{ color: 'text.secondary' }}>
-            You do not have permission to access this page.
+            Você não possui as permissões necessárias para acessar esta área.
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce('in')}>
-          <ForbiddenIllustration sx={{ my: { xs: 5, sm: 10 } }} />
+        <m.div variants={varBounce().in}>
+          <ForbiddenIllustration
+            sx={{
+              height: 260,
+              my: { xs: 5, sm: 10 },
+            }}
+          />
         </m.div>
       </Container>
     ) : null;
   }
 
-  return <> {children} </>;
+  return <>{children}</>;
 }
