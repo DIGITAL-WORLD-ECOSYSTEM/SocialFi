@@ -2,43 +2,15 @@
 
 import React, { useRef, useMemo, useEffect, memo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, PerspectiveCamera, Stars } from '@react-three/drei';
+import { Float, PerspectiveCamera, Stars, Edges } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 import Box from '@mui/material/Box';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-// ----------------------------------------------------------------------
-
-// Função para criar a textura de estrela com brilho em cruz (Sparkle) do seu original
-function createStarTexture() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 64;
-  canvas.height = 64;
-  const ctx = canvas.getContext('2d')!;
-
-  const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-  gradient.addColorStop(0.3, 'rgba(200, 200, 255, 0.7)');
-  gradient.addColorStop(1, 'rgba(40, 40, 120, 0)');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 64, 64);
-
-  ctx.globalCompositeOperation = 'lighten';
-  ctx.fillStyle = 'rgba(250, 250, 255, 0.7)';
-  ctx.fillRect(31, 0, 2, 64); // Linha vertical
-  ctx.fillRect(0, 31, 64, 2); // Linha horizontal
-
-  const texture = new THREE.CanvasTexture(canvas);
-  return texture;
-}
-
-// ----------------------------------------------------------------------
 
 const GalacticVortex = memo(() => {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -60,15 +32,15 @@ const GalacticVortex = memo(() => {
         onUpdate: (self) => {
           uniforms.scrollProgress.value = self.progress;
           
-          // Curva de Bell para Zoom: aproxima no meio e afasta no final
-          const zoomCurve = gsap.parseEase("power2.inOut")(
-            self.progress < 0.5 ? self.progress * 2 : 2 - self.progress * 2
-          );
+          let zoomCurve = self.progress < 0.5 
+            ? gsap.utils.clamp(0, 1, self.progress * 2) 
+            : gsap.utils.clamp(0, 1, 2 - self.progress * 2);
           
-          // ✅ CORREÇÃO TS: Garantindo que a câmera é do tipo PerspectiveCamera
+          zoomCurve = gsap.parseEase("power2.inOut")(zoomCurve);
+          
           if (camera instanceof THREE.PerspectiveCamera) {
-            camera.position.z = THREE.MathUtils.lerp(8, 1.2, zoomCurve);
-            camera.fov = THREE.MathUtils.lerp(60, 25, zoomCurve);
+            camera.fov = 60 - (35 * zoomCurve); // Zoom levemente menos agressivo para não cortar o layout
+            camera.position.z = THREE.MathUtils.lerp(6, 1.5, zoomCurve); // Afastado um pouco mais no início
             camera.updateProjectionMatrix();
           }
         }
@@ -79,18 +51,25 @@ const GalacticVortex = memo(() => {
 
   useFrame((state) => {
     uniforms.iTime.value = state.clock.getElapsedTime();
-    meshRef.current.rotation.y += 0.003;
-    meshRef.current.rotation.z += 0.0015;
+    meshRef.current.rotation.x += 0.0004;
+    meshRef.current.rotation.y += 0.0006;
   });
 
   return (
-    <Float speed={3} rotationIntensity={1} floatIntensity={1}>
+    <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.4}>
       <mesh ref={meshRef}>
-        <boxGeometry args={[2.8, 2.8, 2.8, 64, 64, 64]} />
+        <boxGeometry args={[2, 2, 2, 64, 64, 64]} />
+        
+        {/* Ajuste 4: Wireframe mais sutil (Azul escuro com baixíssima opacidade) */}
+        <Edges scale={1.002} threshold={15}>
+          <lineBasicMaterial color="#1a3a6a" transparent opacity={0.04} />
+        </Edges>
+
         <shaderMaterial
           transparent
           side={THREE.DoubleSide}
           blending={THREE.AdditiveBlending}
+          depthWrite={false} // Melhora a renderização de transparências sobrepostas
           uniforms={uniforms}
           vertexShader={`
             varying vec2 vUv;
@@ -103,35 +82,54 @@ const GalacticVortex = memo(() => {
           `}
           fragmentShader={`
             uniform float iTime;
-            uniform float scrollProgress;
             uniform vec2 iResolution;
+            uniform float scrollProgress;
             varying vec2 vUv;
             varying vec3 vNormal;
 
-            void main() {
+            void mainImage(out vec4 O, vec2 I) {
                 vec2 r = iResolution.xy;
-                vec2 i = vec2(0.0);
-                vec2 I = vUv * 2.0 - 1.0;
+                vec2 z;
+                vec2 i;
+                // Ajuste 3: Refinamento da escala do fractal para filamentos mais detalhados
+                vec2 f = I * (z += 4.5 - 4.0 * abs(0.7 - dot(I = (I + I - r) / r.y, I)));
                 
-                vec2 f = I * (4.0 - 3.5 * abs(0.7 - dot(I, I)));
-                float iterations = mix(8.0, 14.0, scrollProgress);
+                float timeOffset = sin(iTime * 0.15) * 0.1;
+                f.x += timeOffset;
+                f.y -= timeOffset;
                 
-                vec4 O = vec4(0.0);
-                for(float n=1.0; n < 14.0; n++) {
-                    if(n > iterations) break;
-                    f += cos(f.yx * n + iTime) / n + 0.7;
-                    O += (sin(f.xyyx) + 1.0) * abs(f.x - f.y);
-                }
+                float iterations = mix(9.0, 13.0, scrollProgress);
                 
-                O = tanh(7.0 * exp(-4.0 - I.y * vec4(-1,1,2,0)) / O);
+                for(O *= 0.0; i.y++ < iterations; 
+                    O += (sin(f += cos(f.yx * i.y + i + iTime) / i.y + 0.7) + 1.0).xyyx * abs(f.x - f.y));
                 
-                vec3 col1 = mix(vec3(0.05, 0.1, 0.6), vec3(0.0, 0.8, 0.5), scrollProgress);
-                vec3 col2 = mix(vec3(0.1, 0.4, 0.9), vec3(0.9, 0.7, 0.1), scrollProgress);
-                vec3 finalCol = mix(col1, col2, sin(iTime * 0.3) * 0.5 + 0.5);
+                O = tanh(7.0 * exp(z.x - 4.0 - I.y * vec4(-1, 1, 2, 0)) / O);
+                
+                // Ajuste 2: Cores mais equilibradas (menos saturadas no início)
+                vec3 color1 = mix(vec3(0.05, 0.15, 0.6), vec3(0.7, 0.1, 0.4), scrollProgress); // Azul Profundo -> Magenta Suave
+                vec3 color2 = mix(vec3(0.6, 0.1, 0.5), vec3(0.1, 0.7, 0.6), scrollProgress); // Roxo -> Teal
+                vec3 colorMix = mix(color1, color2, sin(iTime * 0.3) * 0.5 + 0.5);
+                
+                float nebula = abs(sin(I.x * 0.01 + iTime * 0.25) * sin(I.y * 0.01 - iTime * 0.15)) * 0.4;
+                O.rgb = mix(O.rgb, colorMix, nebula * (1.1 - length(O.rgb)));
+            }
 
-                float edge = pow(1.0 - max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)) * 2.0, 3.0);
+            void main() {
+                vec4 fragColor;
+                mainImage(fragColor, vUv * iResolution);
                 
-                gl_FragColor = vec4(O.rgb * finalCol * 2.5 + (edge * col1), 1.0);
+                float depthFactor = abs(dot(vNormal, vec3(0.0, 0.0, 1.0)));
+                fragColor.rgb *= 0.6 + 0.4 * depthFactor;
+                
+                // Ciano Elétrico nas quinas (mais suave)
+                float edge = 1.0 - max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)) * 2.0;
+                edge = pow(edge, 5.0);
+                fragColor.rgb += edge * vec3(0.2, 0.4, 0.9) * (0.5 + scrollProgress * 0.5);
+                
+                // Ajuste 1: Alfa dinâmico baseado no brilho para transparência real
+                float alpha = clamp(length(fragColor.rgb) * 1.5, 0.0, 1.0);
+                
+                gl_FragColor = vec4(fragColor.rgb * 1.8, alpha);
             }
           `}
         />
@@ -140,52 +138,17 @@ const GalacticVortex = memo(() => {
   );
 });
 
-// ----------------------------------------------------------------------
-
-export const HomeBackground = memo(({ sx, ...other }: any) => {
-  const starTexture = useMemo(() => createStarTexture(), []);
-
+export const HomeBackground = memo(() => {
   return (
-    <Box
-      sx={[
-        {
-          top: 0,
-          left: 0,
-          width: 1,
-          height: '100vh',
-          position: 'fixed',
-          zIndex: -1,
-          background: '#010411', // Azul escuro profundo (Space)
-          pointerEvents: 'none',
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    >
-      <Canvas 
-        dpr={[1, 2]} 
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      >
-        <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={60} />
-        
-        {/* Estrelas com a textura de brilho personalizada */}
-        <Stars 
-          radius={120} 
-          depth={60} 
-          count={5000} 
-          factor={5} 
-          saturation={0} 
-          fade 
-          speed={0.8} 
-        />
-        
+    <Box sx={{ top: 0, left: 0, width: '100vw', height: '100vh', position: 'fixed', zIndex: -1, background: '#010411' }}>
+      <Canvas dpr={[1, 2]} gl={{ alpha: true, antialias: true }}>
+        <PerspectiveCamera makeDefault position={[0, 0, 6]} fov={60} />
+        <Stars radius={120} depth={60} count={6000} factor={4} saturation={0} fade speed={0.8} />
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        
+        <pointLight position={[-3, 2, 5]} intensity={1.2} color="#4488ff" />
         <GalacticVortex />
       </Canvas>
-
-      {/* Vinheta para dar profundidade e destacar o texto central */}
+      {/* Vinheta para melhorar integração com o layout/texto */}
       <Box
         sx={{
           top: 0,
@@ -193,11 +156,10 @@ export const HomeBackground = memo(({ sx, ...other }: any) => {
           width: 1,
           height: 1,
           position: 'absolute',
-          background: 'radial-gradient(circle at center, transparent 20%, rgba(1, 4, 17, 0.95) 100%)',
+          background: 'radial-gradient(circle at center, transparent 30%, rgba(1, 4, 17, 0.8) 100%)',
+          pointerEvents: 'none'
         }}
       />
     </Box>
   );
 });
-
-HomeBackground.displayName = 'HomeBackground';
