@@ -275,7 +275,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                   href={paths.dashboard.root} 
                   variant="outlined"
                   size="large"
-                  startIcon={<Iconify icon="solar:shield-user-bold-duotone" />}
+                  startIcon={<Iconify icon="solar:file-bold-duotone" />}
                   sx={{
                     height: 56,
                     px: 3,
@@ -300,7 +300,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                   component={RouterLink}
                   href="#" 
                   color="inherit"
-                  endIcon={<Iconify icon="solar:arrow-right-bold-duotone" />}
+                  endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                   sx={{
                     fontWeight: 700,
                     '&:hover': {
