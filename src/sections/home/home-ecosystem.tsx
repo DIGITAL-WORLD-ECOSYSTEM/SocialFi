@@ -145,7 +145,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   href={paths.dashboard.root}
                   size="large"
                   variant="outlined"
-                  endIcon={<Iconify icon="solar:arrow-right-bold" />}
+                  endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                   sx={{
                     mt: 6,
                     height: 56,
