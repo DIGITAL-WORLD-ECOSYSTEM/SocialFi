@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 // Imports — app
@@ -28,11 +28,10 @@ import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components/carousel';
 
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui, pois já está no HomeView
-
 // ----------------------------------------------------------------------
 
 export function HomeTeam({ sx, ...other }: BoxProps) {
+  const theme = useTheme();
   const carousel = useCarousel({
     align: 'start',
     slideSpacing: '24px',
@@ -47,33 +46,70 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
         { 
           position: 'relative', 
           overflow: 'hidden',
-          // ✅ GARANTINDO TRANSPARÊNCIA: Permite ver o fundo unificado através da seção
           bgcolor: 'transparent' 
         },
         ...(Array.isArray(sx) ? sx : [sx])
       ]}
       {...other}
     >
-      {/* ✅ LINHA REMOVIDA: <HomeBackground section="team" /> */}
-
       <Container 
         component={MotionViewport} 
         sx={{ position: 'relative', zIndex: 1, textAlign: 'center', py: { xs: 10, md: 15 } }}
       >
-        <m.div variants={varFade('inDown')}>
-          <Typography variant="overline" sx={{ color: 'text.disabled' }}>
-            Dream team
+        {/* TAG "DREAM TEAM" */}
+        <m.div variants={varFade('inUp')}>
+          <Box
+            sx={{
+              display: 'inline-block',
+              border: `1px solid ${theme.palette.info.main}`,
+              borderRadius: 2,
+              px: 1.5,
+              py: 0.5,
+              mb: 5, 
+            }}
+          >
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: "'Orbitron', sans-serif",
+                fontWeight: 700,
+                fontSize: 12,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: 'info.main',
+              }}
+            >
+              DREAM TEAM
+            </Typography>
+          </Box>
+        </m.div>
+
+        {/* TÍTULO HIERÁRQUICO */}
+        <m.div variants={varFade('inUp')}>
+          <Typography
+            component="h2"
+            sx={{
+              fontFamily: "'Orbitron', sans-serif",
+              fontWeight: 900,
+              fontSize: { xs: '2.2rem', md: '3rem' },
+              letterSpacing: '0.08em',
+              lineHeight: 1.2,
+              textTransform: 'uppercase',
+            }}
+          >
+            <Box component="span" sx={{ color: 'common.white' }}>
+              GREAT TEAM IS
+            </Box>
+            <br />
+            <Box component="span" sx={{ color: 'warning.main' }}>
+              THE KEY
+            </Box>
           </Typography>
         </m.div>
 
+        {/* DESCRIÇÃO */}
         <m.div variants={varFade('inUp')}>
-          <Typography variant="h2" sx={{ my: 3 }}>
-            Great team is the key
-          </Typography>
-        </m.div>
-
-        <m.div variants={varFade('inUp')}>
-          <Typography sx={{ mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
+          <Typography sx={{ my: 3, mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
             A equipe ASPPIBRA-DAO combina expertise em agroecologia, tecnologia blockchain e governança para transformar o setor rural.
           </Typography>
         </m.div>
@@ -123,7 +159,6 @@ function MemberCard({ member }: MemberCardProps) {
   return (
     <Card 
       sx={(theme) => ({ 
-        // ✅ EFEITO VIDRO LÍQUIDO: Harmoniza com o Vortex galáctico do fundo
         bgcolor: alpha(theme.palette.background.paper, 0.8),
         backdropFilter: 'blur(16px)', 
         WebkitBackdropFilter: 'blur(16px)',

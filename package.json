@@ -33,6 +33,7 @@
     "@fontsource-variable/nunito-sans": "^5.2.7",
     "@fontsource-variable/public-sans": "^5.2.7",
     "@fontsource/barlow": "^5.2.8",
+    "@fontsource/orbitron": "^5.2.8",
     "@hookform/resolvers": "^5.2.2",
     "@iconify/react": "^6.0.2",
     "@mui/lab": "7.0.1-beta.21",

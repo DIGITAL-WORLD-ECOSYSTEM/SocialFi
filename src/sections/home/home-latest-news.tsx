@@ -1,14 +1,8 @@
 'use client';
 
-// ----------------------------------------------------------------------
-// Imports — tipos e react/motion
-// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 import { m } from 'framer-motion';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -18,9 +12,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { fDate } from 'src/utils/format-time';
@@ -28,12 +19,7 @@ import { _mock } from 'src/_mock';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { SectionTitle } from './components/section-title';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
-
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está no HomeView
-
-// ----------------------------------------------------------------------
 
 const renderLines = () => (
   <>
@@ -60,8 +46,6 @@ const renderLines = () => (
     <FloatLine vertical sx={{ top: 0, left: 80, display: { xs: 'none', md: 'block' } }} />
   </>
 );
-
-// ----------------------------------------------------------------------
 
 export function HomeLatestNews({ sx, ...other }: BoxProps) {
   const theme = useTheme();
@@ -101,15 +85,12 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
           py: { xs: 10, md: 15 }, 
           position: 'relative', 
           overflow: 'hidden',
-          // ✅ TRANSPARÊNCIA: Essencial para revelar o fundo unificado
           bgcolor: 'transparent' 
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      {/* ✅ LINHA REMOVIDA: <HomeBackground section="news" /> */}
-
       <MotionViewport>
         {renderLines()}
 
@@ -121,33 +102,88 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
             rowGap={8}
             alignItems="center"
           >
-            {/* COLUNA ESQUERDA */}
-            <Grid>
-              <SectionTitle
-                caption="BLOG & ARTIGOS RECENTES"
-                title="Últimas Notícias"
-                txtGradient="e Atualizações"
-                description="Fique por dentro das novidades, anúncios e análises do ecossistema ASPPIBRA-DAO."
-                sx={{ textAlign: { xs: 'center', md: 'left' }, mb: 5 }}
-              />
+            <Grid sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+              <m.div variants={varFade('inUp')}>
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    border: `1px solid ${theme.palette.info.main}`,
+                    borderRadius: 2,
+                    px: 1.5,
+                    py: 0.5,
+                    mb: 5,
+                  }}
+                >
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontFamily: "'Orbitron', sans-serif",
+                      fontWeight: 700,
+                      fontSize: 12,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: 'info.main',
+                    }}
+                  >
+                    BLOG & ARTIGOS RECENTES
+                  </Typography>
+                </Box>
+              </m.div>
+
+              <m.div variants={varFade('inUp')}>
+                <Typography
+                  component="h2"
+                  sx={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontWeight: 900,
+                    fontSize: { xs: '2.2rem', md: '3rem' },
+                    letterSpacing: '0.08em',
+                    lineHeight: 1.2,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  <Box component="span" sx={{ color: 'common.white' }}>
+                    ÚLTIMAS NOTÍCIAS
+                  </Box>
+                  <Box component="span" sx={{ color: 'text.secondary', mx: 1 }}>
+                    E
+                  </Box>
+                  <br />
+                  <Box component="span" sx={{ color: 'warning.main' }}>
+                    ATUALIZAÇÕES
+                  </Box>
+                </Typography>
+              </m.div>
+
+              <m.div variants={varFade('inUp')}>
+                <Typography sx={{ mt: 3, mb: 5, color: 'text.secondary', fontSize: { xs: 16, md: 18 }, lineHeight: 1.8 }}>
+                  Fique por dentro das novidades, anúncios e análises do ecossistema ASPPIBRA-DAO.
+                </Typography>
+              </m.div>
 
               <m.div variants={varFade('inUp')}>
                 <Button
                   component={RouterLink}
                   href={paths.post.root}
-                  color="inherit"
                   variant="outlined"
                   size="large"
-                  endIcon={<Iconify icon={"solar:double-alt-arrow-right-bold-duotone" as any} />}
+                  endIcon={<Iconify icon="solar:arrow-right-bold-duotone" />}
                   sx={{
-                    borderRadius: 1.2,
-                    height: 52,
+                    height: 56,
                     px: 3,
-                    borderWidth: 2,
+                    fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
+                    borderRadius: 1.5,
+                    color: 'common.white',
+                    borderColor: 'info.main',
+                    letterSpacing: '0.05em',
+                    boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
                     display: { xs: 'none', md: 'inline-flex' },
-                    backdropFilter: 'blur(8px)',
-                    '&:hover': { borderWidth: 2 }
+                    '&:hover': {
+                      borderColor: 'common.white',
+                      boxShadow: `0 0 24px ${alpha(theme.palette.info.main, 0.7)}`,
+                      bgcolor: alpha(theme.palette.info.main, 0.1),
+                    },
                   }}
                 >
                   Ver Todas as Notícias
@@ -155,7 +191,6 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
               </m.div>
             </Grid>
 
-            {/* COLUNA DIREITA – POSTS */}
             <Grid>
               <Grid
                 display="grid"
@@ -174,7 +209,6 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                         display: 'flex',
                         flexDirection: 'column',
                         borderRadius: 3,
-                        // ✅ ESTILO VIDRO LÍQUIDO: Harmoniza com o Vortex galáctico
                         bgcolor: alpha(theme.palette.background.paper, 0.4),
                         backdropFilter: 'blur(12px)',
                         border: `solid 1px ${alpha(theme.palette.primary.main, 0.1)}`,

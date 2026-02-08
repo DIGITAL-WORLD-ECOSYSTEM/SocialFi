@@ -1,14 +1,8 @@
 'use client';
 
-// ----------------------------------------------------------------------
-// Imports — tipos e motion
-// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 import { m } from 'framer-motion';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -16,48 +10,38 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
 import { varFade, MotionViewport } from 'src/components/animate';
-import { SectionTitle } from './components/section-title';
-
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está centralizado no HomeView
-
-// ----------------------------------------------------------------------
 
 const ROADMAP_PHASES = [
   {
     phase: 'FASE 01',
+    time: 'Q1-Q2 2024',
     title: 'Fundação & Compliance',
-    time: 'Q3 - Q4 2023',
-    description:
-      'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
+    description: 'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
+    color: 'info',
   },
   {
     phase: 'FASE 02',
+    time: 'Q3-Q4 2024',
     title: 'Tokenização RWA (MVP)',
-    time: 'Q1 - Q2 2024',
-    description:
-      'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
+    description: 'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
+    color: 'secondary',
   },
   {
     phase: 'FASE 03',
+    time: 'Q1-Q2 2025',
     title: 'Escala & Binance Listing',
-    time: 'Q3 - Q4 2024',
-    description:
-      'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
+    description: 'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
+    color: 'error',
   },
   {
     phase: 'FASE 04',
-    title: 'Ecossistema Global Agro',
     time: '2025+',
-    description:
-      'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
+    title: 'Ecossistema Global Agro',
+    description: 'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
+    color: 'warning',
   },
 ];
-
-// ----------------------------------------------------------------------
 
 export function HomeRoadmap({ sx, ...other }: BoxProps) {
   const theme = useTheme();
@@ -71,104 +55,159 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
           py: { xs: 10, md: 15 },
           position: 'relative',
           overflow: 'hidden',
-          // ✅ GARANTINDO TRANSPARÊNCIA: Essencial para ver o fundo unificado
-          bgcolor: 'transparent', 
+          bgcolor: 'transparent',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      {/* ✅ LINHA REMOVIDA: <HomeBackground section="roadmap" /> */}
+      {/* NÉVOA DE FUNDO */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '100%',
+          height: '60%',
+          background: `linear-gradient(to bottom, ${theme.palette.info.main}, ${theme.palette.secondary.main}, ${theme.palette.error.main}, ${theme.palette.warning.main})`,
+          filter: 'blur(120px)',
+          opacity: 0.2,
+          zIndex: 0,
+        }}
+      />
 
       <MotionViewport>
-        <Container sx={{ position: 'relative', zIndex: 10 }}>
-          <SectionTitle
-            caption="NOSSA JORNADA"
-            title="Roteiro do"
-            txtGradient="Projeto"
-            description="Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital."
-            sx={{ textAlign: 'center', mb: { xs: 8, md: 10 } }}
-          />
+        <Container sx={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
+          
+          {/* CABEÇALHO */}
+          <m.div variants={varFade('inUp')}>
+            <Box
+              sx={{
+                display: 'inline-block',
+                border: `1px solid ${theme.palette.info.main}`,
+                borderRadius: 2,
+                px: 1.5,
+                py: 0.5,
+                mb: 5,
+              }}
+            >
+              <Typography
+                component="span"
+                sx={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 12,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'info.main',
+                }}
+              >
+                NOSSA JORNADA
+              </Typography>
+            </Box>
+          </m.div>
 
+          <m.div variants={varFade('inUp')}>
+            <Typography
+              component="h2"
+              sx={{
+                fontFamily: "'Orbitron', sans-serif",
+                fontWeight: 900,
+                fontSize: { xs: '2.2rem', md: '3rem' },
+                letterSpacing: '0.08em',
+                lineHeight: 1.2,
+                textTransform: 'uppercase',
+              }}
+            >
+              <Box component="span" sx={{ color: 'common.white' }}>
+                ROTEIRO DO
+              </Box>
+              <Box component="span" sx={{ color: 'warning.main', ml: 1.5 }}>
+                PROJETO
+              </Box>
+            </Typography>
+          </m.div>
+
+          <m.div variants={varFade('inUp')}>
+            <Typography sx={{ mt: 3, mx: 'auto', maxWidth: 560, color: 'text.secondary', fontSize: { xs: 16, md: 18 } }}>
+              Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital.
+            </Typography>
+          </m.div>
+
+          {/* LINHA DO TEMPO */}
           <Grid
             container
             display="grid"
             gridTemplateColumns={{ xs: '1fr', md: '1fr 64px 1fr' }}
-            rowGap={8}
+            rowGap={{ xs: 6, md: 8 }}
             columnGap={6}
+            sx={{ mt: { xs: 8, md: 10 } }}
           >
             {ROADMAP_PHASES.map((item, index) => {
               const isEven = index % 2 === 0;
+              const cardColor = theme.palette[item.color as keyof typeof theme.palette].main;
 
               return (
                 <Grid
                   key={item.title}
                   gridColumn={{ xs: '1 / -1', md: isEven ? '1 / 2' : '3 / 4' }}
-                  sx={{
-                    gridRow: { md: index + 1 }
-                  }}
+                  gridRow={{ md: index + 1 }}
+                  sx={{ textAlign: { xs: 'center', md: isEven ? 'right' : 'left' } }}
                 >
-                  <m.div variants={isEven ? varFade('inLeft') : varFade('inRight')}>
-                    <Box
+                  <m.div variants={isEven ? varFade('inRight') : varFade('inLeft')}>
+                    <Card
                       sx={{
-                        position: 'relative',
-                        p: '2px', 
+                        p: 4,
                         borderRadius: 2,
-                        overflow: 'hidden',
-                        display: 'flex',
-                        transition: theme.transitions.create('transform'),
-                        '&:hover': { 
-                          transform: 'translateY(-8px)',
-                          '& .roadmap-shine': { animationDuration: '3s' } 
-                        },
+                        display: 'inline-block',
+                        width: { xs: '100%', md: 'auto' },
+                        maxWidth: 400,
+                        border: `1px solid ${cardColor}`,
+                        boxShadow: `0 0 24px ${alpha(cardColor, 0.4)}`,
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        bgcolor: alpha(theme.palette.grey[900], 0.2),
                       }}
                     >
-                      <Box
-                        className="roadmap-shine"
+                      <Typography
+                        component="div"
                         sx={{
-                          inset: '-50%',
-                          zIndex: 0,
-                          position: 'absolute',
-                          background: `conic-gradient(from 0deg, transparent 0%, #00FFCC 15%, transparent 30%, #7A5AF8 50%, transparent 100%)`,
-                          animation: 'rotate-shine 6s linear infinite',
-                          '@keyframes rotate-shine': {
-                            '0%': { transform: 'rotate(0deg)' },
-                            '100%': { transform: 'rotate(360deg)' },
-                          },
-                        }}
-                      />
-
-                      <Card
-                        sx={{
-                          p: 4,
-                          width: 1,
-                          zIndex: 1,
-                          borderRadius: 'inherit',
-                          textAlign: { xs: 'center', md: isEven ? 'right' : 'left' },
-                          // ✅ VIDRO LÍQUIDO: Transparência ajustada para mostrar o Vortex 3D
-                          bgcolor: alpha(theme.palette.background.paper, 0.85),
-                          backdropFilter: 'blur(12px)',
-                          WebkitBackdropFilter: 'blur(12px)',
-                          border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
-                          boxShadow: theme.customShadows.z24,
+                          fontFamily: "'Orbitron', sans-serif",
+                          fontSize: 12,
+                          fontWeight: 700,
+                          color: cardColor,
+                          letterSpacing: '0.1em',
+                          textTransform: 'uppercase',
                         }}
                       >
-                        <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800 }}>
-                          {item.phase} • {item.time}
-                        </Typography>
+                        {item.phase} • {item.time}
+                      </Typography>
 
-                        <Typography variant="h4" sx={{ mt: 1, mb: 2, fontWeight: 800 }}>
-                          {item.title}
-                        </Typography>
+                      <Typography
+                        variant="h4"
+                        component="h3"
+                        sx={{
+                          mt: 1,
+                          mb: 2,
+                          fontFamily: "'Orbitron', sans-serif",
+                          fontWeight: 900,
+                          color: 'common.white',
+                        }}
+                      >
+                        {item.title}
+                      </Typography>
 
-                        <Typography
-                          variant="body2"
-                          sx={{ color: 'text.secondary', lineHeight: 1.8 }}
-                        >
-                          {item.description}
-                        </Typography>
-                      </Card>
-                    </Box>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                          lineHeight: 1.8,
+                        }}
+                      >
+                        {item.description}
+                      </Typography>
+                    </Card>
                   </m.div>
                 </Grid>
               );

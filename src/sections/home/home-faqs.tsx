@@ -1,20 +1,11 @@
 'use client';
 
-// ----------------------------------------------------------------------
-// Imports — tipos e react/motion
-// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 import { useState } from 'react';
 import { m } from 'framer-motion';
-import { varAlpha } from 'minimal-shared/utils';
 
-// ----------------------------------------------------------------------
-// Imports — MUI
-// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -22,49 +13,27 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Accordion, { accordionClasses } from '@mui/material/Accordion';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-// Imports — app
-// ----------------------------------------------------------------------
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
-
-import { SectionTitle } from './components/section-title';
-import { FloatLine, FloatPlusIcon, FloatTriangleDownIcon } from './components/svg-elements';
-
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está no HomeView
-
-// ----------------------------------------------------------------------
 
 const FAQs = [
   {
     question: 'Como posso obter atualizações sobre o projeto?',
-    answer: (
-      <Typography>
-        Você receberá atualizações constantes sobre a governança da DAO e o progresso da tokenização RWA.
-      </Typography>
-    ),
+    answer: 'Você receberá atualizações constantes sobre a governança da DAO e o progresso da tokenização RWA através de nossos canais oficiais no Discord e Telegram.',
   },
   {
     question: 'Qual o papel da ASPPIBRA-DAO na agroecologia?',
-    answer: (
-      <Typography>
-        Atuamos na digitalização de processos e rastreabilidade para produtores rurais, como os de café agroecológico em Paraty.
-      </Typography>
-    ),
+    answer: 'Atuamos na digitalização de processos e rastreabilidade para produtores rurais, como os de café agroecológico em Paraty, garantindo mais transparência e valorização do produto.',
   },
   {
     question: 'O projeto possui conformidade jurídica?',
-    answer: (
-      <Typography>
-        Sim, a Fase 01 do nosso roadmap foca no estabelecimento da estrutura jurídica e compliance institucional.
-      </Typography>
-    ),
+    answer: 'Sim, a Fase 01 do nosso roadmap foca no estabelecimento da estrutura jurídica e compliance institucional para garantir a segurança e a legalidade de todas as operações.',
+  },
+  {
+    question: 'Como funciona a segurança dos ativos?',
+    answer: 'A segurança é garantida por meio de contratos inteligentes auditados na blockchain, que asseguram a imutabilidade, a transparência e a soberania das transações de ativos tokenizados.'
   },
 ];
-
-// ----------------------------------------------------------------------
 
 export function HomeFAQs({ sx, ...other }: BoxProps) {
   const theme = useTheme();
@@ -74,144 +43,127 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const renderDescription = () => (
-    <SectionTitle
-      caption="FAQs"
-      title="Temos as"
-      txtGradient="respostas"
-      sx={{ textAlign: 'center' }}
-    />
-  );
-
-  const renderContent = () => (
-    <Box
-      sx={{
-        mt: 8,
-        gap: 2,
-        mx: 'auto',
-        maxWidth: 720,
-        display: 'flex',
-        mb: { xs: 5, md: 8 },
-        flexDirection: 'column',
-        position: 'relative',
-        zIndex: 2,
-      }}
-    >
-      {FAQs.map((item, index) => (
-        <Accordion
-          key={item.question}
-          disableGutters
-          component={m.div}
-          variants={varFade('inUp', { distance: 24 })}
-          expanded={expanded === item.question}
-          onChange={handleChange(item.question)}
-          sx={{
-            py: 0.5,
-            px: 1,
-            borderRadius: 2,
-            position: 'relative',
-            // ✅ VIDRO LÍQUIDO: Transparência para ver o Vortex 3D unificado
-            bgcolor: alpha(theme.palette.background.paper, 0.4),
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            transition: theme.transitions.create(['background-color', 'border-color']),
-            border: '2px solid transparent',
-            backgroundClip: 'padding-box, border-box',
-            backgroundOrigin: 'padding-box, border-box',
-            backgroundImage: `linear-gradient(${theme.palette.background.paper}, ${theme.palette.background.paper}), 
-                             linear-gradient(to right, #00FFCC 0%, #7A5AF8 100%)`,
-            '&:before': { display: 'none' },
-            '&:hover': { bgcolor: alpha(theme.palette.background.paper, 0.6) },
-            [`&.${accordionClasses.expanded}`]: {
-              bgcolor: alpha(theme.palette.background.paper, 0.8),
-            },
-          }}
-        >
-          <AccordionSummary
-            id={`home-faqs-panel${index}-header`}
-            aria-controls={`home-faqs-panel${index}-content`}
-            expandIcon={<Iconify icon={"eva:arrow-ios-downward-fill" as any} />}
-          >
-            <Typography component="span" variant="h6">
-              {item.question}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{ color: 'text.secondary' }}>
-            {item.answer}
-          </AccordionDetails>
-        </Accordion>
-      ))}
-    </Box>
-  );
-
-  const renderContact = () => (
-    <Box
-      sx={{
-        px: 3,
-        py: 8,
-        position: 'relative',
-        zIndex: 2,
-        textAlign: 'center',
-        background: `linear-gradient(to left, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}, transparent)`,
-      }}
-    >
-      <m.div variants={varFade('in')}>
-        <Typography variant="h4">Ainda tem dúvidas?</Typography>
-      </m.div>
-      <m.div variants={varFade('in')}>
-        <Typography sx={{ mt: 2, mb: 3, color: 'text.secondary' }}>
-          Contate nossa equipe para suporte detalhado sobre a associação.
-        </Typography>
-      </m.div>
-      <m.div variants={varFade('in')}>
-        <Button
-          component={RouterLink}
-          href={paths.contact}
-          color="inherit"
-          variant="contained"
-          startIcon={<Iconify icon={"solar:letter-bold" as any} />}
-        >
-          Contate-nos
-        </Button>
-      </m.div>
-    </Box>
-  );
-
   return (
-    <Box id="faqs" component="section" sx={[{ position: 'relative', overflow: 'hidden', bgcolor: 'transparent' }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
-      {/* ✅ LINHA REMOVIDA: <HomeBackground section="faqs" /> */}
+    <Box 
+      id="faqs" 
+      component="section" 
+      sx={[{ 
+        position: 'relative', 
+        overflow: 'hidden', 
+        bgcolor: 'transparent', 
+        py: { xs: 10, md: 15 } 
+      }, 
+      ...(Array.isArray(sx) ? sx : [sx])]} 
+      {...other}
+    >
+      <MotionViewport>
+        <Container sx={{ position: 'relative', zIndex: 9, textAlign: 'center' }}>
 
-      <MotionViewport sx={{ py: 10, position: 'relative' }}>
-        {topLines()}
-        <Container sx={{ position: 'relative', zIndex: 9 }}>
-          {renderDescription()}
-          {renderContent()}
+          <m.div variants={varFade('inUp')}>
+            <Box
+              sx={{
+                display: 'inline-block',
+                border: `1px solid ${theme.palette.info.main}`,
+                borderRadius: 2,
+                px: 1.5,
+                py: 0.5,
+                mb: 5,
+              }}
+            >
+              <Typography
+                component="span"
+                sx={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 12,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'info.main',
+                }}
+              >
+                FAQS
+              </Typography>
+            </Box>
+          </m.div>
+
+          <m.div variants={varFade('inUp')}>
+            <Typography
+              component="h2"
+              sx={{
+                fontFamily: "'Orbitron', sans-serif",
+                fontWeight: 900,
+                fontSize: { xs: '2.2rem', md: '3rem' },
+                letterSpacing: '0.08em',
+                lineHeight: 1.2,
+                textTransform: 'uppercase',
+              }}
+            >
+              <Box component="span" sx={{ color: 'common.white' }}>
+                TEMOS AS
+              </Box>
+              <Box component="span" sx={{ color: 'warning.main', ml: 1.5 }}>
+                RESPOSTAS
+              </Box>
+            </Typography>
+          </m.div>
+
+          <m.div variants={varFade('inUp')}>
+            <Stack
+              spacing={2}
+              sx={{
+                mt: { xs: 6, md: 8 },
+                mx: 'auto',
+                maxWidth: 720,
+                textAlign: 'left',
+              }}
+            >
+              {FAQs.map((item) => (
+                <Accordion
+                  key={item.question}
+                  disableGutters
+                  expanded={expanded === item.question}
+                  onChange={handleChange(item.question)}
+                  sx={{
+                    borderRadius: 2,
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    border: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
+                    bgcolor: alpha(theme.palette.grey[900], 0.2),
+                    transition: theme.transitions.create(['border-color', 'box-shadow']),
+                    '&:before': { display: 'none' },
+                    [`&.${accordionClasses.expanded}`]: {
+                      borderColor: theme.palette.info.main,
+                      boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
+                      bgcolor: alpha(theme.palette.grey[900], 0.4),
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<Iconify icon="solar:alt-arrow-down-bold-duotone" width={20} />}
+                    sx={{ px: 2.5, minHeight: 64 }}
+                  >
+                    <Typography 
+                      component="span" 
+                      sx={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 16,
+                        letterSpacing: '0.02em',
+                      }}
+                    >
+                      {item.question}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ px: 2.5, pb: 2.5, color: 'text.secondary', typography: 'body2' }}>
+                    {item.answer}
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </Stack>
+          </m.div>
+
         </Container>
-        <Stack sx={{ position: 'relative' }}>
-          {bottomLines()}
-          {renderContact()}
-        </Stack>
       </MotionViewport>
     </Box>
   );
 }
-
-// Helpers topLines e bottomLines permanecem os mesmos...
-const topLines = () => (
-  <>
-    <Stack spacing={8} alignItems="center" sx={{ top: 64, left: 80, zIndex: 2, position: 'absolute', transform: 'translateX(-50%)' }}>
-      <FloatTriangleDownIcon sx={{ position: 'static', opacity: 0.12 }} />
-      <FloatTriangleDownIcon sx={{ width: 30, height: 15, opacity: 0.24, position: 'static' }} />
-    </Stack>
-    <FloatLine vertical sx={{ top: 0, left: 80, zIndex: 1 }} />
-  </>
-);
-
-const bottomLines = () => (
-  <>
-    <FloatLine sx={{ top: 0, left: 0, zIndex: 1 }} />
-    <FloatLine sx={{ bottom: 0, left: 0, zIndex: 1 }} />
-    <FloatPlusIcon sx={{ top: -8, left: 72, zIndex: 2 }} />
-    <FloatPlusIcon sx={{ bottom: -8, left: 72, zIndex: 2 }} />
-  </>
-);

@@ -1,6 +1,9 @@
 // ----------------------------------------------------------------------
-// Imports — tipos e react/motion
+// Imports — Fontes, tipos e react/motion
 // ----------------------------------------------------------------------
+import '@fontsource/orbitron/900.css'; // ExtraBold
+import '@fontsource/orbitron/700.css'; // Bold
+
 import type { BoxProps } from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue } from 'framer-motion';
@@ -46,6 +49,25 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   // ----------------------------------------------------------------------
   const renderHeading = () => (
     <m.div {...motionProps}>
+      {/* Sub-título */}
+      <Typography
+        variant="h6"
+        component="h2"
+        sx={(theme) => ({
+          fontFamily: "'Orbitron', sans-serif",
+          fontWeight: 700,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'text.secondary',
+          opacity: 0.7,
+          mb: 1,
+          textAlign: { xs: 'center', md: 'left' },
+        })}
+      >
+        DEX World:
+      </Typography>
+
+      {/* Título Principal */}
       <Box
         component="h1"
         sx={(theme) => ({
@@ -53,11 +75,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           maxWidth: 620,
           typography: 'h1',
           fontWeight: 900,
-          fontSize: { xs: '2.2rem', md: '4.2rem' },
-          lineHeight: { xs: 1.2, md: 1.1 },
+          letterSpacing: '0.05em',
+          fontSize: { xs: '2.5rem', md: '4.5rem' },
+          lineHeight: { xs: 1.1, md: 1.05 },
           textAlign: { xs: 'center', md: 'left' },
-          fontFamily: theme.typography.fontSecondaryFamily,
-          textShadow: '0 4px 24px rgba(0,0,0,0.5)',
+          fontFamily: "'Orbitron', sans-serif",
+          textShadow: '0 4px 24px rgba(0,0,0,0.7)',
         })}
       >
         {t('hero.title')}
@@ -65,12 +88,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         <Box
           component={m.span}
           animate={{ backgroundPosition: '200% center' }}
-          transition={{ duration: 12, ease: 'linear', repeat: Infinity }}
+          transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
           sx={(theme) => ({
             ...theme.mixins.textGradient(
-              `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.info.main} 50%, ${theme.vars.palette.primary.main} 100%`
+              `300deg, ${theme.vars.palette.info.main} 0%, ${theme.vars.palette.warning.main} 50%, ${theme.vars.palette.info.light} 100%`
             ),
-            backgroundSize: '200%',
+            backgroundSize: '400% 400%',
             display: 'inline-block',
           })}
         >
@@ -117,9 +140,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           sx={(theme) => ({
             height: 60,
             px: 4,
-            fontSize: 18,
+            fontSize: 16,
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 700,
             borderRadius: 1.5,
-            boxShadow: `0 0 20px ${theme.vars.palette.primary.main}40`,
+            boxShadow: `0 0 24px ${theme.vars.palette.primary.main}60`,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
           })}
         >
           {t('hero.buttons.whitepaper')}
@@ -137,14 +164,18 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           sx={{
             height: 60,
             px: 4,
-            fontSize: 18,
+            fontSize: 16,
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 700,
             borderRadius: 1.5,
             backdropFilter: 'blur(8px)',
             color: 'common.white',
-            borderColor: 'rgba(255,255,255,0.3)',
+            borderColor: 'rgba(255,255,255,0.25)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
             '&:hover': {
               borderColor: 'common.white',
-              bgcolor: 'rgba(255,255,255,0.08)',
+              bgcolor: 'rgba(255,255,255,0.1)',
             },
           }}
         >

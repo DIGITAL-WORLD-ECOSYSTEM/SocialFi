@@ -14,10 +14,11 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { _mock } from 'src/_mock';
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { SectionTitle } from './components/section-title';
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
@@ -35,9 +36,9 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
 
   const METRICS = useMemo(
     () => [
-      { id: 'members', label: 'NETWORK STEWARDS', value: '+500' },
-      { id: 'area', label: 'MANAGED HECTARES', value: '+10k' },
-      { id: 'aum', label: 'ASSETS UNDER SOVEREIGNTY', value: '$7.5M' },
+      { id: 'members', label: 'Network Stewards', value: '+500' },
+      { id: 'area', label: 'Managed Hectares', value: '+10K' },
+      { id: 'aum', label: 'Assets Under Sovereignty', value: '$7.5M' },
     ],
     []
   );
@@ -68,31 +69,6 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
     </>
   );
 
-  const renderStats = () => (
-    <Box
-      sx={{
-        mt: 6,
-        display: 'grid',
-        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' },
-        gap: { xs: 3, md: 4 },
-        textAlign: 'left',
-      }}
-    >
-      {METRICS.map((stat) => (
-        <m.div key={stat.id} variants={varFade('inUp')}>
-          <Stack spacing={0.5}>
-            <Typography variant="h3" sx={{ fontWeight: 800, color: 'primary.main' }}>
-              {stat.value}
-            </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
-              {stat.label}
-            </Typography>
-          </Stack>
-        </m.div>
-      ))}
-    </Box>
-  );
-
   const renderSocialHub = () => (
     <m.div variants={varFade('inRight')}>
       <Box
@@ -120,7 +96,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
         >
           <Stack spacing={2} textAlign="left">
             <Typography variant="h4" sx={{ fontWeight: 800 }}>
-               Network Synergy
+              Network Synergy
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
               Nossa governança descentralizada integra corporações e cooperativas em um ecossistema de liquidez global focado em ativos reais.
@@ -149,7 +125,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                   bgcolor: alpha(channel.color, 0.08),
                   color: channel.color,
                   fontWeight: 700,
-                  '&:hover': { bgcolor: alpha(channel.color, 0.15) }
+                  '&:hover': { bgcolor: alpha(channel.color, 0.15) },
                 }}
               >
                 {channel.name}
@@ -166,13 +142,13 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
       id="community"
       component="section"
       sx={[
-        { 
-          position: 'relative', 
-          overflow: 'hidden', 
+        {
+          position: 'relative',
+          overflow: 'hidden',
           py: { xs: 10, md: 20 },
-          bgcolor: 'transparent' 
+          bgcolor: 'transparent',
         },
-        ...(Array.isArray(sx) ? sx : [sx])
+        ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
@@ -189,38 +165,152 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
             }}
           >
             <m.div variants={varFade('inLeft')}>
-              <SectionTitle
-                caption="INSTITUTIONAL TRACTION"
-                title="Market Potential &"
-                txtGradient="Systemic Scalability"
-                description="A ASPPIBRA-DAO provê infraestrutura para gerir ativos de alto valor, como a produção de café agroecológico, com segurança jurídica e liquidez."
-                sx={{ textAlign: 'left', mb: 0 }}
-              />
+              {/* TAG */}
+              <Box
+                sx={{
+                  display: 'inline-block',
+                  border: `1px solid ${theme.palette.info.main}`,
+                  borderRadius: 2,
+                  px: 1.5,
+                  py: 0.5,
+                  mb: 5,
+                }}
+              >
+                <Typography
+                  component="span"
+                  sx={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 12,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: 'info.main',
+                  }}
+                >
+                  COMMUNITY
+                </Typography>
+              </Box>
 
-              {renderStats()}
+              {/* TÍTULO HIERÁRQUICO */}
+              <Typography
+                component="h2"
+                sx={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 900,
+                  fontSize: { xs: '2.2rem', md: '3rem' },
+                  letterSpacing: '0.08em',
+                  lineHeight: 1.2,
+                  textTransform: 'uppercase',
+                  textAlign: 'left',
+                  mb: 3,
+                }}
+              >
+                <Box component="span" sx={{ color: 'common.white' }}>
+                  POTENCIAL DE MERCADO &
+                </Box>
+                <br />
+                <Box component="span" sx={{ color: 'info.main' }}>
+                  ESCALABILIDADE
+                </Box>
+              </Typography>
               
-              <Stack direction="row" spacing={3} alignItems="center" sx={{ mt: 6 }}>
+              {/* DESCRIÇÃO */}
+              <Typography
+                sx={{
+                  maxWidth: 560,
+                  fontSize: { xs: 16, md: 18 },
+                  lineHeight: 1.8,
+                  color: 'text.secondary',
+                  textAlign: 'left',
+                }}
+              >
+                A ASPPIBRA-DAO provê infraestrutura robusta para gerir ativos de alto valor, como a produção de café agroecológico, garantindo segurança jurídica e liquidez on-chain.
+              </Typography>
+
+              {/* MÉTRICAS */}
+              <Box
+                sx={{
+                  mt: 6,
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: { xs: 4, md: 2 },
+                  textAlign: 'left',
+                  maxWidth: 580, 
+                }}
+              >
+                {METRICS.map((stat) => (
+                  <m.div key={stat.id} variants={varFade('inUp')}>
+                    <Stack spacing={0.5}>
+                      <Typography
+                        sx={{
+                          fontFamily: "'Orbitron', sans-serif",
+                          fontWeight: 900,
+                          fontSize: { xs: '2rem', md: '2.5rem' },
+                          color: 'info.main',
+                          letterSpacing: '0.05em',
+                        }}
+                      >
+                        {stat.value}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: 'text.secondary',
+                          fontWeight: 600,
+                          textTransform: 'uppercase',
+                          letterSpacing: 1,
+                        }}
+                      >
+                        {stat.label}
+                      </Typography>
+                    </Stack>
+                  </m.div>
+                ))}
+              </Box>
+
+              {/* BOTÕES DE AÇÃO */}
+              <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={3} sx={{ mt: 8, justifyContent: 'flex-start' }}>
                 <Button
-                  variant="contained"
+                  component={RouterLink}
+                  href={paths.dashboard.root} 
+                  variant="outlined"
                   size="large"
-                  // ✅ FIX: Forçando tipagem para evitar erro de união complexa
-                  startIcon={<Iconify icon={'solar:shield-user-bold-duotone' as any} width={24} />}
+                  startIcon={<Iconify icon="solar:shield-user-bold-duotone" />}
                   sx={{
                     height: 56,
-                    px: 4,
-                    borderRadius: 1.5,
-                    fontSize: 16,
+                    px: 3,
+                    fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
-                    // ✅ FIX: Asserção de tipo simples para 'customShadows'
-                    boxShadow: (theme.customShadows as any).primary,
+                    borderRadius: 1.5,
+                    color: 'common.white',
+                    borderColor: 'info.main',
+                    letterSpacing: '0.05em',
+                    boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
+                    '&:hover': {
+                      borderColor: 'common.white',
+                      boxShadow: `0 0 24px ${alpha(theme.palette.info.main, 0.7)}`,
+                      bgcolor: alpha(theme.palette.info.main, 0.1),
+                    },
                   }}
                 >
                   Access Governance
                 </Button>
 
-                <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 700 }}>
+                <Button
+                  component={RouterLink}
+                  href="#" 
+                  color="inherit"
+                  endIcon={<Iconify icon="solar:arrow-right-bold-duotone" />}
+                  sx={{
+                    fontWeight: 700,
+                    '&:hover': {
+                      bgcolor: 'transparent',
+                      color: 'info.main',
+                    },
+                  }}
+                >
                   On-chain Data
-                </Typography>
+                </Button>
               </Stack>
             </m.div>
 

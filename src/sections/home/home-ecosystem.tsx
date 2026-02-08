@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid'; 
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -16,10 +16,6 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { Iconify } from 'src/components/iconify';
 import { MotionViewport, varFade } from 'src/components/animate';
-
-import { SectionTitle } from './components/section-title';
-
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui, pois já está no HomeView
 
 // ----------------------------------------------------------------------
 
@@ -65,31 +61,73 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       id="ecosystem"
       component="section"
       sx={[
-        { 
-          position: 'relative', 
-          py: { xs: 12, md: 18 }, 
+        {
+          position: 'relative',
+          py: { xs: 12, md: 18 },
           overflow: 'hidden',
-          // ✅ GARANTINDO TRANSPARÊNCIA: Essencial para ver o fundo único
-          bgcolor: 'transparent' 
+          bgcolor: 'transparent',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      {/* ✅ LINHA REMOVIDA: <HomeBackground section="ecosystem" /> */}
-
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 1 }}>
-          <Grid container spacing={6}>
-            
+          <Grid container spacing={6} alignItems="center">
             {/* LADO ESQUERDO: TEXTO E CTA */}
             <Grid size={{ xs: 12, md: 5 }}>
               <m.div variants={varFade('inLeft')}>
-                <SectionTitle
-                  caption="Ecossistema Tecnológico"
-                  title="Infraestrutura Digital"
-                  txtGradient="de Nova Geração"
-                />
+                {/* TAG "ECOSYSTEM" */}
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    border: `1px solid ${theme.palette.info.main}`,
+                    borderRadius: 2,
+                    px: 1.5,
+                    py: 0.5,
+                    mb: 4,
+                  }}
+                >
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontFamily: "'Orbitron', sans-serif",
+                      fontWeight: 700,
+                      fontSize: 12,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: 'info.main',
+                    }}
+                  >
+                    ECOSYSTEM
+                  </Typography>
+                </Box>
+
+                {/* TÍTULO HIERÁRQUICO */}
+                <Typography
+                  component="h2"
+                  sx={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontWeight: 900,
+                    fontSize: { xs: '2rem', md: '2.8rem' },
+                    letterSpacing: '0.08em',
+                    lineHeight: 1.2,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  <Box component="span" sx={{ color: 'common.white' }}>
+                    INFRAESTRUTURA
+                  </Box>
+                  <br />
+                  <Box component="span" sx={{ color: 'text.secondary' }}>
+                    DIGITAL DE
+                  </Box>
+                  <br />
+                  <Box component="span" sx={{ color: 'warning.main' }}>
+                    NOVA GERAÇÃO
+                  </Box>
+                </Typography>
+
                 <Typography
                   sx={{
                     mt: 3,
@@ -99,26 +137,35 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                     color: 'text.secondary',
                   }}
                 >
-                  Arquiteturas digitais seguras, escaláveis e interoperáveis para inovação, governança e impacto social.
+                  Arquiteturas seguras e interoperáveis projetadas para escalar a governança e o impacto social na era Web3.
                 </Typography>
-                
+
                 <Button
                   component={RouterLink}
                   href={paths.dashboard.root}
                   size="large"
-                  variant="contained"
-                  color="inherit"
-                  endIcon={<Iconify icon={"solar:arrow-right-bold" as any} />}
+                  variant="outlined"
+                  endIcon={<Iconify icon="solar:arrow-right-bold" />}
                   sx={{
                     mt: 6,
                     height: 56,
-                    px: 4,
+                    px: 3,
+                    fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
                     borderRadius: 1.5,
-                    boxShadow: theme.customShadows.z12,
+                    color: 'common.white',
+                    borderColor: 'info.main',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
+                    '&:hover': {
+                      borderColor: 'common.white',
+                      boxShadow: `0 0 24px ${alpha(theme.palette.info.main, 0.7)}`,
+                      bgcolor: alpha(theme.palette.info.main, 0.1),
+                    },
                   }}
                 >
-                  Explorar Ecossistema
+                  Explorar Órbita
                 </Button>
               </m.div>
             </Grid>
@@ -138,9 +185,9 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                           overflow: 'hidden',
                           display: 'flex',
                           transition: theme.transitions.create('transform'),
-                          '&:hover': { 
+                          '&:hover': {
                             transform: 'translateY(-8px)',
-                            '& .shine-layer': { animationDuration: '2s' }
+                            '& .shine-layer': { animationDuration: '2s' },
                           },
                         }}
                       >
@@ -166,7 +213,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                             width: 1,
                             zIndex: 1,
                             borderRadius: 'inherit',
-                            // ✅ EFEITO VIDRO: Permite que o fundo Vortex 3D apareça sutilmente
                             bgcolor: alpha(theme.palette.background.paper, 0.8),
                             backdropFilter: 'blur(10px)',
                             WebkitBackdropFilter: 'blur(10px)',
