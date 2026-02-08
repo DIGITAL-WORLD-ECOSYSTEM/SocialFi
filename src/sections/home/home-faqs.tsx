@@ -139,7 +139,7 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
                   }}
                 >
                   <AccordionSummary
-                    expandIcon={<Iconify icon="solar:alt-arrow-down-bold-duotone" width={20} />}
+                    expandIcon={<Iconify icon="solar:double-alt-arrow-down-bold-duotone" width={20} />}
                     sx={{ px: 2.5, minHeight: 64 }}
                   >
                     <Typography 
