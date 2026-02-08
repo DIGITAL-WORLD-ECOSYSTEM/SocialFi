@@ -22,8 +22,6 @@ import { useTranslate } from 'src/locales';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionContainer } from 'src/components/animate';
 
-// ✅ REMOVIDO: HomeBackground não é mais necessário aqui pois já está no HomeView
-
 // ----------------------------------------------------------------------
 // Configurações
 // ----------------------------------------------------------------------
@@ -33,28 +31,33 @@ const motionProps: MotionProps = {
   variants: varFade('inUp', { distance: 24 }),
 };
 
+// ----------------------------------------------------------------------
+// Componente
+// ----------------------------------------------------------------------
 export function HomeHero({ sx, ...other }: BoxProps) {
   const { t } = useTranslate();
   const { elementRef, scrollY } = useScrollData();
 
-  // Fade-out do texto ao scrollar para dar foco ao Vortex 3D nas próximas seções
+  // Fade-out suave do texto ao scrollar
   const opacity: MotionValue<number> = useTransform(scrollY, [0, 400], [1, 0]);
 
-  // Render Helpers (Heading, Text, Buttons permanecem iguais)
+  // ----------------------------------------------------------------------
+  // Render Helpers
+  // ----------------------------------------------------------------------
   const renderHeading = () => (
     <m.div {...motionProps}>
       <Box
         component="h1"
         sx={(theme) => ({
           my: 0,
-          mx: 'auto',
-          maxWidth: 960,
-          textAlign: 'center',
+          maxWidth: 620,
           typography: 'h1',
           fontWeight: 900,
           fontSize: { xs: '2.2rem', md: '4.2rem' },
           lineHeight: { xs: 1.2, md: 1.1 },
+          textAlign: { xs: 'center', md: 'left' },
           fontFamily: theme.typography.fontSecondaryFamily,
+          textShadow: '0 4px 24px rgba(0,0,0,0.5)',
         })}
       >
         {t('hero.title')}
@@ -68,6 +71,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
               `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.info.main} 50%, ${theme.vars.palette.primary.main} 100%`
             ),
             backgroundSize: '200%',
+            display: 'inline-block',
           })}
         >
           {t('hero.title_highlight')}
@@ -80,12 +84,14 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     <m.div {...motionProps}>
       <Typography
         sx={{
-          mx: 'auto',
-          maxWidth: 900,
+          maxWidth: 520,
           mt: 3,
           color: 'text.secondary',
           fontSize: { xs: 17, md: 20 },
           lineHeight: 1.6,
+          fontWeight: 500,
+          textAlign: { xs: 'center', md: 'left' },
+          textShadow: '0 2px 12px rgba(0,0,0,0.8)',
         }}
       >
         {t('hero.description')}
@@ -94,7 +100,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
   );
 
   const renderButtons = () => (
-    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="center" spacing={2} sx={{ mt: 6 }}>
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      justifyContent={{ xs: 'center', md: 'flex-start' }}
+      spacing={2}
+      sx={{ mt: { xs: 6, md: 4 } }}
+    >
       <m.div {...motionProps}>
         <Button
           component={RouterLink}
@@ -103,11 +114,18 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           size="large"
           variant="contained"
           startIcon={<Iconify width={24} icon="solar:file-bold-duotone" />}
-          sx={{ height: 60, px: 4, fontSize: 18, borderRadius: 1.5 }}
+          sx={(theme) => ({
+            height: 60,
+            px: 4,
+            fontSize: 18,
+            borderRadius: 1.5,
+            boxShadow: `0 0 20px ${theme.vars.palette.primary.main}40`,
+          })}
         >
           {t('hero.buttons.whitepaper')}
         </Button>
       </m.div>
+
       <m.div {...motionProps}>
         <Button
           component={RouterLink}
@@ -116,7 +134,19 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           size="large"
           variant="outlined"
           startIcon={<Iconify width={24} icon="solar:notes-bold-duotone" />}
-          sx={{ height: 60, px: 4, fontSize: 18, borderRadius: 1.5, backdropFilter: 'blur(8px)' }}
+          sx={{
+            height: 60,
+            px: 4,
+            fontSize: 18,
+            borderRadius: 1.5,
+            backdropFilter: 'blur(8px)',
+            color: 'common.white',
+            borderColor: 'rgba(255,255,255,0.3)',
+            '&:hover': {
+              borderColor: 'common.white',
+              bgcolor: 'rgba(255,255,255,0.08)',
+            },
+          }}
         >
           {t('hero.buttons.ecosystem')}
         </Button>
@@ -124,6 +154,9 @@ export function HomeHero({ sx, ...other }: BoxProps) {
     </Stack>
   );
 
+  // ----------------------------------------------------------------------
+  // Render
+  // ----------------------------------------------------------------------
   return (
     <Box
       ref={elementRef}
@@ -134,7 +167,9 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
-          bgcolor: 'transparent', // ✅ CRUCIAL: Mantém transparente para ver o fundo unificado
+          pt: { xs: 12, md: 18 },
+          pb: 10,
+          bgcolor: 'transparent',
           [theme.breakpoints.up(mdKey)]: {
             mt: `calc(var(--layout-header-desktop-height) * -1)`,
           },
@@ -148,17 +183,39 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         style={{ opacity }}
         sx={{ width: 1, position: 'relative', zIndex: 10 }}
       >
-        <Container component={MotionContainer} sx={{ textAlign: 'center' }}>
-          {renderHeading()}
-          {renderText()}
-          {renderButtons()}
+        <Container component={MotionContainer}>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={{ xs: 8, md: 4 }}
+          >
+            {/* Coluna esquerda — Texto */}
+            <Box sx={{ flex: 1 }}>
+              {renderHeading()}
+              {renderText()}
+              {renderButtons()}
+            </Box>
+
+            {/* Coluna direita — Arte / 3D */}
+            <Box
+              sx={{
+                flex: 1,
+                display: { xs: 'none', md: 'block' },
+              }}
+            >
+              {/* Canvas / Vortex / 3D entra aqui */}
+            </Box>
+          </Stack>
         </Container>
       </Box>
-      {/* ✅ REMOVIDA A LINHA: <HomeBackground section="hero" /> */}
     </Box>
   );
 }
 
+// ----------------------------------------------------------------------
+// Scroll Hook
+// ----------------------------------------------------------------------
 function useScrollData() {
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();

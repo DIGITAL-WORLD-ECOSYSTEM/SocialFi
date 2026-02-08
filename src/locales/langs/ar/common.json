@@ -2,5 +2,14 @@
   "demo": {
     "lang": "العربية",
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
+  },
+  "hero": {
+    "title": ":DEX World",
+    "title_highlight": "النظام البيئي بين الكواكب",
+    "description": "الجسر النهائي من العالم المادي إلى العالم الرقمي. ادمج أصولك في شبكة بلا حدود.",
+    "buttons": {
+      "whitepaper": "قراءة الورقة البيضاء",
+      "ecosystem": "دخول المدار"
+    }
   }
 }

@@ -2,5 +2,14 @@
   "demo": {
     "lang": "Español",
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
+  },
+  "hero": {
+    "title": "DEX World:",
+    "title_highlight": "El Ecosistema Interplanetario",
+    "description": "El puente definitivo del mundo físico al mundo digital. Integre sus activos en una red sin fronteras.",
+    "buttons": {
+      "whitepaper": "Leer Whitepaper",
+      "ecosystem": "Entrar en Órbita"
+    }
   }
 }

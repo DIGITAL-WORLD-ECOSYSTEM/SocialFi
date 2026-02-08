@@ -2,5 +2,14 @@
   "demo": {
     "lang": "中文",
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
+  },
+  "hero": {
+    "title": "DEX World:",
+    "title_highlight": "星际生态系统",
+    "description": "连接物理世界与数字世界的终极桥梁。将您的资产整合进无国界的网络中。",
+    "buttons": {
+      "whitepaper": "阅读白皮书",
+      "ecosystem": "进入轨道"
+    }
   }
 }
