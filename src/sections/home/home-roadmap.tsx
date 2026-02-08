@@ -12,7 +12,15 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { varFade, MotionViewport } from 'src/components/animate';
 
-const ROADMAP_PHASES = [
+type RoadmapPhase = {
+  phase: string;
+  time: string;
+  title: string;
+  description: string;
+  color: 'info' | 'secondary' | 'error' | 'warning';
+};
+
+const ROADMAP_PHASES: RoadmapPhase[] = [
   {
     phase: 'FASE 01',
     time: 'Q1-Q2 2024',
@@ -61,7 +69,6 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      {/* NÉVOA DE FUNDO */}
       <Box
         sx={{
           position: 'absolute',
@@ -80,7 +87,6 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
           
-          {/* CABEÇALHO */}
           <m.div variants={varFade('inUp')}>
             <Box
               sx={{
@@ -135,7 +141,6 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
             </Typography>
           </m.div>
 
-          {/* LINHA DO TEMPO */}
           <Grid
             container
             display="grid"
@@ -146,7 +151,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
           >
             {ROADMAP_PHASES.map((item, index) => {
               const isEven = index % 2 === 0;
-              const cardColor = theme.palette[item.color as keyof typeof theme.palette].main;
+              const cardColor = theme.palette[item.color].main;
 
               return (
                 <Grid
