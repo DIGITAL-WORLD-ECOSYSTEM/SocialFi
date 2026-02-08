@@ -167,7 +167,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   href={paths.post.root}
                   variant="outlined"
                   size="large"
-                  endIcon={<Iconify icon="solar:arrow-right-bold-duotone" />}
+                  endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                   sx={{
                     height: 56,
                     px: 3,
