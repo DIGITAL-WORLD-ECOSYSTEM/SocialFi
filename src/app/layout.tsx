@@ -17,7 +17,7 @@ import { JsonLd } from 'src/components/seo/json-ld';
 
 import App from './app';
 
-// ✅ CORREÇÃO DE DEPLOY: Alterado de 'edge' para 'nodejs' para remover o limite de 1MB
+// ✅ CORREÇÃO DE DEPLOY: Necessário Node.js runtime para suportar a árvore complexa de Providers e i18n
 export const runtime = 'nodejs'; 
 
 const AuthProvider = JwtAuthProvider;
@@ -31,11 +31,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(CONFIG.siteUrl), 
   title: {
-    default: 'ASPPIBRA - Associação dos Pequenos Produtores Integrados do Brasil',
+    default: 'ASPPIBRA - Governança Digital e Infraestrutura RWA',
     template: `%s | ASPPIBRA`, 
   },
-  description: 'Conecte-se e gerencie sua produção com tecnologia e transparência.',
-  keywords: ['ASPPIBRA', 'Agronegócio', 'Blockchain', 'Produtor Rural', 'Sustentabilidade'],
+  description: 'Portal de Governança Digital ASPPIBRA: Infraestrutura para ativos reais (RWA), integração nativa DeFi, Blockchain e inteligência de dados aplicada ao agronegócio sustentável.',
+  keywords: [
+    'ASPPIBRA', 'RWA', 'Real World Assets', 'DeFi', 'Blockchain Agro', 
+    'Governança Digital', 'DAO', 'IPFS Storage', 'Smart Contracts', 'Sustentabilidade'
+  ],
+  authors: [{ name: 'Sandro', url: CONFIG.siteUrl }],
   icons: [
     { rel: 'icon', url: `/favicon.ico` },
     { rel: 'apple-touch-icon', url: `/apple-touch-icon.png` },
@@ -44,18 +48,28 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
     url: CONFIG.siteUrl,
-    siteName: 'ASPPIBRA',
+    siteName: 'ASPPIBRA DAO',
     images: [
       {
-        url: '/opengraph-image.png',
+        url: '/opengraph-image.png', // Conecta com o gerador dinâmico que revisamos
         width: 1200,
         height: 630,
-        alt: 'ASPPIBRA - Preview',
+        alt: 'ASPPIBRA Governance Portal - Deep Tech RWA',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'ASPPIBRA - Infraestrutura RWA & DeFi',
+    description: 'Conectando o agronegócio brasileiro à economia digital descentralizada.',
+    images: ['/opengraph-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    'max-video-preview': -1,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
   },
 };
 
@@ -81,12 +95,15 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
       <head>
+        {/* Schema.org estruturado para validar a organização perante VCs e Google */}
         <JsonLd 
           schema={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "ASPPIBRA",
-            "url": CONFIG.siteUrl
+            "name": "ASPPIBRA Governance Portal",
+            "alternateName": "ASPPIBRA DAO",
+            "url": CONFIG.siteUrl,
+            "description": "Plataforma de governança digital e tokenização de ativos reais (RWA)."
           }} 
         />
       </head>
@@ -105,7 +122,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             >
               <LocalizationProvider>
                 <AppRouterCacheProvider options={{ key: 'css' }}>
-                  {/* O componente App aqui já lida com o roteamento e providers internos */}
                   <App>{children}</App>
                 </AppRouterCacheProvider>
               </LocalizationProvider>

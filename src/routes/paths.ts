@@ -32,21 +32,25 @@ export const paths = {
   minimalStore: 'https://mui.com/store/items/minimal-dashboard/',
   freeUI: 'https://mui.com/store/items/minimal-dashboard-free/',
   figmaUrl: 'https://www.figma.com/design/WadcoP3CSejUDj7YZc87xj/%5BPreview%5D-Minimal-Web.v7.3.0',
+  
+  // POSTS PÚBLICOS (Essencial para SEO e Sitemap)
   post: {
     root: `/post`,
     details: (title: string) => `/post/${kebabCase(title)}`,
+    category: (slug: string) => `/post/category/${kebabCase(slug)}`, // ✅ Adicionado para resolver Erro 2339 no sitemap
     demo: { details: `/post/${kebabCase(MOCK_TITLE)}` },
   },
+
   // AUTH
   auth: {
     signIn: `${ROOTS.AUTH}/sign-in`,
     signUp: `${ROOTS.AUTH}/sign-up`,
     reset: `${ROOTS.AUTH}/reset`,
     update: `${ROOTS.AUTH}/update`,
-    // ✅ ADICIONADO PARA RESOLVER O ERRO DE TYPESCRIPT:
-    updatePassword: `${ROOTS.AUTH}/update`,
+    updatePassword: `${ROOTS.AUTH}/update`, // ✅ Correção mantida para evitar erro de propriedade
     verify: `${ROOTS.AUTH}/verify`,
   },
+
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,

@@ -4,6 +4,10 @@ import { CONFIG } from 'src/global-config';
 
 // ----------------------------------------------------------------------
 
+/**
+ * CONFIGURAÇÃO DE ROBOTS - PRODUÇÃO 2026
+ * Foco: Otimização de indexação para buscadores e proteção de dados contra LLMs.
+ */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -11,19 +15,32 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/api/',        // Bloqueia rotas de backend (melhor prática 2026)
-          '/dashboard/',  // Evita desperdício de "Crawl Budget" em áreas logadas
-          '/auth/',       // Protege fluxos de autenticação
-          '/_next/',      // Bloqueia arquivos internos do Next.js
-          '/static/',     // Bloqueia assets que não precisam de indexação direta
+          '/api/',        // Bloqueia rotas de backend (segurança e SEO técnico)
+          '/dashboard/',  // Áreas logadas não devem gastar Crawl Budget
+          '/auth/',       // Protege fluxos de autenticação (sign-in/sign-up)
+          '/_next/',      // Arquivos de sistema do Next.js
+          '/static/',     // Assets estáticos não indexáveis diretamente
         ],
       },
       {
-        userAgent: 'GPTBot', // Proteção contra rastreio agressivo de IAs
+        /**
+         * PROTEÇÃO DE CONTEÚDO (IA/LLM)
+         * Evita que o GPTBot utilize seus posts de governança e ativos RWA 
+         * para treinamento sem gerar tráfego direto.
+         */
+        userAgent: 'GPTBot',
         disallow: ['/post/'], 
+      },
+      {
+        /**
+         * GOOGLEBOT-IMAGE
+         * Garante que as imagens de ativos (como os OG-images gerados) sejam indexadas.
+         */
+        userAgent: 'Googlebot-Image',
+        allow: '/',
       }
     ],
-    // 🟢 CORREÇÃO: Usando a propriedade siteUrl que definimos no global-config.ts
+    // 🟢 SINCRO DO ECOSSISTEMA: Aponta para o sitemap dinâmico gerado em tempo de execução
     sitemap: `${CONFIG.siteUrl}/sitemap.xml`,
   };
 }
