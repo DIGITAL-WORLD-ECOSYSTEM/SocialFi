@@ -43,20 +43,20 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
       id="team"
       component="section"
       sx={[
-        { 
-          position: 'relative', 
+        {
+          position: 'relative',
           overflow: 'hidden',
-          bgcolor: 'transparent' 
+          bgcolor: 'transparent',
         },
-        ...(Array.isArray(sx) ? sx : [sx])
+        ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      <Container 
-        component={MotionViewport} 
+      <Container
+        component={MotionViewport}
         sx={{ position: 'relative', zIndex: 1, textAlign: 'center', py: { xs: 10, md: 15 } }}
       >
-        {/* TAG "DREAM TEAM" */}
+        {/* TAG "TEAM" */}
         <m.div variants={varFade('inUp')}>
           <Box
             sx={{
@@ -65,7 +65,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
               borderRadius: 2,
               px: 1.5,
               py: 0.5,
-              mb: 5, 
+              mb: 5,
             }}
           >
             <Typography
@@ -79,7 +79,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
                 color: 'info.main',
               }}
             >
-              DREAM TEAM
+              TEAM
             </Typography>
           </Box>
         </m.div>
@@ -98,11 +98,11 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
             }}
           >
             <Box component="span" sx={{ color: 'common.white' }}>
-              GREAT TEAM IS
+              COMBINING EXPERTISE
             </Box>
             <br />
             <Box component="span" sx={{ color: 'warning.main' }}>
-              THE KEY
+              TO DRIVE CHANGE
             </Box>
           </Typography>
         </m.div>
@@ -156,16 +156,26 @@ type MemberCardProps = {
 };
 
 function MemberCard({ member }: MemberCardProps) {
+  const theme = useTheme();
+
   return (
-    <Card 
-      sx={(theme) => ({ 
-        bgcolor: alpha(theme.palette.background.paper, 0.8),
-        backdropFilter: 'blur(16px)', 
-        WebkitBackdropFilter: 'blur(16px)',
-        border: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
-        position: 'relative', 
-        zIndex: 1 
-      })}
+    <Card
+      sx={{
+        textAlign: 'center',
+        height: '100%',
+        transition: theme.transitions.create(['transform', 'box-shadow'], {
+          duration: theme.transitions.duration.short,
+        }),
+        bgcolor: alpha(theme.palette.grey[500], 0.08),
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: `1.5px solid ${alpha(theme.palette.info.main, 0.2)}`,
+        boxShadow: `0 0 16px 0 ${alpha(theme.palette.info.main, 0.15)}`,
+        '&:hover': {
+          transform: 'translateY(-8px)',
+          boxShadow: `0 0 24px 0 ${alpha(theme.palette.info.main, 0.35)}`,
+        },
+      }}
     >
       <Typography variant="subtitle1" sx={{ mt: 2.5, mb: 0.5 }}>
         {member.name}
@@ -181,11 +191,20 @@ function MemberCard({ member }: MemberCardProps) {
 
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {_socials.map((social) => (
-          <IconButton key={social.label}>
-            {social.value === 'twitter' && <Iconify icon={"socials:twitter" as any} />}
-            {social.value === 'facebook' && <Iconify icon={"socials:facebook" as any} />}
-            {social.value === 'instagram' && <Iconify icon={"socials:instagram" as any} />}
-            {social.value === 'linkedin' && <Iconify icon={"socials:linkedin" as any} />}
+          <IconButton
+            key={social.label}
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                color: 'info.main',
+                bgcolor: alpha(theme.palette.info.main, 0.1),
+              },
+            }}
+          >
+            {social.value === 'twitter' && <Iconify icon={"bi:twitter-x" as any} />}
+            {social.value === 'facebook' && <Iconify icon={"eva:facebook-fill" as any} />}
+            {social.value === 'instagram' && <Iconify icon={"ant-design:instagram-filled" as any} />}
+            {social.value === 'linkedin' && <Iconify icon={"eva:linkedin-fill" as any} />}
           </IconButton>
         ))}
       </Box>
