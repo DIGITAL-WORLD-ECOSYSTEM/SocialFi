@@ -170,79 +170,55 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
               </m.div>
             </Grid>
 
-            {/* LADO DIREITO: CARDS COM SHINE BORDER */}
+            {/* LADO DIREITO: CARDS COM EFEITO GLASSMORPHISM */}
             <Grid size={{ xs: 12, md: 7 }}>
               <Grid container spacing={3}>
                 {ITEMS.map((item) => (
                   <Grid key={item.id} size={{ xs: 12, sm: 6 }}>
                     <m.div variants={varFade('inUp')}>
-                      <Box
+                      <Stack
+                        spacing={3}
                         sx={{
-                          position: 'relative',
-                          p: '1.5px',
-                          borderRadius: 2.5,
+                          p: 4,
                           height: '100%',
-                          overflow: 'hidden',
-                          display: 'flex',
-                          transition: theme.transitions.create('transform'),
+                          borderRadius: 2.5,
+                          transition: theme.transitions.create(['transform', 'box-shadow'], {
+                            duration: theme.transitions.duration.short,
+                          }),
+                          bgcolor: alpha(theme.palette.grey[500], 0.08),
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          border: `1.5px solid ${alpha(item.color, 0.3)}`,
+                          boxShadow: `0 0 12px 0 ${alpha(item.color, 0.2)}`,
                           '&:hover': {
                             transform: 'translateY(-8px)',
-                            '& .shine-layer': { animationDuration: '2s' },
+                            boxShadow: `0 0 24px 0 ${alpha(item.color, 0.4)}`,
                           },
                         }}
                       >
                         <Box
-                          className="shine-layer"
                           sx={{
-                            inset: '-50%',
-                            zIndex: 0,
-                            position: 'absolute',
-                            background: `conic-gradient(from 0deg, transparent 0%, ${item.color} 15%, transparent 30%, ${alpha(item.color, 0.5)} 50%, transparent 100%)`,
-                            animation: 'rotate-shine 4s linear infinite',
-                            '@keyframes rotate-shine': {
-                              '0%': { transform: 'rotate(0deg)' },
-                              '100%': { transform: 'rotate(360deg)' },
-                            },
-                          }}
-                        />
-
-                        <Stack
-                          spacing={3}
-                          sx={{
-                            p: 4,
-                            width: 1,
-                            zIndex: 1,
-                            borderRadius: 'inherit',
-                            bgcolor: alpha(theme.palette.background.paper, 0.8),
-                            backdropFilter: 'blur(10px)',
-                            WebkitBackdropFilter: 'blur(10px)',
-                            border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`,
+                            width: 52,
+                            height: 52,
+                            borderRadius: 1.5,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: item.color,
+                            bgcolor: alpha(item.color, 0.12),
                           }}
                         >
-                          <Box
-                            sx={{
-                              width: 52,
-                              height: 52,
-                              borderRadius: 1.5,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: item.color,
-                              bgcolor: alpha(item.color, 0.12),
-                            }}
-                          >
-                            <Iconify icon={item.icon as any} width={28} />
-                          </Box>
+                          <Iconify icon={item.icon as any} width={28} />
+                        </Box>
 
-                          <Typography variant="h6" fontWeight={800}>
-                            {item.title}
-                          </Typography>
+                        <Typography variant="h6" fontWeight={800}>
+                          {item.title}
+                        </Typography>
 
-                          <Typography variant="body2" color="text.secondary" lineHeight={1.7}>
-                            {item.description}
-                          </Typography>
-                        </Stack>
-                      </Box>
+                        <Typography variant="body2" color="text.secondary" lineHeight={1.7}>
+                          {item.description}
+                        </Typography>
+                      </Stack>
                     </m.div>
                   </Grid>
                 ))}
