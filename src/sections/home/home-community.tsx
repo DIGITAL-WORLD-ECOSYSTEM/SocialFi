@@ -71,69 +71,64 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
 
   const renderSocialHub = () => (
     <m.div variants={varFade('inRight')}>
-      <Box
+      <Stack
+        spacing={4}
         sx={{
-          position: 'relative',
-          p: '2px',
+          p: 5,
+          width: 1,
           borderRadius: 3,
-          overflow: 'hidden',
-          display: 'flex',
-          background: `linear-gradient(to right, #00FFCC 0%, #7A5AF8 100%)`,
-          boxShadow: `0 0 20px 0 ${alpha('#00FFCC', 0.15)}`,
+          transition: theme.transitions.create(['box-shadow'], {
+            duration: theme.transitions.duration.short,
+          }),
+          bgcolor: alpha(theme.palette.grey[500], 0.08),
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: `1.5px solid ${alpha(theme.palette.info.main, 0.3)}`,
+          boxShadow: `0 0 24px 0 ${alpha(theme.palette.info.main, 0.2)}`,
+          '&:hover': {
+            boxShadow: `0 0 32px 0 ${alpha(theme.palette.info.main, 0.4)}`,
+          },
         }}
       >
-        <Stack
-          spacing={4}
-          sx={{
-            p: 5,
-            width: 1,
-            zIndex: 1,
-            borderRadius: 'inherit',
-            bgcolor: alpha(theme.palette.background.paper, 0.85),
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-          }}
-        >
-          <Stack spacing={2} textAlign="left">
-            <Typography variant="h4" sx={{ fontWeight: 800 }}>
-              Network Synergy
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
-              Nossa governança descentralizada integra corporações e cooperativas em um ecossistema de liquidez global focado em ativos reais.
-            </Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-start">
-            <AvatarGroup max={4}>
-              {[...Array(3)].map((_, index) => (
-                <Avatar key={index} src={_mock.image.avatar(index + 1)} />
-              ))}
-            </AvatarGroup>
-            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-              Network Stewards
-            </Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={1} flexWrap="wrap">
-            {SOCIAL_CHANNELS.map((channel) => (
-              <Button
-                key={channel.name}
-                variant="soft"
-                size="small"
-                startIcon={<Iconify icon={channel.icon as any} width={20} />}
-                sx={{
-                  bgcolor: alpha(channel.color, 0.08),
-                  color: channel.color,
-                  fontWeight: 700,
-                  '&:hover': { bgcolor: alpha(channel.color, 0.15) },
-                }}
-              >
-                {channel.name}
-              </Button>
-            ))}
-          </Stack>
+        <Stack spacing={2} textAlign="left">
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>
+            Network Synergy
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+            Nossa governança descentralizada integra corporações e cooperativas em um ecossistema de liquidez global focado em ativos reais.
+          </Typography>
         </Stack>
-      </Box>
+
+        <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-start">
+          <AvatarGroup max={4}>
+            <Avatar src={_mock.image.avatar(1)} />
+            <Avatar src={_mock.image.avatar(2)} />
+            <Avatar src={_mock.image.avatar(3)} />
+          </AvatarGroup>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+            Network Stewards
+          </Typography>
+        </Stack>
+
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          {SOCIAL_CHANNELS.map((channel) => (
+            <Button
+              key={channel.name}
+              variant="soft"
+              size="small"
+              startIcon={<Iconify icon={channel.icon as any} width={20} />}
+              sx={{
+                bgcolor: alpha(channel.color, 0.08),
+                color: channel.color,
+                fontWeight: 700,
+                '&:hover': { bgcolor: alpha(channel.color, 0.15) },
+              }}
+            >
+              {channel.name}
+            </Button>
+          ))}
+        </Stack>
+      </Stack>
     </m.div>
   );
 
