@@ -75,13 +75,15 @@ export function World({ data, globeConfig }: GlobeProps) {
     if (!globeRef.current) return;
     const globe = globeRef.current;
 
-    // 🌍 Material do globo
+    // 🌍 Material do globo - Ajustado para suportar transparência se necessário
     globe.globeMaterial(
       new THREE.MeshPhongMaterial({
         color: new THREE.Color(config.globeColor),
         emissive: new THREE.Color(config.emissive),
         emissiveIntensity: config.emissiveIntensity,
         shininess: config.shininess,
+        transparent: true,
+        opacity: 0.95, // Leve transparência para integrar com o fundo
       })
     );
 
@@ -92,7 +94,7 @@ export function World({ data, globeConfig }: GlobeProps) {
       .hexPolygonMargin(0.7)
       .hexPolygonColor(() => config.polygonColor);
 
-    // 🔵 Hotspots estilo DEX (somente eles em pointsData)
+    // 🔵 Hotspots estilo DEX
     const hotspots = [
       { lat: 45, lng: -100, size: 1.6 },
       { lat: -15, lng: -60, size: 1.8 },
@@ -111,7 +113,7 @@ export function World({ data, globeConfig }: GlobeProps) {
       .pointRadius((d: any) => d.size)
       .pointsMerge(false);
 
-    // 🌊 Rings pulsantes (DEX World style)
+    // 🌊 Rings pulsantes
     globe
       .ringsData(hotspots)
       .ringLat((d: any) => d.lat)
@@ -149,10 +151,16 @@ export function World({ data, globeConfig }: GlobeProps) {
   return (
     <Canvas
       shadows
-      gl={{ antialias: true, alpha: true }}
+      // ✅ Alpha habilitado para transparência e preservação de buffer de profundidade
+      gl={{ 
+        antialias: true, 
+        alpha: true,
+        stencil: false,
+        depth: true
+      }}
+      // ✅ Removido o radial-gradient sólido para não bloquear o Vortex
       style={{
-        background:
-          'radial-gradient(circle at 30% 30%, #0f172a, #020617 60%, #000 100%)',
+        background: 'transparent',
       }}
     >
       <PerspectiveCamera makeDefault position={[0, 0, 300]} fov={50} />
@@ -164,10 +172,10 @@ export function World({ data, globeConfig }: GlobeProps) {
         autoRotateSpeed={globeConfig.autoRotateSpeed || 0.6}
       />
 
-      {/* 💡 Iluminação */}
-      <ambientLight intensity={1.4} />
-      <directionalLight position={[-300, 200, 300]} intensity={2.4} />
-      <pointLight position={[200, 300, 200]} intensity={1.8} color="#60a5fa" />
+      {/* 💡 Iluminação equilibrada para o fundo transparente */}
+      <ambientLight intensity={1.2} />
+      <directionalLight position={[-300, 200, 300]} intensity={1.8} />
+      <pointLight position={[200, 300, 200]} intensity={1.5} color="#60a5fa" />
 
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <primitive object={new ThreeGlobe()} ref={globeRef} />

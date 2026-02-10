@@ -1,14 +1,16 @@
+'use client';
+
 // ----------------------------------------------------------------------
-// Imports — Fontes, tipos e react/motion
+// Imports — Fontes, tipos e motion
 // ----------------------------------------------------------------------
-import '@fontsource/orbitron/900.css'; // ExtraBold
-import '@fontsource/orbitron/700.css'; // Bold
+import '@fontsource/orbitron/900.css'; 
+import '@fontsource/orbitron/700.css'; 
 
 import type { BoxProps } from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue } from 'framer-motion';
 
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
 
 // ----------------------------------------------------------------------
@@ -19,6 +21,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { useTheme, alpha } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
 import { useTranslate } from 'src/locales';
@@ -35,67 +38,75 @@ const motionProps: MotionProps = {
 };
 
 // ----------------------------------------------------------------------
-// Componente
+// Componente Principal
 // ----------------------------------------------------------------------
 export function HomeHero({ sx, ...other }: BoxProps) {
+  const theme = useTheme();
   const { t } = useTranslate();
   const { elementRef, scrollY } = useScrollData();
 
-  // Fade-out suave do texto ao scrollar
-  const opacity: MotionValue<number> = useTransform(scrollY, [0, 400], [1, 0]);
+  // Efeitos de Scroll: Fade-out e Scale para profundidade profissional
+  const opacity: MotionValue<number> = useTransform(scrollY, [0, 500], [1, 0]);
+  const scale: MotionValue<number> = useTransform(scrollY, [0, 500], [1, 0.95]);
 
-  // ----------------------------------------------------------------------
-  // Render Helpers
-  // ----------------------------------------------------------------------
+  // --- Render Helpers ---
+
   const renderHeading = () => (
     <m.div {...motionProps}>
-      {/* Sub-título */}
-      <Typography
-        variant="h6"
-        component="h2"
-        sx={(theme) => ({
-          fontFamily: "'Orbitron', sans-serif",
-          fontWeight: 700,
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          color: 'text.secondary',
-          opacity: 0.7,
-          mb: 1,
-          textAlign: { xs: 'center', md: 'left' },
-        })}
+      {/* 💊 A Pílula Padronizada (borderRadius: 2) */}
+      <Box
+        sx={{
+          display: 'inline-block',
+          border: `1px solid ${theme.palette.info.main}`,
+          borderRadius: 2,
+          px: 1.5,
+          py: 0.5,
+          mb: 4,
+        }}
       >
-        DEX World:
-      </Typography>
+        <Typography
+          component="span"
+          sx={{
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 700,
+            fontSize: 12,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'info.main',
+          }}
+        >
+          GÊNESIS
+        </Typography>
+      </Box>
 
-      {/* Título Principal */}
       <Box
         component="h1"
-        sx={(theme) => ({
+        sx={{
           my: 0,
           maxWidth: 620,
           typography: 'h1',
           fontWeight: 900,
-          letterSpacing: '0.05em',
+          letterSpacing: '0.02em',
           fontSize: { xs: '2.5rem', md: '4.5rem' },
           lineHeight: { xs: 1.1, md: 1.05 },
           textAlign: { xs: 'center', md: 'left' },
           fontFamily: "'Orbitron', sans-serif",
-          textShadow: '0 4px 24px rgba(0,0,0,0.7)',
-        })}
+          textShadow: `0 8px 32px ${alpha(theme.palette.common.black, 0.4)}`,
+        }}
       >
         {t('hero.title')}
         <br />
         <Box
           component={m.span}
-          animate={{ backgroundPosition: '200% center' }}
-          transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
-          sx={(theme) => ({
+          animate={{ backgroundPosition: ['0% center', '200% center'] }}
+          transition={{ duration: 8, ease: 'linear', repeat: Infinity }}
+          sx={{
             ...theme.mixins.textGradient(
-              `300deg, ${theme.vars.palette.info.main} 0%, ${theme.vars.palette.warning.main} 50%, ${theme.vars.palette.info.light} 100%`
+              `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.info.main} 50%, ${theme.palette.primary.light} 100%`
             ),
-            backgroundSize: '400% 400%',
+            backgroundSize: '200% auto',
             display: 'inline-block',
-          })}
+          }}
         >
           {t('hero.title_highlight')}
         </Box>
@@ -110,11 +121,10 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           maxWidth: 520,
           mt: 3,
           color: 'text.secondary',
-          fontSize: { xs: 17, md: 20 },
+          fontSize: { xs: 18, md: 20 },
           lineHeight: 1.6,
           fontWeight: 500,
           textAlign: { xs: 'center', md: 'left' },
-          textShadow: '0 2px 12px rgba(0,0,0,0.8)',
         }}
       >
         {t('hero.description')}
@@ -127,40 +137,49 @@ export function HomeHero({ sx, ...other }: BoxProps) {
       direction={{ xs: 'column', sm: 'row' }}
       justifyContent={{ xs: 'center', md: 'flex-start' }}
       spacing={2}
-      sx={{ mt: { xs: 6, md: 4 } }}
+      sx={{ mt: 5 }}
     >
       <m.div {...motionProps}>
+        {/* 🟢 Botão Principal: Cristal Esmeralda (Aceso Direto) */}
         <Button
           component={RouterLink}
           href="/docs/whitepaper.pdf"
-          color="primary"
           size="large"
           variant="contained"
           startIcon={<Iconify width={24} icon="solar:file-bold-duotone" />}
-          sx={(theme) => ({
+          sx={{
             height: 60,
             px: 4,
             fontSize: 16,
             fontFamily: "'Orbitron', sans-serif",
             fontWeight: 700,
             borderRadius: 1.5,
-            boxShadow: `0 0 24px ${theme.vars.palette.primary.main}60`,
             textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-          })}
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+            borderColor: alpha(theme.palette.primary.light, 0.5),
+            border: '1px solid',
+            boxShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.4)}, inset 0 0 10px ${alpha(theme.palette.common.white, 0.1)}`,
+            transition: theme.transitions.create(['all']),
+            '&:hover': {
+              background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+              boxShadow: `0 0 30px ${alpha(theme.palette.primary.main, 0.6)}, inset 0 0 15px ${alpha(theme.palette.common.white, 0.2)}`,
+              transform: 'translateY(-2px)',
+            },
+          }}
         >
           {t('hero.buttons.whitepaper')}
         </Button>
       </m.div>
 
       <m.div {...motionProps}>
+        {/* ✨ Botão Secundário: Neon Glass (Aceso Direto) */}
         <Button
           component={RouterLink}
           href="/coming-soon"
           color="inherit"
           size="large"
           variant="outlined"
-          startIcon={<Iconify width={24} icon="solar:notes-bold-duotone" />}
+          endIcon={<Iconify width={24} icon="solar:double-alt-arrow-right-bold-duotone" />}
           sx={{
             height: 60,
             px: 4,
@@ -170,30 +189,31 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             borderRadius: 1.5,
             backdropFilter: 'blur(8px)',
             color: 'common.white',
-            borderColor: 'rgba(255,255,255,0.25)',
+            borderColor: alpha(theme.palette.info.main, 0.4),
+            bgcolor: alpha(theme.palette.info.main, 0.05),
             textTransform: 'uppercase',
-            letterSpacing: '0.1em',
+            transition: theme.transitions.create(['all']),
+            boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}, inset 0 0 8px ${alpha(theme.palette.info.main, 0.05)}`,
             '&:hover': {
-              borderColor: 'common.white',
-              bgcolor: 'rgba(255,255,255,0.1)',
+              borderColor: 'info.main',
+              bgcolor: alpha(theme.palette.info.main, 0.15),
+              boxShadow: `0 0 25px ${alpha(theme.palette.info.main, 0.5)}, inset 0 0 12px ${alpha(theme.palette.info.main, 0.2)}`,
+              transform: 'translateY(-2px)',
             },
           }}
         >
-          {t('hero.buttons.ecosystem')}
+          ENTER ORBIT
         </Button>
       </m.div>
     </Stack>
   );
 
-  // ----------------------------------------------------------------------
-  // Render
-  // ----------------------------------------------------------------------
   return (
     <Box
       ref={elementRef}
       component="section"
       sx={[
-        (theme) => ({
+        {
           position: 'relative',
           minHeight: '100vh',
           display: 'flex',
@@ -201,17 +221,18 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           pt: { xs: 12, md: 18 },
           pb: 10,
           bgcolor: 'transparent',
+          overflow: 'hidden',
           [theme.breakpoints.up(mdKey)]: {
             mt: `calc(var(--layout-header-desktop-height) * -1)`,
           },
-        }),
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
       <Box
         component={m.div}
-        style={{ opacity }}
+        style={{ opacity, scale }}
         sx={{ width: 1, position: 'relative', zIndex: 10 }}
       >
         <Container component={MotionContainer}>
@@ -221,22 +242,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             justifyContent="space-between"
             spacing={{ xs: 8, md: 4 }}
           >
-            {/* Coluna esquerda — Texto */}
             <Box sx={{ flex: 1 }}>
               {renderHeading()}
               {renderText()}
               {renderButtons()}
             </Box>
 
-            {/* Coluna direita — Arte / 3D */}
-            <Box
-              sx={{
-                flex: 1,
-                display: { xs: 'none', md: 'block' },
-              }}
-            >
-              {/* Canvas / Vortex / 3D entra aqui */}
-            </Box>
+            <Box sx={{ flex: 1, display: { xs: 'none', md: 'block' }, minHeight: 500 }} />
           </Stack>
         </Container>
       </Box>
@@ -245,8 +257,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
 }
 
 // ----------------------------------------------------------------------
-// Scroll Hook
-// ----------------------------------------------------------------------
+
 function useScrollData() {
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();

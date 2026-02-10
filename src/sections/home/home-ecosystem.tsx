@@ -103,15 +103,15 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   </Typography>
                 </Box>
 
-                {/* TÍTULO HIERÁRQUICO */}
+                {/* TÍTULO HIERÁRQUICO - CORREÇÃO DE ALINHAMENTO E QUEBRA */}
                 <Typography
                   component="h2"
                   sx={{
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 900,
-                    fontSize: { xs: '2rem', md: '2.8rem' },
-                    letterSpacing: '0.08em',
-                    lineHeight: 1.2,
+                    fontSize: { xs: '2rem', md: '2.6rem' }, // Ajustado para evitar quebra excessiva no desktop
+                    letterSpacing: '0.05em', // Reduzido levemente para melhor leitura
+                    lineHeight: 1.1, // Quebra mais compacta e profissional
                     textTransform: 'uppercase',
                   }}
                 >
@@ -119,7 +119,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                     INFRAESTRUTURA
                   </Box>
                   <br />
-                  <Box component="span" sx={{ color: 'text.secondary' }}>
+                  <Box component="span" sx={{ color: 'text.secondary', opacity: 0.7 }}>
                     DIGITAL DE
                   </Box>
                   <br />
@@ -131,7 +131,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                 <Typography
                   sx={{
                     mt: 3,
-                    maxWidth: 460,
+                    maxWidth: 440, // Reduzido para forçar uma quebra de linha mais harmônica
                     fontSize: { xs: 16, md: 18 },
                     lineHeight: 1.8,
                     color: 'text.secondary',

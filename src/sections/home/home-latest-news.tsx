@@ -21,6 +21,8 @@ import { varFade, MotionViewport } from 'src/components/animate';
 
 import { FloatLine, FloatDotIcon } from './components/svg-elements';
 
+// ----------------------------------------------------------------------
+
 const renderLines = () => (
   <>
     <Stack
@@ -104,6 +106,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
           >
             <Grid sx={{ textAlign: { xs: 'center', md: 'left' } }}>
               <m.div variants={varFade('inUp')}>
+                {/* 💊 Pílula Padronizada (Pill Style - borderRadius: 50) */}
                 <Box
                   sx={{
                     display: 'inline-block',
@@ -111,7 +114,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                     borderRadius: 2,
                     px: 1.5,
                     py: 0.5,
-                    mb: 5,
+                    mb: 4,
                   }}
                 >
                   <Typography
@@ -125,30 +128,31 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                       color: 'info.main',
                     }}
                   >
-                    BLOG & ARTIGOS RECENTES
+                    LATEST NEWS
                   </Typography>
                 </Box>
               </m.div>
 
               <m.div variants={varFade('inUp')}>
+                {/* 🖋️ Título Otimizado (Caixa Alta e Quebra Controlada) */}
                 <Typography
                   component="h2"
                   sx={{
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 900,
                     fontSize: { xs: '2.2rem', md: '3rem' },
-                    letterSpacing: '0.08em',
-                    lineHeight: 1.2,
+                    letterSpacing: '0.05em',
+                    lineHeight: 1.1,
                     textTransform: 'uppercase',
                   }}
                 >
                   <Box component="span" sx={{ color: 'common.white' }}>
                     ÚLTIMAS NOTÍCIAS
                   </Box>
-                  <Box component="span" sx={{ color: 'text.secondary', mx: 1 }}>
-                    E
-                  </Box>
                   <br />
+                  <Box component="span" sx={{ color: 'text.secondary', opacity: 0.5, mr: 1.5 }}>
+                    &
+                  </Box>
                   <Box component="span" sx={{ color: 'warning.main' }}>
                     ATUALIZAÇÕES
                   </Box>
@@ -156,12 +160,13 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
               </m.div>
 
               <m.div variants={varFade('inUp')}>
-                <Typography sx={{ mt: 3, mb: 5, color: 'text.secondary', fontSize: { xs: 16, md: 18 }, lineHeight: 1.8 }}>
+                <Typography sx={{ mt: 3, mb: 5, color: 'text.secondary', fontSize: { xs: 16, md: 18 }, lineHeight: 1.8, maxWidth: 420 }}>
                   Fique por dentro das novidades, anúncios e análises do ecossistema ASPPIBRA-DAO.
                 </Typography>
               </m.div>
 
               <m.div variants={varFade('inUp')}>
+                {/* ✨ Botão Neon Orbit Style */}
                 <Button
                   component={RouterLink}
                   href={paths.post.root}
@@ -174,23 +179,26 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
                     borderRadius: 1.5,
+                    textTransform: 'uppercase',
                     color: 'common.white',
-                    borderColor: 'info.main',
-                    letterSpacing: '0.05em',
-                    boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
+                    borderColor: alpha(theme.palette.info.main, 0.3),
+                    bgcolor: alpha(theme.palette.info.main, 0.05),
+                    boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}, inset 0 0 8px ${alpha(theme.palette.info.main, 0.05)}`,
                     display: { xs: 'none', md: 'inline-flex' },
                     '&:hover': {
-                      borderColor: 'common.white',
-                      boxShadow: `0 0 24px ${alpha(theme.palette.info.main, 0.7)}`,
-                      bgcolor: alpha(theme.palette.info.main, 0.1),
+                      borderColor: 'info.main',
+                      bgcolor: alpha(theme.palette.info.main, 0.15),
+                      boxShadow: `0 0 25px ${alpha(theme.palette.info.main, 0.5)}`,
+                      transform: 'translateY(-2px)',
                     },
                   }}
                 >
-                  Ver Todas as Notícias
+                  Ver Tudo
                 </Button>
               </m.div>
             </Grid>
 
+            {/* GRID DE POSTS */}
             <Grid>
               <Grid
                 display="grid"
@@ -209,13 +217,13 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                         display: 'flex',
                         flexDirection: 'column',
                         borderRadius: 3,
-                        bgcolor: alpha(theme.palette.background.paper, 0.4),
-                        backdropFilter: 'blur(12px)',
-                        border: `solid 1px ${alpha(theme.palette.primary.main, 0.1)}`,
+                        bgcolor: alpha(theme.palette.grey[500], 0.08),
+                        backdropFilter: 'blur(16px)',
+                        border: `solid 1px ${alpha(theme.palette.primary.main, 0.15)}`,
                         transition: theme.transitions.create(['transform', 'box-shadow']),
                         '&:hover': {
                           transform: 'translateY(-12px)',
-                          boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.2)}`,
+                          boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.25)}`,
                         },
                       }}
                     >
@@ -244,11 +252,11 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                           </Typography>
                         </Stack>
 
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4, color: 'common.white' }}>
                           {post.title}
                         </Typography>
 
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                           {post.description}
                         </Typography>
                       </Stack>
