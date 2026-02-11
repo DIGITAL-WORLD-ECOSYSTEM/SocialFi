@@ -2,14 +2,16 @@
 
 import * as THREE from 'three';
 import ThreeGlobe from 'three-globe';
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import countries from './world.json';
 
-// ----------------------------------------------------------------------
+// ======================================================
+// TYPES
+// ======================================================
 
-type ArcData = {
+export type ArcData = {
   order: number;
   startLat: number;
   startLng: number;
@@ -19,7 +21,14 @@ type ArcData = {
   color: string;
 };
 
-interface GlobeConfig {
+export type Hotspot = {
+  lat: number;
+  lng: number;
+  size: number;
+  color?: string;
+};
+
+export interface GlobeConfig {
   pointSize?: number;
   globeColor?: string;
   showAtmosphere?: boolean;
@@ -29,157 +38,202 @@ interface GlobeConfig {
   emissiveIntensity?: number;
   shininess?: number;
   polygonColor?: string;
-  ambientLight?: string;
-  directionalLeftLight?: string;
-  directionalTopLight?: string;
-  pointLight?: string;
+  ambientLightIntensity?: number;
+  directionalLightIntensity?: number;
+  pointLightIntensity?: number;
   arcTime?: number;
   arcLength?: number;
-  rings?: number;
-  maxRings?: number;
-  initialPosition?: { lat: number; lng: number };
+  initialCameraPosition?: [number, number, number];
   autoRotate?: boolean;
   autoRotateSpeed?: number;
+  enableZoom?: boolean;
+  enablePan?: boolean;
 }
 
-interface GlobeProps {
-  data: ArcData[];
-  globeConfig: GlobeConfig;
-}
+// ======================================================
+// DEFAULT CONFIG
+// ======================================================
 
-// ----------------------------------------------------------------------
+const DEFAULT_CONFIG: Required<GlobeConfig> = {
+  pointSize: 2.5,
+  globeColor: '#020617',
+  showAtmosphere: true,
+  atmosphereColor: '#60a5fa',
+  atmosphereAltitude: 0.35,
+  emissive: '#0f172a',
+  emissiveIntensity: 0.9,
+  shininess: 40,
+  polygonColor: 'rgba(255,255,255,0.7)',
+  ambientLightIntensity: 1.2,
+  directionalLightIntensity: 1.8,
+  pointLightIntensity: 1.5,
+  arcTime: 1600,
+  arcLength: 0.35,
+  initialCameraPosition: [0, 0, 300],
+  autoRotate: false,
+  autoRotateSpeed: 0.6,
+  enableZoom: false,
+  enablePan: false,
+};
 
-export function World({ data, globeConfig }: GlobeProps) {
-  const globeRef = useRef<ThreeGlobe | null>(null);
+// ======================================================
+// CUSTOM HOOK
+// ======================================================
 
-  const config = useMemo(
-    () => ({
-      pointSize: globeConfig.pointSize ?? 2.5,
-      globeColor: globeConfig.globeColor ?? '#020617',
-      polygonColor: globeConfig.polygonColor ?? 'rgba(255,255,255,0.08)',
-      atmosphereColor: globeConfig.atmosphereColor ?? '#60a5fa',
-      atmosphereAltitude: globeConfig.atmosphereAltitude ?? 0.35,
-      showAtmosphere: globeConfig.showAtmosphere ?? true,
-      emissive: globeConfig.emissive ?? '#0f172a',
-      emissiveIntensity: globeConfig.emissiveIntensity ?? 0.9,
-      shininess: globeConfig.shininess ?? 40,
-      arcTime: globeConfig.arcTime ?? 1600,
-      arcLength: globeConfig.arcLength ?? 0.35,
-      rings: globeConfig.rings ?? 6,
-      maxRings: globeConfig.maxRings ?? 10,
-    }),
-    [globeConfig]
-  );
+function useGlobe(
+  globe: ThreeGlobe,
+  data: ArcData[],
+  hotspots: Hotspot[],
+  config: Required<GlobeConfig>
+) {
+  const isLargeDataset = data.length > 50000;
+
+  const material = useMemo(() => {
+    return new THREE.MeshPhongMaterial({
+      color: new THREE.Color(config.globeColor),
+      emissive: new THREE.Color(config.emissive),
+      emissiveIntensity: config.emissiveIntensity,
+      shininess: config.shininess,
+      transparent: true,
+      opacity: 0.95,
+    });
+  }, [
+    config.globeColor,
+    config.emissive,
+    config.emissiveIntensity,
+    config.shininess,
+  ]);
 
   useEffect(() => {
-    if (!globeRef.current) return;
-    const globe = globeRef.current;
+    if (!globe) return;
 
-    // 🌍 Material do globo - Ajustado para suportar transparência se necessário
-    globe.globeMaterial(
-      new THREE.MeshPhongMaterial({
-        color: new THREE.Color(config.globeColor),
-        emissive: new THREE.Color(config.emissive),
-        emissiveIntensity: config.emissiveIntensity,
-        shininess: config.shininess,
-        transparent: true,
-        opacity: 0.95, // Leve transparência para integrar com o fundo
-      })
-    );
+    globe.globeMaterial(material);
 
-    // 🌐 Continentes
-    globe
-      .hexPolygonsData(countries.features)
-      .hexPolygonResolution(3)
-      .hexPolygonMargin(0.7)
-      .hexPolygonColor(() => config.polygonColor);
+    if (countries?.features) {
+      globe
+        .hexPolygonsData(countries.features)
+        .hexPolygonResolution(isLargeDataset ? 2 : 3)
+        .hexPolygonMargin(0.6)
+        .hexPolygonColor(() => config.polygonColor);
+    }
 
-    // 🔵 Hotspots estilo DEX
-    const hotspots = [
-      { lat: 45, lng: -100, size: 1.6 },
-      { lat: -15, lng: -60, size: 1.8 },
-      { lat: 50, lng: 15, size: 1.5 },
-      { lat: 5, lng: 20, size: 1.7 },
-      { lat: 35, lng: 95, size: 2.0 },
-      { lat: -25, lng: 135, size: 1.6 },
-    ];
+    if (hotspots.length) {
+      globe
+        .pointsData(hotspots)
+        .pointLat(obj => (obj as Hotspot).lat)
+        .pointLng(obj => (obj as Hotspot).lng)
+        .pointColor(obj => (obj as Hotspot).color ?? '#60a5fa')
+        .pointAltitude(0.045)
+        .pointRadius(obj => (obj as Hotspot).size)
+        .pointsMerge(true);
 
-    globe
-      .pointsData(hotspots)
-      .pointLat((d: any) => d.lat)
-      .pointLng((d: any) => d.lng)
-      .pointColor(() => '#60a5fa')
-      .pointAltitude(0.045)
-      .pointRadius((d: any) => d.size)
-      .pointsMerge(false);
+      globe
+        .ringsData(hotspots)
+        .ringLat(obj => (obj as Hotspot).lat)
+        .ringLng(obj => (obj as Hotspot).lng)
+        .ringColor(() => 'rgba(96,165,250,0.8)')
+        .ringMaxRadius(7)
+        .ringPropagationSpeed(2.4)
+        .ringRepeatPeriod(1400);
+    }
 
-    // 🌊 Rings pulsantes
-    globe
-      .ringsData(hotspots)
-      .ringLat((d: any) => d.lat)
-      .ringLng((d: any) => d.lng)
-      .ringColor(() => 'rgba(96,165,250,0.8)')
-      .ringMaxRadius(7)
-      .ringPropagationSpeed(2.4)
-      .ringRepeatPeriod(1400);
-
-    // 🚀 Arcos animados
     globe
       .arcsData(data)
-      .arcStartLat((d: any) => d.startLat)
-      .arcStartLng((d: any) => d.startLng)
-      .arcEndLat((d: any) => d.endLat)
-      .arcEndLng((d: any) => d.endLng)
-      .arcColor((d: any) => d.color)
-      .arcAltitude((d: any) => d.arcAlt)
-      .arcStroke(0.7)
-      .arcDashLength(config.arcLength)
-      .arcDashGap(2.5)
-      .arcDashInitialGap((d: any) => d.order)
-      .arcDashAnimateTime(config.arcTime)
-      .arcsTransitionDuration(1000);
+      .arcStartLat(obj => (obj as ArcData).startLat)
+      .arcStartLng(obj => (obj as ArcData).startLng)
+      .arcEndLat(obj => (obj as ArcData).endLat)
+      .arcEndLng(obj => (obj as ArcData).endLng)
+      .arcColor(obj => (obj as ArcData).color)
+      .arcAltitude(obj => (obj as ArcData).arcAlt)
+      .arcStroke(0.5)
+      .arcDashLength(isLargeDataset ? 1 : config.arcLength)
+      .arcDashGap(isLargeDataset ? 0 : 2.5)
+      .arcDashInitialGap(obj => (obj as ArcData).order)
+      .arcDashAnimateTime(isLargeDataset ? 0 : config.arcTime)
+      .arcsTransitionDuration(isLargeDataset ? 0 : 1000);
 
-    // 🌫 Atmosfera
-    if (config.showAtmosphere) {
+    if (config.showAtmosphere && !isLargeDataset) {
       globe
         .showAtmosphere(true)
         .atmosphereColor(config.atmosphereColor)
         .atmosphereAltitude(config.atmosphereAltitude);
+    } else {
+      globe.showAtmosphere(false);
     }
-  }, [data, config]);
+
+    return () => {
+      globe.showAtmosphere(false);
+      globe.arcsData([]);
+      globe.pointsData([]);
+      globe.ringsData([]);
+      globe.hexPolygonsData([]);
+    };
+  }, [
+    globe,
+    data,
+    hotspots,
+    material,
+    config.polygonColor,
+    config.arcLength,
+    config.arcTime,
+    config.showAtmosphere,
+    config.atmosphereColor,
+    config.atmosphereAltitude,
+    isLargeDataset,
+  ]);
+}
+
+// ======================================================
+// MAIN COMPONENT
+// ======================================================
+
+interface GlobeProps {
+  data: ArcData[];
+  hotspots?: Hotspot[];
+  globeConfig?: GlobeConfig;
+}
+
+export function World({
+  data,
+  hotspots = [],
+  globeConfig = {},
+}: GlobeProps) {
+  const mergedConfig = useMemo(
+    () => ({ ...DEFAULT_CONFIG, ...globeConfig }),
+    [globeConfig]
+  );
+
+  const globeInstance = useMemo(() => new ThreeGlobe(), []);
+
+  useGlobe(globeInstance, data, hotspots, mergedConfig);
 
   return (
-    <Canvas
-      shadows
-      // ✅ Alpha habilitado para transparência e preservação de buffer de profundidade
-      gl={{ 
-        antialias: true, 
-        alpha: true,
-        stencil: false,
-        depth: true
-      }}
-      // ✅ Removido o radial-gradient sólido para não bloquear o Vortex
-      style={{
-        background: 'transparent',
-      }}
-    >
-      <PerspectiveCamera makeDefault position={[0, 0, 300]} fov={50} />
-
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        autoRotate={globeConfig.autoRotate}
-        autoRotateSpeed={globeConfig.autoRotateSpeed || 0.6}
+    <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+      <PerspectiveCamera
+        makeDefault
+        position={mergedConfig.initialCameraPosition}
+        fov={50}
       />
 
-      {/* 💡 Iluminação equilibrada para o fundo transparente */}
-      <ambientLight intensity={1.2} />
-      <directionalLight position={[-300, 200, 300]} intensity={1.8} />
-      <pointLight position={[200, 300, 200]} intensity={1.5} color="#60a5fa" />
+      <OrbitControls
+        enablePan={mergedConfig.enablePan}
+        enableZoom={mergedConfig.enableZoom}
+        autoRotate={mergedConfig.autoRotate}
+        autoRotateSpeed={mergedConfig.autoRotateSpeed}
+      />
 
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <primitive object={new ThreeGlobe()} ref={globeRef} />
-      </group>
+      <ambientLight intensity={mergedConfig.ambientLightIntensity} />
+      <directionalLight
+        position={[-300, 200, 300]}
+        intensity={mergedConfig.directionalLightIntensity}
+      />
+      <pointLight
+        position={[200, 300, 200]}
+        intensity={mergedConfig.pointLightIntensity}
+        color="#60a5fa"
+      />
+
+      <primitive object={globeInstance} />
     </Canvas>
   );
 }
