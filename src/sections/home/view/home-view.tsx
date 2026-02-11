@@ -1,19 +1,23 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import Stack from '@mui/material/Stack';
+
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { BackToTopButton } from 'src/components/animate/back-to-top-button';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
-// Componentes Críticos (Immediate Loading)
-import { HomeBackground } from '../components/home-background';
+// ✅ NOVA ARQUITETURA: Importação do Background Modular Global
+// Este componente agora orquestra o Space, FlowerOfLife, GlassCube e SceneController
+import { HomeBackground } from 'src/components/background'; 
+
+// Componentes Críticos (Immediate Loading para LCP)
 import { HomeHero } from '../home-hero';
 import { HomeEcosystem } from '../home-ecosystem';
 
-// ✅ Lazy Loading Otimizado para Produção
+// ✅ Lazy Loading Otimizado para Produção (SSR: false para componentes com Three.js/Browser APIs)
 const HomeIntegrations = dynamic(() => import('../home-integrations').then((m) => m.HomeIntegrations), { ssr: false });
 const HomeCommunity = dynamic(() => import('../home-community').then((m) => m.HomeCommunity), { ssr: false });
 const HomeTeam = dynamic(() => import('../home-team').then((m) => m.HomeTeam), { ssr: false });
@@ -42,11 +46,18 @@ export function HomeView() {
 
       <BackToTopButton />
 
-      {/* FUNDO ÚNICO: Persistente para ASPPIBRA-DAO e infraestrutura RWA */}
+      {/* 🌌 FUNDO ÚNICO E MODULAR: 
+          Agora gerenciado em src/components/background/index.tsx.
+          Mantém a consistência visual em toda a experiência SocialFi.
+      */}
       <HomeBackground />
 
-      {/* Conteúdo Principal flutuando sobre o Vortex Galáctico */}
+      {/* Conteúdo Principal: 
+          zIndex: 1 garante que o conteúdo fique sobre o Canvas 3D.
+          bgcolor: 'transparent' nas seções permite visualizar o vácuo sideral.
+      */}
       <Box component="main" sx={{ position: 'relative', zIndex: 1 }}>
+        
         <HomeHero />
 
         <Stack sx={{ position: 'relative', bgcolor: 'transparent' }}>
@@ -68,7 +79,7 @@ export function HomeView() {
         </Stack>
       </Box>
 
-      {/* Dialog de contagem regressiva para 15/02/2026 */}
+      {/* Dialog de contagem regressiva — Lançamento Alpha */}
       <HomeCountdownDialog
         open={countdown.value}
         onClose={countdown.onFalse}

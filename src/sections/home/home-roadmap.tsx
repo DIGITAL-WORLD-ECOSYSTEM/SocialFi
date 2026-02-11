@@ -109,7 +109,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                   color: 'info.main',
                 }}
               >
-                NOSSA JORNADA
+                ROADMAP
               </Typography>
             </Box>
           </m.div>
