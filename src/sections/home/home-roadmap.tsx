@@ -25,28 +25,32 @@ const ROADMAP_PHASES: RoadmapPhase[] = [
     phase: 'FASE 01',
     time: 'Q1-Q2 2024',
     title: 'Fundação & Compliance',
-    description: 'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
+    description:
+      'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
     color: 'info',
   },
   {
     phase: 'FASE 02',
     time: 'Q3-Q4 2024',
     title: 'Tokenização RWA (MVP)',
-    description: 'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
+    description:
+      'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
     color: 'secondary',
   },
   {
     phase: 'FASE 03',
     time: 'Q1-Q2 2025',
     title: 'Escala & Binance Listing',
-    description: 'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
+    description:
+      'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
     color: 'error',
   },
   {
     phase: 'FASE 04',
     time: '2025+',
     title: 'Ecossistema Global Agro',
-    description: 'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
+    description:
+      'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
     color: 'warning',
   },
 ];
@@ -69,24 +73,9 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
       ]}
       {...other}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100%',
-          height: '60%',
-          background: `linear-gradient(to bottom, ${theme.palette.info.main}, ${theme.palette.secondary.main}, ${theme.palette.error.main}, ${theme.palette.warning.main})`,
-          filter: 'blur(120px)',
-          opacity: 0.2,
-          zIndex: 0,
-        }}
-      />
-
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-          
+          {/* Badge */}
           <m.div variants={varFade('inUp')}>
             <Box
               sx={{
@@ -104,7 +93,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                   fontFamily: "'Orbitron', sans-serif",
                   fontWeight: 700,
                   fontSize: 12,
-                  letterSpacing: '0.2em',
+                  letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'info.main',
                 }}
@@ -114,6 +103,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
             </Box>
           </m.div>
 
+          {/* Title */}
           <m.div variants={varFade('inUp')}>
             <Typography
               component="h2"
@@ -135,12 +125,24 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
             </Typography>
           </m.div>
 
+          {/* Subtitle */}
           <m.div variants={varFade('inUp')}>
-            <Typography sx={{ mt: 3, mx: 'auto', maxWidth: 560, color: 'text.secondary', fontSize: { xs: 16, md: 18 } }}>
+            <Typography
+              sx={{
+                mt: 3,
+                mx: 'auto',
+                maxWidth: 560,
+                fontFamily: "'Inter', 'Roboto', sans-serif",
+                fontSize: { xs: 16, md: 18 },
+                lineHeight: 1.7,
+                color: alpha(theme.palette.common.white, 0.75),
+              }}
+            >
               Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital.
             </Typography>
           </m.div>
 
+          {/* Phases */}
           <Grid
             container
             display="grid"
@@ -175,39 +177,44 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                         bgcolor: alpha(theme.palette.grey[900], 0.2),
                       }}
                     >
+                      {/* Phase + Time */}
                       <Typography
                         component="div"
                         sx={{
                           fontFamily: "'Orbitron', sans-serif",
                           fontSize: 12,
                           fontWeight: 700,
-                          color: cardColor,
-                          letterSpacing: '0.1em',
+                          letterSpacing: '0.14em',
                           textTransform: 'uppercase',
+                          color: cardColor,
                         }}
                       >
                         {item.phase} • {item.time}
                       </Typography>
 
+                      {/* Title */}
                       <Typography
-                        variant="h4"
                         component="h3"
                         sx={{
                           mt: 1,
                           mb: 2,
                           fontFamily: "'Orbitron', sans-serif",
-                          fontWeight: 900,
+                          fontWeight: 800,
+                          fontSize: { xs: 18, md: 20 },
+                          letterSpacing: '0.04em',
                           color: 'common.white',
                         }}
                       >
                         {item.title}
                       </Typography>
 
+                      {/* Description */}
                       <Typography
-                        variant="body2"
                         sx={{
-                          color: 'text.secondary',
-                          lineHeight: 1.8,
+                          fontFamily: "'Inter', 'Roboto', sans-serif",
+                          fontSize: 15,
+                          lineHeight: 1.75,
+                          color: alpha(theme.palette.common.white, 0.75),
                         }}
                       >
                         {item.description}
