@@ -1,6 +1,7 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
+
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
@@ -14,8 +15,9 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
 import { Iconify } from 'src/components/iconify';
-import { MotionViewport, varFade } from 'src/components/animate';
+import { varFade, MotionViewport } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 

@@ -1,49 +1,58 @@
 'use client';
 
-import type { SxProps } from '@mui/material/styles';
 import { m } from 'framer-motion';
 
-import Typography from '@mui/material/Typography';
-import { Theme, useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import { type Theme, type SxProps } from '@mui/material/styles';
 
-import { varBounce, MotionContainer } from 'src/components/animate';
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
-import { User } from '../types';
+// ✅ ORDEM CORRETA: O linter exige tipos (types) antes de componentes (components)
+import { varBounce, MotionContainer } from '../components';
 
 // ----------------------------------------------------------------------
 
 type RoleBasedGuardProp = {
   hasContent?: boolean;
-  allowedRoles: User['role'][]; 
-  currentRole: User['role'] | undefined;
+  allowedRoles: string[]; 
+  currentRole: string | undefined;
   children: React.ReactNode;
   sx?: SxProps<Theme>;
 };
 
-export default function RoleBasedGuard({ hasContent, allowedRoles, currentRole, children, sx }: RoleBasedGuardProp) {
-  const theme = useTheme();
-
+export default function RoleBasedGuard({ 
+  hasContent, 
+  allowedRoles, 
+  currentRole, 
+  children, 
+  sx 
+}: RoleBasedGuardProp) {
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
   if (!currentRole || !roles.includes(currentRole)) {
     return hasContent ? (
       <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
-        
-        {/* ✅ Versão 10/10: 
-            1. varBounce('in') passa a direção obrigatória.
-            2. O retorno direto é usado como variants, sem necessidade de .in ou casting complexo.
-        */}
-        
         <m.div variants={varBounce('in')}>
-          <Typography variant="h3" sx={{ mb: 2 }}>
+          <Typography 
+            variant="h3" 
+            sx={{ 
+              mb: 2, 
+              fontFamily: '"Orbitron", sans-serif',
+              fontWeight: 700 
+            }}
+          >
             Acesso não autorizado
           </Typography>
         </m.div>
 
         <m.div variants={varBounce('in')}>
-          <Typography sx={{ color: 'text.secondary' }}>
+          <Typography 
+            sx={{ 
+              color: 'text.secondary', 
+              fontFamily: '"Public Sans", sans-serif' 
+            }}
+          >
             Você não possui as permissões necessárias para acessar esta área.
           </Typography>
         </m.div>
@@ -56,7 +65,6 @@ export default function RoleBasedGuard({ hasContent, allowedRoles, currentRole, 
             }}
           />
         </m.div>
-        
       </Container>
     ) : null;
   }

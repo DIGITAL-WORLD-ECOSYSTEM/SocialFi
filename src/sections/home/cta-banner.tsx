@@ -4,6 +4,7 @@
 // Imports — tipos e motion
 // ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
+
 import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
 
@@ -13,17 +14,20 @@ import { varAlpha } from 'minimal-shared/utils';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 // ✅ CORREÇÃO: Importando o 'alpha' do MUI para as transparências
 import { alpha } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 
 // ----------------------------------------------------------------------
 // Imports — app
 // ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
 import { CONFIG } from 'src/global-config';
+
 import { varFade, MotionViewport } from 'src/components/animate';
+
 import { FloatLine, FloatPlusIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------

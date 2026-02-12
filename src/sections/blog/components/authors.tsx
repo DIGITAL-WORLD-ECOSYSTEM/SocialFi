@@ -1,6 +1,7 @@
 'use client';
 
 import { m } from 'framer-motion';
+
 // @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
+
 // routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';

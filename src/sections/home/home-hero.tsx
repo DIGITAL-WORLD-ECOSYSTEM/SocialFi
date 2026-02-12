@@ -10,7 +10,7 @@ import type { BoxProps } from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material/styles';
 import type { MotionProps, MotionValue } from 'framer-motion';
 
-import { useRef, memo } from 'react';
+import { useRef } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
 
 // ----------------------------------------------------------------------
@@ -21,10 +21,12 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { useTheme, alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
+
 import { useTranslate } from 'src/locales';
+
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionContainer } from 'src/components/animate';
 

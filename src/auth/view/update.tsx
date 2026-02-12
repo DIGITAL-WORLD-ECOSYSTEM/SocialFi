@@ -20,8 +20,8 @@ import axios, { endpoints } from 'src/lib/axios';
 
 // CORREÇÃO: Juntamos o 'toast' aqui com os outros componentes para evitar o erro de duplicata
 import { 
-  toast,
-  Form, 
+  Form,
+  toast, 
   Field, 
   Iconify, 
   FormHead, 

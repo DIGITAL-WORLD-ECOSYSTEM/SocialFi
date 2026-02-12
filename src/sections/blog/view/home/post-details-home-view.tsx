@@ -4,10 +4,10 @@ import type { IPostItem } from 'src/types/blog';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid'; 
+import Typography from '@mui/material/Typography'; 
 
 import { paths } from 'src/routes/paths';
 
@@ -16,9 +16,9 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { JsonLd, generateBreadcrumbs, generateArticleSchema } from 'src/components/seo/json-ld';
 
 import { PostItem } from '../../item/item';
+import { PostCommentForm } from '../../forms/post-comment-form';
 import { PostDetailsHero } from '../../details/post-details-hero';
 import { PostCommentList } from '../../details/post-comment-list';
-import { PostCommentForm } from '../../forms/post-comment-form';
 
 // ----------------------------------------------------------------------
 

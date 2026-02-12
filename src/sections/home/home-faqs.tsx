@@ -1,17 +1,18 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
+
 import { useState } from 'react';
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
+import Accordion from '@mui/material/Accordion';
 import Typography from '@mui/material/Typography';
+import { alpha, useTheme } from '@mui/material/styles';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import Accordion from '@mui/material/Accordion';
-import { alpha, useTheme } from '@mui/material/styles';
 
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';

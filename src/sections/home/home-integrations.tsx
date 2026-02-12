@@ -1,21 +1,20 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { m } from 'framer-motion';
-import type { BoxProps } from '@mui/material/Box';
+import dynamic from 'next/dynamic';
 
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import Box, { type BoxProps } from '@mui/material/Box';
 import { alpha, useTheme } from '@mui/material/styles';
 
-import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
-const World = dynamic(() => import('src/components/threeglobe/globe').then((m) => m.World), {
+// Carregamento dinâmico do Globo para não travar o LCP da Home
+const World = dynamic(() => import('src/components/threeglobe/globe').then((mod) => mod.World), {
   ssr: false,
   loading: () => (
     <Box sx={{ height: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -114,9 +113,7 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
             <World data={sampleArcs} globeConfig={globeConfig} />
           </Box>
 
-          {/* CARDS TÉCNICOS - POSICIONAMENTO EM PONTAS */}
-          
-          {/* Superior Esquerdo: ESTADO DA CHAIN */}
+          {/* Superior Esquerdo */}
           <DataPanel
             title="ESTADO_DA_CHAIN"
             label="BLOCKCHAIN_LEDGER"
@@ -129,7 +126,7 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
             ]}
           />
 
-          {/* Superior Direito: PODER DE CÁLCULO */}
+          {/* Superior Direito */}
           <DataPanel
             title="PODER DE CÁLCULO"
             label="BLOCKCHAIN_MINING"
@@ -141,7 +138,7 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
             ]}
           />
 
-          {/* Inferior Esquerdo: CONSOLA DE REDE */}
+          {/* Inferior Esquerdo */}
           <DataPanel
             title="CONSOLA_DE_REDE"
             label="NETWORK_TRAFFIC"
@@ -153,7 +150,7 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
             ]}
           />
 
-          {/* Inferior Direito: LATÊNCIA GLOBAL */}
+          {/* Inferior Direito */}
           <DataPanel
             title="LATÊNCIA GLOBAL"
             label="NETWORK_TOPOLOGY"
@@ -206,10 +203,11 @@ function DataPanel({ title, label, metrics, side, sx }: any) {
       </Typography>
 
       <Stack spacing={1}>
-        {metrics.map((m: any) => (
-          <Stack key={m.label} direction="row" justifyContent="space-between" sx={{ borderBottom: `1px solid ${alpha(theme.palette.grey[500], 0.1)}`, pb: 0.5 }}>
-            <Typography sx={{ fontSize: 10, color: 'text.secondary', fontWeight: 600 }}>{m.label}:</Typography>
-            <Typography sx={{ fontSize: 11, fontWeight: 700, color: m.color || 'text.primary', fontFamily: "'Orbitron', sans-serif" }}>{m.value}</Typography>
+        {/* ✅ Corrigido: Renomeado de 'm' para 'metric' para evitar conflito com 'm' do Framer Motion */}
+        {metrics.map((metric: any) => (
+          <Stack key={metric.label} direction="row" justifyContent="space-between" sx={{ borderBottom: `1px solid ${alpha(theme.palette.grey[500], 0.1)}`, pb: 0.5 }}>
+            <Typography sx={{ fontSize: 10, color: 'text.secondary', fontWeight: 600 }}>{metric.label}:</Typography>
+            <Typography sx={{ fontSize: 11, fontWeight: 700, color: metric.color || 'text.primary', fontFamily: "'Orbitron', sans-serif" }}>{metric.value}</Typography>
           </Stack>
         ))}
       </Stack>

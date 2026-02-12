@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useRef, useMemo, memo } from 'react';
-import { useFrame } from '@react-three/fiber';
+/* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
+import { memo, useRef, useMemo } from 'react';
 
-/* =========================
-   Types
-========================= */
+// ----------------------------------------------------------------------
 
 interface FlowerOfLifeProps {
   scrollProgress: React.MutableRefObject<number>;

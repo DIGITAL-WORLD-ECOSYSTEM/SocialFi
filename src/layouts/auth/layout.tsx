@@ -16,8 +16,8 @@ import { RouterLink } from 'src/routes/components';
 import { Logo } from 'src/components/logo';
 
 import { AuthCenteredContent } from './content';
-import { MainSection, LayoutSection, HeaderSection } from '../core';
 import { AuthBackgroundAnimation } from './background-animation';
+import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
 

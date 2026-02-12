@@ -1,10 +1,12 @@
 'use client';
 
+/* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
 import ThreeGlobe from 'three-globe';
-import { useEffect, useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+
 import countries from 'src/assets/data/world.json';
 
 // ======================================================
@@ -100,18 +102,16 @@ function useGlobe(
 ) {
   const isLargeDataset = data.length > 50000;
 
-  const material = useMemo(() => {
-    return new THREE.MeshPhongMaterial({
+  const material = useMemo(() => new THREE.MeshPhongMaterial({
       color: new THREE.Color(config.globeColor),
       emissive: new THREE.Color(config.emissive),
       emissiveIntensity: config.emissiveIntensity,
       shininess: config.shininess,
       transparent: true,
       opacity: 0.95,
-    });
-  }, [config.globeColor, config.emissive, config.emissiveIntensity, config.shininess]);
+    }), [config.globeColor, config.emissive, config.emissiveIntensity, config.shininess]);
 
-  // EFEITO 1: Estética e Materiais (Atualização Instantânea)
+  // EFEITO 1: Estética e Materiais
   useEffect(() => {
     if (!globe) return;
     globe.globeMaterial(material);
@@ -126,9 +126,9 @@ function useGlobe(
     }
   }, [globe, material, config.showAtmosphere, config.atmosphereColor, config.atmosphereAltitude, isLargeDataset]);
 
-  // EFEITO 2: Geometria e Dados (Processamento de Coordenadas)
+  // EFEITO 2: Geometria e Dados
   useEffect(() => {
-    if (!globe) return;
+    if (!globe) return undefined; // Ajuste para consistent-return
 
     if (countries?.features) {
       globe
@@ -174,15 +174,12 @@ function useGlobe(
       .arcsTransitionDuration(isLargeDataset ? 0 : 1000);
 
     return () => {
-      // Cleanup específico para geometria
       globe.arcsData([]).pointsData([]).ringsData([]).hexPolygonsData([]);
     };
   }, [globe, data, hotspots, config.polygonColor, config.arcLength, config.arcTime, config.maxRings, isLargeDataset]);
 
   // Cleanup final do material (GPU)
-  useEffect(() => {
-    return () => material.dispose();
-  }, [material]);
+  useEffect(() => () => material.dispose(), [material]);
 }
 
 // ======================================================
@@ -222,7 +219,7 @@ export function World({
         enableZoom={mergedConfig.enableZoom}
         autoRotate={mergedConfig.autoRotate}
         autoRotateSpeed={mergedConfig.autoRotateSpeed}
-        enableDamping={true} // Movimento mais suave
+        enableDamping
         dampingFactor={0.05}
       />
 

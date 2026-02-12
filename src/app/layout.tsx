@@ -1,19 +1,23 @@
 import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
+
 import { Analytics } from '@vercel/analytics/next';
+
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import { CONFIG } from 'src/global-config';
+import { LocalizationProvider } from 'src/locales';
 import { detectLanguage } from 'src/locales/server';
 import { I18nProvider } from 'src/locales/i18n-provider';
-import { LocalizationProvider } from 'src/locales';
 import { themeConfig, primary as primaryColor } from 'src/theme';
+
+import { JsonLd } from 'src/components/seo/json-ld';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-import { AuthProvider as JwtAuthProvider } from 'src/auth/context';
-import { JsonLd } from 'src/components/seo/json-ld'; 
+
+import { AuthProvider as JwtAuthProvider } from 'src/auth/context'; 
 
 import App from './app';
 

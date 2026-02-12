@@ -1,12 +1,14 @@
 'use client';
 
 import { m } from 'framer-motion';
+
 // @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
+
 // components
 import { Image } from 'src/components/image';
 

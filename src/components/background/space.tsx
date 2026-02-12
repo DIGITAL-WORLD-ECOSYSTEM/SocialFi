@@ -1,13 +1,16 @@
 'use client';
 
-import React, { memo, PropsWithChildren, Suspense } from 'react';
+/* eslint-disable react/no-unknown-property */
+import type { PropsWithChildren } from 'react';
+
+import { memo, Suspense } from 'react';
 import { Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+
 import Box from '@mui/material/Box';
 
-/* ================================
-   Configurações reutilizáveis
-================================ */
+// ----------------------------------------------------------------------
+
 const STARS_CONFIG = {
   radius: 120,
   depth: 60,
@@ -25,8 +28,7 @@ const LIGHT_CONFIG = {
 /* ================================
    Componente de Fundo (Layout)
 ================================ */
-export const Space = memo(function Space({ children }: PropsWithChildren) {
-  return (
+export const Space = memo(({ children }: PropsWithChildren) => (
     <Box
       sx={{
         position: 'fixed',
@@ -38,14 +40,12 @@ export const Space = memo(function Space({ children }: PropsWithChildren) {
     >
       {children}
     </Box>
-  );
-});
+  ));
 
 /* ================================
    Atmosfera 3D (Cena)
 ================================ */
-export const SpaceAtmosphere = memo(function SpaceAtmosphere() {
-  return (
+export const SpaceAtmosphere = memo(() => (
     <Suspense fallback={null}>
       <Stars {...STARS_CONFIG} />
       <ambientLight intensity={LIGHT_CONFIG.ambientIntensity} />
@@ -54,14 +54,12 @@ export const SpaceAtmosphere = memo(function SpaceAtmosphere() {
         intensity={LIGHT_CONFIG.pointIntensity}
       />
     </Suspense>
-  );
-});
+  ));
 
 /* ================================
    Componente Completo com Canvas
 ================================ */
-export const SpaceScene = memo(function SpaceScene() {
-  return (
+export const SpaceScene = memo(() => (
     <Space>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 75 }}
@@ -70,5 +68,4 @@ export const SpaceScene = memo(function SpaceScene() {
         <SpaceAtmosphere />
       </Canvas>
     </Space>
-  );
-});
+  ));

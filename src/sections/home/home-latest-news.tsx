@@ -1,6 +1,7 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
+
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
@@ -14,8 +15,11 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
 import { fDate } from 'src/utils/format-time';
+
 import { _mock } from 'src/_mock';
+
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 

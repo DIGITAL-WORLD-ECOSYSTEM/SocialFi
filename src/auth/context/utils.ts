@@ -1,4 +1,5 @@
 import axios from 'src/lib/axios';
+
 import { JWT_STORAGE_KEY } from './constant';
 
 // Tipagem para o window não reclamar do timeout

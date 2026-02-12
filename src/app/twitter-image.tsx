@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+
 import { CONFIG } from 'src/global-config';
 
 // ----------------------------------------------------------------------

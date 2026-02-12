@@ -1,8 +1,8 @@
-import { ImageResponse } from 'next/og';
 import { kebabCase } from 'es-toolkit';
+import { ImageResponse } from 'next/og';
 
-import { CONFIG } from 'src/global-config';
 import { _posts } from 'src/_mock/_blog';
+import { CONFIG } from 'src/global-config';
 
 // ----------------------------------------------------------------------
 

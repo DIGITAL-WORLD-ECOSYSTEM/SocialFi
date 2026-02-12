@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useRef, memo } from 'react';
+/* eslint-disable react/no-unknown-property */
+import type * as THREE from 'three';
+
+import { memo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+
+// ----------------------------------------------------------------------
 
 type GlassCubeProps = {
   size?: number;

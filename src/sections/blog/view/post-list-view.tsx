@@ -1,6 +1,6 @@
 'use client';
 
-import type { IPostItem, IPostFilters } from 'src/types/blog';
+import type { IPostItem } from 'src/types/blog';
 
 import { orderBy } from 'es-toolkit';
 import { useSetState } from 'minimal-shared/hooks';

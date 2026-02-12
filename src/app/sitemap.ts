@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 
+import { paths } from 'src/routes/paths'; 
+
 // Importação da fonte única de verdade (Mock)
-import { _posts } from 'src/_mock/_blog'; 
-import { paths } from 'src/routes/paths';
+import { _posts } from 'src/_mock/_blog';
 import { CONFIG } from 'src/global-config';
 
 // ----------------------------------------------------------------------

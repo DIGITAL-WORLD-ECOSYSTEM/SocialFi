@@ -1,6 +1,7 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
+
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
@@ -13,9 +14,11 @@ import Typography from '@mui/material/Typography';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { alpha, useTheme } from '@mui/material/styles';
 
-import { _mock } from 'src/_mock';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
+import { _mock } from 'src/_mock';
+
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 

@@ -6,12 +6,12 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-import { BackToTopButton } from 'src/components/animate/back-to-top-button';
-import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
 // ✅ NOVA ARQUITETURA: Importação do Background Modular Global
 // Este componente agora orquestra o Space, FlowerOfLife, GlassCube e SceneController
-import { HomeBackground } from 'src/components/background'; 
+import { HomeBackground } from 'src/components/background';
+import { BackToTopButton } from 'src/components/animate/back-to-top-button';
+import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress'; 
 
 // Componentes Críticos (Immediate Loading para LCP)
 import { HomeHero } from '../home-hero';

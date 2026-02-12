@@ -4,6 +4,7 @@
 // Imports — tipos e react/motion
 // ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
+
 import { m } from 'framer-motion';
 
 // ----------------------------------------------------------------------
@@ -22,7 +23,9 @@ import { alpha, useTheme } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
 import { _socials, _carouselsMembers } from 'src/_mock';
+
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';

@@ -3,9 +3,8 @@
 import type { Breakpoint } from '@mui/material/styles';
 
 import { useCallback } from 'react';
-import { toast } from 'src/components/snackbar'; 
 
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'; 
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
@@ -21,6 +20,7 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { Logo } from 'src/components/logo';
+import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------

@@ -1,11 +1,11 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
-import { alpha } from '@mui/material/styles'; 
 
-import { mergeClasses } from 'minimal-shared/utils';
+import { mergeClasses } from 'minimal-shared/utils'; 
 
 import Box from '@mui/material/Box';
+import { alpha } from '@mui/material/styles';
 
 import { layoutClasses } from '../core';
 

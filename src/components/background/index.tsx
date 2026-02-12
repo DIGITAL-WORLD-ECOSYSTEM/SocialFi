@@ -1,30 +1,27 @@
 'use client';
 
-import React, { useRef, useMemo, useEffect, memo } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Float, PerspectiveCamera } from '@react-three/drei';
+/* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
+import { Canvas } from '@react-three/fiber';
+import { memo, useRef, useMemo, useEffect } from 'react';
+import { Float, PerspectiveCamera } from '@react-three/drei';
 
-import { Space, SpaceAtmosphere } from './space';
-import { FlowerOfLife } from './flower-of-life';
 import { GlassCube } from './glass-cube';
+import { FlowerOfLife } from './flower-of-life';
+import { Space, SpaceAtmosphere } from './space';
 import { SceneController } from './scene-controller';
+
+// ----------------------------------------------------------------------
 
 const RADIUS = 0.9;
 
 export const HomeBackground: React.FC = memo(() => {
   const scrollProgress = useRef<number>(0);
 
-  // Geometrias compartilhadas para performance
-  const sharedSphereGeo = useMemo(
-    () => new THREE.SphereGeometry(RADIUS, 32, 32),
-    []
-  );
+  // Geometrias compartilhadas para performance (Evita recriar buffers na GPU)
+  const sharedSphereGeo = useMemo(() => new THREE.SphereGeometry(RADIUS, 32, 32), []);
 
-  const sharedGlassGeo = useMemo(
-    () => new THREE.SphereGeometry(RADIUS, 24, 24),
-    []
-  );
+  const sharedGlassGeo = useMemo(() => new THREE.SphereGeometry(RADIUS, 24, 24), []);
 
   const glassMat = useMemo(
     () =>
@@ -40,23 +37,30 @@ export const HomeBackground: React.FC = memo(() => {
     []
   );
 
-  // Cleanup de recursos WebGL (boas práticas)
-  useEffect(() => {
-    return () => {
+  // Cleanup rigoroso de recursos WebGL (Essencial para manter o TBT baixo e evitar Memory Leaks)
+  useEffect(
+    () => () => {
       sharedSphereGeo.dispose();
       sharedGlassGeo.dispose();
       glassMat.dispose();
-    };
-  }, [sharedSphereGeo, sharedGlassGeo, glassMat]);
+    },
+    [sharedSphereGeo, sharedGlassGeo, glassMat]
+  );
 
   return (
     <Space>
       <Canvas
         dpr={[1, 2]}
-        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        gl={{ 
+          antialias: true, 
+          powerPreference: 'high-performance',
+          alpha: true 
+        }}
       >
         <PerspectiveCamera makeDefault position={[0, 0, 6]} />
+        
         <SpaceAtmosphere />
+        
         <SceneController scrollProgress={scrollProgress} />
 
         <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.4}>

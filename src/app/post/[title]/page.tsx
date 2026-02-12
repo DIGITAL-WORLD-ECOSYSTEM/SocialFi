@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { kebabCase } from 'es-toolkit';
 
-import { CONFIG } from 'src/global-config';
+import { kebabCase } from 'es-toolkit';
+import { notFound } from 'next/navigation';
+
 import { _posts } from 'src/_mock/_blog'; // Importação direta dos dados estáticos
+import { CONFIG } from 'src/global-config';
 import { getPost, getLatestPosts } from 'src/actions/blog-ssr';
+
 import { PostDetailsHomeView } from 'src/sections/blog/view/post-details-home-view';
 
 // ----------------------------------------------------------------------
