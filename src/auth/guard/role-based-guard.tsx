@@ -8,25 +8,24 @@ import { type Theme, type SxProps } from '@mui/material/styles';
 
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
-// ✅ ORDEM CORRETA: O linter exige tipos (types) antes de componentes (components)
 import { varBounce, MotionContainer } from '../components';
 
 // ----------------------------------------------------------------------
 
 type RoleBasedGuardProp = {
   hasContent?: boolean;
-  allowedRoles: string[]; 
+  allowedRoles: string[];
   currentRole: string | undefined;
   children: React.ReactNode;
   sx?: SxProps<Theme>;
 };
 
-export default function RoleBasedGuard({ 
-  hasContent, 
-  allowedRoles, 
-  currentRole, 
-  children, 
-  sx 
+export default function RoleBasedGuard({
+  hasContent,
+  allowedRoles,
+  currentRole,
+  children,
+  sx,
 }: RoleBasedGuardProp) {
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
@@ -34,12 +33,12 @@ export default function RoleBasedGuard({
     return hasContent ? (
       <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
         <m.div variants={varBounce('in')}>
-          <Typography 
-            variant="h3" 
-            sx={{ 
-              mb: 2, 
+          <Typography
+            variant="h3"
+            sx={{
+              mb: 2,
               fontFamily: '"Orbitron", sans-serif',
-              fontWeight: 700 
+              fontWeight: 700,
             }}
           >
             Acesso não autorizado
@@ -47,10 +46,10 @@ export default function RoleBasedGuard({
         </m.div>
 
         <m.div variants={varBounce('in')}>
-          <Typography 
-            sx={{ 
-              color: 'text.secondary', 
-              fontFamily: '"Public Sans", sans-serif' 
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              fontFamily: '"Public Sans", sans-serif',
             }}
           >
             Você não possui as permissões necessárias para acessar esta área.
