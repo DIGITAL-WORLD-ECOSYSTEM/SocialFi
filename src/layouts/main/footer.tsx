@@ -3,7 +3,7 @@
 import type { Breakpoint } from '@mui/material/styles';
 
 import { useCallback } from 'react';
-import { useSnackbar } from 'notistack';
+import { toast } from 'src/components/snackbar'; 
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -58,6 +58,7 @@ const CUSTOM_SOCIALS = [
   { name: 'LinkedIn', href: '#', icon: 'ri:linkedin-fill' },
   { name: 'GitHub', href: '#', icon: 'ri:github-fill' },
   { name: 'Telegram', href: '#', icon: 'ri:telegram-fill' },
+  { name: 'Crunchbase', href: 'https://www.crunchbase.com/organization/sandro', icon: 'simple-icons:crunchbase' },
 ];
 
 const FooterRoot = styled('footer')(({ theme }) => ({
@@ -67,6 +68,7 @@ const FooterRoot = styled('footer')(({ theme }) => ({
   paddingTop: theme.spacing(8),
   paddingBottom: theme.spacing(3),
   borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
+  fontFamily: '"Public Sans", sans-serif', // Fonte principal para o corpo
 }));
 
 export type FooterProps = React.ComponentProps<typeof FooterRoot>;
@@ -76,24 +78,21 @@ export function Footer({
   layoutQuery = 'md',
   ...other
 }: FooterProps & { layoutQuery?: Breakpoint }) {
-  const { enqueueSnackbar } = useSnackbar();
-
+  
   const contractAddress = "0x0697AB2B003FD2Cbaea2dF1ef9b404E45bE59d4C";
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(contractAddress);
-    enqueueSnackbar('Endereço do contrato copiado!');
-  }, [enqueueSnackbar, contractAddress]);
+    toast.success('Endereço do contrato copiado!');
+  }, [contractAddress]);
 
   const truncate = (str: string) => `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
 
   return (
     <FooterRoot sx={sx} {...other}>
       <Container>
-        {/* Container principal da grade */}
         <Grid container spacing={5} sx={{ mb: 8 }}>
           
-          {/* Removido a prop 'item' e mantido apenas o tamanho */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ mb: 2 }}>
                <Logo isSingle={false} sx={{ color: '#FFF' }} />
@@ -110,12 +109,18 @@ export function Footer({
               />
               <Typography
                 variant="caption"
-                sx={{ color: '#00ff7f', fontWeight: 'bold', letterSpacing: 1, fontSize: '0.7rem' }}
+                sx={{ 
+                  color: '#00ff7f', 
+                  fontWeight: 'bold', 
+                  letterSpacing: 2, 
+                  fontSize: '0.7rem',
+                  fontFamily: '"Orbitron", sans-serif' // Fonte tecnológica
+                }}
               >
                 SYSTEM ONLINE
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'grey.500', maxWidth: 360, mb: 4, lineHeight: 1.6 }}>
+            <Typography variant="body2" sx={{ color: 'grey.500', maxWidth: 360, mb: 4, lineHeight: 1.6, fontFamily: '"Public Sans", sans-serif' }}>
               Redefinindo ativos reais no mundo digital. Governança descentralizada, transparência e
               inovação através de tecnologia Web3 e Inteligência Artificial.
             </Typography>
@@ -127,6 +132,7 @@ export function Footer({
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Link para ${social.name}`}
                     sx={{
                       color: 'grey.500',
                       '&:hover': { color: 'common.white', bgcolor: 'rgba(255,255,255,0.08)' },
@@ -139,7 +145,6 @@ export function Footer({
             </Box>
           </Grid>
 
-          {/* Segunda Coluna */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Box
               sx={{
@@ -150,7 +155,16 @@ export function Footer({
             >
               {LINKS.map((list) => (
                 <Box key={list.headline} sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-                  <Typography variant="subtitle2" sx={{ color: 'grey.400', fontWeight: 'bold', letterSpacing: 1, fontSize: '0.75rem' }}>
+                  <Typography 
+                    variant="subtitle2" 
+                    sx={{ 
+                      color: 'grey.400', 
+                      fontWeight: 'bold', 
+                      letterSpacing: 1.5, 
+                      fontSize: '0.75rem',
+                      fontFamily: '"Orbitron", sans-serif' // Título da seção
+                    }}
+                  >
                     {list.headline}
                   </Typography>
 
@@ -165,6 +179,7 @@ export function Footer({
                       sx={{
                         color: 'grey.500',
                         transition: 'color 0.2s',
+                        fontFamily: '"Public Sans", sans-serif',
                         '&:hover': { color: 'common.white' },
                       }}
                     >
@@ -176,11 +191,20 @@ export function Footer({
             </Box>
           </Grid>
 
-          {/* Terceira Coluna */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Box>
-                <Typography variant="subtitle2" sx={{ color: 'grey.400', fontWeight: 'bold', mb: 2, letterSpacing: 0.5, fontSize: '0.75rem' }}>
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ 
+                    color: 'grey.400', 
+                    fontWeight: 'bold', 
+                    mb: 2, 
+                    letterSpacing: 1, 
+                    fontSize: '0.75rem',
+                    fontFamily: '"Orbitron", sans-serif' // Título técnico
+                  }}
+                >
                   TOKEN CONTRACT (BEP-20)
                 </Typography>
                 <TextField
@@ -192,7 +216,12 @@ export function Footer({
                     endAdornment: (
                       <InputAdornment position="end">
                         <Tooltip title="Copiar endereço">
-                          <IconButton edge="end" sx={{ color: 'grey.500' }} onClick={handleCopy}>
+                          <IconButton 
+                            edge="end" 
+                            sx={{ color: 'grey.500' }} 
+                            onClick={handleCopy}
+                            aria-label="Copiar endereço do contrato"
+                          >
                             <Iconify icon="solar:copy-bold" width={20} />
                           </IconButton>
                         </Tooltip>
@@ -214,7 +243,7 @@ export function Footer({
               </Box>
 
               <Box>
-                <Typography variant="body2" sx={{ color: 'grey.600', mb: 0.5, fontSize: '0.8rem' }}>
+                <Typography variant="body2" sx={{ color: 'grey.600', mb: 0.5, fontSize: '0.8rem', fontFamily: '"Public Sans", sans-serif' }}>
                   Precisa de suporte?
                 </Typography>
                 <Link
@@ -222,7 +251,11 @@ export function Footer({
                   href={paths.faqs}
                   variant="body1"
                   underline="none"
-                  sx={{ color: 'grey.300', '&:hover': { color: 'common.white' } }}
+                  sx={{ 
+                    color: 'grey.300', 
+                    fontFamily: '"Public Sans", sans-serif',
+                    '&:hover': { color: 'common.white' } 
+                  }}
                 >
                   Acesse a Central de Ajuda
                 </Link>
@@ -242,15 +275,15 @@ export function Footer({
             gap: 2,
           }}
         >
-          <Typography variant="body2" sx={{ color: 'grey.700', fontSize: '0.8rem' }}>
+          <Typography variant="body2" sx={{ color: 'grey.600', fontSize: '0.8rem', fontFamily: '"Public Sans", sans-serif' }}>
             © 2026 DEX World. Todos os direitos reservados.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 3 }}>
-            <Link href="#" variant="body2" underline="none" sx={{ color: 'grey.700', fontSize: '0.8rem', '&:hover': { color: 'grey.500' } }}>
+            <Link href="#" variant="body2" underline="none" sx={{ color: 'grey.600', fontSize: '0.8rem', fontFamily: '"Public Sans", sans-serif', '&:hover': { color: 'grey.400' } }}>
               Privacidade
             </Link>
-            <Link href="#" variant="body2" underline="none" sx={{ color: 'grey.700', fontSize: '0.8rem', '&:hover': { color: 'grey.500' } }}>
+            <Link href="#" variant="body2" underline="none" sx={{ color: 'grey.600', fontSize: '0.8rem', fontFamily: '"Public Sans", sans-serif', '&:hover': { color: 'grey.400' } }}>
               Cookies
             </Link>
           </Box>
