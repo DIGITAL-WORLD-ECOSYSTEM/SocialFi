@@ -1,15 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Registro seguro do plugin no client
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useEffect } from 'react';
+import { useThree, useFrame } from '@react-three/fiber';
+import { useScroll, useTransform } from 'framer-motion';
 
 type SceneControllerProps = {
   scrollProgress: React.MutableRefObject<number>;
@@ -18,6 +12,13 @@ type SceneControllerProps = {
 export function SceneController({ scrollProgress }: SceneControllerProps) {
   const { camera } = useThree();
 
+  // 1. Hook nativo do Framer Motion para detectar o scroll da página
+  const { scrollYProgress } = useScroll();
+
+  // 2. Transforma o progresso do scroll (0 a 1) na posição Z desejada da câmera
+  // Substitui o MathUtils.lerp do Three/GSAP de forma declarativa
+  const cameraZ = useTransform(scrollYProgress, [0, 1], [5.4, 1.6]);
+
   // Configuração inicial da câmera
   useEffect(() => {
     if (!(camera instanceof THREE.PerspectiveCamera)) return;
@@ -25,31 +26,21 @@ export function SceneController({ scrollProgress }: SceneControllerProps) {
     camera.fov = 42;
     camera.position.set(0, 0.15, 5.4);
     camera.lookAt(-1.5, 0, 0);
-    camera.updateProjectionMatrix(); // só aqui é necessário
+    camera.updateProjectionMatrix();
   }, [camera]);
 
-  // Controle via ScrollTrigger
-  useEffect(() => {
+  // 3. useFrame executa a cada frame do Three.js (60fps)
+  // É mais performático que o 'onUpdate' do GSAP pois roda dentro da loop de renderização do WebGL
+  useFrame(() => {
     if (!(camera instanceof THREE.PerspectiveCamera)) return;
 
-    const trigger = ScrollTrigger.create({
-      trigger: document.body,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1.2,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        scrollProgress.current = progress;
+    // Atualiza a referência de progresso para outros componentes usarem
+    scrollProgress.current = scrollYProgress.get();
 
-        // Anima apenas a posição (sem recalcular matriz de projeção)
-        camera.position.z = THREE.MathUtils.lerp(5.4, 1.6, progress);
-      }
-    });
-
-    return () => {
-      trigger.kill();
-    };
-  }, [camera, scrollProgress]);
+    // Aplica a nova posição Z com base no scroll
+    // O Framer Motion já cuida da suavização através do hook
+    camera.position.z = cameraZ.get();
+  });
 
   return null;
 }
