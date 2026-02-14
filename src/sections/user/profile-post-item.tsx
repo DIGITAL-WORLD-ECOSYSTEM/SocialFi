@@ -1,6 +1,5 @@
-import type { IUserProfilePost } from 'src/types/user';
+'use client';
 
-import { varAlpha } from 'minimal-shared/utils';
 import { useRef, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -14,9 +13,12 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+
+import { varAlpha } from 'minimal-shared/utils';
 
 import { fDate } from 'src/utils/format-time';
 import { fShortenNumber } from 'src/utils/format-number';
@@ -26,11 +28,27 @@ import { Iconify } from 'src/components/iconify';
 
 import { useMockedUser } from 'src/auth/hooks';
 
+import type { IUserProfilePost } from 'src/types/user';
+
 // ----------------------------------------------------------------------
 
 type Props = {
   post: IUserProfilePost;
 };
+
+/**
+ * SOLUÇÃO PARA ERRO TS2590:
+ * Isolando o AvatarGroup em um Styled Component para reduzir a complexidade 
+ * da árvore de tipos durante o build de produção.
+ */
+const StyledAvatarGroup = styled(AvatarGroup)(() => ({
+  [`& .${avatarGroupClasses.avatar}`]: {
+    width: 32,
+    height: 32,
+  },
+}));
+
+// ----------------------------------------------------------------------
 
 export function ProfilePostItem({ post }: Props) {
   const { user } = useMockedUser();
@@ -186,18 +204,11 @@ export function ProfilePostItem({ post }: Props) {
       />
 
       {!!post.personLikes.length && (
-        <AvatarGroup
-          sx={{
-            [`& .${avatarGroupClasses.avatar}`]: {
-              width: 32,
-              height: 32,
-            },
-          }}
-        >
+        <StyledAvatarGroup max={4}>
           {post.personLikes.map((person) => (
             <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
           ))}
-        </AvatarGroup>
+        </StyledAvatarGroup>
       )}
 
       <Box sx={{ flexGrow: 1 }} />

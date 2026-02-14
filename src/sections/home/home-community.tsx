@@ -1,7 +1,5 @@
 'use client';
 
-import type { BoxProps } from '@mui/material/Box';
-
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
@@ -11,8 +9,10 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import { alpha, useTheme } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
+import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import type { BoxProps } from '@mui/material/Box';
+import type { Theme, SxProps } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -31,6 +31,18 @@ const SOCIAL_CHANNELS = [
   { name: 'Telegram', icon: 'logos:telegram', color: '#0088cc' },
   { name: 'Instagram', icon: 'skill-icons:instagram', color: '#E4405F' },
 ];
+
+/**
+ * SOLUÇÃO PARA ERRO VERCEL (TS2590):
+ * Isolar o AvatarGroup em um Styled Component remove a complexidade de união de tipos
+ * do fluxo principal do JSX, permitindo que o build complete com sucesso.
+ */
+const StyledAvatarGroup = styled(AvatarGroup)(() => ({
+  [`& .${avatarGroupClasses.avatar}`]: {
+    width: 32,
+    height: 32,
+  },
+}));
 
 // ----------------------------------------------------------------------
 
@@ -103,11 +115,13 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-start">
-          <AvatarGroup max={4}>
+          {/* ✅ APLICAÇÃO DA CORREÇÃO AQUI */}
+          <StyledAvatarGroup max={4}>
             <Avatar src={_mock.image.avatar(1)} />
             <Avatar src={_mock.image.avatar(2)} />
             <Avatar src={_mock.image.avatar(3)} />
-          </AvatarGroup>
+          </StyledAvatarGroup>
+          
           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
             Network Stewards
           </Typography>
@@ -212,7 +226,6 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 </Box>
               </Typography>
               
-              {/* DESCRIÇÃO */}
               <Typography
                 sx={{
                   maxWidth: 560,
