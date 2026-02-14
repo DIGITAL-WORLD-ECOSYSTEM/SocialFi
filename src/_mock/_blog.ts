@@ -1,5 +1,6 @@
-import { _mock } from './_mock';
 import type { IPostComment } from 'src/types/blog';
+
+import { _mock } from './_mock';
 
 // ----------------------------------------------------------------------
 

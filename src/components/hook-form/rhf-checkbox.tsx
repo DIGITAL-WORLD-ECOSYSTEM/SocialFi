@@ -1,5 +1,10 @@
 "use client";
 
+import type { CheckboxProps } from '@mui/material/Checkbox';
+import type { FormGroupProps } from '@mui/material/FormGroup'; // ✅ Adicionado para tipagem correta
+import type { FormHelperTextProps } from '@mui/material/FormHelperText';
+import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
+
 import { Controller, useFormContext } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
@@ -8,10 +13,6 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import type { CheckboxProps } from '@mui/material/Checkbox';
-import type { FormGroupProps } from '@mui/material/FormGroup'; // ✅ Adicionado para tipagem correta
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
-import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
 
 // ----------------------------------------------------------------------
 

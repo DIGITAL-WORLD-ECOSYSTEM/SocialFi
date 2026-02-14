@@ -1,117 +1,217 @@
 'use client';
 
-import type { IPostItem } from 'src/types/blog';
+import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography'; 
+import Typography from '@mui/material/Typography';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 
 import { paths } from 'src/routes/paths';
 
+import { fShortenNumber } from 'src/utils/format-number';
+
+import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { JsonLd, generateBreadcrumbs, generateArticleSchema } from 'src/components/seo/json-ld';
+import { JsonLd, generateBreadcrumbs } from 'src/components/seo/json-ld';
 
+// CORREÇÃO DOS CAMINHOS: Subindo dois níveis (../../) para achar os componentes
 import { PostItem } from '../../item/item';
 import { PostCommentForm } from '../../forms/post-comment-form';
-import { PostDetailsHero } from '../../details/post-details-hero';
 import { PostCommentList } from '../../details/post-comment-list';
+import { PostDetailsHero } from '../../details/post-details-hero';
+
+import type { IPostItem, IPostComment } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  post: IPostItem;
-  latestPosts: IPostItem[];
+  post?: IPostItem;
+  latestPosts?: IPostItem[];
 };
 
-export function PostDetailsHomeView({ post, latestPosts }: Props) {
-  const breadcrumbs = [
-    { name: 'Home', href: '/' },
-    { name: 'Blog', href: paths.post.root },
-    { name: post?.title ?? 'Post', href: post?.title ? paths.post.details(post.title) : '' },
-  ];
+const StyledAvatarGroup = styled(AvatarGroup)(() => ({
+  [`& .${avatarGroupClasses.avatar}`]: {
+    width: 32,
+    height: 32,
+  },
+}));
 
-  if (!post) return null;
+const gridStyles = {
+  display: 'grid',
+  gap: 24,
+  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+};
+
+// ----------------------------------------------------------------------
+
+export function PostDetailsHomeView({ post, latestPosts }: Props) {
+  const [isFavorited, setIsFavorited] = useState<boolean>(true);
+
+  const [favoritesCount, setFavoritesCount] = useState<number>(
+    Number(post?.totalFavorites ?? 0)
+  );
+
+  const title = post?.title ?? '';
+  const description = post?.description ?? '';
+  const content = post?.content ?? '';
+  const coverUrl = post?.coverUrl ?? '';
+  const createdAt = post?.createdAt;
+  const author = post?.author;
+
+  const tags = post?.tags ?? [];
+  const favoritePeople = post?.favoritePerson ?? [];
+  const comments: IPostComment[] = post?.comments ?? [];
+
+  const recentPosts = useMemo(() => {
+    const latest = latestPosts ?? [];
+    return latest.slice(-4);
+  }, [latestPosts]);
+
+  const handleToggleFavorite = useCallback(() => {
+    setIsFavorited((prev) => {
+      const next = !prev;
+      setFavoritesCount((count) => (next ? count + 1 : Math.max(0, count - 1)));
+      return next;
+    });
+  }, []);
+
+  const breadcrumbs = useMemo(() => {
+    const base = [
+      { name: 'Home', href: '/' },
+      { name: 'Blog', href: paths.post.root },
+    ];
+
+    if (title) {
+      base.push({
+        name: title,
+        href: paths.post.details(title),
+      });
+    }
+
+    return base;
+  }, [title]);
 
   return (
     <>
       <JsonLd schema={generateBreadcrumbs(breadcrumbs)} />
-      <JsonLd
-        schema={generateArticleSchema({
-          title: post.title,
-          description: post.description,
-          coverUrl: post.coverUrl,
-          createdAt: post.createdAt ? String(post.createdAt) : new Date().toISOString(),
-          authorName: post.author.name,
-          url: `${paths.post.details(post.title)}`,
-        })}
-      />
 
       <PostDetailsHero
-        title={post.title}
-        author={post.author}
-        coverUrl={post.coverUrl}
-        createdAt={post.createdAt}
+        title={title}
+        author={author}
+        coverUrl={coverUrl}
+        createdAt={createdAt}
       />
 
       <Container
         maxWidth={false}
-        sx={{
+        sx={(theme) => ({
           py: 3,
           mb: 5,
-          borderBottom: (theme) => `solid 1px ${theme.vars.palette.divider}`,
-        }}
+          borderBottom: `solid 1px ${theme.palette.divider}`,
+        })}
       >
-        <CustomBreadcrumbs links={breadcrumbs} sx={{ maxWidth: 720, mx: 'auto' }} />
+        <CustomBreadcrumbs
+          links={breadcrumbs}
+          sx={{ maxWidth: 720, mx: 'auto' }}
+        />
       </Container>
 
       <Container maxWidth={false}>
         <Stack sx={{ maxWidth: 720, mx: 'auto' }}>
-          <Typography variant="h6" sx={{ mb: 5 }}>
-            {post.description}
-          </Typography>
-
-          <Markdown sx={{ '& p': { mb: 3 } }}>
-            {post.content}
-          </Markdown>
-
-          {post.tags.length > 0 && (
-            <Stack direction="row" alignItems="center" flexWrap="wrap" sx={{ my: 5 }}>
-              <Typography variant="subtitle2" sx={{ mr: 1 }}>
-                Tags:
-              </Typography>
-              <Stack direction="row" flexWrap="wrap" spacing={1}>
-                {post.tags.map((tag) => (
-                  <Chip key={tag} size="small" label={tag} variant="soft" />
-                ))}
-              </Stack>
-            </Stack>
+          {!!description && (
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              {description}
+            </Typography>
           )}
 
-          <Box sx={{ my: 5 }}>
-            <PostCommentForm />
+          {!!content && <Markdown>{content}</Markdown>}
+
+          <Stack
+            spacing={3}
+            sx={(theme) => ({
+              py: 3,
+              my: 5,
+              borderTop: `dashed 1px ${theme.palette.divider}`,
+              borderBottom: `dashed 1px ${theme.palette.divider}`,
+            })}
+          >
+            {!!tags.length && (
+              <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
+                {tags.map((tag) => (
+                  <Chip key={tag} label={tag} variant="soft" />
+                ))}
+              </Box>
+            )}
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <FormControlLabel
+                label={fShortenNumber(favoritesCount)}
+                control={
+                  <Checkbox
+                    checked={isFavorited}
+                    onChange={handleToggleFavorite}
+                    size="small"
+                    color="error"
+                    icon={<Iconify icon="solar:heart-bold" />}
+                    checkedIcon={<Iconify icon="solar:heart-bold" />}
+                  />
+                }
+                sx={{ mr: 1 }}
+              />
+
+              {!!favoritePeople.length && (
+                <StyledAvatarGroup>
+                  {favoritePeople.map((person, index) => (
+                    <Avatar
+                      key={`${person.name ?? 'user'}-${index}`}
+                      alt={person.name ?? ''}
+                      src={person.avatarUrl}
+                    />
+                  ))}
+                </StyledAvatarGroup>
+              )}
+            </Box>
+          </Stack>
+
+          <Box sx={{ mb: 3, mt: 5, display: 'flex', gap: 1 }}>
+            <Typography variant="h4">Comments</Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+              ({comments.length})
+            </Typography>
           </Box>
 
-          {post.comments.length > 0 && <PostCommentList comments={post.comments} />}
+          <PostCommentForm />
+
+          <Divider sx={{ mt: 5, mb: 2 }} />
+
+          <PostCommentList comments={comments} />
         </Stack>
       </Container>
 
-      {!!latestPosts?.length && (
+      {!!recentPosts.length && (
         <Container sx={{ pb: 15 }}>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Recent Posts
           </Typography>
 
-          <Grid container spacing={3}>
-            {latestPosts.slice(0, 4).map((latestPost) => (
-              <Grid item key={latestPost.id} xs={12} sm={6} md={4} lg={3}>
-                <PostItem post={latestPost} detailsHref={paths.post.details(latestPost.title)} />
-              </Grid>
+          <Box sx={gridStyles}>
+            {recentPosts.map((latestPost) => (
+              <PostItem
+                key={latestPost.id}
+                post={latestPost}
+                detailsHref={paths.post.details(latestPost.title)}
+              />
             ))}
-          </Grid>
+          </Box>
         </Container>
       )}
     </>

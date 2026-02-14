@@ -1,5 +1,8 @@
 'use client';
 
+// ✅ Importação do tipo para garantir a integridade
+import type { IPostItem } from 'src/types/blog';
+
 import { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
@@ -9,8 +12,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-// ✅ Importação do tipo para garantir a integridade
-import type { IPostItem } from 'src/types/blog';
 
 import { PostItem } from './item';
 
