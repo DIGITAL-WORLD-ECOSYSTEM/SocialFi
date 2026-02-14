@@ -1,19 +1,18 @@
 'use client';
 
 import type { CardProps } from '@mui/material/Card';
-import type { IPostItem } from 'src/types/blog';
-
-import { usePopover } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+
+import { usePopover } from 'minimal-shared/hooks';
 
 import { RouterLink } from 'src/routes/components';
 
@@ -24,6 +23,8 @@ import { Label } from 'src/components/label';
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
 import { CustomPopover } from 'src/components/custom-popover';
+
+import type { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 
@@ -44,21 +45,28 @@ export function PostItemHorizontal({ sx, post, editHref, detailsHref, ...other }
       slotProps={{ arrow: { placement: 'bottom-center' } }}
     >
       <MenuList>
-        <li>
-          <MenuItem component={RouterLink} href={detailsHref} onClick={() => menuActions.onClose()}>
-            <Iconify icon="solar:eye-bold" />
-            View
-          </MenuItem>
-        </li>
+        <MenuItem
+          component={RouterLink}
+          href={detailsHref}
+          onClick={() => menuActions.onClose()}
+        >
+          <Iconify icon="solar:eye-bold" />
+          View
+        </MenuItem>
 
-        <li>
-          <MenuItem component={RouterLink} href={editHref} onClick={() => menuActions.onClose()}>
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-        </li>
+        <MenuItem
+          component={RouterLink}
+          href={editHref}
+          onClick={() => menuActions.onClose()}
+        >
+          <Iconify icon="solar:pen-bold" />
+          Edit
+        </MenuItem>
 
-        <MenuItem onClick={() => menuActions.onClose()} sx={{ color: 'error.main' }}>
+        <MenuItem
+          onClick={() => menuActions.onClose()}
+          sx={{ color: 'error.main' }}
+        >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
         </MenuItem>
@@ -86,12 +94,15 @@ export function PostItemHorizontal({ sx, post, editHref, detailsHref, ...other }
               justifyContent: 'space-between',
             }}
           >
-            {/* ✅ CORREÇÃO EFETIVA: O operador ternário garante que o retorno seja SEMPRE uma string */}
-            <Label 
-              variant="soft" 
-              color={post.publish === 'published' ? 'info' : 'default'}
+            {/* CORREÇÃO TS2352: 
+                Em vez de 'as string', usamos String(post.publish) para converter qualquer tipo 
+                (boolean, string, null) em string de forma segura e aceita pelo TS.
+            */}
+            <Label
+              variant="soft"
+              color={String(post.publish) === 'published' ? 'info' : 'default'}
             >
-              {post.publish}
+              {String(post.publish)}
             </Label>
 
             <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
