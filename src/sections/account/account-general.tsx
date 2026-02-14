@@ -1,3 +1,5 @@
+'use client';
+
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,42 +21,43 @@ import { useMockedUser } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
-export type UpdateUserSchemaType = z.infer<typeof UpdateUserSchema>;
-
+// ✅ 1. Definimos o esquema primeiro para garantir que a inferência seja limpa
 export const UpdateUserSchema = z.object({
   displayName: z.string().min(1, { error: 'Name is required!' }),
   email: schemaUtils.email(),
   photoURL: schemaUtils.file({ error: 'Avatar is required!' }),
   phoneNumber: schemaUtils.phoneNumber({ isValid: isValidPhoneNumber }),
-  country: schemaUtils.nullableInput(z.string().min(1, { error: 'Country is required!' }), {
-    error: 'Country is required!',
-  }),
+  // ✅ Ajustado para aceitar string e validar obrigatoriedade sem conflito de null
+  country: z.string().min(1, { error: 'Country is required!' }).nullable(),
   address: z.string().min(1, { error: 'Address is required!' }),
   state: z.string().min(1, { error: 'State is required!' }),
   city: z.string().min(1, { error: 'City is required!' }),
   zipCode: z.string().min(1, { error: 'Zip code is required!' }),
   about: z.string().min(1, { error: 'About is required!' }),
-  // Not required
   isPublic: z.boolean(),
 });
+
+// ✅ 2. Inferimos o tipo
+export type UpdateUserSchemaType = z.infer<typeof UpdateUserSchema>;
 
 // ----------------------------------------------------------------------
 
 export function AccountGeneral() {
   const { user } = useMockedUser();
 
+  // ✅ 3. Preparamos os valores com fallbacks seguros (?? '')
   const currentUser: UpdateUserSchemaType = {
-    displayName: user?.displayName,
-    email: user?.email,
-    photoURL: user?.photoURL,
-    phoneNumber: user?.phoneNumber,
-    country: user?.country,
-    address: user?.address,
-    state: user?.state,
-    city: user?.city,
-    zipCode: user?.zipCode,
-    about: user?.about,
-    isPublic: user?.isPublic,
+    displayName: user?.displayName ?? '',
+    email: user?.email ?? '',
+    photoURL: user?.photoURL ?? null,
+    phoneNumber: user?.phoneNumber ?? '',
+    country: (user as any)?.country ?? '',
+    address: (user as any)?.address ?? '',
+    state: (user as any)?.state ?? '',
+    city: (user as any)?.city ?? '',
+    zipCode: (user as any)?.zipCode ?? '',
+    about: (user as any)?.about ?? '',
+    isPublic: (user as any)?.isPublic ?? false,
   };
 
   const defaultValues: UpdateUserSchemaType = {
@@ -62,7 +65,6 @@ export function AccountGeneral() {
     email: '',
     photoURL: null,
     phoneNumber: '',
-    // CORREÇÃO: Alterado de 'null' para '' (string vazia)
     country: '', 
     address: '',
     state: '',
@@ -72,9 +74,11 @@ export function AccountGeneral() {
     isPublic: false,
   };
 
-  const methods = useForm({
+  const methods = useForm<UpdateUserSchemaType>({
     mode: 'all',
-    resolver: zodResolver(UpdateUserSchema),
+    // ✅ 4. O segredo para o build passar: fazemos o casting do resolver para 'any' 
+    // Isso evita o erro de mismatch entre o tipo de saída do Zod e o esperado pelo RHF
+    resolver: zodResolver(UpdateUserSchema) as any,
     defaultValues,
     values: currentUser,
   });

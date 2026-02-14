@@ -1,6 +1,6 @@
 'use client';
 
-import type { IPostItem, IPostComment } from 'src/types/blog';
+import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -10,11 +10,11 @@ import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 
 import { paths } from 'src/routes/paths';
-
 import { fShortenNumber } from 'src/utils/format-number';
 
 import { Iconify } from 'src/components/iconify';
@@ -27,6 +27,8 @@ import { PostCommentForm } from '../forms/post-comment-form';
 import { PostCommentList } from '../details/post-comment-list';
 import { PostDetailsHero } from '../details/post-details-hero';
 
+import type { IPostItem, IPostComment } from 'src/types/blog';
+
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -34,40 +36,68 @@ type Props = {
   latestPosts?: IPostItem[];
 };
 
+// SOLUÇÃO DEFINITIVA: Componente Estilizado isola a complexidade de tipos do TS
+const StyledAvatarGroup = styled(AvatarGroup)(() => ({
+  [`& .${avatarGroupClasses.avatar}`]: {
+    width: 32,
+    height: 32,
+  },
+}));
+
+const gridStyles = {
+  display: 'grid',
+  gap: 24, // Usando número em vez de string/objeto se possível
+  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+};
+
+// ----------------------------------------------------------------------
+
 export function PostDetailsHomeView({ post, latestPosts }: Props) {
-  // --- Valores normalizados e tipados ---
-  const title: string = post?.title ?? '';
-  const description: string = post?.description ?? '';
-  const content: string = post?.content ?? '';
-  const coverUrl: string = post?.coverUrl ?? '';
+  const [isFavorited, setIsFavorited] = useState<boolean>(true);
+
+  const [favoritesCount, setFavoritesCount] = useState<number>(
+    Number(post?.totalFavorites ?? 0)
+  );
+
+  const title = post?.title ?? '';
+  const description = post?.description ?? '';
+  const content = post?.content ?? '';
+  const coverUrl = post?.coverUrl ?? '';
   const createdAt = post?.createdAt;
   const author = post?.author;
 
-  const tags: string[] = post?.tags ?? [];
-
-  const favoritePeople: {
-    name?: string;
-    avatarUrl?: string;
-  }[] = post?.favoritePerson ?? [];
-
-  // ✅ Correção do TS2322
+  const tags = post?.tags ?? [];
+  const favoritePeople = post?.favoritePerson ?? [];
   const comments: IPostComment[] = post?.comments ?? [];
 
-  const totalFavorites: number = Number(post?.totalFavorites ?? 0);
+  const recentPosts = useMemo(() => {
+    const latest = latestPosts ?? [];
+    return latest.slice(-4);
+  }, [latestPosts]);
 
-  const latest: IPostItem[] = latestPosts ?? [];
+  const handleToggleFavorite = useCallback(() => {
+    setIsFavorited((prev) => {
+      const next = !prev;
+      setFavoritesCount((count) => (next ? count + 1 : Math.max(0, count - 1)));
+      return next;
+    });
+  }, []);
 
-  // ✅ Pré-calcular posts recentes
-  const recentPosts: IPostItem[] = latest.slice(
-    Math.max(0, latest.length - 4)
-  );
+  const breadcrumbs = useMemo(() => {
+    const base = [
+      { name: 'Home', href: '/' },
+      { name: 'Blog', href: paths.post.root },
+    ];
 
-  // ✅ Breadcrumbs simples
-  const breadcrumbs = [
-    { name: 'Home', href: '/' },
-    { name: 'Blog', href: paths.post.root },
-    { name: title, href: title ? paths.post.details(title) : '' },
-  ];
+    if (title) {
+      base.push({
+        name: title,
+        href: paths.post.details(title),
+      });
+    }
+
+    return base;
+  }, [title]);
 
   return (
     <>
@@ -85,38 +115,49 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
         sx={(theme) => ({
           py: 3,
           mb: 5,
-          borderBottom: `solid 1px ${theme.vars.palette.divider}`,
+          borderBottom: `solid 1px ${theme.palette.divider}`,
         })}
       >
-        <CustomBreadcrumbs links={breadcrumbs} sx={{ maxWidth: 720, mx: 'auto' }} />
+        <CustomBreadcrumbs
+          links={breadcrumbs}
+          sx={{ maxWidth: 720, mx: 'auto' }}
+        />
       </Container>
 
       <Container maxWidth={false}>
         <Stack sx={{ maxWidth: 720, mx: 'auto' }}>
-          <Typography variant="subtitle1">{description}</Typography>
+          {!!description && (
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              {description}
+            </Typography>
+          )}
 
-          <Markdown children={content} />
+          {!!content && <Markdown>{content}</Markdown>}
 
           <Stack
             spacing={3}
             sx={(theme) => ({
               py: 3,
-              borderTop: `dashed 1px ${theme.vars.palette.divider}`,
-              borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
+              my: 5,
+              borderTop: `dashed 1px ${theme.palette.divider}`,
+              borderBottom: `dashed 1px ${theme.palette.divider}`,
             })}
           >
-            <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-              {tags.map((tag) => (
-                <Chip key={tag} label={tag} variant="soft" />
-              ))}
-            </Box>
+            {!!tags.length && (
+              <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
+                {tags.map((tag) => (
+                  <Chip key={tag} label={tag} variant="soft" />
+                ))}
+              </Box>
+            )}
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <FormControlLabel
-                label={fShortenNumber(totalFavorites)}
+                label={fShortenNumber(favoritesCount)}
                 control={
                   <Checkbox
-                    defaultChecked
+                    checked={isFavorited}
+                    onChange={handleToggleFavorite}
                     size="small"
                     color="error"
                     icon={<Iconify icon="solar:heart-bold" />}
@@ -126,22 +167,17 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
                 sx={{ mr: 1 }}
               />
 
-              <AvatarGroup
-                sx={{
-                  [`& .${avatarGroupClasses.avatar}`]: {
-                    width: 32,
-                    height: 32,
-                  },
-                }}
-              >
-                {favoritePeople.map((person, idx) => (
-                  <Avatar
-                    key={person.name ?? person.avatarUrl ?? idx}
-                    alt={person.name ?? ''}
-                    src={person.avatarUrl}
-                  />
-                ))}
-              </AvatarGroup>
+              {!!favoritePeople.length && (
+                <StyledAvatarGroup>
+                  {favoritePeople.map((person, index) => (
+                    <Avatar
+                      key={`${person.name ?? 'user'}-${index}`}
+                      alt={person.name ?? ''}
+                      src={person.avatarUrl}
+                    />
+                  ))}
+                </StyledAvatarGroup>
+              )}
             </Box>
           </Stack>
 
@@ -156,41 +192,24 @@ export function PostDetailsHomeView({ post, latestPosts }: Props) {
 
           <Divider sx={{ mt: 5, mb: 2 }} />
 
-          {/* ✅ Tipagem correta */}
           <PostCommentList comments={comments} />
         </Stack>
       </Container>
 
-      {recentPosts.length > 0 && (
+      {!!recentPosts.length && (
         <Container sx={{ pb: 15 }}>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Recent Posts
           </Typography>
 
-          <Box
-            sx={{
-              display: 'grid',
-              gap: 3,
-              gridTemplateColumns: {
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(2, 1fr)',
-                md: 'repeat(3, 1fr)',
-                lg: 'repeat(4, 1fr)',
-              },
-            }}
-          >
-            {recentPosts.map((latestPost) => {
-              // ✅ Quebra da inferência complexa
-              const detailsHref: string = paths.post.details(latestPost.title);
-
-              return (
-                <PostItem
-                  key={latestPost.id}
-                  post={latestPost}
-                  detailsHref={detailsHref}
-                />
-              );
-            })}
+          <Box sx={gridStyles}>
+            {recentPosts.map((latestPost) => (
+              <PostItem
+                key={latestPost.id}
+                post={latestPost}
+                detailsHref={paths.post.details(latestPost.title)}
+              />
+            ))}
           </Box>
         </Container>
       )}

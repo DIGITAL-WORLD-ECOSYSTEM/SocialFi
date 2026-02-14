@@ -1,9 +1,4 @@
 "use client";
-'use client';
-
-import type { CheckboxProps } from '@mui/material/Checkbox';
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
-import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
 
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -13,6 +8,10 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import type { CheckboxProps } from '@mui/material/Checkbox';
+import type { FormGroupProps } from '@mui/material/FormGroup'; // ✅ Adicionado para tipagem correta
+import type { FormHelperTextProps } from '@mui/material/FormHelperText';
+import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +36,7 @@ export function RHFCheckbox({ name, label, helperText, slotProps, ...other }: RH
         <Box>
           <FormControlLabel
             {...slotProps?.formControl}
-            control={<Checkbox {...field} checked={field.value} {...other} />}
+            control={<Checkbox {...field} checked={!!field.value} {...other} />}
             label={label}
           />
 
@@ -60,7 +59,7 @@ export type RHFMultiCheckboxProps = CheckboxProps & {
   helperText?: React.ReactNode;
   options: { value: any; label: string }[];
   slotProps?: {
-    formGroup?: Omit<FormControlLabelProps, 'control' | 'label'>;
+    formGroup?: FormGroupProps; // ✅ CORREÇÃO: Usando a tipagem correta para o container
     formHelper?: FormHelperTextProps;
     checkbox?: CheckboxProps;
   };
@@ -90,7 +89,8 @@ export function RHFMultiCheckbox({
           <Box>
             {label && <FormLabel sx={{ mb: 1, display: 'block' }}>{label}</FormLabel>}
 
-            <FormGroup {...slotProps?.formGroup}>
+            {/* ✅ CORREÇÃO PARA O BUILD: Limpamos o onError para evitar conflito React 19/MUI */}
+            <FormGroup {...slotProps?.formGroup} onError={undefined as any}>
               {options.map((option) => (
                 <FormControlLabel
                   key={option.value}

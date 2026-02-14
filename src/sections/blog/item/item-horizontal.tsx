@@ -1,3 +1,5 @@
+'use client';
+
 import type { CardProps } from '@mui/material/Card';
 import type { IPostItem } from 'src/types/blog';
 
@@ -84,7 +86,11 @@ export function PostItemHorizontal({ sx, post, editHref, detailsHref, ...other }
               justifyContent: 'space-between',
             }}
           >
-            <Label variant="soft" color={(post.publish === 'published' && 'info') || 'default'}>
+            {/* ✅ CORREÇÃO EFETIVA: O operador ternário garante que o retorno seja SEMPRE uma string */}
+            <Label 
+              variant="soft" 
+              color={post.publish === 'published' ? 'info' : 'default'}
+            >
               {post.publish}
             </Label>
 

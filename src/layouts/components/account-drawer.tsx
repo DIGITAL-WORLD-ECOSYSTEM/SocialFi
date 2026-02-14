@@ -121,8 +121,9 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
     <>
       <AccountButton
         onClick={onOpen}
-        photoURL={user?.photoURL}
-        displayName={user?.displayName}
+        // ✅ CORREÇÃO: Fallback para string vazia resolve o erro Type 'undefined' is not assignable to type 'string'
+        photoURL={user?.photoURL ?? ''}
+        displayName={user?.displayName ?? ''}
         sx={sx}
         {...other}
       />

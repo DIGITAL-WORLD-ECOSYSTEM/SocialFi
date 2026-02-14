@@ -1,3 +1,5 @@
+'use client';
+
 import type { IconButtonProps } from '@mui/material/IconButton';
 
 import { usePopover } from 'minimal-shared/hooks';
@@ -117,8 +119,9 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     <>
       <AccountButton
         onClick={onOpen}
-        photoURL={user?.photoURL}
-        displayName={user?.displayName}
+        // ✅ CORREÇÃO: Fallback com string vazia resolve o erro de 'undefined' não atribuível a 'string'
+        photoURL={user?.photoURL ?? ''}
+        displayName={user?.displayName ?? ''}
         sx={sx}
         {...other}
       />

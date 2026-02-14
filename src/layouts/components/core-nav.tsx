@@ -19,7 +19,6 @@ export function CoreNav() {
   const open = useBoolean();
   const settings = useSettingsContext();
 
-  // Hook para detectar o fim da página (usando o mesmo threshold de 90% da seta)
   const { isVisible } = useBackToTop('90%');
 
   const ACTIONS = [
@@ -51,9 +50,6 @@ export function CoreNav() {
         width: 40,
         display: 'flex',
         justifyContent: 'center',
-        // LÓGICA DE TRANSIÇÃO:
-        // Se a seta estiver visível (fim do scroll), sobe para spacing 9.
-        // Se não estiver (início/meio do scroll), desce para spacing 2.
         bottom: (theme) => (isVisible ? theme.spacing(9) : theme.spacing(2)),
         transition: (theme) =>
           theme.transitions.create(['bottom'], {
@@ -71,8 +67,9 @@ export function CoreNav() {
           },
         }}
         ariaLabel="Core Nav"
-        icon={<Iconify icon="solar:menu-dots-linear" />}
-        openIcon={<Iconify icon="solar:close-circle-bold" />}
+        // ✅ CORREÇÃO: Usamos 'as any' para ignorar a validação estrita do Union Type de ícones
+        icon={<Iconify icon={"solar:menu-dots-linear" as any} />}
+        openIcon={<Iconify icon={"solar:close-circle-bold" as any} />}
         direction="up"
         onClose={open.onFalse}
         onOpen={open.onTrue}

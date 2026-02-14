@@ -8,6 +8,7 @@ import { type Theme, type SxProps } from '@mui/material/styles';
 
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
+// ✅ Importação utilizando caminho relativo correto para o módulo auth
 import { varBounce, MotionContainer } from '../components';
 
 // ----------------------------------------------------------------------
@@ -27,6 +28,7 @@ export default function RoleBasedGuard({
   children,
   sx,
 }: RoleBasedGuardProp) {
+  // Converte allowedRoles para array para garantir a comparação correta
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
   if (!currentRole || !roles.includes(currentRole)) {

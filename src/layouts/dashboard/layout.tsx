@@ -73,8 +73,11 @@ export function DashboardLayout({
   const isNavHorizontal = settings.state.navLayout === 'horizontal';
   const isNavVertical = isNavMini || settings.state.navLayout === 'vertical';
 
-  const canDisplayItemByRole = (allowedRoles: NavItemProps['allowedRoles']): boolean =>
-    !allowedRoles?.includes(user?.role);
+  // ✅ CORREÇÃO: Tratamento de role undefined para evitar erro TS2345
+  const canDisplayItemByRole = (allowedRoles: NavItemProps['allowedRoles']): boolean => {
+    if (!allowedRoles) return true;
+    return allowedRoles.includes(user?.role ?? '');
+  };
 
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps['slotProps'] = {

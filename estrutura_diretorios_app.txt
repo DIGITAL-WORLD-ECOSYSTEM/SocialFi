@@ -1,17 +1,10 @@
 === ESTRUTURA COMPLETA DO PROJETO ===
-Gerado em: 2/9/2026, 10:46:07 PM
+Gerado em: 2/14/2026, 2:33:09 PM
 Raiz: SocialFi
 ========================================
 
 ├── .idx/
 │   └── dev.nix
-├── home/
-│   └── user/
-│       └── SocialFi/
-│           └── src/
-│               └── auth/
-│                   └── guard/
-│                       └── role-based-guard.tsx
 ├── public/
 │   ├── assets/
 │   │   ├── background/
@@ -61,7 +54,6 @@ Raiz: SocialFi
 │   │   │   │   ├── ic-extra-label.svg
 │   │   │   │   ├── ic-extra-layout.svg
 │   │   │   │   ├── ic-extra-lightbox.svg
-│   │   │   │   ├── ic-extra-map.svg
 │   │   │   │   ├── ic-extra-markdown.svg
 │   │   │   │   ├── ic-extra-mega-menu.svg
 │   │   │   │   ├── ic-extra-multi-language.svg
@@ -460,7 +452,8 @@ Raiz: SocialFi
 │   ├── assets/
 │   │   ├── data/
 │   │   │   ├── countries.ts
-│   │   │   └── index.ts
+│   │   │   ├── index.ts
+│   │   │   └── world.json
 │   │   ├── icons/
 │   │   │   ├── email-inbox-icon.tsx
 │   │   │   ├── index.ts
@@ -550,6 +543,12 @@ Raiz: SocialFi
 │   │   │   ├── motion-container.tsx
 │   │   │   ├── motion-lazy.tsx
 │   │   │   └── motion-viewport.tsx
+│   │   ├── background/
+│   │   │   ├── flower-of-life.tsx
+│   │   │   ├── glass-cube.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── scene-controller.tsx
+│   │   │   └── space.tsx
 │   │   ├── carousel/
 │   │   │   ├── components/
 │   │   │   │   ├── arrow-button.tsx
@@ -885,8 +884,7 @@ Raiz: SocialFi
 │   │   │   ├── use-table.ts
 │   │   │   └── utils.ts
 │   │   ├── threeglobe/
-│   │   │   ├── globe.tsx
-│   │   │   └── world.json
+│   │   │   └── globe.tsx
 │   │   └── upload/
 │   │       ├── avatar/
 │   │       │   ├── styles.tsx
@@ -1101,7 +1099,6 @@ Raiz: SocialFi
 │   │   ├── home/
 │   │   │   ├── components/
 │   │   │   │   ├── hero-svg.tsx
-│   │   │   │   ├── home-background.tsx
 │   │   │   │   ├── home-countdown-dialog.tsx
 │   │   │   │   ├── integrations-diagram.tsx
 │   │   │   │   ├── section-title.tsx

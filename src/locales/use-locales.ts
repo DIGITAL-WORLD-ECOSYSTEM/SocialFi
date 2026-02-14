@@ -53,12 +53,16 @@ export function useTranslate(namespace?: Namespace) {
         updateDirection(lang);
         updateDayjsLocale(lang);
 
-        router.refresh(); // only nextjs
+        // ✅ CORREÇÃO: router.refresh() removido pois não existe no hook customizado.
+        // Utilizamos window.location.reload() para garantir que os Server Components 
+        // também atualizem o idioma via cookie/header.
+        window.location.reload(); 
+        
       } catch (error) {
         console.error(error);
       }
     },
-    [i18n, router, tMessages, updateDayjsLocale, updateDirection]
+    [i18n, tMessages, updateDayjsLocale, updateDirection] // router removido das dependências
   );
 
   const handleResetLang = useCallback(() => {
