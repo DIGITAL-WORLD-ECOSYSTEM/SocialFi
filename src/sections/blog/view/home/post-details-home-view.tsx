@@ -1,5 +1,7 @@
 'use client';
 
+import type { IPostItem, IPostComment } from 'src/types/blog';
+
 import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -28,8 +30,6 @@ import { PostItem } from '../../item/item';
 import { PostCommentForm } from '../../forms/post-comment-form';
 import { PostCommentList } from '../../details/post-comment-list';
 import { PostDetailsHero } from '../../details/post-details-hero';
-
-import type { IPostItem, IPostComment } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 

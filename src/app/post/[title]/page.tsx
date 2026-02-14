@@ -7,7 +7,8 @@ import { _posts } from 'src/_mock/_blog'; // Importação direta dos dados está
 import { CONFIG } from 'src/global-config';
 import { getPost, getLatestPosts } from 'src/actions/blog-ssr';
 
-import { PostDetailsHomeView } from 'src/sections/blog/view/post-details-home-view';
+// ✅ CORREÇÃO: Caminho atualizado para refletir a nova estrutura de diretórios
+import { PostDetailsHomeView } from 'src/sections/blog/view/home/post-details-home-view';
 
 // ----------------------------------------------------------------------
 
