@@ -56,7 +56,9 @@ const TAB_PARAM = 'tab';
 
 export function UserProfileView() {
   const pathname = usePathname();
+  
   const searchParams = useSearchParams();
+  
   const selectedTab = searchParams.get(TAB_PARAM) ?? '';
 
   const { user } = useMockedUser();
@@ -67,10 +69,10 @@ export function UserProfileView() {
     setSearchFriends(event.target.value);
   }, []);
 
-  const createRedirectPath = (currentPath: string, query: string) => {
+  const createRedirectPath = useCallback((currentPath: string, query: string) => {
     const queryString = new URLSearchParams({ [TAB_PARAM]: query }).toString();
     return query ? `${currentPath}?${queryString}` : currentPath;
-  };
+  }, []);
 
   return (
     <DashboardContent>
@@ -79,7 +81,8 @@ export function UserProfileView() {
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
           { name: 'User', href: paths.dashboard.user.root },
-          { name: user?.displayName },
+          // CORREÇÃO: Fallback para string vazia evita erro TS2322
+          { name: user?.displayName ?? '' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
@@ -87,8 +90,9 @@ export function UserProfileView() {
       <Card sx={{ height: 290 }}>
         <ProfileCover
           role={_userAbout.role}
-          name={user?.displayName}
-          avatarUrl={user?.photoURL}
+          // CORREÇÃO: Fallback garante que nunca seja undefined
+          name={user?.displayName ?? ''}
+          avatarUrl={user?.photoURL ?? ''}
           coverUrl={_userAbout.coverUrl}
         />
 
