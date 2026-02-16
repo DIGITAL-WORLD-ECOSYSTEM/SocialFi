@@ -1,5 +1,7 @@
 'use client';
 
+import type { BoxProps } from '@mui/material/Box';
+
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
@@ -9,10 +11,8 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { styled, alpha, useTheme } from '@mui/material/styles';
+import { alpha, styled, useTheme } from '@mui/material/styles';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
-import type { BoxProps } from '@mui/material/Box';
-import type { Theme, SxProps } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';

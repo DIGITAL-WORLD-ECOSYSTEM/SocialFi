@@ -8,6 +8,7 @@
 import type { Metadata } from 'next';
 
 import { CONFIG } from 'src/global-config';
+
 import { OverviewAppView } from 'src/sections/overview/app/view';
 
 // ----------------------------------------------------------------------

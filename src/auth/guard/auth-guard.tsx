@@ -8,9 +8,12 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+
 import { paths } from 'src/routes/paths';
 import { useRouter, usePathname } from 'src/routes/hooks';
+
 import { SplashScreen } from 'src/auth/components';
+
 import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
