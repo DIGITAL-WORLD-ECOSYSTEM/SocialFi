@@ -1,9 +1,14 @@
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Root Layout (Main Entry Point)
+ * Version: 1.3.3 - Fix: I18n Type Safety & Node.js Runtime Stability
+ */
+
 import 'src/global.css';
 
 import type { Metadata, Viewport } from 'next';
-
 import { Analytics } from '@vercel/analytics/next';
-
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
@@ -16,12 +21,24 @@ import { themeConfig, primary as primaryColor } from 'src/theme';
 import { JsonLd } from 'src/components/seo/json-ld';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
-
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context'; 
 
 import App from './app';
 
-// ✅ CORREÇÃO DE DEPLOY: Necessário Node.js runtime para suportar a árvore complexa de Providers e i18n
+// ----------------------------------------------------------------------
+
+/**
+ * 🛠️ TIPAGEM DE IDIOMA (FIX TS2322):
+ * Define explicitamente os códigos de idioma aceitos pelo I18nProvider
+ * para evitar erros de atribuição de string genérica.
+ */
+type LanguageCode = 'en' | 'pt' | 'es' | 'ar' | 'cn' | 'fr' | 'ru';
+
+/**
+ * ✅ ESTABILIDADE DE DEPLOY:
+ * Node.js runtime garante suporte à árvore densa de Providers e i18n,
+ * superando as limitações de memória do Edge Runtime.
+ */
 export const runtime = 'nodejs'; 
 
 const AuthProvider = JwtAuthProvider;
@@ -32,16 +49,19 @@ export const viewport: Viewport = {
   themeColor: primaryColor.main,
 };
 
+/**
+ * 🌐 ESTRATÉGIA DE METADADOS (SEO FORENSICS):
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(CONFIG.siteUrl), 
   title: {
     default: 'ASPPIBRA - Governança Digital e Infraestrutura RWA',
     template: `%s | ASPPIBRA`, 
   },
-  description: 'Portal de Governança Digital ASPPIBRA: Infraestrutura para ativos reais (RWA), integração nativa DeFi, Blockchain e inteligência de dados aplicada ao agronegócio sustentável.',
+  description: 'Portal de Governança Digital ASPPIBRA: Infraestrutura para ativos reais (RWA), integração nativa DeFi e inteligência de dados aplicada ao agronegócio sustentável.',
   keywords: [
     'ASPPIBRA', 'RWA', 'Real World Assets', 'DeFi', 'Blockchain Agro', 
-    'Governança Digital', 'DAO', 'IPFS Storage', 'Smart Contracts', 'Sustentabilidade'
+    'Governança Digital', 'DAO', 'IPFS Storage', 'Smart Contracts'
   ],
   authors: [{ name: 'Sandro', url: CONFIG.siteUrl }],
   icons: [
@@ -55,7 +75,7 @@ export const metadata: Metadata = {
     siteName: 'ASPPIBRA DAO',
     images: [
       {
-        url: '/opengraph-image.png', // Conecta com o gerador dinâmico que revisamos
+        url: '/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'ASPPIBRA Governance Portal - Deep Tech RWA',
@@ -68,38 +88,47 @@ export const metadata: Metadata = {
     description: 'Conectando o agronegócio brasileiro à economia digital descentralizada.',
     images: ['/opengraph-image.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    'max-video-preview': -1,
-    'max-image-preview': 'large',
-    'max-snippet': -1,
-  },
 };
 
-type RootLayoutProps = {
-  children: React.ReactNode;
-};
+// ----------------------------------------------------------------------
 
+/**
+ * ⚙️ GESTÃO DE CONFIGURAÇÃO DO APP (SERVER-SIDE):
+ * Captura idioma e configurações de forma assíncrona com Casting de Tipo.
+ */
 async function getAppConfig() {
-  const lang = await detectLanguage();
-  const settings = await detectSettings();
+  try {
+    const detectedLang = await detectLanguage();
+    const settings = await detectSettings();
 
-  return {
-    lang,
-    dir: lang === 'ar' ? 'rtl' : 'ltr',
-    i18nLang: lang, 
-    cookieSettings: settings,
-  };
+    // Forçamos a tipagem para satisfazer o contrato do I18nProvider
+    const lang = (detectedLang || 'pt') as LanguageCode;
+
+    return {
+      lang,
+      dir: lang === 'ar' ? 'rtl' : 'ltr',
+      i18nLang: lang, 
+      cookieSettings: settings || defaultSettings,
+    };
+  } catch (error) {
+    return {
+      lang: 'pt' as LanguageCode,
+      dir: 'ltr',
+      i18nLang: 'pt' as LanguageCode,
+      cookieSettings: defaultSettings,
+    };
+  }
 }
 
-export default async function RootLayout({ children }: RootLayoutProps) {
+/**
+ * 🏛️ COMPONENTE RAIZ (ROOT LAYOUT):
+ */
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const appConfig = await getAppConfig();
 
   return (
     <html lang={appConfig.lang} dir={appConfig.dir} suppressHydrationWarning>
       <head>
-        {/* Schema.org estruturado para validar a organização perante VCs e Google */}
         <JsonLd 
           schema={{
             "@context": "https://schema.org",
@@ -118,6 +147,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           defaultMode={themeConfig.defaultMode}
         />
 
+        {/* ✅ FIX: I18nProvider agora recebe o tipo exato LanguageCode */}
         <I18nProvider lang={appConfig.i18nLang}>
           <AuthProvider>
             <SettingsProvider
@@ -132,6 +162,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </SettingsProvider>
           </AuthProvider>
         </I18nProvider>
+
         <Analytics />
       </body>
     </html>
