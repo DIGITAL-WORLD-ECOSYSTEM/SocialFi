@@ -2,7 +2,7 @@
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
  * Role: Root Layout (Main Entry Point)
- * Version: 1.3.3 - Fix: I18n Type Safety & Node.js Runtime Stability
+ * Version: 1.3.4 - Production Ready: Strict Types & Clean Lint
  */
 
 import 'src/global.css';
@@ -32,15 +32,13 @@ import App from './app';
 
 /**
  * 🛠️ TIPAGEM DE IDIOMA (FIX TS2322):
- * Define explicitamente os códigos de idioma aceitos pelo I18nProvider
- * para evitar erros de atribuição de string genérica.
+ * Define explicitamente os códigos de idioma aceitos pelo I18nProvider.
  */
 type LanguageCode = 'en' | 'pt' | 'es' | 'ar' | 'cn' | 'fr' | 'ru';
 
 /**
  * ✅ ESTABILIDADE DE DEPLOY:
- * Node.js runtime garante suporte à árvore densa de Providers e i18n,
- * superando as limitações de memória do Edge Runtime.
+ * Node.js runtime obrigatório para suportar a árvore densa de Providers e i18n.
  */
 export const runtime = 'nodejs'; 
 
@@ -97,14 +95,14 @@ export const metadata: Metadata = {
 
 /**
  * ⚙️ GESTÃO DE CONFIGURAÇÃO DO APP (SERVER-SIDE):
- * Captura idioma e configurações de forma assíncrona com Casting de Tipo.
+ * Captura idioma e configurações de forma assíncrona com Casting de Tipo rigoroso.
  */
 async function getAppConfig() {
   try {
     const detectedLang = await detectLanguage();
     const settings = await detectSettings();
 
-    // Forçamos a tipagem para satisfazer o contrato do I18nProvider
+    // Casting para LanguageCode para satisfazer o I18nProvider
     const lang = (detectedLang || 'pt') as LanguageCode;
 
     return {
@@ -113,7 +111,10 @@ async function getAppConfig() {
       i18nLang: lang, 
       cookieSettings: settings || defaultSettings,
     };
-  } catch (error) {
+  } catch (_error) {
+    /**
+     * ✅ FIX LINT: Uso do prefixo '_' para indicar variável intencionalmente não utilizada.
+     */
     return {
       lang: 'pt' as LanguageCode,
       dir: 'ltr',
@@ -150,7 +151,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           defaultMode={themeConfig.defaultMode}
         />
 
-        {/* ✅ FIX: I18nProvider agora recebe o tipo exato LanguageCode */}
+        {/* ✅ I18nProvider tipado corretamente para evitar erros de build */}
         <I18nProvider lang={appConfig.i18nLang}>
           <AuthProvider>
             <SettingsProvider

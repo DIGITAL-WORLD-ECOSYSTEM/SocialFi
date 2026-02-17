@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    /* Bundler */
     "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "apexcharts": ["node_modules/apexcharts"]
+    },
     "module": "esnext",
     "jsx": "react-jsx",
     "allowJs": true,
     "resolveJsonModule": true,
-    /* Build */
     "target": "ES2017",
     "lib": [
       "dom",
@@ -19,21 +21,21 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    /* Linting */
     "strict": true,
     "noEmit": true,
     "strictNullChecks": true,
-    /* Plugins */
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "src/types/**/*.d.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
