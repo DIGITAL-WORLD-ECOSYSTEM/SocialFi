@@ -1,3 +1,10 @@
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Post List View (Client-Side Filtering & Search)
+ * Version: 1.5.6 - Refactored: UI/Logic Decoupling & Hydration Safety
+ */
+
 'use client';
 
 import type { IPostItem } from 'src/types/blog';
@@ -34,7 +41,11 @@ type PublishType = (typeof PUBLISH_OPTIONS)[number];
 
 type SortType = 'latest' | 'oldest' | 'popular';
 
-// 🟢 NOVO TIPO: Define a forma do estado do filtro da UI, desacoplando-o de IPostFilters.
+/**
+ * 🟢 VIEW FILTERS:
+ * Tipo customizado para a UI. Resolve o conflito onde a interface espera
+ * booleano (publish: true/false) mas as Tabs usam strings ('all', 'published', 'draft').
+ */
 type ViewFilters = {
   publish: PublishType;
 };
@@ -46,17 +57,31 @@ type Props = {
 };
 
 export function PostListView({ posts: initialPosts }: Props) {
+  // Hook de busca de dados (SWR/React Query pattern)
   const { posts: fetchedPosts, postsLoading } = useGetPosts();
-  const posts = initialPosts || fetchedPosts;
+  
+  /**
+   * ✅ ESTABILIDADE DE DADOS:
+   * Priorizamos initialPosts (vindos do SSR sanitizado) para evitar flickering.
+   */
+  const posts = useMemo(() => initialPosts || fetchedPosts || [], [initialPosts, fetchedPosts]);
 
   const [sortBy, setSortBy] = useState<SortType>('latest');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 🟢 CORREÇÃO: Usamos o novo tipo 'ViewFilters' para o estado, que aceita as strings da UI.
+  /**
+   * ✅ ESTADO DE FILTRO (useSetState):
+   * Gerencia as abas de publicação usando o tipo ViewFilters, 
+   * mantendo a integridade das strings da UI.
+   */
   const { state, setState } = useSetState<ViewFilters>({
     publish: 'all',
   });
 
+  /**
+   * 📊 CONTADORES (MEMOIZADOS):
+   * Calcula a quantidade de posts por status para exibir nos labels das abas.
+   */
   const publishCounts = useMemo(
     () => ({
       all: posts.length,
@@ -66,15 +91,21 @@ export function PostListView({ posts: initialPosts }: Props) {
     [posts]
   );
 
+  /**
+   * 🔍 BUSCA (MEMOIZADA):
+   * Filtra a base de posts conforme o termo digitado no componente PostSearch.
+   */
   const searchResults = useMemo(() => {
-    if (!searchQuery) {
-      return posts;
-    }
+    if (!searchQuery) return posts;
     return posts.filter((post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [posts, searchQuery]);
 
+  /**
+   * 🛠️ FILTRAGEM FINAL:
+   * Aplica a lógica de ordenação e filtros de status sobre os resultados da busca.
+   */
   const dataFiltered = useMemo(
     () =>
       applyFilter({
@@ -95,11 +126,11 @@ export function PostListView({ posts: initialPosts }: Props) {
   return (
     <BlogLayout>
       <CustomBreadcrumbs
-        heading="List"
+        heading="Lista de Conteúdos"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
           { name: 'Blog', href: paths.dashboard.post.root },
-          { name: 'List' },
+          { name: 'Lista' },
         ]}
         action={
           <Button
@@ -108,7 +139,7 @@ export function PostListView({ posts: initialPosts }: Props) {
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
           >
-            Add post
+            Novo Post
           </Button>
         }
         sx={{ mb: { xs: 3, md: 5 } }}
@@ -134,7 +165,12 @@ export function PostListView({ posts: initialPosts }: Props) {
         <PostSort sort={sortBy} onSort={setSortBy} sortOptions={POST_SORT_OPTIONS} />
       </Box>
 
-      <Tabs value={state.publish} onChange={handleFilterPublish} sx={{ mb: { xs: 3, md: 5 } }}>
+      {/* 📑 ABAS DE NAVEGAÇÃO: Filtro por status de publicação */}
+      <Tabs 
+        value={state.publish} 
+        onChange={handleFilterPublish} 
+        sx={{ mb: { xs: 3, md: 5 } }}
+      >
         {PUBLISH_OPTIONS.map((tab) => (
           <Tab
             key={tab}
@@ -145,6 +181,7 @@ export function PostListView({ posts: initialPosts }: Props) {
               <Label
                 variant={tab === 'all' || tab === state.publish ? 'filled' : 'soft'}
                 color={tab === 'published' ? 'info' : 'default'}
+                sx={{ textTransform: 'capitalize' }}
               >
                 {publishCounts[tab]}
               </Label>
@@ -154,7 +191,11 @@ export function PostListView({ posts: initialPosts }: Props) {
         ))}
       </Tabs>
 
-      <PostListHorizontal posts={dataFiltered} loading={postsLoading && !initialPosts} />
+      {/* 📜 LISTAGEM: Renderiza os cards horizontais com estado de loading */}
+      <PostListHorizontal 
+        posts={dataFiltered} 
+        loading={postsLoading && posts.length === 0} 
+      />
     </BlogLayout>
   );
 }
@@ -163,15 +204,20 @@ export function PostListView({ posts: initialPosts }: Props) {
 
 type ApplyFilterProps = {
   inputData: IPostItem[];
-  filters: ViewFilters; // 🟢 CORREÇÃO: Usamos o tipo correto aqui também.
+  filters: ViewFilters;
   sortBy: SortType;
 };
 
+/**
+ * ⚙️ ENGINE DE FILTRAGEM:
+ * Função pura que traduz as seleções da UI em transformações nos dados.
+ */
 function applyFilter({ inputData, filters, sortBy }: ApplyFilterProps) {
   let data = [...inputData];
 
   const { publish } = filters;
 
+  // Aplicação de Ordenação
   switch (sortBy) {
     case 'latest':
       data = orderBy(data, ['createdAt'], ['desc']);
@@ -186,7 +232,8 @@ function applyFilter({ inputData, filters, sortBy }: ApplyFilterProps) {
       break;
   }
 
-  // 🟢 Lógica de filtro que traduz a string da UI para o boolean dos dados.
+  // ✅ TRADUÇÃO UI -> DATA:
+  // Converte a string da Tab para o filtro booleano esperado pelo dado original.
   if (publish === 'published') {
     data = data.filter((post) => post.publish);
   }
