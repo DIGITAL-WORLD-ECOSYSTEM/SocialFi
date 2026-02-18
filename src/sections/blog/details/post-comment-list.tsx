@@ -1,3 +1,10 @@
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Post Comment List (Recursive Display)
+ * Version: 1.4.7 - Fix: Data safety, Null-pointer prevention & UX logic
+ */
+
 import type { IPostComment } from 'src/types/blog';
 
 import Box from '@mui/material/Box';
@@ -15,7 +22,13 @@ export function PostCommentList({ comments = [] }: Props) {
   return (
     <>
       {comments.map((comment) => {
-        const hasReply = !!comment.replyComment.length;
+        /**
+         * ✅ SEGURANÇA DE DADOS:
+         * Garantimos que 'replyComment' seja sempre uma array para evitar erros de .length
+         * caso o campo venha nulo do banco de dados.
+         */
+        const replies = comment?.replyComment ?? [];
+        const hasReply = !!replies.length;
 
         return (
           <Box key={comment.id}>
@@ -25,14 +38,20 @@ export function PostCommentList({ comments = [] }: Props) {
               postedAt={comment.postedAt}
               avatarUrl={comment.avatarUrl}
             />
+
             {hasReply &&
-              comment.replyComment.map((reply) => {
-                const userReply = comment.users.find((user) => user.id === reply.userId);
+              replies.map((reply) => {
+                /**
+                 * ✅ BUSCA SEGURA DE USUÁRIO:
+                 * O encadeamento opcional em 'users?.find' evita crashes se a lista 
+                 * de usuários não estiver carregada ou sincronizada.
+                 */
+                const userReply = comment?.users?.find((user) => user.id === reply.userId);
 
                 return (
                   <PostCommentItem
                     key={reply.id}
-                    name={userReply?.name || ''}
+                    name={userReply?.name || 'Usuário'}
                     message={reply.message}
                     postedAt={reply.postedAt}
                     avatarUrl={userReply?.avatarUrl || ''}
@@ -45,14 +64,17 @@ export function PostCommentList({ comments = [] }: Props) {
         );
       })}
 
-      <Pagination
-        count={8}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          my: { xs: 5, md: 8 },
-        }}
-      />
+      {/* ✅ LÓGICA DE EXIBIÇÃO: Só exibe a paginação se houver conteúdo para paginar */}
+      {comments.length > 0 && (
+        <Pagination
+          count={8}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            my: { xs: 5, md: 8 },
+          }}
+        />
+      )}
     </>
   );
 }

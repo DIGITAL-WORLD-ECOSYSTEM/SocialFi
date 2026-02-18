@@ -1,8 +1,13 @@
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Post Details View (Client Side)
+ * Version: 1.4.6 - Fix: Type safety for publish status (TS2322) & UX Refinement
+ */
+
 'use client';
 
-import type { IPostItem } from 'src/types/blog';
-
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -10,19 +15,16 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
-import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 
 import { paths } from 'src/routes/paths';
-
 import { fShortenNumber } from 'src/utils/format-number';
-
 import { POST_PUBLISH_OPTIONS } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
-
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 
@@ -31,9 +33,10 @@ import { PostDetailsHero } from '../details/post-details-hero';
 import { PostCommentList } from '../details/post-comment-list';
 import { PostDetailsToolbar } from '../details/post-details-toolbar';
 
+import type { IPostItem } from 'src/types/blog';
+
 // ----------------------------------------------------------------------
 
-// 🟢 CORREÇÃO DEFINITIVA: Componente AvatarGroup estilizado para isolar a complexidade do seletor.
 const StyledAvatarGroup = styled(AvatarGroup)({
   [`& .${avatarGroupClasses.avatar}`]: {
     width: 32,
@@ -46,17 +49,20 @@ type Props = {
 };
 
 export function PostDetailsView({ post }: Props) {
-  const [publish, setPublish] = useState('');
+  /**
+   * ✅ FIX TS2322 (v1.4.6):
+   * O componente PostDetailsToolbar exige que 'publish' seja estritamente uma string.
+   * Abaixo, garantimos a conversão de tipos caso o dado venha como booleano ou nulo.
+   */
+  const [publish, setPublish] = useState<string>(() => {
+    if (typeof post?.publish === 'string') return post.publish;
+    if (post?.publish === true) return 'published';
+    return 'draft';
+  });
 
   const handleChangePublish = useCallback((newValue: string) => {
     setPublish(newValue);
   }, []);
-
-  useEffect(() => {
-    if (post) {
-      setPublish(post.publish ? 'published' : 'draft');
-    }
-  }, [post]);
 
   const avatars = (post?.favoritePerson || []).map((person) => (
     <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
@@ -69,13 +75,13 @@ export function PostDetailsView({ post }: Props) {
           backHref={paths.dashboard.post.root}
           editHref={paths.dashboard.post.edit(`${post?.title}`)}
           liveHref={paths.post.details(`${post?.title}`)}
-          publish={`${publish}`}
+          publish={publish}
           onChangePublish={handleChangePublish}
           publishOptions={POST_PUBLISH_OPTIONS}
         />
       </Container>
 
-      <PostDetailsHero title={`${post?.title}`} coverUrl={`${post?.coverUrl}`} />
+      <PostDetailsHero title={post?.title || ''} coverUrl={post?.coverUrl || ''} />
 
       <Box
         sx={{
@@ -86,22 +92,23 @@ export function PostDetailsView({ post }: Props) {
           px: { xs: 2, sm: 3 },
         }}
       >
-        <Typography variant="subtitle1">{String(post?.description || '')}</Typography>
+        <Typography variant="subtitle1" sx={{ mb: 2 }}>
+          {post?.description}
+        </Typography>
 
-        <Markdown children={post?.content || ''} />
+        <Markdown>{post?.content || ''}</Markdown>
 
         <Stack
           spacing={3}
-          sx={[
-            (theme) => ({
-              py: 3,
-              borderTop: `dashed 1px ${theme.vars.palette.divider}`,
-              borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
-            }),
-          ]}
+          sx={(theme) => ({
+            py: 3,
+            my: 5,
+            borderTop: `dashed 1px ${theme.vars.palette.divider}`,
+            borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
+          })}
         >
           <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-            {(post?.tags || []).map((tag) => (
+            {post?.tags?.map((tag) => (
               <Chip key={tag} label={tag} variant="soft" />
             ))}
           </Box>
@@ -131,11 +138,10 @@ export function PostDetailsView({ post }: Props) {
           </Box>
         </Stack>
 
-        <Box sx={{ mb: 3, mt: 5, display: 'flex' }}>
+        <Box sx={{ mb: 3, mt: 5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Typography variant="h4">Comments</Typography>
-
           <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-            ({post?.comments.length})
+            ({post?.comments?.length || 0})
           </Typography>
         </Box>
 

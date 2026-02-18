@@ -1,8 +1,15 @@
-import type { IPostItem } from 'src/types/blog';
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Post Create/Edit Form (Admin Management)
+ * Version: 1.5.0 - Refactored: State Synchronization & Type Safety
+ */
+
+'use client';
 
 import * as z from 'zod';
-import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { useCallback, useMemo } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useBoolean } from 'minimal-shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -33,29 +40,35 @@ import {
 } from 'src/components/hook-form';
 
 import { PostDetailsPreview } from './post-details-preview';
+import type { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 
-export type PostCreateSchemaType = z.infer<typeof PostCreateSchema>;
-
+/**
+ * 🛡️ SCHEMA DE VALIDAÇÃO (ZOD):
+ * Define as regras de negócio para a criação de posts.
+ * 'schemaUtils' é utilizado para validar inputs complexos como Editor e Upload.
+ */
 export const PostCreateSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required!' }),
-  description: z.string().min(1, { message: 'Description is required!' }),
-  content: schemaUtils.editor().min(100, { message: 'Content must be at least 100 characters' }),
-  coverUrl: schemaUtils.file({ error: 'Cover is required!' }),
-  tags: z.string().array().min(2, { message: 'Must have at least 2 items!' }),
-  metaKeywords: z.string().array().min(1, { message: 'Meta keywords is required!' }),
-  // Not required
-  metaTitle: z.string(),
-  metaDescription: z.string(),
+  title: z.string().min(1, { message: 'O título é obrigatório!' }),
+  description: z.string().min(1, { message: 'A descrição curta é obrigatória!' }),
+  content: schemaUtils.editor().min(100, { message: 'O conteúdo deve ter pelo menos 100 caracteres.' }),
+  coverUrl: schemaUtils.file({ error: 'A imagem de capa é obrigatória!' }),
+  tags: z.string().array().min(2, { message: 'Adicione pelo menos 2 tags relevantes.' }),
+  metaKeywords: z.string().array().min(1, { message: 'Defina ao menos 1 palavra-chave para SEO.' }),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
   publish: z.boolean(),
+  comments: z.boolean(),
 });
 
-// ----------------------------------------------------------------------
+export type PostCreateSchemaType = z.infer<typeof PostCreateSchema>;
 
 type Props = {
   currentPost?: IPostItem;
 };
+
+// ----------------------------------------------------------------------
 
 export function PostCreateEditForm({ currentPost }: Props) {
   const router = useRouter();
@@ -64,28 +77,33 @@ export function PostCreateEditForm({ currentPost }: Props) {
   const openDetails = useBoolean(true);
   const openProperties = useBoolean(true);
 
-  const defaultValues: PostCreateSchemaType = {
-    title: '',
-    description: '',
-    content: '',
-    coverUrl: null,
-    tags: [],
-    metaKeywords: [],
-    metaTitle: '',
-    metaDescription: '',
-    publish: true,
-  };
+  /**
+   * ⚙️ VALORES PADRÃO:
+   * Memoizamos os valores iniciais para garantir estabilidade na hidratação do formulário.
+   */
+  const defaultValues = useMemo<PostCreateSchemaType>(() => ({
+    title: currentPost?.title || '',
+    description: currentPost?.description || '',
+    content: currentPost?.content || '',
+    coverUrl: currentPost?.coverUrl || null,
+    tags: currentPost?.tags || [],
+    metaKeywords: currentPost?.metaKeywords || [],
+    metaTitle: currentPost?.metaTitle || '',
+    metaDescription: currentPost?.metaDescription || '',
+    publish: currentPost?.publish || true,
+    comments: true,
+  }), [currentPost]);
 
-  const methods = useForm({
+  const methods = useForm<PostCreateSchemaType>({
     mode: 'all',
     resolver: zodResolver(PostCreateSchema),
     defaultValues,
-    values: currentPost,
   });
 
   const {
     reset,
     watch,
+    control,
     setValue,
     handleSubmit,
     formState: { isSubmitting, isValid },
@@ -93,16 +111,21 @@ export function PostCreateEditForm({ currentPost }: Props) {
 
   const values = watch();
 
+  /**
+   * 🚀 SUBMISSÃO:
+   * Integração com SnackBar e roteamento após sucesso.
+   */
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       reset();
       showPreview.onFalse();
-      toast.success(currentPost ? 'Update success!' : 'Create success!');
+      toast.success(currentPost ? 'Atualizado com sucesso!' : 'Post criado com sucesso!');
       router.push(paths.dashboard.post.root);
-      console.info('DATA', data);
+      console.info('ASPPIBRA_POST_DATA:', data);
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao salvar post:', error);
+      toast.error('Ocorreu um erro ao salvar a postagem.');
     }
   });
 
@@ -110,36 +133,32 @@ export function PostCreateEditForm({ currentPost }: Props) {
     setValue('coverUrl', null);
   }, [setValue]);
 
-  const renderCollapseButton = (value: boolean, onToggle: () => void) => (
-    <IconButton onClick={onToggle}>
-      <Iconify icon={value ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'} />
-    </IconButton>
-  );
-
+  /**
+   * 🏗️ RENDERIZAÇÃO DE SEÇÕES:
+   * Detalhes Principais (Título, Editor, Upload)
+   */
   const renderDetails = () => (
     <Card>
       <CardHeader
-        title="Details"
-        subheader="Title, short description, image..."
-        action={renderCollapseButton(openDetails.value, openDetails.onToggle)}
-        sx={{ mb: 3 }}
+        title="Detalhes"
+        subheader="Título, descrição curta e corpo do texto..."
+        action={
+          <IconButton onClick={openDetails.onToggle}>
+            <Iconify icon={openDetails.value ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'} />
+          </IconButton>
+        }
       />
-
       <Collapse in={openDetails.value}>
         <Divider />
-
         <Stack spacing={3} sx={{ p: 3 }}>
-          <RHFTextField name="title" label="Post title" />
-
-          <RHFTextField name="description" label="Description" multiline rows={3} />
-
+          <RHFTextField name="title" label="Título do Post" placeholder="Ex: Inovação em Paraty" />
+          <RHFTextField name="description" label="Descrição" multiline rows={3} />
           <Stack spacing={1.5}>
-            <Typography variant="subtitle2">Content</Typography>
+            <Typography variant="subtitle2">Conteúdo</Typography>
             <RHFEditor name="content" sx={{ maxHeight: 480 }} />
           </Stack>
-
           <Stack spacing={1.5}>
-            <Typography variant="subtitle2">Cover</Typography>
+            <Typography variant="subtitle2">Capa do Post</Typography>
             <RHFUpload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />
           </Stack>
         </Stack>
@@ -147,18 +166,23 @@ export function PostCreateEditForm({ currentPost }: Props) {
     </Card>
   );
 
+  /**
+   * 🏗️ RENDERIZAÇÃO DE SEÇÕES:
+   * Propriedades Adicionais e SEO
+   */
   const renderProperties = () => (
     <Card>
       <CardHeader
-        title="Properties"
-        subheader="Additional functions and attributes..."
-        action={renderCollapseButton(openProperties.value, openProperties.onToggle)}
-        sx={{ mb: 3 }}
+        title="Configurações"
+        subheader="SEO, Tags e metadados de governança..."
+        action={
+          <IconButton onClick={openProperties.onToggle}>
+            <Iconify icon={openProperties.value ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'} />
+          </IconButton>
+        }
       />
-
       <Collapse in={openProperties.value}>
         <Divider />
-
         <Stack spacing={3} sx={{ p: 3 }}>
           <RHFAutocomplete
             name="tags"
@@ -166,77 +190,66 @@ export function PostCreateEditForm({ currentPost }: Props) {
             placeholder="+ Tags"
             multiple
             freeSolo
-            disableCloseOnSelect
-            options={[]}
-            getOptionLabel={(option: string) => option}
-            slotProps={{
-              chip: { color: 'info' },
-            }}
+            options={['Agronegócio', 'Web3', 'RWA', 'Paraty'].map((option) => option)}
+            getOptionLabel={(option) => option}
           />
-
-          <RHFTextField name="metaTitle" label="Meta title" />
-
-          <RHFTextField
-            name="metaDescription"
-            label="Meta description"
-            fullWidth
-            multiline
-            rows={3}
-          />
-
+          <RHFTextField name="metaTitle" label="SEO: Meta Título" />
+          <RHFTextField name="metaDescription" label="SEO: Meta Descrição" multiline rows={3} />
           <RHFAutocomplete
             name="metaKeywords"
-            label="Meta keywords"
-            placeholder="+ Keywords"
+            label="SEO: Palavras-chave"
             multiple
             freeSolo
-            disableCloseOnSelect
             options={[]}
-            getOptionLabel={(option: string) => option}
-            slotProps={{
-              chip: { color: 'info' },
-            }}
+            getOptionLabel={(option) => option}
           />
-
-          <FormControlLabel
-            label="Enable comments"
-            control={<Switch defaultChecked slotProps={{ input: { id: 'comments-switch' } }} />}
+          
+          <Controller
+            name="comments"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                label="Habilitar comentários"
+                control={<Switch {...field} checked={field.value} />}
+              />
+            )}
           />
         </Stack>
       </Collapse>
     </Card>
   );
 
+  /**
+   * 🏗️ RENDERIZAÇÃO DE SEÇÕES:
+   * Botões de Ação e Switch de Publicação
+   */
   const renderActions = () => (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-      }}
-    >
-      <FormControlLabel
-        label="Publish"
-        control={<Switch defaultChecked slotProps={{ input: { id: 'publish-switch' } }} />}
-        sx={{ pl: 3, flexGrow: 1 }}
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
+      <Controller
+        name="publish"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            label="Publicar Post"
+            control={<Switch {...field} checked={field.value} color="success" />}
+            sx={{ flexGrow: 1, pl: 3 }}
+          />
+        )}
       />
 
-      <div>
-        <Button color="inherit" variant="outlined" size="large" onClick={showPreview.onTrue}>
-          Preview
-        </Button>
+      <Button color="inherit" variant="outlined" size="large" onClick={showPreview.onTrue}>
+        Pré-visualizar
+      </Button>
 
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          disabled={!isValid}
-          sx={{ ml: 2 }}
-        >
-          {!currentPost ? 'Create post' : 'Save changes'}
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        variant="contained"
+        size="large"
+        loading={isSubmitting}
+        disabled={!isValid}
+      >
+        {!currentPost ? 'Criar Postagem' : 'Salvar Alterações'}
+      </Button>
     </Box>
   );
 
@@ -255,7 +268,7 @@ export function PostCreateEditForm({ currentPost }: Props) {
         open={showPreview.value}
         content={values.content}
         onClose={showPreview.onFalse}
-        coverUrl={values.coverUrl as string}
+        coverUrl={typeof values.coverUrl === 'string' ? values.coverUrl : ''}
         isSubmitting={isSubmitting}
         description={values.description}
       />

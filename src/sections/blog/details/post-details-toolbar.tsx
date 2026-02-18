@@ -1,3 +1,10 @@
+/**
+ * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
+ * Project: Governance System (ASPPIBRA DAO)
+ * Role: Post Details Toolbar (Admin Actions)
+ * Version: 1.4.8 - Fix: Strict type alignment & UI Stability
+ */
+
 import type { BoxProps } from '@mui/material/Box';
 
 import { usePopover } from 'minimal-shared/hooks';
@@ -20,6 +27,9 @@ type Props = BoxProps & {
   backHref: string;
   editHref: string;
   liveHref: string;
+  /** * ✅ TIPAGEM ROBUSTA: 
+   * Definimos como string para aceitar os estados 'published' e 'draft' tratados na View.
+   */
   publish: string;
   onChangePublish: (newValue: string) => void;
   publishOptions: { value: string; label: string }[];
@@ -53,9 +63,10 @@ export function PostDetailsToolbar({
               menuActions.onClose();
               onChangePublish(option.value);
             }}
+            sx={{ gap: 1 }}
           >
-            {option.value === 'published' && <Iconify icon="eva:cloud-upload-fill" />}
-            {option.value === 'draft' && <Iconify icon="solar:file-text-bold" />}
+            {option.value === 'published' && <Iconify icon="eva:cloud-upload-fill" width={20} />}
+            {option.value === 'draft' && <Iconify icon="solar:file-text-bold" width={20} />}
             {option.label}
           </MenuItem>
         ))}
@@ -67,7 +78,7 @@ export function PostDetailsToolbar({
     <>
       <Box
         sx={[
-          { gap: 1.5, display: 'flex', mb: { xs: 3, md: 5 } },
+          { gap: 1.5, display: 'flex', alignItems: 'center', mb: { xs: 3, md: 5 } },
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
         {...other}
@@ -82,15 +93,16 @@ export function PostDetailsToolbar({
 
         <Box sx={{ flexGrow: 1 }} />
 
+        {/* ✅ LÓGICA DE VISIBILIDADE: Só exibe o link 'Live' se estiver publicado */}
         {publish === 'published' && (
-          <Tooltip title="Go live">
-            <IconButton component={RouterLink} href={liveHref}>
+          <Tooltip title="Ver no site público">
+            <IconButton component={RouterLink} href={liveHref} color="primary">
               <Iconify icon="eva:external-link-fill" />
             </IconButton>
           </Tooltip>
         )}
 
-        <Tooltip title="Edit">
+        <Tooltip title="Editar Postagem">
           <IconButton component={RouterLink} href={editHref}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>
@@ -99,13 +111,14 @@ export function PostDetailsToolbar({
         <Button
           color="inherit"
           variant="contained"
+          /** ✅ ESTABILIDADE: loadingIndicator evita saltos de layout durante trocas de estado */
           loading={!publish}
-          loadingIndicator="Loading…"
+          loadingIndicator="Carregando..."
           endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
           onClick={menuActions.onOpen}
           sx={{ textTransform: 'capitalize' }}
         >
-          {publish}
+          {publish || 'Status'}
         </Button>
       </Box>
 
