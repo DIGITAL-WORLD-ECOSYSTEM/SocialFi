@@ -15,7 +15,8 @@ interface FlowerOfLifeProps {
 }
 
 /* =========================
-   Shaders
+   Shaders: Gênese Visual
+   Implementa a pulsação original dos 7 núcleos sagrados
 ========================= */
 
 const vertexShader = `
@@ -48,7 +49,7 @@ void main(){
 `;
 
 /* =========================
-   Component
+   Componente: Alfa (Início)
 ========================= */
 
 export const FlowerOfLife = memo(
@@ -99,14 +100,31 @@ export const FlowerOfLife = memo(
 
     useFrame((state) => {
       const t = state.clock.getElapsedTime();
+      const sp = scrollProgress.current;
       const u = uniformsRef.current;
 
       u.iTime.value = t;
-      u.scrollProgress.value = scrollProgress?.current ?? 0;
+      u.scrollProgress.value = sp;
 
       if (flowerRef.current) {
-        flowerRef.current.rotation.z = t * 0.12;
-        flowerRef.current.rotation.y = Math.cos(t * 0.3) * 0.15;
+        // LÓGICA DE FASE: ALFA (0.00 a 0.33)
+        if (sp <= 0.12) {
+          flowerRef.current.visible = true;
+
+          // GIRO DO COLAPSO: Aceleração angular conforme o scroll avança para a Fase 2
+          // O multiplicador (sp * 8.0) cria o efeito de "vórtice" antes da explosão
+          flowerRef.current.rotation.z = t * (0.12 + sp * 8.0);
+          flowerRef.current.rotation.y = Math.cos(t * 0.3) * 0.15;
+
+          // CRESCIMENTO E COMPRESSÃO: 
+          // Cresce até o Ecosystem e começa a "vibrar" para a Supernova
+          const growth = THREE.MathUtils.lerp(1.1, 1.8, sp / 0.12);
+          flowerRef.current.scale.setScalar(growth);
+
+        } else {
+          // Desativa renderização após a explosão (Integrations)
+          flowerRef.current.visible = false;
+        }
       }
     });
 

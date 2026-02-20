@@ -102,7 +102,8 @@ const HeaderRoot = styled(AppBar, {
 
   const bgStyles: CSSObject = {
     ...theme.mixins.bgBlur({
-      color: varAlpha(theme.vars.palette.background.defaultChannel, 0.8),
+      blur: 8,
+      color: varAlpha(theme.vars.palette.grey[900], 0.2),
     }),
     ...pauseStyles,
     top: 0,

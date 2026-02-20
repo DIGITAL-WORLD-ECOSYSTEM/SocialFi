@@ -1,9 +1,9 @@
 import type { CSSObject } from '@mui/material/styles';
 import type { NavItemProps } from '../types';
 
-import { varAlpha, mergeClasses } from 'minimal-shared/utils';
+import { mergeClasses } from 'minimal-shared/utils';
 
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 
 import { Iconify } from 'src/components/iconify';
@@ -74,9 +74,9 @@ const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({ theme
   };
 
   const activeStyles: CSSObject = {
-    color: theme.vars.palette.primary.main,
-    backgroundColor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-    '&:hover': { backgroundColor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16) },
+    color: '#39FF14',
+    backgroundColor: alpha('#39FF14', 0.08),
+    '&:hover': { backgroundColor: alpha('#39FF14', 0.16) },
   };
 
   return {

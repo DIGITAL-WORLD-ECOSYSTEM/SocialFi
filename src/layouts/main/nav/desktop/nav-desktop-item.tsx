@@ -58,11 +58,7 @@ const shouldForwardProp = (prop: string) => !['open', 'active', 'variant', 'sx']
 /**
  * @slot root
  */
-const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({
-  active,
-  open,
-  theme,
-}) => {
+const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({ active, open, theme }) => {
   const dotTransitions: Record<'in' | 'out', CSSObject> = {
     in: { opacity: 0, scale: 0 },
     out: { opacity: 1, scale: 1 },
@@ -80,12 +76,12 @@ const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({
     transition: theme.transitions.create(['opacity', 'scale'], {
       duration: theme.transitions.duration.shorter,
     }),
-    ...(active && { ...dotTransitions.out, backgroundColor: theme.vars.palette.primary.main }),
+    ...(active && { ...dotTransitions.out, backgroundColor: '#39FF14' }),
   };
 
   const rootItemStyles: CSSObject = {
     ...(open && { '&::before': { ...dotTransitions.out } }),
-    ...(active && { color: theme.vars.palette.primary.main }),
+    ...(active && { color: '#39FF14' }),
   };
 
   const subItemStyles: CSSObject = {

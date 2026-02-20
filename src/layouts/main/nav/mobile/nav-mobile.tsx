@@ -74,6 +74,10 @@ export function NavMobile({ data, open, onClose, slots, sx }: NavMobileProps) {
             display: 'flex',
             flex: '1 1 auto',
             flexDirection: 'column',
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            color: '#FFC107',
           }}
         >
           <NavUl>

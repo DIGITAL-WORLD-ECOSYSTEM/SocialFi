@@ -11,6 +11,11 @@ import { FlowerOfLife } from './flower-of-life';
 import { Space, SpaceAtmosphere } from './space';
 import { SceneController } from './scene-controller';
 
+// ✅ COMPONENTES DE FASE (ALFA, EVOLUÇÃO, ÔMEGA)
+import { StellarEvolution } from './stellar-evolution';
+import { GalacticCore } from './galactic';
+import { EventHorizon } from './event-horizon';
+
 // ----------------------------------------------------------------------
 
 const RADIUS = 0.9;
@@ -37,7 +42,7 @@ export const HomeBackground: React.FC = memo(() => {
     []
   );
 
-  // Cleanup rigoroso de recursos WebGL (Essencial para manter o TBT baixo e evitar Memory Leaks)
+  // Cleanup de recursos WebGL (Essencial para performance e evitar Memory Leaks)
   useEffect(
     () => () => {
       sharedSphereGeo.dispose();
@@ -57,12 +62,27 @@ export const HomeBackground: React.FC = memo(() => {
           alpha: true 
         }}
       >
-        <PerspectiveCamera makeDefault position={[0, 0, 6]} />
+        {/* ✅ Câmera com alcance ampliado (far: 5000) para suportar a profundidade galáctica */}
+        <PerspectiveCamera makeDefault position={[0, 0, 6]} far={5000} />
         
         <SpaceAtmosphere />
         
+        {/* Controlador de Sincronização Scroll -> Three.js */}
         <SceneController scrollProgress={scrollProgress} />
+        
+        {/* --- 🌌 FASE 2 & 3: EVOLUÇÃO E ÔMEGA --- */}
+        
+        {/* StellarEvolution: Transição cinematográfica (Partículas/Flash) */}
+        <StellarEvolution scrollProgress={scrollProgress} />
+        
+        {/* GalacticCore: Formação da Galáxia Pro (Posicionada à esquerda) */}
+        <GalacticCore scrollProgress={scrollProgress} />
 
+        {/* EventHorizon: A Singularidade Final (Buraco Negro) */}
+        <EventHorizon scrollProgress={scrollProgress} />
+
+        {/* --- 💎 FASE 1: O ALFA (INÍCIO) --- */}
+        
         <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.4}>
           <group scale={0.42} position={[0.12, -0.08, 0]}>
             <GlassCube />

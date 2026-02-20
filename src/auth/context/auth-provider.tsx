@@ -1,8 +1,8 @@
 /**
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
- * Role: Auth Context Provider (Next.js Client)
- * Version: 1.1.0 - Full Credential Cycle Integration
+ * Role: Auth Context Provider (Core Logic)
+ * Version: 1.2.0 - Production Ready (Cookie-Sync & Hybrid Persistence)
  */
 
 'use client';
@@ -21,39 +21,46 @@ import { setSession, isValidToken } from './utils';
 type Props = { children: React.ReactNode };
 
 /**
- * Mapeamento do Usuário (Backend D1 -> Frontend React)
- * Transforma a estrutura bruta do banco de dados em um objeto 'User' tipado.
- * Otimiza o TBT (Total Blocking Time) ao tratar strings fora do render loop.
+ * 🛠️ MAPEAMENTO DO USUÁRIO (Sanitização e Padronização)
+ * Transforma o objeto bruto vindo do backend em uma entidade 'User' segura.
+ * Adiciona fallbacks para evitar que o frontend quebre por campos nulos no DB.
  */
-const mapUser = (user: Partial<User>, accessToken: string): User => ({
+const mapUser = (user: any, accessToken: string): User => ({
   ...user,
-  id: user.id || 0,
-  email: user.email || '',
-  firstName: user.firstName || '',
-  lastName: user.lastName || '',
-  displayName: user.displayName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Membro DAO',
-  role: user.role || 'citizen', 
-  photoURL: user.photoURL || '/assets/icons/glass/ic_glass_users.png',
+  id: user?.id || 0,
+  email: user?.email || '',
+  firstName: user?.firstName || '',
+  lastName: user?.lastName || '',
+  displayName: user?.displayName || `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Membro DAO',
+  role: user?.role || 'citizen', 
+  photoURL: user?.photoURL || '/assets/icons/glass/ic_glass_users.png',
   accessToken,
-}) as User;
+});
 
 export function AuthProvider({ children }: Props) {
+  // Estado inicial unificado usando o hook de performance da minimal-shared
   const { state, setState } = useSetState<AuthState>({
     user: null, 
     loading: true 
   });
 
-  // [1. CHECK SESSION] - Validação de persistência ao recarregar a página
+  /**
+   * [1] CHECK SESSION - Validação de persistência (F5 / Refresh)
+   * Garante que o estado do React seja sincronizado com o cookie lido pelo Middleware.
+   */
   const checkUserSession = useCallback(async () => {
     try {
+      // Priorizamos o localStorage para velocidade, mas o setSession sincroniza o Cookie
       const accessToken = typeof window !== 'undefined' ? localStorage.getItem(JWT_STORAGE_KEY) : null;
 
       if (accessToken && isValidToken(accessToken)) {
+        // 🟢 VITAL: Atualiza o header do Axios e garante o Cookie para o Middleware
         setSession(accessToken);
+        
         const res = await axios.get(endpoints.auth.me);
         
-        // Extração baseada no utilitário de resposta padronizada v1.1.0 do backend
-        const userData = res.data?.data?.user || res.data?.user;
+        // Extração polimórfica (aceita diferentes estruturas de retorno do backend)
+        const userData = res.data?.data?.user || res.data?.user || res.data;
         
         const sessionUser = mapUser(userData, accessToken);
         setState({ user: sessionUser, loading: false });
@@ -62,65 +69,79 @@ export function AuthProvider({ children }: Props) {
         setState({ user: null, loading: false });
       }
     } catch (error: any) {
-      // Resiliência para conexões instáveis ou offline
-      if (!error.response) {
-        console.warn('⚠️ Modo Offline: Mantendo sessão local persistida.');
-        setState({ loading: false });
-      } else {
+      console.error('⚠️ Auth Error:', error);
+      // Se o erro não for de rede, limpamos a sessão por segurança
+      if (error.response) {
         setSession(null);
         setState({ user: null, loading: false });
+      } else {
+        // Erro de conexão: mantemos o estado carregando ou offline
+        setState({ loading: false });
       }
     }
   }, [setState]);
 
-  // [2. SIGN IN] - Autenticação de usuários existentes
+  /**
+   * [2] SIGN IN - Autenticação por credenciais
+   * Inclui sanitização de string para evitar falhas comuns de digitação.
+   */
   const signIn = useCallback(async (email: string, password: string) => {
-    const res = await axios.post(endpoints.auth.signIn, { email, password });
+    const res = await axios.post(endpoints.auth.signIn, { 
+      email: email.trim().toLowerCase(), // Sanitização idêntica ao Backend
+      password 
+    });
     
-    const { accessToken, user } = res.data.data;
+    const { accessToken, user } = res.data.data || res.data;
 
-    if (!accessToken) throw new Error('Falha crítica: Token de acesso não emitido.');
+    if (!accessToken) throw new Error('Credencial corrompida: Token não recebido.');
 
     const sessionUser = mapUser(user, accessToken);
     
+    // 🟢 Persiste no Cookie e localStorage
     setSession(accessToken); 
     setState({ user: sessionUser, loading: false });
   }, [setState]);
 
-  // [3. SIGN UP] - Registro de novos membros (🟢 NOVO: Integrado)
+  /**
+   * [3] SIGN UP - Registro de novo Cidadão DAO
+   */
   const signUp = useCallback(async (data: any) => {
     const res = await axios.post(endpoints.auth.signUp, data);
     
-    const { accessToken, user } = res.data.data;
+    const { accessToken, user } = res.data.data || res.data;
 
-    if (!accessToken) throw new Error('Erro ao gerar credenciais pós-cadastro.');
+    if (!accessToken) throw new Error('Erro ao gerar sessão pós-registro.');
 
-    const sessionUser = mapUser(user, accessToken);
-    
     setSession(accessToken);
-    setState({ user: sessionUser, loading: false });
+    setState({ user: mapUser(user, accessToken), loading: false });
   }, [setState]);
 
-  // [4. SIGN OUT] - Encerramento de sessão
+  /**
+   * [4] SIGN OUT - Destruição de sessão
+   * Limpa cookies e storage para que o Middleware bloqueie o acesso imediatamente.
+   */
   const signOut = useCallback(async () => {
     setSession(null);
     setState({ user: null, loading: false });
   }, [setState]);
 
-  // Inicialização do estado de autenticação
+  // Gatilho de inicialização
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
 
-  // Derivação de status para facilitar o controle de guards (AuthGuard)
+  // Cálculo de status derivado para evitar re-renders desnecessários
   const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
   const status = state.loading ? 'loading' : checkAuthenticated;
 
+  /**
+   * Valor do contexto memoizado para performance
+   */
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
       signIn,
-      signUp, // Exposto para componentes de registro
+      signUp,
       signOut,
       checkUserSession,
       loading: status === 'loading',

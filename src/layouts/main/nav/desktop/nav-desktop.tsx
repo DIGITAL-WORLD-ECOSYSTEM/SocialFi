@@ -10,7 +10,10 @@ export function NavDesktop({ data, sx, ...other }: NavMainProps) {
     <Nav
       sx={[
         () => ({
-          /* Put styles */
+          fontFamily: "'Orbitron', sans-serif",
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          color: '#FFC107',
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
