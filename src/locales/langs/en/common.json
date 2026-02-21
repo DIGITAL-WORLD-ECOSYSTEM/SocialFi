@@ -4,12 +4,37 @@
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
   },
   "hero": {
-    "title": "DEX World:",
-    "title_highlight": "The Interplanetary Ecosystem",
-    "description": "The ultimate bridge from the physical world to the digital world. Integrate your assets into a borderless network.",
+    "badge": "Genesis",
+    "title": "Digital World:",
+    "title_bridge": "The Interplanetary",
+    "title_highlight": "Ecosystem",
+    "description": "The infrastructure uniting agroecology and blockchain. Decentralized governance and AI technology for a borderless real-world asset network.",
     "buttons": {
-      "whitepaper": "Read Whitepaper",
-      "ecosystem": "Enter Orbit"
+      "whitepaper": "Whitepaper",
+      "orbit": "Enter Orbit"
     }
+  },
+  "faqs": {
+    "title": "FAQS",
+    "heading": "WE HAVE THE",
+    "heading_highlight": "ANSWERS",
+    "items": [
+      {
+        "question": "How can I get updates on the project?",
+        "answer": "You will receive constant updates on the DAO's governance and the progress of RWA tokenization through our official channels on Discord and Telegram."
+      },
+      {
+        "question": "What is the role of ASPPIBRA-DAO in agroecology?",
+        "answer": "We work on digitizing processes and traceability for rural producers, such as agroecological coffee farmers in Paraty, ensuring more transparency and product valuation."
+      },
+      {
+        "question": "Does the project have legal compliance?",
+        "answer": "Yes, Phase 01 of our roadmap focuses on establishing the legal structure and institutional compliance to ensure the security and legality of all operations."
+      },
+      {
+        "question": "How does asset security work?",
+        "answer": "Security is guaranteed through audited smart contracts on the blockchain, which ensure the immutability, transparency, and sovereignty of tokenized asset transactions."
+      }
+    ]
   }
 }

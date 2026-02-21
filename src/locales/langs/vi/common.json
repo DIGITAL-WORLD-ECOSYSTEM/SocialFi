@@ -1,6 +1,40 @@
 {
   "demo": {
-    "lang": "Vietnamese",
-    "description": "Điểm bắt đầu cho dự án tiếp theo của bạn dựa trên MUI. Việc tùy chỉnh dễ dàng giúp bạn xây dựng ứng dụng nhanh hơn và tốt hơn."
+    "lang": "Tiếng Việt",
+    "description": "Điểm khởi đầu cho dự án tiếp theo của bạn dựa trên MUI. Tùy chỉnh dễ dàng giúp bạn xây dựng ứng dụng nhanh hơn và tốt hơn."
+  },
+  "hero": {
+    "badge": "Sáng Thế",
+    "title": "Thế Giới Số:",
+    "title_bridge": "Hệ Sinh Thái",
+    "title_highlight": "Liên Hành Tinh",
+    "description": "Cơ sở hạ tầng hợp nhất nông nghiệp sinh thái và blockchain. Quản trị phi tập trung và công nghệ AI cho một mạng lưới tài sản thực không biên giới.",
+    "buttons": {
+      "whitepaper": "Sách Trắng",
+      "orbit": "Vào Quỹ Đạo"
+    }
+  },
+  "faqs": {
+    "title": "CÂU HỎI THƯỜNG GẶP",
+    "heading": "CHÚNG TÔI CÓ",
+    "heading_highlight": "CÂU TRẢ LỜI",
+    "items": [
+      {
+        "question": "Làm cách nào để tôi có thể nhận thông tin cập nhật về dự án?",
+        "answer": "Bạn sẽ nhận được thông tin cập nhật liên tục về quản trị của DAO và tiến trình mã hóa RWA qua các kênh chính thức của chúng tôi trên Discord và Telegram."
+      },
+      {
+        "question": "Vai trò của ASPPIBRA-DAO trong nông nghiệp sinh thái là gì?",
+        "answer": "Chúng tôi hoạt động trong việc số hóa quy trình và truy xuất nguồn gốc cho các nhà sản xuất nông thôn, như những người trồng cà phê nông nghiệp sinh thái ở Paraty, đảm bảo tính minh bạch và giá trị sản phẩm cao hơn."
+      },
+      {
+        "question": "Dự án có tuân thủ pháp lý không?",
+        "answer": "Có, Giai đoạn 01 của lộ trình của chúng tôi tập trung vào việc thiết lập cấu trúc pháp lý và tuân thủ thể chế để đảm bảo tính bảo mật và hợp pháp của tất cả các hoạt động."
+      },
+      {
+        "question": "Bảo mật tài sản hoạt động như thế nào?",
+        "answer": "Bảo mật được đảm bảo thông qua các hợp đồng thông minh đã được kiểm toán trên blockchain, đảm bảo tính bất biến, minh bạch và chủ quyền của các giao dịch tài sản được mã hóa."
+      }
+    ]
   }
 }

@@ -26,9 +26,8 @@ export function Logo({
   disabled,
   className,
   href = '/',
-  // MUDANÇA 1: Alteramos o padrão para false.
-  // Agora ele tentará mostrar o logo completo (com texto) por padrão.
-  isSingle = false,
+  // Agora ele tentará mostrar apenas o ícone por padrão.
+  isSingle = true,
   ...other
 }: LogoProps) {
 
@@ -36,7 +35,7 @@ export function Logo({
   const logoIcon = (
     <Box
       component="img"
-      alt="Dex World Icon"
+      alt="ASPPIBRA-DAO Icon"
       src="/logo/android-chrome-192x192.png"
       sx={{ 
         width: 40, 

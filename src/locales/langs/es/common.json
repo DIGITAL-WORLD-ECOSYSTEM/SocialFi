@@ -4,12 +4,37 @@
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
   },
   "hero": {
-    "title": "DEX World:",
-    "title_highlight": "El Ecosistema Interplanetario",
-    "description": "El puente definitivo del mundo físico al mundo digital. Integre sus activos en una red sin fronteras.",
+    "badge": "Génesis",
+    "title": "Mundo Digital:",
+    "title_bridge": "El Ecosistema",
+    "title_highlight": "Interplanetario",
+    "description": "La infraestructura que une agroecología y blockchain. Gobernanza descentralizada y tecnología de IA para una red de activos reales sin fronteras.",
     "buttons": {
-      "whitepaper": "Leer Whitepaper",
-      "ecosystem": "Entrar en Órbita"
+      "whitepaper": "Whitepaper",
+      "orbit": "Entrar en Órbita"
     }
+  },
+  "faqs": {
+    "title": "PREGUNTAS FRECUENTES",
+    "heading": "TENEMOS LAS",
+    "heading_highlight": "RESPUESTAS",
+    "items": [
+      {
+        "question": "¿Cómo puedo recibir actualizaciones sobre el proyecto?",
+        "answer": "Recibirás actualizaciones constantes sobre la gobernanza de la DAO y el progreso de la tokenización de RWA a través de nuestros canales oficiales en Discord y Telegram."
+      },
+      {
+        "question": "¿Cuál es el papel de ASPPIBRA-DAO en la agroecología?",
+        "answer": "Trabajamos en la digitalización de procesos y la trazabilidad para productores rurales, como los caficultores agroecológicos de Paraty, garantizando más transparencia y valorización del producto."
+      },
+      {
+        "question": "¿El proyecto cuenta con conformidad legal?",
+        "answer": "Sí, la Fase 01 de nuestro plan de trabajo se enfoca en establecer la estructura legal y el cumplimiento institucional para garantizar la seguridad y legalidad de todas las operaciones."
+      },
+      {
+        "question": "¿Cómo funciona la seguridad de los activos?",
+        "answer": "La seguridad se garantiza mediante contratos inteligentes auditados en la blockchain, que aseguran la inmutabilidad, transparencia y soberanía de las transacciones de activos tokenizados."
+      }
+    ]
   }
 }

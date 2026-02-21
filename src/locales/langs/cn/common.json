@@ -4,12 +4,37 @@
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
   },
   "hero": {
-    "title": "DEX World:",
-    "title_highlight": "星际生态系统",
-    "description": "连接物理世界与数字世界的终极桥梁。将您的资产整合进无国界的网络中。",
+    "badge": "创世",
+    "title": "数字世界:",
+    "title_bridge": "跨星际",
+    "title_highlight": "生态系统",
+    "description": "结合生态农业与区块链的基础设施。通过去中心化治理和人工智能技术，构建无国界的现实世界资产网络。",
     "buttons": {
-      "whitepaper": "阅读白皮书",
-      "ecosystem": "进入轨道"
+      "whitepaper": "白皮书",
+      "orbit": "进入轨道"
     }
+  },
+  "faqs": {
+    "title": "常见问题",
+    "heading": "我们有",
+    "heading_highlight": "答案",
+    "items": [
+      {
+        "question": "我如何获取项目的最新信息？",
+        "answer": "您将通过我们在Discord和Telegram上的官方渠道，持续收到关于DAO治理和RWA代币化进展的更新。"
+      },
+      {
+        "question": "ASPPIBRA-DAO在生态农业中扮演什么角色？",
+        "answer": "我们致力于为农村生产者（如帕拉蒂的生态咖啡农）实现流程数字化和可追溯性，确保更高的透明度和产品价值。"
+      },
+      {
+        "question": "该项目是否符合法律规定？",
+        "answer": "是的，我们路线图的第一阶段重点是建立法律结构和机构合规性，以确保所有操作的安全性和合法性。"
+      },
+      {
+        "question": "资产安全如何运作？",
+        "answer": "通过在区块链上经过审计的智能合约来保证安全，这些合约确保了代币化资产交易的不可变性、透明度和主权。"
+      }
+    ]
   }
 }

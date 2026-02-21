@@ -14,73 +14,86 @@ import { varAlpha } from 'minimal-shared/utils';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-// ✅ CORREÇÃO: Importando o 'alpha' do MUI para as transparências
 import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 // Imports — app
 // ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+import { useTranslate } from 'src/locales';
 
 import { CONFIG } from 'src/global-config';
-
 import { varFade, MotionViewport } from 'src/components/animate';
-
-import { FloatLine, FloatPlusIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
 
 export function CtaBanner({ sx, ...other }: BoxProps) {
-  
-  // ✅ CORREÇÃO: Definindo as funções auxiliares dentro do componente (ou logo abaixo)
-  
-  const renderLines = () => (
-    <>
-      <FloatPlusIcon sx={{ left: 72, top: '50%', mt: -1 }} />
-      <FloatLine vertical sx={{ top: 0, left: 80, height: 'calc(50% + 64px)' }} />
-      <FloatLine sx={{ top: '50%', left: 0 }} />
-    </>
-  );
+  const { t } = useTranslate();
 
   const renderDescription = () => (
-    <Stack spacing={5} sx={{ zIndex: 9 }}>
-      <Box
-        component={m.h2}
-        variants={varFade('inDown', { distance: 24 })}
-        sx={{
-          m: 0,
-          color: 'common.white',
-          typography: { xs: 'h2', md: 'h1' },
-          fontWeight: 800,
-        }}
-      >
-        Pronto para
-        <br /> Começar?
-      </Box>
+    <Stack 
+      spacing={5} 
+      sx={{ 
+        zIndex: 9,
+        alignItems: { xs: 'center', md: 'flex-start' }
+      }}
+    >
+      <Stack spacing={2}>
+        <Typography
+          component={m.h2}
+          variants={varFade('inDown', { distance: 24 })}
+          sx={{
+            m: 0,
+            color: 'common.white',
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 900,
+            fontSize: { xs: '2.2rem', md: '3.5rem' },
+            lineHeight: 1.1,
+            textTransform: 'uppercase',
+          }}
+        >
+          <Box component="span" sx={{ color: 'common.white' }}>
+            {t('cta.title') || 'Pronto para'}
+          </Box>
+          <br />
+          <Box component="span" sx={{ color: alpha('#fff', 0.5) }}>
+            {t('cta.title_bridge') || 'Começar a'}
+          </Box>
+          <br />
+          <Box component="span" sx={{ color: 'warning.main' }}>
+            {t('cta.title_highlight') || 'Evoluir?'}
+          </Box>
+        </Typography>
+      </Stack>
 
-      <Box
-        sx={{
-          gap: 2,
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: { xs: 'center', md: 'flex-start' },
-        }}
-      >
-        <m.div variants={varFade('inRight', { distance: 24 })}>
-          <Button
-            component={RouterLink}
-            href={paths.dashboard.root}
-            color="primary"
-            size="large"
-            variant="contained"
-            sx={{ fontWeight: 700, px: 4, height: 48 }}
-          >
-            Explorar Agora
-          </Button>
-        </m.div>
-      </Box>
+      <m.div variants={varFade('inRight', { distance: 24 })}>
+        <Button
+          component={RouterLink}
+          href={paths.dashboard.root}
+          color="primary"
+          size="large"
+          variant="contained"
+          sx={{ 
+            height: 56,
+            px: 4,
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 700,
+            borderRadius: 1.5,
+            fontSize: 16,
+            background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+            boxShadow: (theme) => `0 0 20px ${alpha(theme.palette.primary.main, 0.4)}`,
+            '&:hover': {
+               transform: 'translateY(-2px)',
+               boxShadow: (theme) => `0 0 30px ${alpha(theme.palette.primary.main, 0.6)}`,
+            }
+          }}
+        >
+          {t('cta.button') || 'Explorar Agora'}
+        </Button>
+      </m.div>
     </Stack>
   );
 
@@ -88,15 +101,16 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
     <m.div variants={varFade('inUp')}>
       <Box
         component={m.img}
-        animate={{ y: [-20, 0, -20] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ y: [-15, 0, -15] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         alt="Rocket"
         src={`${CONFIG.assetsDir}/assets/illustrations/illustration-rocket-large.webp`}
         sx={{
           zIndex: 9,
-          width: 360,
+          width: { xs: 240, md: 360 },
           aspectRatio: '1/1',
           position: 'relative',
+          filter: 'drop-shadow(0 0 40px rgba(0, 171, 85, 0.2))',
         }}
       />
     </m.div>
@@ -110,7 +124,7 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
         right: 0,
         zIndex: 7,
         width: 1,
-        opacity: 0.4,
+        opacity: 0.3,
         maxWidth: 420,
         aspectRatio: '1/1',
         position: 'absolute',
@@ -125,7 +139,7 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
       sx={[
         { 
           position: 'relative', 
-          marginBottom: 10, 
+          py: { xs: 8, md: 15 }, // Respiro padronizado 2026
           overflow: 'hidden',
           bgcolor: 'transparent' 
         },
@@ -134,31 +148,31 @@ export function CtaBanner({ sx, ...other }: BoxProps) {
       {...other}
     >
       <MotionViewport>
-        {renderLines()}
-
         <Container sx={{ position: 'relative', zIndex: 9 }}>
           <Box
             sx={(theme) => ({
               ...theme.mixins.bgGradient({
                 images: [
-                  `linear-gradient(0deg, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.04)} 1px, transparent 1px)`,
-                  `linear-gradient(90deg, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.04)} 1px, transparent 1px)`,
+                  `linear-gradient(0deg, ${varAlpha(theme.palette.grey['500Channel'], 0.04)} 1px, transparent 1px)`,
+                  `linear-gradient(90deg, ${varAlpha(theme.palette.grey['500Channel'], 0.04)} 1px, transparent 1px)`,
                 ],
                 sizes: ['36px 36px'],
                 repeats: ['repeat'],
               }),
-              py: 8,
-              px: 5,
+              py: { xs: 6, md: 10 },
+              px: { xs: 3, md: 10 },
               borderRadius: 3,
               display: 'flex',
               overflow: 'hidden',
-              bgcolor: alpha(theme.palette.grey[900], 0.8),
+              bgcolor: alpha(theme.palette.grey[900], 0.4), // Mais transparente para integrar com estrelas
               backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               position: 'relative',
               alignItems: 'center',
+              justifyContent: 'space-between',
               textAlign: { xs: 'center', md: 'left' },
-              flexDirection: { xs: 'column', md: 'row' },
-              border: `solid 1px ${theme.vars.palette.grey[800]}`,
+              flexDirection: { xs: 'column', md: 'row-reverse' }, // Inversão para zigue-zague
+              border: `solid 1px ${alpha(theme.palette.primary.main, 0.2)}`,
             })}
           >
             {renderImage()}

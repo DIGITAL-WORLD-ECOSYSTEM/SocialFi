@@ -4,12 +4,37 @@
     "description": "The starting point for your next project is based on MUI. Easy customization helps you build apps faster and better."
   },
   "hero": {
-    "title": "DEX World :",
-    "title_highlight": "L'écosystème Interplanétaire",
-    "description": "Le pont ultime du monde physique vers le monde numérique. Intégrez vos actifs dans un réseau sans frontières.",
+    "badge": "Genèse",
+    "title": "Monde Numérique:",
+    "title_bridge": "L'Écosystème",
+    "title_highlight": "Interplanétaire",
+    "description": "L'infrastructure unissant l'agroécologie et la blockchain. Gouvernance décentralisée et IA pour un réseau d'actifs réels sans frontières.",
     "buttons": {
-      "whitepaper": "Lire le Whitepaper",
-      "ecosystem": "Entrer en Orbite"
+      "whitepaper": "Livre Blanc",
+      "orbit": "Entrer en Orbite"
     }
+  },
+  "faqs": {
+    "title": "QUESTIONS FRÉQUEMMENT POSÉES",
+    "heading": "NOUS AVONS LES",
+    "heading_highlight": "RÉPONSES",
+    "items": [
+      {
+        "question": "Comment puis-je obtenir des mises à jour sur le projet ?",
+        "answer": "Vous recevrez des mises à jour constantes sur la gouvernance de la DAO et l'avancement de la tokenisation RWA via nos canaux officiels sur Discord et Telegram."
+      },
+      {
+        "question": "Quel est le rôle d'ASPPIBRA-DAO dans l'agroécologie ?",
+        "answer": "Nous travaillons à la numérisation des processus et à la traçabilité pour les producteurs ruraux, tels que les caféiculteurs agroécologiques de Paraty, garantissant plus de transparence et de valorisation du produit."
+      },
+      {
+        "question": "Le projet est-il conforme à la loi ?",
+        "answer": "Oui, la phase 01 de notre feuille de route se concentre sur l'établissement de la structure juridique et de la conformité institutionnelle pour garantir la sécurité et la légalité de toutes les opérations."
+      },
+      {
+        "question": "Comment fonctionne la sécurité des actifs ?",
+        "answer": "La sécurité est garantie par des contrats intelligents audités sur la blockchain, qui assurent l'immuabilité, la transparence et la souveraineté des transactions d'actifs tokenisés."
+      }
+    ]
   }
 }

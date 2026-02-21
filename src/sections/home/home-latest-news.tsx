@@ -1,9 +1,16 @@
 'use client';
 
+// ----------------------------------------------------------------------
+// Imports — tipos e react/motion
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
+import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -13,82 +20,58 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — App
+// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+import { useTranslate } from 'src/locales';
 
 import { fDate } from 'src/utils/format-time';
-
 import { _mock } from 'src/_mock';
 
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { FloatLine, FloatDotIcon } from './components/svg-elements';
-
 // ----------------------------------------------------------------------
-
-const renderLines = () => (
-  <>
-    <Stack
-      spacing={8}
-      alignItems="center"
-      sx={{
-        top: 64,
-        left: 80,
-        zIndex: 2,
-        bottom: 64,
-        position: 'absolute',
-        transform: 'translateX(-50%)',
-        display: { xs: 'none', md: 'flex' },
-        '& span': { position: 'static', opacity: 0.12 },
-      }}
-    >
-      <FloatDotIcon />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <Box sx={{ flexGrow: 1 }} />
-      <FloatDotIcon sx={{ opacity: 0.24, width: 14, height: 14 }} />
-      <FloatDotIcon />
-    </Stack>
-    <FloatLine vertical sx={{ top: 0, left: 80, display: { xs: 'none', md: 'block' } }} />
-  </>
-);
 
 export function HomeLatestNews({ sx, ...other }: BoxProps) {
   const theme = useTheme();
+  const { t } = useTranslate();
 
-  const displayPosts = [
+  const displayPosts = useMemo(() => [
     {
       id: 'post-1',
-      title: 'Lançamento da DEX V2: Mais Rápida e Segura',
-      description: 'Aprimoramos nossa infraestrutura para garantir liquidez descentralizada e auditabilidade on-chain.',
+      title: t('news.posts.post1.title'),
+      description: t('news.posts.post1.description'),
       coverUrl: _mock.image.cover(4),
       createdAt: new Date().toISOString(),
-      category: 'NOVOS RECURSOS',
+      category: t('news.posts.post1.category'),
     },
     {
       id: 'post-2',
-      title: 'Parceria Estratégica: Agroecologia e Web3',
-      description: 'Integramos produtores de café agroecológico de Paraty ao nosso ecossistema de ativos reais.',
+      title: t('news.posts.post2.title'),
+      description: t('news.posts.post2.description'),
       coverUrl: _mock.image.cover(5),
       createdAt: new Date().toISOString(),
-      category: 'PARCERIA',
+      category: t('news.posts.post2.category'),
     },
     {
       id: 'post-3',
-      title: 'O Futuro dos NFTs e a Governança DAO',
-      description: 'Como a ASPPIBRA-DAO utiliza governança institucional para gerir ativos tangíveis com segurança jurídica.',
+      title: t('news.posts.post3.title'),
+      description: t('news.posts.post3.description'),
       coverUrl: _mock.image.cover(6),
       createdAt: new Date().toISOString(),
-      category: 'ANÁLISE DE MERCADO',
+      category: t('news.posts.post3.category'),
     },
-  ];
+  ], [t]);
 
   return (
     <Box
       component="section"
       sx={[
         { 
-          py: { xs: 10, md: 15 }, 
+          py: { xs: 8, md: 15 }, 
           position: 'relative', 
           overflow: 'hidden',
           bgcolor: 'transparent' 
@@ -98,19 +81,12 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
       {...other}
     >
       <MotionViewport>
-        {renderLines()}
-
         <Container sx={{ position: 'relative', zIndex: 9 }}>
-          <Grid
-            display="grid"
-            gridTemplateColumns={{ xs: '1fr', md: '4fr 8fr' }}
-            columnGap={8}
-            rowGap={8}
-            alignItems="center"
-          >
-            <Grid sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid container spacing={8} alignItems="center">
+            
+            {/* COLUNA DE TEXTO - Utilizando 'size' para evitar erros de TypeScript */}
+            <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
               <m.div variants={varFade('inUp')}>
-                {/* 💊 Pílula Padronizada (Pill Style - borderRadius: 50) */}
                 <Box
                   sx={{
                     display: 'inline-block',
@@ -132,13 +108,12 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                       color: 'info.main',
                     }}
                   >
-                    LATEST NEWS
+                    {t('news.badge')}
                   </Typography>
                 </Box>
               </m.div>
 
               <m.div variants={varFade('inUp')}>
-                {/* 🖋️ Título Otimizado (Caixa Alta e Quebra Controlada) */}
                 <Typography
                   component="h2"
                   sx={{
@@ -151,26 +126,35 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   }}
                 >
                   <Box component="span" sx={{ color: 'common.white' }}>
-                    ÚLTIMAS NOTÍCIAS
+                    {t('news.title')}
                   </Box>
                   <br />
-                  <Box component="span" sx={{ color: 'text.secondary', opacity: 0.5, mr: 1.5 }}>
-                    &
+                  <Box component="span" sx={{ color: alpha(theme.palette.common.white, 0.5), mr: 1.5 }}>
+                    {t('news.title_bridge')}
                   </Box>
                   <Box component="span" sx={{ color: 'warning.main' }}>
-                    ATUALIZAÇÕES
+                    {t('news.title_highlight')}
                   </Box>
                 </Typography>
               </m.div>
 
               <m.div variants={varFade('inUp')}>
-                <Typography sx={{ mt: 3, mb: 5, color: 'text.secondary', fontSize: { xs: 16, md: 18 }, lineHeight: 1.8, maxWidth: 420 }}>
-                  Fique por dentro das novidades, anúncios e análises do ecossistema ASPPIBRA-DAO.
+                <Typography 
+                  sx={{ 
+                    mt: 3, 
+                    mb: 5, 
+                    color: 'text.secondary', 
+                    fontSize: { xs: 16, md: 18 }, 
+                    lineHeight: 1.8, 
+                    maxWidth: 420,
+                    textAlign: { xs: 'justify', md: 'left' }
+                  }}
+                >
+                  {t('news.description')}
                 </Typography>
               </m.div>
 
               <m.div variants={varFade('inUp')}>
-                {/* ✨ Botão Neon Orbit Style */}
                 <Button
                   component={RouterLink}
                   href={paths.post.root}
@@ -179,7 +163,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                   sx={{
                     height: 56,
-                    px: 3,
+                    px: 4,
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
                     borderRadius: 1.5,
@@ -187,8 +171,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                     color: 'common.white',
                     borderColor: alpha(theme.palette.info.main, 0.3),
                     bgcolor: alpha(theme.palette.info.main, 0.05),
-                    boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}, inset 0 0 8px ${alpha(theme.palette.info.main, 0.05)}`,
-                    display: { xs: 'none', md: 'inline-flex' },
+                    boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}`,
                     '&:hover': {
                       borderColor: 'info.main',
                       bgcolor: alpha(theme.palette.info.main, 0.15),
@@ -197,75 +180,73 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                     },
                   }}
                 >
-                  Ver Tudo
+                  {t('news.button_view_all')}
                 </Button>
               </m.div>
             </Grid>
 
-            {/* GRID DE POSTS */}
-            <Grid>
-              <Grid
-                display="grid"
-                gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr', lg: 'repeat(3, 1fr)' }}
-                gap={3}
-              >
+            {/* GRID DE POSTS - Utilizando 'size' para evitar erros de TypeScript */}
+            <Grid size={{ xs: 12, md: 8 }}>
+              <Grid container spacing={3}>
                 {displayPosts.map((post, index) => (
-                  <m.div
-                    key={post.id}
-                    variants={varFade('inUp')}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Card
-                      sx={{
-                        height: 1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        borderRadius: 3,
-                        bgcolor: alpha(theme.palette.grey[500], 0.08),
-                        backdropFilter: 'blur(16px)',
-                        border: `solid 1px ${alpha(theme.palette.primary.main, 0.15)}`,
-                        transition: theme.transitions.create(['transform', 'box-shadow']),
-                        '&:hover': {
-                          transform: 'translateY(-12px)',
-                          boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.25)}`,
-                        },
-                      }}
+                  <Grid key={post.id} size={{ xs: 12, sm: 6, lg: 4 }}>
+                    <m.div
+                      variants={varFade('inUp')}
+                      transition={{ delay: index * 0.1 }}
+                      style={{ height: '100%' }}
                     >
-                      <Box sx={{ position: 'relative', pt: '66%', overflow: 'hidden' }}>
-                        <Box
-                          component="img"
-                          alt={post.title}
-                          src={post.coverUrl}
-                          sx={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: 1,
-                            height: 1,
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </Box>
+                      <Card
+                        sx={{
+                          height: 1,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          borderRadius: 3,
+                          bgcolor: alpha(theme.palette.grey[500], 0.08),
+                          backdropFilter: 'blur(16px)',
+                          border: `solid 1px ${alpha(theme.palette.primary.main, 0.15)}`,
+                          transition: theme.transitions.create(['transform', 'box-shadow']),
+                          '&:hover': {
+                            transform: 'translateY(-12px)',
+                            boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.25)}`,
+                          },
+                        }}
+                      >
+                        <Box sx={{ position: 'relative', pt: '66%', overflow: 'hidden' }}>
+                          <Box
+                            component="img"
+                            alt={post.title}
+                            src={post.coverUrl}
+                            sx={{
+                              position: 'absolute',
+                              inset: 0,
+                              width: 1,
+                              height: 1,
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </Box>
 
-                      <Stack spacing={2} sx={{ p: 3, flexGrow: 1 }}>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between">
-                          <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800, fontSize: 11 }}>
-                            {post.category}
+                        <Stack spacing={2} sx={{ p: 3, flexGrow: 1 }}>
+                          <Stack direction="row" alignItems="center" justifyContent="space-between">
+                            <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800, fontSize: 11 }}>
+                              {post.category}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+                              {fDate(post.createdAt)}
+                            </Typography>
+                          </Stack>
+
+                          <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4, color: 'common.white' }}>
+                            {post.title}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-                            {fDate(post.createdAt)}
+
+                          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, textAlign: 'justify' }}>
+                            {post.description}
                           </Typography>
                         </Stack>
-
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4, color: 'common.white' }}>
-                          {post.title}
-                        </Typography>
-
-                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-                          {post.description}
-                        </Typography>
-                      </Stack>
-                    </Card>
-                  </m.div>
+                      </Card>
+                    </m.div>
+                  </Grid>
                 ))}
               </Grid>
             </Grid>

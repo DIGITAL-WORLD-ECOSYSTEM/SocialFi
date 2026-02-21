@@ -95,7 +95,7 @@ export function Footer({
           
           <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ mb: 2 }}>
-               <Logo isSingle={false} sx={{ color: '#FFF' }} />
+               <Logo sx={{ color: '#FFF' }} />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <Box
