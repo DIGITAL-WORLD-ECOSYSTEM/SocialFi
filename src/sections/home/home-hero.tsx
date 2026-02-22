@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
+
 import { useTranslate } from 'src/locales';
 
 import { Iconify } from 'src/components/iconify';

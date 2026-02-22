@@ -1,5 +1,7 @@
 'use client';
 
+import { m } from 'framer-motion';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -8,6 +10,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
+import { varFade, MotionViewport } from 'src/components/animate';
 
 // --- DADOS DOS VÍDEOS ---
 
@@ -86,58 +89,83 @@ const VIDEOS_INT = [
 export function PostVideo() {
   const theme = useTheme();
 
+  const renderSectionHeader = (title: string, subtitle: string) => (
+    <Box sx={{ mb: 4 }}>
+      <m.div variants={varFade('inDown')}>
+        <Typography 
+          variant="h3" 
+          sx={{ 
+            fontWeight: 900, 
+            fontFamily: "'Orbitron', sans-serif",
+            textTransform: 'uppercase',
+            color: 'common.white',
+            letterSpacing: '0.05em',
+            textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
+          }}
+        >
+          {title}
+        </Typography>
+      </m.div>
+      <m.div variants={varFade('inUp')}>
+        <Typography variant="body2" sx={{ color: 'grey.400' }}>
+          {subtitle}
+        </Typography>
+      </m.div>
+    </Box>
+  );
+
   return (
-    <Container sx={{ py: { xs: 5, md: 8 } }}>
-      
-      {/* SEÇÃO 1: BRASIL */}
-      <Box sx={{ mb: 6 }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4">Comunidade Brasileira</Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>Insights do mercado nacional</Typography>
+    <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'transparent' }}>
+      <Container component={MotionViewport}>
+        
+        {/* SEÇÃO 1: BRASIL */}
+        <Box sx={{ mb: 8 }}>
+          {renderSectionHeader('Comunidade Brasileira', 'Insights do mercado nacional')}
+
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 4,
+              gridTemplateColumns: {
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)',
+              },
+            }}
+          >
+            {VIDEOS_BR.map((video) => (
+              <m.div key={video.id} variants={varFade('inUp')}>
+                <VideoItem video={video} theme={theme} />
+              </m.div>
+            ))}
+          </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 3,
-            gridTemplateColumns: {
-              xs: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(4, 1fr)',
-            },
-          }}
-        >
-          {VIDEOS_BR.map((video) => (
-            <VideoItem key={video.id} video={video} theme={theme} />
-          ))}
-        </Box>
-      </Box>
+        {/* SEÇÃO 2: INTERNACIONAL */}
+        <Box>
+          {renderSectionHeader('Comunidade Internacional', 'O que está acontecendo no mundo')}
 
-      {/* SEÇÃO 2: INTERNACIONAL */}
-      <Box>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4">Comunidade Internacional</Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>O que está acontecendo no mundo</Typography>
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 4,
+              gridTemplateColumns: {
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)',
+              },
+            }}
+          >
+            {VIDEOS_INT.map((video) => (
+              <m.div key={video.id} variants={varFade('inUp')}>
+                <VideoItem video={video} theme={theme} />
+              </m.div>
+            ))}
+          </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 3,
-            gridTemplateColumns: {
-              xs: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(4, 1fr)',
-            },
-          }}
-        >
-          {VIDEOS_INT.map((video) => (
-            <VideoItem key={video.id} video={video} theme={theme} />
-          ))}
-        </Box>
-      </Box>
-
-    </Container>
+      </Container>
+    </Box>
   );
 }
 
@@ -151,14 +179,19 @@ function VideoItem({ video, theme }: { video: any, theme: any }) {
         cursor: 'pointer', 
         borderRadius: 2, 
         overflow: 'hidden',
-        bgcolor: 'background.paper',
-        border: `1px solid ${theme.palette.divider}`,
-        transition: theme.transitions.create(['box-shadow', 'transform']),
+        // 🟢 ESTILO GLASSMORPHISM
+        bgcolor: alpha(theme.palette.grey[900], 0.4),
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+        transition: theme.transitions.create(['box-shadow', 'transform', 'background-color']),
         '&:hover': { 
-          transform: 'translateY(-4px)',
-          boxShadow: theme.customShadows?.z12 || theme.shadows[12],
+          transform: 'translateY(-6px)',
+          bgcolor: alpha(theme.palette.grey[900], 0.6),
+          boxShadow: `0 12px 24px 0 ${alpha(theme.palette.primary.main, 0.25)}`,
+          borderColor: alpha(theme.palette.primary.main, 0.4),
           '& .play-button': { opacity: 1, transform: 'scale(1.1)' },
-          '& .video-img': { transform: 'scale(1.08)' }
+          '& .video-img': { transform: 'scale(1.1)' }
         } 
       }}
     >
@@ -174,8 +207,9 @@ function VideoItem({ video, theme }: { video: any, theme: any }) {
         <Typography 
           variant="caption" 
           sx={{ 
-            position: 'absolute', bottom: 8, right: 8, px: 0.8, borderRadius: 0.5, 
-            color: 'common.white', bgcolor: alpha(theme.palette.common.black, 0.75), fontWeight: 'bold'
+            position: 'absolute', bottom: 8, right: 8, px: 0.8, py: 0.2, borderRadius: 0.5, 
+            color: 'common.white', bgcolor: alpha(theme.palette.common.black, 0.8), 
+            fontWeight: 'bold', zIndex: 9, fontFamily: "'Orbitron', sans-serif", fontSize: 10
           }}
         >
           {video.duration}
@@ -184,15 +218,20 @@ function VideoItem({ video, theme }: { video: any, theme: any }) {
         <Stack
           alignItems="center"
           justifyContent="center"
-          sx={{ top: 0, left: 0, width: 1, height: 1, position: 'absolute', bgcolor: alpha(theme.palette.common.black, 0.1) }}
+          sx={{ 
+            top: 0, left: 0, width: 1, height: 1, position: 'absolute', 
+            bgcolor: alpha(theme.palette.common.black, 0.2), zIndex: 8 
+          }}
         >
           <Box 
             className="play-button"
             sx={{ 
-              p: 1.5, display: 'flex', borderRadius: '50%', color: 'common.black',
-              backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-              bgcolor: alpha(theme.palette.common.white, 0.9), opacity: 0.8,
+              p: 1.5, display: 'flex', borderRadius: '50%', color: 'common.white',
+              backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+              bgcolor: alpha(theme.palette.primary.main, 0.8), opacity: 0,
+              transform: 'scale(0.8)',
               transition: theme.transitions.create(['opacity', 'transform']),
+              boxShadow: `0 0 20px ${theme.palette.primary.main}`
             }}
           >
             <Iconify icon={"solar:play-bold" as any} width={24} />
@@ -200,23 +239,27 @@ function VideoItem({ video, theme }: { video: any, theme: any }) {
         </Stack>
       </Box>
 
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 2, color: 'common.white' }}>
         <Typography 
           variant="subtitle2" 
           sx={{ 
-            mb: 1, height: 44, display: '-webkit-box', WebkitLineClamp: 2, 
-            WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4
+            mb: 1.5, height: 44, display: '-webkit-box', WebkitLineClamp: 2, 
+            WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4,
+            fontWeight: 700, '&:hover': { color: 'primary.light' }
           }}
         >
           {video.title}
         </Typography>
         
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 'bold' }}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography 
+            variant="caption" 
+            sx={{ color: 'primary.light', fontWeight: 800, textTransform: 'uppercase', fontSize: 10 }}
+          >
             {video.channel}
           </Typography>
-          <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'text.disabled' }} />
-          <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+          <Box sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: alpha(theme.palette.primary.main, 0.5) }} />
+          <Typography variant="caption" sx={{ color: 'grey.500' }}>
             {video.postedAt}
           </Typography>
         </Stack>

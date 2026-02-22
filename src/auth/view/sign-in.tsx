@@ -21,8 +21,8 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useAuthContext } from '../hooks';
 import { Form, Field, Iconify, FormHead, schemaUtils, AnimateLogoRotate } from '../components';

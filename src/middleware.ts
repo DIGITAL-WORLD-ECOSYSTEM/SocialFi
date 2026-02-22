@@ -5,8 +5,9 @@
  * Version: 1.1.0 - Production Hardened
  */
 
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+
+import { NextResponse } from 'next/server';
 
 // --- CONFIGURAÇÃO DE ROTAS ---
 

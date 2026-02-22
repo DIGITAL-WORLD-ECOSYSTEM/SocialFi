@@ -23,9 +23,10 @@ import Typography from '@mui/material/Typography';
 // ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-import { useTranslate } from 'src/locales';
 
+import { useTranslate } from 'src/locales';
 import { CONFIG } from 'src/global-config';
+
 import { varFade, MotionViewport } from 'src/components/animate';
 
 // ----------------------------------------------------------------------

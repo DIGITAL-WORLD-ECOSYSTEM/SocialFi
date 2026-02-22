@@ -1,9 +1,9 @@
 'use client';
 
 import * as THREE from 'three';
-import { useRef, memo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { memo, useRef } from 'react';
 import { Edges } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 
 // ----------------------------------------------------------------------
 

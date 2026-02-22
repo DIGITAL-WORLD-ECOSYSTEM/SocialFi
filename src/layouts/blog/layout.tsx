@@ -16,6 +16,9 @@ import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
 
+// 🟢 Importação do componente de fundo espacial
+import { SpaceScene } from 'src/components/background/space';
+
 import { NavMobile } from '../main/nav/mobile';
 import { NavDesktop } from '../main/nav/desktop';
 import { CoreNav } from '../components/core-nav';
@@ -104,7 +107,8 @@ export function BlogLayout({
         {...slotProps?.header}
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={slotProps?.header?.slotProps}
-        sx={slotProps?.header?.sx}
+        // ✅ Transparência no Header para não bloquear as estrelas
+        sx={{ ...slotProps?.header?.sx, bgcolor: 'transparent' }}
       />
     );
   };
@@ -116,7 +120,15 @@ export function BlogLayout({
       <Footer sx={slotProps?.footer?.sx} layoutQuery={layoutQuery} />
     );
 
-  const renderMain = () => <MainSection {...slotProps?.main}>{children}</MainSection>;
+  const renderMain = () => (
+    <MainSection 
+      {...slotProps?.main}
+      // ✅ Transparência no container principal do Blog
+      sx={{ bgcolor: 'transparent', ...slotProps?.main?.sx }}
+    >
+      {children}
+    </MainSection>
+  );
 
   return (
     <LayoutSection
@@ -132,9 +144,15 @@ export function BlogLayout({
        * @Styles
        *************************************** */
       cssVars={cssVars}
-      sx={sx}
+      // ✅ Base do LayoutSection transparente para revelar o fundo fixo
+      sx={{ ...sx, bgcolor: 'transparent' }}
     >
+      {/* 1. Camada de Fundo Fixa (Z-Index -1 definido no space.tsx) */}
+      <SpaceScene />
+
+      {/* 2. Camada de Conteúdo (Z-Index 1 relativo) */}
       {renderMain()}
+      
       <CoreNav />
     </LayoutSection>
   );

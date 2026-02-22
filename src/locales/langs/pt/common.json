@@ -123,6 +123,15 @@
     }
   },
 
+  "team": {
+    "_comment": "Seção de apresentação da equipe e conselho da DAO.",
+    "badge": "Time",
+    "title": "Unindo",
+    "title_bridge": "Expertise &",
+    "title_highlight": "Inovação",
+    "description": "A equipe ASPPIBRA-DAO combina décadas de experiência em agroecologia com especialistas em tecnologia blockchain e governança institucional para transformar o setor rural.",
+    "button": "Ver Todos os Membros"
+  },
   
   "news": {
     "_comment": "Seção de blog e atualizações do ecossistema.",
@@ -150,7 +159,41 @@
       }
     }
   },
-  
+
+  "roadmap": {
+    "_comment": "Cronograma estratégico de evolução da ASPPIBRA-DAO.",
+    "badge": "Roadmap",
+    "title": "Roteiro do",
+    "title_bridge": "Nosso",
+    "title_highlight": "Projeto",
+    "description": "Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital através da Web3.",
+    "phases": {
+      "p1": {
+        "label": "Fase 01",
+        "time": "Q1-Q2 2024",
+        "title": "Fundação & Compliance",
+        "description": "Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais."
+      },
+      "p2": {
+        "label": "Fase 02",
+        "time": "Q3-Q4 2024",
+        "title": "Tokenização RWA (MVP)",
+        "description": "Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico."
+      },
+      "p3": {
+        "label": "Fase 03",
+        "time": "Q1-Q2 2025",
+        "title": "Escala & Binance Listing",
+        "description": "Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token em exchanges globais."
+      },
+      "p4": {
+        "label": "Fase 04",
+        "time": "2025+",
+        "title": "Ecossistema Global Agro",
+        "description": "Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO."
+      }
+    }
+  },  
 
   "faqs": {
     "_comment": "Bloco de perguntas frequentes. Estrutura compatível com componentes accordion.",
@@ -186,23 +229,6 @@
     "title_highlight": "Evoluir?",
     "description": "Junte-se à revolução dos ativos reais. Explore nossa governança, acompanhe a liquidez on-chain e faça parte de um ecossistema de impacto global.",
     "button": "Explorar Agora"
-  },
-
-  "ui": {
-    "_comment": "Configurações opcionais de interface para padronização de layout.",
-    "buttons": {
-      "primary_style": "solid",
-      "secondary_style": "outline"
-    },
-    "grid": {
-      "ecosystem_columns_desktop": 4,
-      "ecosystem_columns_mobile": 1,
-      "integrations_panels_desktop": 4,
-      "integrations_panels_mobile": 2,
-      "community_metrics_desktop": 3,
-      "community_metrics_mobile": 1
-    }
   }
-
   
 }

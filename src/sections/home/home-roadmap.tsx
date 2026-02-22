@@ -2,6 +2,7 @@
 
 import type { BoxProps } from '@mui/material/Box';
 
+import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
@@ -10,6 +11,8 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
+
+import { useTranslate } from 'src/locales';
 
 import { varFade, MotionViewport } from 'src/components/animate';
 
@@ -21,43 +24,43 @@ type RoadmapPhase = {
   color: 'info' | 'secondary' | 'error' | 'warning';
 };
 
-const ROADMAP_PHASES: RoadmapPhase[] = [
-  {
-    phase: 'FASE 01',
-    time: 'Q1-Q2 2024',
-    title: 'Fundação & Compliance',
-    description:
-      'Estabelecimento da estrutura jurídica da DAO, governança institucional e registro oficial (CAR) dos primeiros produtores rurais em Paraty.',
-    color: 'info',
-  },
-  {
-    phase: 'FASE 02',
-    time: 'Q3-Q4 2024',
-    title: 'Tokenização RWA (MVP)',
-    description:
-      'Lançamento do Identity Provider (IdP) soberano e primeira tokenização de ativos reais focada na produção de café agroecológico.',
-    color: 'secondary',
-  },
-  {
-    phase: 'FASE 03',
-    time: 'Q1-Q2 2025',
-    title: 'Escala & Binance Listing',
-    description:
-      'Expansão do ecossistema de crédito agrícola via IA e submissão do processo de listagem do token de governança em exchanges globais.',
-    color: 'error',
-  },
-  {
-    phase: 'FASE 04',
-    time: '2025+',
-    title: 'Ecossistema Global Agro',
-    description:
-      'Plena integração de ativos RWA internacionais e rede global de agroecologia sustentada pela infraestrutura ASPPIBRA-DAO.',
-    color: 'warning',
-  },
-];
-
 export function HomeRoadmap({ sx, ...other }: BoxProps) {
   const theme = useTheme();
+  const { t } = useTranslate();
+
+  const ROADMAP_PHASES: RoadmapPhase[] = useMemo(
+    () => [
+      {
+        phase: t('roadmap.phases.p1.label'),
+        time: t('roadmap.phases.p1.time'),
+        title: t('roadmap.phases.p1.title'),
+        description: t('roadmap.phases.p1.description'),
+        color: 'info',
+      },
+      {
+        phase: t('roadmap.phases.p2.label'),
+        time: t('roadmap.phases.p2.time'),
+        title: t('roadmap.phases.p2.title'),
+        description: t('roadmap.phases.p2.description'),
+        color: 'secondary',
+      },
+      {
+        phase: t('roadmap.phases.p3.label'),
+        time: t('roadmap.phases.p3.time'),
+        title: t('roadmap.phases.p3.title'),
+        description: t('roadmap.phases.p3.description'),
+        color: 'error',
+      },
+      {
+        phase: t('roadmap.phases.p4.label'),
+        time: t('roadmap.phases.p4.time'),
+        title: t('roadmap.phases.p4.title'),
+        description: t('roadmap.phases.p4.description'),
+        color: 'warning',
+      },
+    ],
+    [t]
+  );
 
   return (
     <Box
@@ -99,7 +102,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                   color: 'info.main',
                 }}
               >
-                ROADMAP
+                {t('roadmap.badge')}
               </Typography>
             </Box>
           </m.div>
@@ -118,10 +121,10 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
               }}
             >
               <Box component="span" sx={{ color: 'common.white' }}>
-                ROTEIRO DO
+                {t('roadmap.title')}
               </Box>
               <Box component="span" sx={{ color: 'warning.main', ml: 1.5 }}>
-                PROJETO
+                {t('roadmap.title_highlight')}
               </Box>
             </Typography>
           </m.div>
@@ -139,7 +142,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                 color: alpha(theme.palette.common.white, 0.75),
               }}
             >
-              Nossa jornada é guiada pela transparência e pelo compromisso de levar o produtor rural para o centro da nova economia digital.
+              {t('roadmap.description')}
             </Typography>
           </m.div>
 

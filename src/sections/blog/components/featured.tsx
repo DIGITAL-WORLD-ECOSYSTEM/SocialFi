@@ -1,7 +1,6 @@
 'use client';
 
 import type { Theme, SxProps } from '@mui/material/styles';
-
 import Autoplay from 'embla-carousel-autoplay';
 
 import Box from '@mui/material/Box';
@@ -71,13 +70,13 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
     {
       loop: true,
     },
-    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+    [Autoplay({ delay: 6000, stopOnInteraction: false })]
   );
 
   const posts = staticFeaturedPosts;
 
   return (
-    <Box sx={{ position: 'relative', overflow: 'hidden', ...sx }}>
+    <Box sx={{ position: 'relative', overflow: 'hidden', bgcolor: 'transparent', ...sx }}>
       <Carousel carousel={carousel}>
         {posts.map((post) => (
           <PostItem key={post.id} post={post} />
@@ -97,8 +96,10 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
           justifyContent: 'space-between',
           transform: 'translateY(-50%)',
           '& button': {
-            bgcolor: alpha('#000', 0.3),
-            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff' },
+            bgcolor: alpha('#000', 0.5),
+            backdropFilter: 'blur(8px)',
+            border: `1px solid ${alpha('#FA541C', 0.3)}`,
+            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff', boxShadow: '0 0 15px #FA541C' },
           },
         }}
       />
@@ -117,7 +118,8 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
             width: 8,
             height: 8,
             transition: 'all 0.3s',
-            '&.Mui-selected': { width: 24, borderRadius: 8 },
+            bgcolor: alpha('#fff', 0.2),
+            '&.Mui-selected': { width: 24, borderRadius: 8, bgcolor: '#FA541C', boxShadow: '0 0 10px #FA541C' },
           },
         }}
       />
@@ -134,73 +136,57 @@ function PostItem({ post }: { post: any }) {
   return (
     <Box
       sx={{
-        py: 10,
+        py: { xs: 8, md: 15 },
         display: 'flex',
-        minHeight: 640,
+        minHeight: { xs: 720, md: 640 },
         position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
         px: { xs: 2, md: 10 },
+        bgcolor: 'transparent',
       }}
     >
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          width: 1,
-          height: 1,
-          zIndex: -1,
-          position: 'absolute',
-          overflow: 'hidden',
-          '&:before': {
-            content: '""',
-            top: 0,
-            left: 0,
-            width: 1,
-            height: 1,
-            zIndex: 1,
-            position: 'absolute',
-            bgcolor: alpha('#000', 0.5),
-          },
-        }}
-      >
-        <Image
-          alt={title}
-          src={coverUrl}
-          sx={{
-            width: 1,
-            height: 1,
-            filter: 'blur(12px)',
-            objectFit: 'cover',
-            objectPosition: 'center',
-          }}
-        />
-      </Box>
-
       <Card
         sx={{
           width: 1,
-          maxWidth: 1000,
+          maxWidth: 1100,
           display: 'flex',
           overflow: 'hidden',
           flexDirection: { xs: 'column', md: 'row' },
-          boxShadow: theme.customShadows.z24,
-          bgcolor: alpha(theme.palette.background.paper, 0.7),
+          // 🟢 ESTILO GLASSMORPHISM AVANÇADO
+          bgcolor: alpha(theme.palette.grey[900], 0.4),
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: `1px solid ${alpha('#fff', 0.12)}`,
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+          boxShadow: `0 0 40px ${alpha(theme.palette.common.black, 0.4)}`,
         }}
       >
         <Box sx={{ width: { xs: 1, md: 0.6 }, position: 'relative' }}>
-          <Image alt={title} src={coverUrl} ratio="4/3" />
+          <Image 
+            alt={title} 
+            src={coverUrl} 
+            ratio="4/3" 
+            sx={{ height: 1 }}
+          />
+          {/* Overlay gradiente para fundir a imagem com o vidro do texto */}
+          <Box 
+            sx={{ 
+              position: 'absolute',
+              top: 0, right: 0, bottom: 0, left: 0,
+              background: {
+                xs: `linear-gradient(to bottom, transparent, ${alpha(theme.palette.grey[900], 0.8)})`,
+                md: `linear-gradient(to right, transparent, ${alpha(theme.palette.grey[900], 0.2)})`
+              }
+            }} 
+          />
         </Box>
 
-        <Stack sx={{ width: { xs: 1, md: 0.4 }, p: { xs: 3, md: 5 } }}>
+        <Stack sx={{ width: { xs: 1, md: 0.4 }, p: { xs: 3, md: 6 }, color: 'common.white' }}>
           <Stack
             direction="row"
             alignItems="center"
             spacing={1.5}
-            sx={{ mb: 2, typography: 'caption', color: 'text.secondary' }}
+            sx={{ mb: 3, typography: 'caption', color: 'primary.light', fontWeight: 700 }}
           >
             {fDate(createdAt)}
             <Box
@@ -215,10 +201,14 @@ function PostItem({ post }: { post: any }) {
             href={paths.post.details(title)}
             variant="h3"
             sx={{
-              mb: 2,
-              fontWeight: 800,
-              color: 'text.primary',
+              mb: 3,
+              fontWeight: 900,
+              fontFamily: "'Orbitron', sans-serif",
+              textTransform: 'uppercase',
+              color: 'common.white',
               textDecoration: 'none',
+              letterSpacing: '0.02em',
+              textShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.3)}`,
               '&:hover': { color: '#FA541C' },
               display: '-webkit-box',
               WebkitLineClamp: 3,
@@ -233,9 +223,10 @@ function PostItem({ post }: { post: any }) {
             variant="body2"
             sx={{
               mb: 5,
-              color: 'text.secondary',
+              color: 'grey.400',
+              lineHeight: 1.8,
               display: '-webkit-box',
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 4,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
             }}
@@ -244,10 +235,19 @@ function PostItem({ post }: { post: any }) {
           </Typography>
 
           <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 'auto' }}>
-            <Avatar src={author?.avatarUrl} alt={author?.name} />
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              {author?.name}
-            </Typography>
+            <Avatar 
+              src={author?.avatarUrl} 
+              alt={author?.name} 
+              sx={{ border: `2px solid ${theme.palette.primary.main}` }}
+            />
+            <Stack spacing={0.5}>
+              <Typography variant="subtitle2" sx={{ color: 'common.white' }}>
+                {author?.name}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'primary.light', fontWeight: 800 }}>
+                EQUIPE EDITORIAL
+              </Typography>
+            </Stack>
           </Stack>
         </Stack>
       </Card>

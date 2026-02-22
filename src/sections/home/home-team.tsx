@@ -24,6 +24,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
+import { useTranslate } from 'src/locales';
 import { _socials, _carouselsMembers } from 'src/_mock';
 
 import { Image } from 'src/components/image';
@@ -35,6 +36,8 @@ import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components
 
 export function HomeTeam({ sx, ...other }: BoxProps) {
   const theme = useTheme();
+  const { t } = useTranslate();
+
   const carousel = useCarousel({
     align: 'start',
     slideSpacing: '24px',
@@ -82,12 +85,12 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
                 color: 'info.main',
               }}
             >
-              TEAM
+              {t('team.badge')}
             </Typography>
           </Box>
         </m.div>
 
-        {/* TÍTULO HIERÁRQUICO */}
+        {/* TÍTULO HIERÁRQUICO (2 CAMADAS) */}
         <m.div variants={varFade('inUp')}>
           <Typography
             component="h2"
@@ -101,11 +104,11 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
             }}
           >
             <Box component="span" sx={{ color: 'common.white' }}>
-              COMBINING EXPERTISE
+              {t('team.title')}
             </Box>
             <br />
             <Box component="span" sx={{ color: 'warning.main' }}>
-              TO DRIVE CHANGE
+              {t('team.title_highlight')}
             </Box>
           </Typography>
         </m.div>
@@ -113,7 +116,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
         {/* DESCRIÇÃO */}
         <m.div variants={varFade('inUp')}>
           <Typography sx={{ my: 3, mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
-            A equipe ASPPIBRA-DAO combina expertise em agroecologia, tecnologia blockchain e governança para transformar o setor rural.
+            {t('team.description')}
           </Typography>
         </m.div>
 
@@ -141,10 +144,10 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
             size="large"
             color="inherit"
             variant="outlined"
-            endIcon={<Iconify icon={"eva:arrow-ios-forward-fill" as any} width={24} />}
+            endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
             sx={{ mx: 'auto' }}
           >
-            All members
+            {t('team.button')}
           </Button>
         </m.div>
       </Container>
@@ -204,6 +207,7 @@ function MemberCard({ member }: MemberCardProps) {
               },
             }}
           >
+            {/* CORREÇÃO DO ERRO TS2322: Type cast para any nos ícones sociais */}
             {social.value === 'twitter' && <Iconify icon={"bi:twitter-x" as any} />}
             {social.value === 'facebook' && <Iconify icon={"eva:facebook-fill" as any} />}
             {social.value === 'instagram' && <Iconify icon={"ant-design:instagram-filled" as any} />}

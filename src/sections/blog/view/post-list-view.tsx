@@ -2,7 +2,7 @@
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
  * Role: Post List View (Client-Side Filtering & Search)
- * Version: 1.5.6 - Refactored: UI/Logic Decoupling & Hydration Safety
+ * Version: 1.5.7 - Refactored: Background Transparency & UI Consistency
  */
 
 'use client';
@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Button from '@mui/material/Button';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -41,11 +42,6 @@ type PublishType = (typeof PUBLISH_OPTIONS)[number];
 
 type SortType = 'latest' | 'oldest' | 'popular';
 
-/**
- * 🟢 VIEW FILTERS:
- * Tipo customizado para a UI. Resolve o conflito onde a interface espera
- * booleano (publish: true/false) mas as Tabs usam strings ('all', 'published', 'draft').
- */
 type ViewFilters = {
   publish: PublishType;
 };
@@ -57,31 +53,18 @@ type Props = {
 };
 
 export function PostListView({ posts: initialPosts }: Props) {
-  // Hook de busca de dados (SWR/React Query pattern)
+  const theme = useTheme();
   const { posts: fetchedPosts, postsLoading } = useGetPosts();
   
-  /**
-   * ✅ ESTABILIDADE DE DADOS:
-   * Priorizamos initialPosts (vindos do SSR sanitizado) para evitar flickering.
-   */
   const posts = useMemo(() => initialPosts || fetchedPosts || [], [initialPosts, fetchedPosts]);
 
   const [sortBy, setSortBy] = useState<SortType>('latest');
   const [searchQuery, setSearchQuery] = useState('');
 
-  /**
-   * ✅ ESTADO DE FILTRO (useSetState):
-   * Gerencia as abas de publicação usando o tipo ViewFilters, 
-   * mantendo a integridade das strings da UI.
-   */
   const { state, setState } = useSetState<ViewFilters>({
     publish: 'all',
   });
 
-  /**
-   * 📊 CONTADORES (MEMOIZADOS):
-   * Calcula a quantidade de posts por status para exibir nos labels das abas.
-   */
   const publishCounts = useMemo(
     () => ({
       all: posts.length,
@@ -91,10 +74,6 @@ export function PostListView({ posts: initialPosts }: Props) {
     [posts]
   );
 
-  /**
-   * 🔍 BUSCA (MEMOIZADA):
-   * Filtra a base de posts conforme o termo digitado no componente PostSearch.
-   */
   const searchResults = useMemo(() => {
     if (!searchQuery) return posts;
     return posts.filter((post) =>
@@ -102,10 +81,6 @@ export function PostListView({ posts: initialPosts }: Props) {
     );
   }, [posts, searchQuery]);
 
-  /**
-   * 🛠️ FILTRAGEM FINAL:
-   * Aplica a lógica de ordenação e filtros de status sobre os resultados da busca.
-   */
   const dataFiltered = useMemo(
     () =>
       applyFilter({
@@ -124,78 +99,107 @@ export function PostListView({ posts: initialPosts }: Props) {
   );
 
   return (
-    <BlogLayout>
-      <CustomBreadcrumbs
-        heading="Lista de Conteúdos"
-        links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Blog', href: paths.dashboard.post.root },
-          { name: 'Lista' },
-        ]}
-        action={
-          <Button
-            component={RouterLink}
-            href={paths.dashboard.post.new}
-            variant="contained"
-            startIcon={<Iconify icon="mingcute:add-line" />}
-          >
-            Novo Post
-          </Button>
-        }
-        sx={{ mb: { xs: 3, md: 5 } }}
-      />
-
+    <BlogLayout sx={{ bgcolor: 'transparent' }}>
       <Box
         sx={{
-          gap: 3,
-          display: 'flex',
-          mb: { xs: 3, md: 5 },
-          justifyContent: 'space-between',
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: { xs: 'flex-end', sm: 'center' },
+          position: 'relative',
+          zIndex: 1, // Mantém o conteúdo acima do fundo espacial (-1)
+          bgcolor: 'transparent',
         }}
       >
-        <PostSearch
-          query={searchQuery}
-          results={searchResults}
-          onSearch={setSearchQuery}
-          redirectPath={(title: string) => paths.dashboard.post.details(title)}
+        <CustomBreadcrumbs
+          heading="Lista de Conteúdos"
+          links={[
+            { name: 'Dashboard', href: paths.dashboard.root },
+            { name: 'Blog', href: paths.dashboard.post.root },
+            { name: 'Lista' },
+          ]}
+          action={
+            <Button
+              component={RouterLink}
+              href={paths.dashboard.post.new}
+              variant="contained"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+              sx={{
+                fontFamily: "'Orbitron', sans-serif",
+                fontWeight: 700,
+                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                boxShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.4)}`,
+                '&:hover': {
+                  background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+                }
+              }}
+            >
+              Novo Post
+            </Button>
+          }
+          sx={{ 
+            mb: { xs: 3, md: 5 },
+            '& .MuiTypography-h4': { 
+              fontFamily: "'Orbitron', sans-serif", 
+              fontWeight: 900,
+              color: 'common.white',
+              textShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.5)}`,
+            }
+          }}
         />
 
-        <PostSort sort={sortBy} onSort={setSortBy} sortOptions={POST_SORT_OPTIONS} />
-      </Box>
-
-      {/* 📑 ABAS DE NAVEGAÇÃO: Filtro por status de publicação */}
-      <Tabs 
-        value={state.publish} 
-        onChange={handleFilterPublish} 
-        sx={{ mb: { xs: 3, md: 5 } }}
-      >
-        {PUBLISH_OPTIONS.map((tab) => (
-          <Tab
-            key={tab}
-            value={tab}
-            iconPosition="end"
-            label={tab}
-            icon={
-              <Label
-                variant={tab === 'all' || tab === state.publish ? 'filled' : 'soft'}
-                color={tab === 'published' ? 'info' : 'default'}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {publishCounts[tab]}
-              </Label>
-            }
-            sx={{ textTransform: 'capitalize' }}
+        <Box
+          sx={{
+            gap: 3,
+            display: 'flex',
+            mb: { xs: 3, md: 5 },
+            justifyContent: 'space-between',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: { xs: 'flex-end', sm: 'center' },
+          }}
+        >
+          <PostSearch
+            query={searchQuery}
+            results={searchResults}
+            onSearch={setSearchQuery}
+            redirectPath={(title: string) => paths.dashboard.post.details(title)}
           />
-        ))}
-      </Tabs>
 
-      {/* 📜 LISTAGEM: Renderiza os cards horizontais com estado de loading */}
-      <PostListHorizontal 
-        posts={dataFiltered} 
-        loading={postsLoading && posts.length === 0} 
-      />
+          <PostSort sort={sortBy} onSort={setSortBy} sortOptions={POST_SORT_OPTIONS} />
+        </Box>
+
+        <Tabs 
+          value={state.publish} 
+          onChange={handleFilterPublish} 
+          sx={{ 
+            mb: { xs: 3, md: 5 },
+            '& .MuiTabs-indicator': { bgcolor: 'primary.main' },
+            '& .MuiTab-root': { color: alpha(theme.palette.common.white, 0.6) },
+            '& .Mui-selected': { color: 'primary.light' },
+          }}
+        >
+          {PUBLISH_OPTIONS.map((tab) => (
+            <Tab
+              key={tab}
+              value={tab}
+              iconPosition="end"
+              label={tab}
+              icon={
+                <Label
+                  variant={tab === 'all' || tab === state.publish ? 'filled' : 'soft'}
+                  color={tab === 'published' ? 'info' : 'default'}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  {publishCounts[tab]}
+                </Label>
+              }
+              sx={{ textTransform: 'capitalize' }}
+            />
+          ))}
+        </Tabs>
+
+        {/* 📜 LISTAGEM: Agora renderizada sobre o fundo transparente */}
+        <PostListHorizontal 
+          posts={dataFiltered} 
+          loading={postsLoading && posts.length === 0} 
+        />
+      </Box>
     </BlogLayout>
   );
 }
@@ -208,16 +212,11 @@ type ApplyFilterProps = {
   sortBy: SortType;
 };
 
-/**
- * ⚙️ ENGINE DE FILTRAGEM:
- * Função pura que traduz as seleções da UI em transformações nos dados.
- */
 function applyFilter({ inputData, filters, sortBy }: ApplyFilterProps) {
   let data = [...inputData];
 
   const { publish } = filters;
 
-  // Aplicação de Ordenação
   switch (sortBy) {
     case 'latest':
       data = orderBy(data, ['createdAt'], ['desc']);
@@ -232,8 +231,6 @@ function applyFilter({ inputData, filters, sortBy }: ApplyFilterProps) {
       break;
   }
 
-  // ✅ TRADUÇÃO UI -> DATA:
-  // Converte a string da Tab para o filtro booleano esperado pelo dado original.
   if (publish === 'published') {
     data = data.filter((post) => post.publish);
   }

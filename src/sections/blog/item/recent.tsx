@@ -1,79 +1,129 @@
 'use client';
 
+import { useState } from 'react';
+import { m } from 'framer-motion';
+
 // ✅ Importação do tipo para garantir a integridade
 import type { IPostItem } from 'src/types/blog';
 
-import { useState } from 'react';
-
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
+
+import { varFade, MotionViewport } from 'src/components/animate';
 
 import { PostItem } from './item';
 
 // ----------------------------------------------------------------------
 
-// ✅ Adicionada interface de Props para receber os dados do componente pai
 type Props = {
   posts?: IPostItem[];
 };
 
 export function PostRecent({ posts: postsFromProps }: Props) {
+  const theme = useTheme();
   const [viewLimit, setViewLimit] = useState(4);
 
   const handleLoadMore = () => {
     setViewLimit((prev) => prev + 4);
   };
 
-  // ✅ Prioriza os posts vindos da API (via SSR) e usa os estáticos apenas como fallback
+  // ✅ Prioriza os posts da API e usa estáticos como fallback
   const posts = (postsFromProps && postsFromProps.length > 0) 
     ? postsFromProps 
     : staticRecentPosts;
 
   return (
-    <Container sx={{ mt: 10, mb: 10 }}>
-      <Grid container spacing={3}>
-        <Grid size={12}>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            Artigos Recentes
-          </Typography>
+    <Box
+      component="section"
+      sx={{
+        py: { xs: 8, md: 10 },
+        bgcolor: 'transparent', // 🟢 TRANSPARÊNCIA ESTRATÉGICA
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <Container component={MotionViewport}>
+        <Grid container spacing={4}>
+          <Grid size={12}>
+            <m.div variants={varFade('inDown')}>
+              <Typography
+                variant="h3"
+                sx={{
+                  mb: 6,
+                  fontWeight: 900,
+                  fontFamily: "'Orbitron', sans-serif",
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  color: 'common.white',
+                  textAlign: { xs: 'center', md: 'left' },
+                  // 🟢 EFEITO GLOW PADRONIZADO
+                  textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
+                }}
+              >
+                Artigos Recentes
+              </Typography>
+            </m.div>
+          </Grid>
+
+          {posts.slice(0, viewLimit).map((post) => (
+            <Grid key={post.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <m.div variants={varFade('inUp')}>
+                <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
+              </m.div>
+            </Grid>
+          ))}
         </Grid>
 
-        {posts.slice(0, viewLimit).map((post) => (
-          <Grid key={post.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-            <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
-          </Grid>
-        ))}
-      </Grid>
-
-      {posts.length > viewLimit && (
-        <Stack sx={{ mt: 8, alignItems: 'center' }}>
-          <Button
-            size="large"
-            variant="outlined"
-            color="inherit"
-            onClick={handleLoadMore}
-            sx={{
-              px: 5,
-              borderColor: 'text.primary',
-              '&:hover': { bgcolor: 'text.primary', color: 'background.paper' },
-            }}
-          >
-            Carregar mais artigos
-          </Button>
-        </Stack>
-      )}
-    </Container>
+        {posts.length > viewLimit && (
+          <Stack sx={{ mt: 8, alignItems: 'center' }}>
+            <m.div variants={varFade('inUp')}>
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={handleLoadMore}
+                sx={{
+                  height: 56,
+                  px: 5,
+                  fontSize: 15,
+                  fontWeight: 700,
+                  fontFamily: "'Orbitron', sans-serif",
+                  color: 'common.white',
+                  borderRadius: 1.5,
+                  textTransform: 'uppercase',
+                  // 🟢 ESTILO NEON GLASS
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  borderColor: alpha(theme.palette.primary.main, 0.4),
+                  bgcolor: alpha(theme.palette.primary.main, 0.05),
+                  transition: theme.transitions.create(['all']),
+                  boxShadow: `0 0 12px ${alpha(theme.palette.primary.main, 0.2)}`,
+                  '&:hover': {
+                    borderColor: theme.palette.primary.main,
+                    bgcolor: alpha(theme.palette.primary.main, 0.15),
+                    boxShadow: `0 0 25px ${alpha(theme.palette.primary.main, 0.4)}`,
+                    transform: 'translateY(-2px)',
+                  },
+                }}
+              >
+                Carregar mais artigos
+              </Button>
+            </m.div>
+          </Stack>
+        )}
+      </Container>
+    </Box>
   );
 }
 
 // ----------------------------------------------------------------------
 
-// Fallback estático mantido para evitar que a tela fique vazia caso a API falhe
 const staticRecentPosts = [
   { id: 'rec-1', title: 'Governança em DAOs: Lições aprendidas com os maiores protocolos', category: 'Tecnologia', coverUrl: '/assets/images/mock/cover/cover-12.webp', author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-12.webp' }, createdAt: new Date(), duration: '10 min de leitura' },
   { id: 'rec-2', title: 'Staking de Ethereum: Riscos e Recompensas após a atualização Shanghai', category: 'Economia', coverUrl: '/assets/images/mock/cover/cover-13.webp', author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-13.webp' }, createdAt: new Date(), duration: '8 min de leitura' },

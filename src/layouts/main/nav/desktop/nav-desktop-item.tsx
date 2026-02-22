@@ -1,6 +1,7 @@
 import type { CSSObject } from '@mui/material/styles';
 import type { NavItemProps } from '../types';
 
+import { useState, useEffect } from 'react';
 import { varAlpha, mergeClasses } from 'minimal-shared/utils';
 
 import { styled } from '@mui/material/styles';
@@ -14,19 +15,31 @@ import { createNavItem, navItemStyles, navSectionClasses } from 'src/components/
 export function NavItem({
   title,
   path,
-  /********/
+  /**********/
   open,
   active,
-  /********/
+  /**********/
   subItem,
   hasChild,
   className,
   externalLink,
   ...other
 }: NavItemProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isActuallyActive = mounted ? active : false;
+
   const navItem = createNavItem({ path, hasChild, externalLink });
 
-  const ownerState: StyledState = { open, active, variant: !subItem ? 'rootItem' : 'subItem' };
+  const ownerState: StyledState = {
+    open,
+    active: isActuallyActive,
+    variant: !subItem ? 'rootItem' : 'subItem',
+  };
 
   return (
     <ItemRoot
@@ -36,7 +49,7 @@ export function NavItem({
       {...navItem.baseProps}
       className={mergeClasses([navSectionClasses.item.root, className], {
         [navSectionClasses.state.open]: open,
-        [navSectionClasses.state.active]: active,
+        [navSectionClasses.state.active]: isActuallyActive,
       })}
       {...other}
     >

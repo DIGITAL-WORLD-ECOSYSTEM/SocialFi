@@ -27,45 +27,50 @@ const LIGHT_CONFIG = {
 
 /* ================================
    Componente de Fundo (Layout)
+   Ajustado para servir como base profunda (Layer 0)
 ================================ */
 export const Space = memo(({ children }: PropsWithChildren) => (
-    <Box
-      sx={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 0,
-        background: '#010411',
-        overflow: 'hidden',
-      }}
-    >
-      {children}
-    </Box>
-  ));
+  <Box
+    id="space-background"
+    sx={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: -1, // Crucial: Coloca o fundo atrás de todo o conteúdo (inclusive o header)
+      background: '#010411', // Cor base do espaço profundo
+      overflow: 'hidden',
+      pointerEvents: 'none', // Garante que o fundo não "roube" cliques de botões ou links
+    }}
+  >
+    {children}
+  </Box>
+));
 
 /* ================================
    Atmosfera 3D (Cena)
 ================================ */
 export const SpaceAtmosphere = memo(() => (
-    <Suspense fallback={null}>
-      <Stars {...STARS_CONFIG} />
-      <ambientLight intensity={LIGHT_CONFIG.ambientIntensity} />
-      <pointLight
-        position={LIGHT_CONFIG.pointPosition}
-        intensity={LIGHT_CONFIG.pointIntensity}
-      />
-    </Suspense>
-  ));
+  <Suspense fallback={null}>
+    <Stars {...STARS_CONFIG} />
+    <ambientLight intensity={LIGHT_CONFIG.ambientIntensity} />
+    <pointLight
+      position={LIGHT_CONFIG.pointPosition}
+      intensity={LIGHT_CONFIG.pointIntensity}
+    />
+  </Suspense>
+));
 
 /* ================================
    Componente Completo com Canvas
 ================================ */
 export const SpaceScene = memo(() => (
-    <Space>
-      <Canvas
-        camera={{ position: [0, 0, 10], fov: 75 }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <SpaceAtmosphere />
-      </Canvas>
-    </Space>
-  ));
+  <Space>
+    <Canvas
+      camera={{ position: [0, 0, 10], fov: 75 }}
+      gl={{ antialias: true, alpha: true }}
+      // Estilo inline para garantir que o canvas não intercepte o mouse
+      style={{ pointerEvents: 'none' }} 
+    >
+      <SpaceAtmosphere />
+    </Canvas>
+  </Space>
+));

@@ -7,13 +7,14 @@ import { useMemo, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 
+// Importação da malha geográfica (GeoJSON)
 import countries from 'src/assets/data/world.json';
 
 // ======================================================
-// TYPES
+// 1. DEFINIÇÕES DE TIPOS (INTERFACES)
 // ======================================================
 
-export type ArcData = {
+export interface ArcData {
   order: number;
   startLat: number;
   startLng: number;
@@ -21,14 +22,14 @@ export type ArcData = {
   endLng: number;
   arcAlt: number;
   color: string;
-};
+}
 
-export type Hotspot = {
+export interface Hotspot {
   lat: number;
   lng: number;
   size: number;
   color?: string;
-};
+}
 
 export interface GlobeConfig {
   pointSize?: number;
@@ -58,8 +59,14 @@ export interface GlobeConfig {
   enablePan?: boolean;
 }
 
+interface WorldProps {
+  data: ArcData[];
+  hotspots?: Hotspot[];
+  globeConfig?: GlobeConfig;
+}
+
 // ======================================================
-// DEFAULT CONFIG
+// 2. CONFIGURAÇÕES PADRÃO (FALLBACKS)
 // ======================================================
 
 const DEFAULT_CONFIG: Required<GlobeConfig> = {
@@ -67,7 +74,7 @@ const DEFAULT_CONFIG: Required<GlobeConfig> = {
   globeColor: '#020617',
   showAtmosphere: true,
   atmosphereColor: '#60a5fa',
-  atmosphereAltitude: 0.35,
+  atmosphereAltitude: 0.15,
   emissive: '#0f172a',
   emissiveIntensity: 0.9,
   shininess: 40,
@@ -83,7 +90,7 @@ const DEFAULT_CONFIG: Required<GlobeConfig> = {
   arcLength: 0.35,
   rings: 1,
   maxRings: 7,
-  initialCameraPosition: [0, 0, 300],
+  initialCameraPosition: [0, 0, 380], // Posição segura para visualização
   autoRotate: false,
   autoRotateSpeed: 0.6,
   enableZoom: false,
@@ -91,30 +98,35 @@ const DEFAULT_CONFIG: Required<GlobeConfig> = {
 };
 
 // ======================================================
-// CUSTOM HOOK (OTIMIZADO)
+// 3. HOOK DE LÓGICA DO GLOBO (IMPERATIVO)
 // ======================================================
 
-function useGlobe(
+function useGlobeLogic(
   globe: ThreeGlobe,
   data: ArcData[],
   hotspots: Hotspot[],
   config: Required<GlobeConfig>
 ) {
-  const isLargeDataset = data.length > 50000;
+  const isLargeDataset = data.length > 1000;
 
-  const material = useMemo(() => new THREE.MeshPhongMaterial({
+  // Gerenciamento de Material: MeshPhongMaterial para aceitar luzes
+  const globeMaterial = useMemo(() => {
+    const material = new THREE.MeshPhongMaterial({
       color: new THREE.Color(config.globeColor),
       emissive: new THREE.Color(config.emissive),
       emissiveIntensity: config.emissiveIntensity,
       shininess: config.shininess,
       transparent: true,
       opacity: 0.95,
-    }), [config.globeColor, config.emissive, config.emissiveIntensity, config.shininess]);
+    });
+    return material;
+  }, [config.globeColor, config.emissive, config.emissiveIntensity, config.shininess]);
 
-  // EFEITO 1: Estética e Materiais
+  // Efeito 1: Materiais e Atmosfera
   useEffect(() => {
     if (!globe) return;
-    globe.globeMaterial(material);
+    
+    globe.globeMaterial(globeMaterial);
     
     if (config.showAtmosphere && !isLargeDataset) {
       globe
@@ -124,12 +136,13 @@ function useGlobe(
     } else {
       globe.showAtmosphere(false);
     }
-  }, [globe, material, config.showAtmosphere, config.atmosphereColor, config.atmosphereAltitude, isLargeDataset]);
+  }, [globe, globeMaterial, config.showAtmosphere, config.atmosphereColor, config.atmosphereAltitude, isLargeDataset]);
 
-  // EFEITO 2: Geometria e Dados
+  // Efeito 2: Injeção de Dados e Geometria
   useEffect(() => {
-    if (!globe) return undefined; // Ajuste para consistent-return
+    if (!globe) return;
 
+    // Países (Hexágonos)
     if (countries?.features) {
       globe
         .hexPolygonsData(countries.features)
@@ -138,65 +151,61 @@ function useGlobe(
         .hexPolygonColor(() => config.polygonColor);
     }
 
-    if (hotspots.length) {
+    // Pontos e Anéis
+    if (hotspots.length > 0) {
       globe
         .pointsData(hotspots)
-        .pointLat((obj: any) => obj.lat)
-        .pointLng((obj: any) => obj.lng)
-        .pointColor((obj: any) => obj.color ?? '#60a5fa')
+        .pointLat((d: object) => (d as Hotspot).lat)
+        .pointLng((d: object) => (d as Hotspot).lng)
+        .pointColor((d: object) => (d as Hotspot).color ?? config.pointLight)
         .pointAltitude(0.045)
-        .pointRadius((obj: any) => obj.size)
+        .pointRadius((d: object) => (d as Hotspot).size)
         .pointsMerge(true);
 
       globe
         .ringsData(hotspots)
-        .ringLat((obj: any) => obj.lat)
-        .ringLng((obj: any) => obj.lng)
-        .ringColor(() => 'rgba(96,165,250,0.8)')
+        .ringLat((d: object) => (d as Hotspot).lat)
+        .ringLng((d: object) => (d as Hotspot).lng)
+        .ringColor(() => (t: number) => `rgba(96,165,250,${1 - t})`)
         .ringMaxRadius(config.maxRings)
         .ringPropagationSpeed(2.4)
         .ringRepeatPeriod(1400);
     }
 
+    // Arcos
     globe
       .arcsData(data)
-      .arcStartLat((obj: any) => obj.startLat)
-      .arcStartLng((obj: any) => obj.startLng)
-      .arcEndLat((obj: any) => obj.endLat)
-      .arcEndLng((obj: any) => obj.endLng)
-      .arcColor((obj: any) => obj.color)
-      .arcAltitude((obj: any) => obj.arcAlt)
+      .arcStartLat((d: object) => (d as ArcData).startLat)
+      .arcStartLng((d: object) => (d as ArcData).startLng)
+      .arcEndLat((d: object) => (d as ArcData).endLat)
+      .arcEndLng((d: object) => (d as ArcData).endLng)
+      .arcColor((d: object) => (d as ArcData).color)
+      .arcAltitude((d: object) => (d as ArcData).arcAlt)
       .arcStroke(0.5)
-      .arcDashLength(isLargeDataset ? 1 : config.arcLength)
-      .arcDashGap(isLargeDataset ? 0 : 2.5)
-      .arcDashInitialGap((obj: any) => obj.order)
-      .arcDashAnimateTime(isLargeDataset ? 0 : config.arcTime)
-      .arcsTransitionDuration(isLargeDataset ? 0 : 1000);
+      .arcDashLength(config.arcLength)
+      .arcDashGap(2.5)
+      .arcDashInitialGap((d: object) => (d as ArcData).order)
+      .arcDashAnimateTime(config.arcTime)
+      .arcsTransitionDuration(1000);
 
     return () => {
       globe.arcsData([]).pointsData([]).ringsData([]).hexPolygonsData([]);
     };
-  }, [globe, data, hotspots, config.polygonColor, config.arcLength, config.arcTime, config.maxRings, isLargeDataset]);
+  }, [globe, data, hotspots, config, isLargeDataset]);
 
-  // Cleanup final do material (GPU)
-  useEffect(() => () => material.dispose(), [material]);
+  // Limpeza de recursos da GPU
+  useEffect(() => () => globeMaterial.dispose(), [globeMaterial]);
 }
 
 // ======================================================
-// MAIN COMPONENT
+// 4. COMPONENTE DE RENDERIZAÇÃO
 // ======================================================
-
-interface GlobeProps {
-  data: ArcData[];
-  hotspots?: Hotspot[];
-  globeConfig?: GlobeConfig;
-}
 
 export function World({
   data,
   hotspots = [],
   globeConfig = {},
-}: GlobeProps) {
+}: WorldProps) {
   const mergedConfig = useMemo(
     () => ({ ...DEFAULT_CONFIG, ...globeConfig }),
     [globeConfig]
@@ -204,14 +213,18 @@ export function World({
 
   const globeInstance = useMemo(() => new ThreeGlobe(), []);
 
-  useGlobe(globeInstance, data, hotspots, mergedConfig);
+  useGlobeLogic(globeInstance, data, hotspots, mergedConfig);
 
   return (
-    <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <PerspectiveCamera
-        makeDefault
-        position={mergedConfig.initialCameraPosition}
-        fov={50}
+    <Canvas 
+      dpr={[1, 2]} 
+      gl={{ antialias: true, alpha: true }}
+    >
+      {/* Definimos a câmera apenas aqui para evitar conflitos de renderização */}
+      <PerspectiveCamera 
+        makeDefault 
+        position={mergedConfig.initialCameraPosition} 
+        fov={50} 
       />
 
       <OrbitControls
@@ -221,6 +234,8 @@ export function World({
         autoRotateSpeed={mergedConfig.autoRotateSpeed}
         enableDamping
         dampingFactor={0.05}
+        minDistance={150}
+        maxDistance={500}
       />
 
       <ambientLight 
@@ -234,18 +249,13 @@ export function World({
         intensity={mergedConfig.directionalLightIntensity}
       />
 
-      <directionalLight
-        color={mergedConfig.directionalTopLight}
-        position={[0, 500, 0]}
-        intensity={mergedConfig.directionalLightIntensity * 0.5}
-      />
-
       <pointLight
         position={[200, 300, 200]}
         intensity={mergedConfig.pointLightIntensity}
         color={mergedConfig.pointLight}
       />
 
+      {/* Primitive injeta o objeto ThreeGlobe puramente no grafo de cena */}
       <primitive object={globeInstance} />
     </Canvas>
   );

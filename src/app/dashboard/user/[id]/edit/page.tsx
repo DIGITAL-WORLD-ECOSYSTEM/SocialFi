@@ -8,6 +8,7 @@
 import type { IUserItem } from 'src/types/user';
 
 import { _mock } from 'src/_mock';
+
 import { UserEditView } from 'src/sections/user/view';
 
 // ----------------------------------------------------------------------

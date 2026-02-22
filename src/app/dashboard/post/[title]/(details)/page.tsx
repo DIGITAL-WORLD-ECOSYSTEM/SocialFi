@@ -6,6 +6,7 @@
  */
 
 import { _mock } from 'src/_mock';
+
 import { PostDetailsView } from 'src/sections/blog/view';
 
 // ----------------------------------------------------------------------

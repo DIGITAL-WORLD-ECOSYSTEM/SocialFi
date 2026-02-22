@@ -3,8 +3,8 @@ import type { NavItemProps } from '../types';
 
 import { mergeClasses } from 'minimal-shared/utils';
 
-import { styled, alpha } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
+import { alpha, styled } from '@mui/material/styles';
 
 import { Iconify } from 'src/components/iconify';
 import { createNavItem, navItemStyles, navSectionClasses } from 'src/components/nav-section';

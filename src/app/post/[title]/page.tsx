@@ -13,6 +13,7 @@ import { notFound } from 'next/navigation';
 import { _posts } from 'src/_mock/_blog'; 
 import { CONFIG } from 'src/global-config';
 import { getPost, getLatestPosts } from 'src/actions/blog-ssr';
+
 import { PostDetailsHomeView } from 'src/sections/blog/view/home/post-details-home-view';
 
 // ----------------------------------------------------------------------

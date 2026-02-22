@@ -7,14 +7,17 @@
 
 'use client';
 
+import type { IUserItem } from 'src/types/user';
+
 import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
+
 import { DashboardContent } from 'src/layouts/dashboard';
+
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { UserCreateEditForm } from '../user-create-edit-form';
-import type { IUserItem } from 'src/types/user';
 
 // ----------------------------------------------------------------------
 

@@ -7,6 +7,8 @@
 
 'use client';
 
+import type { IPostItem } from 'src/types/blog';
+
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -15,16 +17,19 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 
 import { paths } from 'src/routes/paths';
+
 import { fShortenNumber } from 'src/utils/format-number';
+
 import { POST_PUBLISH_OPTIONS } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
+
 import { Iconify } from 'src/components/iconify';
 import { Markdown } from 'src/components/markdown';
 
@@ -32,8 +37,6 @@ import { PostCommentForm } from '../forms/post-comment-form';
 import { PostDetailsHero } from '../details/post-details-hero';
 import { PostCommentList } from '../details/post-comment-list';
 import { PostDetailsToolbar } from '../details/post-details-toolbar';
-
-import type { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 

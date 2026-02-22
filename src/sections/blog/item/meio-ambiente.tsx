@@ -1,11 +1,16 @@
 'use client';
 
+import { m } from 'framer-motion';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { paths } from 'src/routes/paths';
+
+import { varFade, MotionViewport } from 'src/components/animate';
 
 import { PostItem, PostItemLatest } from './item';
 
@@ -80,28 +85,42 @@ const staticMeioAmbientePosts = [
 // ----------------------------------------------------------------------
 
 export function MeioAmbiente() {
+  const theme = useTheme();
   const viewPosts = staticMeioAmbientePosts;
 
   return (
     <Box
       id="meio-ambiente"
+      component="section"
       sx={{
-        py: { xs: 8, md: 10 },
-        bgcolor: 'background.neutral',
+        position: 'relative',
+        bgcolor: 'transparent', // 🟢 TRANSPARÊNCIA ESTRATÉGICA ATIVA
+        py: { xs: 10, md: 15 },
+        overflow: 'hidden',
       }}
     >
-      <Container>
-        <Typography
-          variant="h3"
-          sx={{
-            mb: 8,
-            textAlign: 'center',
-          }}
-        >
-          Meio Ambiente
-        </Typography>
+      <Container component={MotionViewport}>
+        <m.div variants={varFade('inDown')}>
+          <Typography
+            variant="h2"
+            sx={{
+              mb: 8,
+              textAlign: 'center',
+              fontWeight: 900,
+              fontFamily: "'Orbitron', sans-serif",
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              color: 'common.white',
+              // 🟢 EFEITO GLOW PADRONIZADO
+              textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
+            }}
+          >
+            Meio Ambiente
+          </Typography>
+        </m.div>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={4}>
+          {/* Desktop: Destaques (Primeiros 3) */}
           {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`env-top-${post.id}-${index}`}
@@ -113,26 +132,44 @@ export function MeioAmbiente() {
                 lg: index === 0 ? 6 : 3,
               }}
             >
-              <PostItemLatest post={post as any} index={index} detailsHref={paths.post.details(post.title)} />
+              <m.div variants={varFade('inUp')}>
+                <PostItemLatest 
+                  post={post as any} 
+                  index={index} 
+                  detailsHref={paths.post.details(post.title)} 
+                />
+              </m.div>
             </Grid>
           ))}
 
+          {/* Mobile/Tablet: Destaques (Primeiros 3) */}
           {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`env-mb-${post.id}-${index}`}
               sx={{ display: { lg: 'none' } }}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
+              <m.div variants={varFade('inUp')}>
+                <PostItem 
+                  post={post as any} 
+                  detailsHref={paths.post.details(post.title)} 
+                />
+              </m.div>
             </Grid>
           ))}
 
+          {/* Lista Restante (Posts 4 a 7) */}
           {viewPosts.slice(3, 7).map((post, index) => (
             <Grid
               key={`env-list-${post.id}-${index}`}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
-              <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
+              <m.div variants={varFade('inUp')}>
+                <PostItem 
+                  post={post as any} 
+                  detailsHref={paths.post.details(post.title)} 
+                />
+              </m.div>
             </Grid>
           ))}
         </Grid>

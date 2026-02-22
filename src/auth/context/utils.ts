@@ -6,6 +6,7 @@
  */
 
 import axios from 'src/lib/axios';
+
 import { JWT_STORAGE_KEY } from './constant';
 
 // Interface global para controle de timers de expiração no navegador

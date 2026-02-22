@@ -13,6 +13,8 @@ import Alert from '@mui/material/Alert';
 import { allLangs } from 'src/locales/locales-config';
 
 import { Logo } from 'src/components/logo';
+// Importação do fundo espacial que atualizamos com z-index -1
+import { SpaceScene } from 'src/components/background/space';
 
 import { Footer } from './footer';
 import { NavMobile } from './nav/mobile';
@@ -87,7 +89,6 @@ export function MainLayout({
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
           {/** @slot Language popover */}
           <LanguagePopover data={allLangs} />
-          {/** @slot Settings button */}
         </Box>
       ),
     };
@@ -98,14 +99,23 @@ export function MainLayout({
         {...slotProps?.header}
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={slotProps?.header?.slotProps}
-        sx={slotProps?.header?.sx}
+        // Forçamos transparência no Header para ver o fundo através dele
+        sx={{ ...slotProps?.header?.sx, bgcolor: 'transparent' }}
       />
     );
   };
 
   const renderFooter = () => <Footer sx={slotProps?.footer?.sx} layoutQuery={layoutQuery} />;
 
-  const renderMain = () => <MainSection {...slotProps?.main}>{children}</MainSection>;
+  const renderMain = () => (
+    <MainSection 
+      {...slotProps?.main} 
+      // Garante que o container principal não tenha cor de fundo
+      sx={{ bgcolor: 'transparent', ...slotProps?.main?.sx }}
+    >
+      {children}
+    </MainSection>
+  );
 
   return (
     <LayoutSection
@@ -121,9 +131,23 @@ export function MainLayout({
        * @Styles
        *************************************** */
       cssVars={cssVars}
-      sx={sx}
+      sx={{
+        ...sx,
+        bgcolor: 'transparent', // Base do layout transparente
+      }}
     >
+      {/* 1. O Fundo Espacial (SpaceScene)
+          Como ele tem z-index: -1 e position: fixed no space.tsx, 
+          ele ficará atrás de tudo o que for renderizado abaixo.
+      */}
+      <SpaceScene />
+
+      {/* 2. O Conteúdo da Página
+          Injetado após o SpaceScene para respeitar a ordem do DOM,
+          mesmo com o z-index controlado.
+      */}
       {renderMain()}
+
       <CoreNav />
     </LayoutSection>
   );

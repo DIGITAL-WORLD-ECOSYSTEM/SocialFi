@@ -1,7 +1,5 @@
 'use client';
 
- // <--- ESTA É A LINHA QUE FALTAVA PARA CORRIGIR O ERRO
-
 import type { BoxProps } from '@mui/material/Box';
 import type { CardProps } from '@mui/material/Card';
 import type { IPostItem } from 'src/types/blog';
@@ -14,6 +12,7 @@ import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { RouterLink } from 'src/routes/components';
 
@@ -33,8 +32,29 @@ type PostItemProps = CardProps & {
 };
 
 export function PostItem({ post, detailsHref, sx, ...other }: PostItemProps) {
+  const theme = useTheme();
+
   return (
-    <Card sx={sx} {...other}>
+    <Card 
+      sx={[
+        {
+          // 🟢 ESTILO GLASSMORPHISM
+          bgcolor: alpha(theme.palette.grey[900], 0.4),
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+          transition: theme.transitions.create(['transform', 'box-shadow', 'background-color']),
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            bgcolor: alpha(theme.palette.grey[900], 0.6),
+            boxShadow: `0 8px 24px 0 ${alpha(theme.palette.primary.main, 0.2)}`,
+            borderColor: alpha(theme.palette.primary.main, 0.4),
+          },
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]} 
+      {...other}
+    >
       <Box sx={{ position: 'relative' }}>
         <AvatarShape
           sx={{
@@ -44,6 +64,7 @@ export function PostItem({ post, detailsHref, sx, ...other }: PostItemProps) {
             height: 36,
             bottom: -16,
             position: 'absolute',
+            color: alpha(theme.palette.grey[900], 0.4), // Combinando com o card
           }}
         />
 
@@ -55,14 +76,15 @@ export function PostItem({ post, detailsHref, sx, ...other }: PostItemProps) {
             zIndex: 9,
             bottom: -24,
             position: 'absolute',
+            border: `2px solid ${theme.palette.primary.main}`,
           }}
         />
 
         <Image alt={post.title} src={post.coverUrl} ratio="4/3" />
       </Box>
 
-      <CardContent sx={{ pt: 6 }}>
-        <Typography variant="caption" component="div" sx={{ mb: 1, color: 'text.disabled' }}>
+      <CardContent sx={{ pt: 6, color: 'common.white' }}>
+        <Typography variant="caption" component="div" sx={{ mb: 1, color: alpha(theme.palette.common.white, 0.5) }}>
           {fDate(post.createdAt)}
         </Typography>
 
@@ -71,9 +93,11 @@ export function PostItem({ post, detailsHref, sx, ...other }: PostItemProps) {
           href={detailsHref}
           color="inherit"
           variant="subtitle2"
-          sx={(theme) => ({
+          sx={{
             ...theme.mixins.maxLine({ line: 2, persistent: theme.typography.subtitle2 }),
-          })}
+            fontFamily: "'Orbitron', sans-serif", // Toque futurista no título do card
+            '&:hover': { color: 'primary.light' },
+          }}
         >
           {post.title}
         </Link>
@@ -82,6 +106,7 @@ export function PostItem({ post, detailsHref, sx, ...other }: PostItemProps) {
           totalViews={post.totalViews}
           totalShares={post.totalShares}
           totalComments={post.totalComments}
+          sx={{ color: alpha(theme.palette.common.white, 0.5) }}
         />
       </CardContent>
     </Card>
@@ -97,10 +122,21 @@ type PostItemLatestProps = {
 };
 
 export function PostItemLatest({ post, index, detailsHref }: PostItemLatestProps) {
+  const theme = useTheme();
   const postSmall = index === 1 || index === 2;
 
   return (
-    <Card>
+    <Card 
+      sx={{ 
+        bgcolor: 'transparent',
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+        transition: theme.transitions.create(['transform', 'box-shadow']),
+        '&:hover': {
+          transform: 'scale(1.02)',
+          boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.3)}`,
+        }
+      }}
+    >
       <Avatar
         alt={post.author.name}
         src={post.author.avatarUrl}
@@ -109,6 +145,7 @@ export function PostItemLatest({ post, index, detailsHref }: PostItemLatestProps
           left: 24,
           zIndex: 9,
           position: 'absolute',
+          border: `2px solid ${theme.palette.primary.main}`,
         }}
       />
 
@@ -120,7 +157,7 @@ export function PostItemLatest({ post, index, detailsHref }: PostItemLatestProps
         slotProps={{
           overlay: {
             sx: (theme) => ({
-              bgcolor: varAlpha(theme.vars.palette.grey['900Channel'], 0.64),
+              background: `linear-gradient(to bottom, transparent 0%, ${alpha(theme.palette.grey[900], 0.9)} 100%)`,
             }),
           },
         }}
@@ -144,12 +181,14 @@ export function PostItemLatest({ post, index, detailsHref }: PostItemLatestProps
           href={detailsHref}
           color="inherit"
           variant={postSmall ? 'subtitle2' : 'h5'}
-          sx={(theme) => ({
+          sx={{
             ...theme.mixins.maxLine({
               line: 2,
               persistent: postSmall ? theme.typography.subtitle2 : theme.typography.h5,
             }),
-          })}
+            fontFamily: "'Orbitron', sans-serif",
+            textShadow: '0 2px 4px rgba(0,0,0,0.8)',
+          }}
         >
           {post.title}
         </Link>

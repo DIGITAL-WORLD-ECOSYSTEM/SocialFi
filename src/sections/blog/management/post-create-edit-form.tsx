@@ -7,10 +7,12 @@
 
 'use client';
 
+import type { IPostItem } from 'src/types/blog';
+
 import * as z from 'zod';
-import { useCallback, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useMemo, useCallback } from 'react';
 import { useBoolean } from 'minimal-shared/hooks';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Box from '@mui/material/Box';
@@ -40,7 +42,6 @@ import {
 } from 'src/components/hook-form';
 
 import { PostDetailsPreview } from './post-details-preview';
-import type { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 

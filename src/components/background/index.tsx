@@ -7,14 +7,13 @@ import { memo, useRef, useMemo, useEffect } from 'react';
 import { Float, PerspectiveCamera } from '@react-three/drei';
 
 import { GlassCube } from './glass-cube';
+import { GalacticCore } from './galactic';
+import { EventHorizon } from './event-horizon';
 import { FlowerOfLife } from './flower-of-life';
 import { Space, SpaceAtmosphere } from './space';
 import { SceneController } from './scene-controller';
-
 // ✅ COMPONENTES DE FASE (ALFA, EVOLUÇÃO, ÔMEGA)
 import { StellarEvolution } from './stellar-evolution';
-import { GalacticCore } from './galactic';
-import { EventHorizon } from './event-horizon';
 
 // ----------------------------------------------------------------------
 

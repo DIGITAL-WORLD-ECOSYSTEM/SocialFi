@@ -7,14 +7,17 @@
 
 'use client';
 
+import type { IPostItem } from 'src/types/blog';
+
 import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
+
 import { DashboardContent } from 'src/layouts/dashboard';
+
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { PostCreateEditForm } from './post-create-edit-form';
-import type { IPostItem } from 'src/types/blog';
 
 // ----------------------------------------------------------------------
 

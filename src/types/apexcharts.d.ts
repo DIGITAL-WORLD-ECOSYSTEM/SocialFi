@@ -6,6 +6,7 @@ declare module 'apexcharts' {
   
   declare module 'react-apexcharts' {
     import { Component } from 'react';
+
     export interface Props {
       type?: string;
       series?: any[];

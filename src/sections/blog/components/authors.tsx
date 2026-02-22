@@ -2,7 +2,6 @@
 
 import { m } from 'framer-motion';
 
-// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -10,9 +9,9 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
-// routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+import { varFade, MotionViewport } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
@@ -42,15 +41,17 @@ export function PostAuthors() {
         borderRadius: 2,
         cursor: 'pointer',
         textDecoration: 'none',
-        bgcolor: alpha(theme.palette.background.paper, 0.4),
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        border: `1px solid ${alpha(theme.palette.grey[500], 0.12)}`,
-        transition: theme.transitions.create(['background-color', 'transform', 'border-color']),
+        // 🟢 ESTILO GLASSMORPHISM PADRONIZADO
+        bgcolor: alpha(theme.palette.grey[900], 0.45),
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+        transition: theme.transitions.create(['background-color', 'transform', 'border-color', 'box-shadow']),
         '&:hover': {
-          transform: 'scale(1.02)',
-          bgcolor: alpha(theme.palette.primary.main, 0.08),
-          borderColor: alpha(theme.palette.primary.main, 0.3),
+          transform: 'translateY(-4px) scale(1.02)',
+          bgcolor: alpha(theme.palette.primary.main, 0.12),
+          borderColor: alpha(theme.palette.primary.main, 0.5),
+          boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.3)}`,
         },
       }}
     >
@@ -60,16 +61,25 @@ export function PostAuthors() {
         sx={{ 
           width: 48, 
           height: 48, 
-          border: `2px solid ${theme.palette.background.paper}`,
-          boxShadow: theme.customShadows.z8 
+          border: `2px solid ${theme.palette.primary.main}`,
+          boxShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.4)}` 
         }}
       />
 
       <Stack spacing={0.5} sx={{ minWidth: 0 }}>
-        <Typography variant="subtitle2" noWrap sx={{ color: 'text.primary' }}>
+        <Typography 
+          variant="subtitle2" 
+          noWrap 
+          sx={{ 
+            color: 'common.white',
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: 13,
+            letterSpacing: '0.05em'
+          }}
+        >
           {author.name}
         </Typography>
-        <Typography variant="caption" noWrap sx={{ color: 'text.secondary' }}>
+        <Typography variant="caption" noWrap sx={{ color: 'grey.500', fontWeight: 600 }}>
           {author.role}
         </Typography>
       </Stack>
@@ -83,8 +93,9 @@ export function PostAuthors() {
         overflow: 'hidden',
         position: 'relative',
         py: 1.5,
-        maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+        // Efeito de fade nas bordas para suavizar a entrada/saída dos cards
+        maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
       }}
     >
       {Array.from({ length: 4 }).map((_, i) => (
@@ -96,7 +107,7 @@ export function PostAuthors() {
           sx={{ px: 1.5, flexShrink: 0 }}
           animate={{ x: reverse ? ['-100%', '0%'] : ['0%', '-100%'] }}
           transition={{
-            duration: 50, // Um pouco mais lento para facilitar a leitura dos nomes
+            duration: 60, 
             ease: 'linear',
             repeat: Infinity,
           }}
@@ -108,18 +119,44 @@ export function PostAuthors() {
   );
 
   return (
-    <Container sx={{ py: { xs: 5, md: 8 } }}>
-      <Typography variant="h4" sx={{ mb: 5, textAlign: 'center' }}>
-        Nossos Criadores
-      </Typography>
+    <Box 
+      component="section" 
+      sx={{ 
+        py: { xs: 8, md: 12 },
+        bgcolor: 'transparent',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      <Container component={MotionViewport}>
+        <m.div variants={varFade('inDown')}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              mb: 6, 
+              textAlign: 'center',
+              fontWeight: 900,
+              fontFamily: "'Orbitron', sans-serif",
+              textTransform: 'uppercase',
+              color: 'common.white',
+              letterSpacing: '0.05em',
+              textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
+            }}
+          >
+            Nossos Criadores
+          </Typography>
+        </m.div>
 
-      <Stack spacing={1}>
-        {/* Linha 1: Normal */}
-        {renderMarqueeRow(AUTHORS, false, 1)}
+        <Stack spacing={2}>
+          <m.div variants={varFade('inRight')}>
+            {renderMarqueeRow(AUTHORS, false, 1)}
+          </m.div>
 
-        {/* Linha 2: Reverso (podemos embaralhar o array para não ficar idêntico) */}
-        {renderMarqueeRow([...AUTHORS].reverse(), true, 2)}
-      </Stack>
-    </Container>
+          <m.div variants={varFade('inLeft')}>
+            {renderMarqueeRow([...AUTHORS].reverse(), true, 2)}
+          </m.div>
+        </Stack>
+      </Container>
+    </Box>
   );
 }

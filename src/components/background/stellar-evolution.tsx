@@ -1,7 +1,7 @@
 'use client';
 
 import * as THREE from 'three';
-import { useMemo, useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 
 const PARTICLE_COUNT = 100000;
@@ -121,7 +121,7 @@ export function StellarEvolution({ scrollProgress }: StellarEvolutionProps) {
         transparent 
         blending={THREE.AdditiveBlending} 
         depthWrite={false}
-        sizeAttenuation={true} 
+        sizeAttenuation 
       />
     </points>
   );

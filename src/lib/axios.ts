@@ -6,10 +6,11 @@
  */
 
 import type { AxiosRequestConfig } from 'axios';
+
 import axios from 'axios';
 
-import { JWT_STORAGE_KEY } from 'src/auth/context/constant';
 import { setSession } from 'src/auth/context/utils';
+import { JWT_STORAGE_KEY } from 'src/auth/context/constant';
 
 // ----------------------------------------------------------------------
 
