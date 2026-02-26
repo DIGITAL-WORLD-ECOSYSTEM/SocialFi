@@ -94,54 +94,99 @@ Esta é a lista de stacks e suas respectivas versões utilizadas no projeto, ext
 
 Essa é a minha arvore do front end dedicada ao sistema de autenticação:
 
-└── /src
-    ├── app/
-    │   └── auth/               # ROTAS PÚBLICAS (O que o usuário acessa no navegador)
-    │       ├── reset/
-    │       │   ├── layout.tsx
-    │       │   └── page.tsx
-    │       ├── sign-in/
-    │       │   ├── layout.tsx
-    │       │   └── page.tsx
-    │       ├── sign-up/
-    │       │   ├── layout.tsx
-    │       │   └── page.tsx
-    │       ├── update/
-    │       │   ├── layout.tsx
-    │       │   └── page.tsx
-    │       └── verify/
-    │           ├── layout.tsx
-    │           └── page.tsx
-    │
-    ├── auth/
-    │   ├── view/               # COMPONENTES DE UI (Os formulários e botões)
-    │   │   ├── index.ts
-    │   │   ├── reset.tsx
-    │   │   ├── sign-in.tsx
-    │   │   ├── sign-up.tsx
-    │   │   ├── update.tsx
-    │   │   └── verify.tsx
-    │   │
-    │   ├── context/            # LÓGICA DE ESTADO (O "cérebro" da autenticação)
-    │   │   ├── index.ts        # Exportador principal do contexto
-    │   │   ├── action.ts       # Ações de login, logout, registro (com chamadas de API)
-    │   │   ├── auth-context.tsx  # Definição do Contexto React
-    │   │   ├── auth-provider.tsx # Componente que gerencia o estado e o token
-    │   │   ├── constant.ts     # Constantes (ex: chave de armazenamento do token)
-    │   │   └── utils.ts        # Funções utilitárias (ex: set/get/remove token)
-    │   │
-    │   ├── guard/              # GUARDAS DE ROTA (Protegem o acesso às páginas)
-    │   │   ├── index.ts
-    │   │   ├── auth-guard.tsx    # Garante que o usuário esteja logado
-    │   │   ├── guest-guard.tsx   # Garante que o usuário NÃO esteja logado
-    │   │   └── role-based-guard.tsx # Controle de acesso baseado em permissões
-    │   │
-    │   └── hooks/              # HOOKS CUSTOMIZADOS (atalhos para consumir o estado)
-    │       ├── index.ts
-    │       ├── use-auth-context.ts # Hook para acessar o contexto de autenticação
-    │       └── use-mocked-user.ts  # Hook para usar dados de usuário mockados
+🌳 Árvore Hierárquica: Ecossistema de Autenticação SocialFi
+Plaintext
+
+SocialFi/
+├── packages/
+│   ├── back/ (Serviços de Identidade - Cloudflare Workers)
+│   │   └── src/
+│   │       ├── db/
+│   │       │   ├── index.ts           # Inicialização do Drizzle com o D1 Database
+│   │       │   └── schema.ts          # Tabelas: users (perfil), credentials (hashes), sessions (tokens)
+│   │       ├── middleware/
+│   │       │   ├── auth.ts            # Validador de Bearer Token / Session Cookie
+│   │       │   └── rate-limit.ts      # Proteção contra Brute Force em rotas críticas
+│   │       ├── routes/
+│   │       │   └── core/auth/
+│   │       │       ├── index.ts       # Endpoints de ciclo de vida (Login, Logout, Registro)
+│   │       │       └── password.ts    # Handlers para alteração e recuperação de acesso
+│   │       ├── services/
+│   │       │   ├── auth.ts            # Core: Criptografia de senhas e sign de JWT
+│   │       │   └── email.ts           # Disparo de códigos OTP e links de ativação
+│   │       ├── utils/
+│   │       │   └── auth-guard.ts      # Lógica de RBAC (Controle de acesso baseado em cargos)
+│   │       └── validators/
+│   │           └── auth.ts            # Contratos Zod para garantir integridade do Payload
+│   │
+│   └── front/ (Interface e Experiência - Next.js 15)
+│       └── src/
+│           ├── app/ (Roteamento Físico)
+│           │   ├── auth/              # Agrupador de páginas públicas (Login/SignUp)
+│           │   │   ├── sign-in/       # UI de entrada (layout + page)
+│           │   │   └── verify/        # Página de validação de token/código
+│           │   └── dashboard/         # Área restrita que consome o AuthGuard
+│           ├── auth/ (Lógica de Autenticação do Cliente)
+│           │   ├── context/
+│           │   │   ├── auth-provider.tsx # Provider que injeta o estado do user no App
+│           │   │   └── action.ts         # Orquestrador de chamadas à API (Login/Register)
+│           │   ├── guard/
+│           │   │   ├── auth-guard.tsx    # HOC que redireciona deslogados para o login
+│           │   │   └── guest-guard.tsx   # Impede logados de voltarem à tela de login
+│           │   ├── hooks/
+│           │   │   └── use-auth-context.ts # Hook customizado para acessar o usuário global
+│           │   └── view/
+│           │       └── sign-in-view.tsx  # Template visual do formulário de acesso
+│           ├── components/
+│           │   └── hook-form/            # Inputs inteligentes validados via Zod (Front)
+│           └── layouts/
+│               └── auth/
+│                   ├── layout.tsx        # Shell visual das páginas de auth (fundo/logo)
+│                   └── content.tsx       # Wrapper de conteúdo centralizado
+│
+└── scripts/
+    └── gerar-arvore.js                # Script de sincronização de estrutura
 
 ---
+
+# Checklist de Pré-Lançamento (Production Readiness)
+
+## 1. Back-end (Cloudflare Workers & D1)
+A maior vulnerabilidade em sistemas SocialFi está na comunicação entre o Worker e o Banco de Dados.
+
+- [ ] **Drizzle Migrations**: Verificar se todas as alterações no `schema.ts` foram aplicadas ao banco D1 de produção (`wrangler d1 migrations apply`).
+- [ ] **JWT Secret Management**: Garantir que o `AUTH_SECRET` não está no código. Deve estar configurado como Secret no Cloudflare Dash ou via `wrangler secret put`.
+- [ ] **CORS Policy**: Restringir as origens no Worker para aceitar requisições apenas do seu domínio de produção (front-end).
+- [ ] **Rate Limiting**: Validar se o `rate-limit.ts` está protegendo as rotas `/login` e `/register` contra ataques de dicionário.
+- [ ] **Zod Backend Validation**: Conferir se todas as rotas em `routes/core/auth/` possuem o `.parse()` do Zod para evitar Injeção de SQL (embora o Drizzle proteja, a validação de tipo é a primeira barreira).
+- [ ] **Error Handling**: Substituir `console.log` por um logger estruturado ou serviço de monitoramento (ex: Sentry/Logflare).
+
+## 2. Front-end (Next.js 15 & MUI)
+O foco aqui é evitar o "vazamento" de rotas protegidas e garantir a performance da renderização.
+
+- [ ] **Middleware de Borda (Edge)**: Implementar ou revisar o `src/middleware.ts` para interceptar rotas `/dashboard/*` antes mesmo do React carregar (Server-side Protection).
+- [ ] **Cookie Security**: Verificar se o token de sessão está sendo salvo como `HttpOnly`, `Secure` e `SameSite=Lax`.
+- [ ] **Environment Variables**: Validar se as variáveis `NEXT_PUBLIC_API_URL` estão apontando para o Worker de produção, não para o `localhost:8787`.
+- [ ] **Zod Frontend Integration**: Garantir que o `hook-form` está exibindo mensagens de erro amigáveis para o usuário em caso de falha na validação.
+- [ ] **Hydration Check**: Como você usa React 19 e MUI, verifique se não há erros de hidratação (conflito entre o que o servidor renderiza e o que o cliente monta).
+- [ ] **Tree Shaking**: Confirmar se as bibliotecas pesadas (ApexCharts, Framer Motion) estão sendo importadas apenas onde são usadas para diminuir o `main.js`.
+
+## 3. Segurança & Autenticação (Core SocialFi)
+Como o sistema lida com ativos (tokenização), a segurança é crítica.
+
+- [ ] **RBAC (Role Based Access Control)**: Testar no `auth-guard.ts` se um usuário com cargo "User" consegue acessar rotas de "Admin".
+- [ ] **Session Expiry**: Configurar um tempo de expiração razoável para o JWT (ex: 1 hora) e implementar o Refresh Token se necessário.
+- [ ] **OTP / Email Flow**: Testar o disparo real de e-mails via `services/email.ts` (usando Resend, SendGrid ou Mailchannel no Cloudflare).
+- [ ] **Password Hashing**: Confirmar se o `services/auth.ts` está usando `bcrypt` ou `argon2` com um fator de custo adequado.
+
+## 4. DevOps & Deploy (Cloudflare Ecosystem)
+- [ ] **Wrangler Environments**: Separar as configurações no `wrangler.toml` entre `[env.production]` e `[env.preview]`.
+- [ ] **Deployment Pipeline**: Configurar GitHub Actions ou Cloudflare Pages CI/CD para automatizar o deploy após os testes passarem.
+- [ ] **Script de Sincronização**: Rodar o `scripts/gerar-arvore.js` uma última vez para garantir que a documentação da arquitetura reflete fielmente o que está indo para produção.
+
+## 5. Testes de Estresse "SocialFi"
+- [ ] **Concurrent Login**: Testar múltiplos logins simultâneos para ver como o D1 Database se comporta com o limite de conexões.
+- [ ] **Mobile Responsiveness**: Validar a `sign-in-view.tsx` em dispositivos móveis reais (essencial para usuários de redes sociais).
 
 ## Arquitetura do Módulo de Blog (Versão Híbrida)
 
