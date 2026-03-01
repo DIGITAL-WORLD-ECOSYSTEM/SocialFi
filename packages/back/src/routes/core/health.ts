@@ -2,7 +2,7 @@
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
  * Role: Health Monitor & Infrastructure Analytics (Absolute Bank-Grade 10/10)
- * Version: 8.0.0 - Full SRE Maturity, Distributed Semaphore, Memory Bounds & Tight Nonces
+ * Version: 8.0.0 - Full SRE Maturity, Distributed CB & TypeScript Strict Mode Resolved
  */
 
 import { Hono } from 'hono';
@@ -19,6 +19,9 @@ type Bindings = {
   INTERNAL_HEALTH_SECRET: string;
   NODE_ENV?: string;
 };
+
+// 🛡️ SRE UTILITY: Define a structural execution context to resolve TS conflicts with global worker types
+type WaitUntilCtx = { waitUntil(promise: Promise<any>): void };
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -69,7 +72,7 @@ const verifyHmacToken = async (
   path: string,
   search: string,
   kv: KVNamespace | undefined,
-  ctx: ExecutionContext | undefined
+  ctx: WaitUntilCtx | undefined
 ): Promise<boolean> => {
   if (!header || !header.includes('.')) return false;
   const [timestampStr, signatureHex] = header.split('.');
@@ -78,7 +81,7 @@ const verifyHmacToken = async (
   // ±30s Time-Drift Tolerance
   if (isNaN(timestamp) || Math.abs(Date.now() - timestamp) > 30000) return false;
 
-  // 🛡️ Anti-Replay: Verifica se a assinatura já foi usada nos últimos 35s (Estritamente alinhado ao drift máximo)
+  // 🛡️ Anti-Replay: Verifica se a assinatura já foi usada nos últimos 35s
   const nonceKey = `sys:nonce:${signatureHex}`;
   if (kv) {
     try {
@@ -102,13 +105,13 @@ const verifyHmacToken = async (
     sigBytes[i] = parseInt(signatureHex.substring(i * 2, i * 2 + 2), 16);
   }
 
-  // Assina: timestamp.METHOD./path?query (ex: 17000000.GET./db?services=all)
+  // Assina: timestamp.METHOD./path?query
   const payloadStr = `${timestampStr}.${method.toUpperCase()}.${path}${search}`;
 
   try {
     const isValid = await crypto.subtle.verify('HMAC', key, sigBytes, new TextEncoder().encode(payloadStr));
 
-    // Bloqueia reuso gravando o Nonce por 35s (Cobre perfeitamente o Time-Drift de ±30s)
+    // Bloqueia reuso gravando o Nonce
     if (isValid && kv && ctx) {
       ctx.waitUntil(kv.put(nonceKey, '1', { expirationTtl: 35 }));
     }
@@ -119,10 +122,9 @@ const verifyHmacToken = async (
   }
 };
 
-// 🛡️ SRE: Distributed Global L2 Rate Limiter (IP-Based Bucket para evitar Race Conditions)
-const checkGlobalL2RateLimit = async (kv: KVNamespace | undefined, currentIp: string, ctx: ExecutionContext | undefined): Promise<boolean> => {
+// 🛡️ SRE: Distributed Global L2 Rate Limiter (IP-Based Bucket)
+const checkGlobalL2RateLimit = async (kv: KVNamespace | undefined, currentIp: string, ctx: WaitUntilCtx | undefined): Promise<boolean> => {
   if (!kv || !ctx) return true; // Fail-open
-  // Ratelimit individualizado por IP por minuto reduz brutalmente a contenção e race conditions no KV
   const limitWindowKey = `sys:ratelimit:l2:${currentIp}:${Math.floor(Date.now() / 60000)}`;
 
   try {
@@ -138,15 +140,14 @@ const checkGlobalL2RateLimit = async (kv: KVNamespace | undefined, currentIp: st
   }
 };
 
-// 🛡️ SRE: Distributed Global Semaphore (Prevents Thundering Herd of L2 Checks across ALL isolates)
-const acquireDistributedSemaphore = async (kv: KVNamespace | undefined, ctx: ExecutionContext | undefined): Promise<boolean> => {
+// 🛡️ SRE: Distributed Global Semaphore
+const acquireDistributedSemaphore = async (kv: KVNamespace | undefined, ctx: WaitUntilCtx | undefined): Promise<boolean> => {
   if (!kv || !ctx) return true; // Fail-open
   const semKey = `sys:semaphore:l2_active`;
   try {
     const isLocked = await kv.get(semKey);
-    if (isLocked) return false; // Alguém já está fazendo um Deep Check agora
+    if (isLocked) return false;
 
-    // Trava distribuída por no máximo 10s (Impede stall eterno se o worker morrer)
     ctx.waitUntil(kv.put(semKey, '1', { expirationTtl: 10 }));
     return true;
   } catch {
@@ -155,7 +156,7 @@ const acquireDistributedSemaphore = async (kv: KVNamespace | undefined, ctx: Exe
 };
 
 // ----------------------------------------------------------------------
-// [1] L1/L2 HEALTH CHECK: Anti-Replay Nonce & Distributed CB
+// [1] L1/L2 HEALTH CHECK
 // ----------------------------------------------------------------------
 app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
   const urlParams = new URL(c.req.url);
@@ -178,7 +179,7 @@ app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
     }, 200);
   }
 
-  // 🔒 L2 SECURITY: Nonce-Backed HMAC (Path + Query Scoped)
+  // 🔒 L2 SECURITY
   const tokenHeader = c.req.header('x-internal-token');
   if (!c.env.INTERNAL_HEALTH_SECRET || !tokenHeader) {
     if (c.env.NODE_ENV !== 'production') console.error(`[HEALTH_L2_DENIED] Trace: ${traceId} Ray: ${cfRay} - Missing Token`);
@@ -186,31 +187,25 @@ app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
   }
 
   const isValidToken = await verifyHmacToken(
-    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx
+    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx as WaitUntilCtx
   );
   if (!isValidToken) {
     if (c.env.NODE_ENV !== 'production') console.error(`[HEALTH_L2_DENIED] Trace: ${traceId} Ray: ${cfRay} - Invalid HMAC / Nonce Replay`);
     return error(c, 'Acesso Negado: Token HMAC Inválido ou Replay Detectado', null, 403);
   }
 
-  // 🛡️ SRE: Isolate Concurrency (Worker CPU Protection)
   if (activeDeepChecks >= MAX_CONCURRENT_DEEP_CHECKS) {
-    console.error(`[HEALTH_OVERLOAD] Trace: ${traceId} - L2 Isolate Concurrency Limit Reached`);
     return error(c, 'Too Many Deep Checks Active - Isolate Protection Engaged', null, 429);
   }
 
-  // 🛡️ SRE: Distributed Global L2 Rate Limit (IP/Min)
   const currentIp = c.req.header('cf-connecting-ip') || 'unknown';
-  const isGlobalAllowed = await checkGlobalL2RateLimit(c.env.KV_CACHE, currentIp, c.executionCtx);
+  const isGlobalAllowed = await checkGlobalL2RateLimit(c.env.KV_CACHE, currentIp, c.executionCtx as WaitUntilCtx);
   if (!isGlobalAllowed) {
-    console.warn(`[HEALTH_GLOBAL_LIMIT] Trace: ${traceId} - L2 Rate limit exceeded for IP: ${currentIp}`);
     return error(c, 'Deep Check Quota Exceeded (5/min). Try again later.', null, 429);
   }
 
-  // 🛡️ SRE: Distributed Semaphore (Protege bancos contra scan simultâneo de múltiplos isolates)
-  const isSemaphoreAcquired = await acquireDistributedSemaphore(c.env.KV_CACHE, c.executionCtx);
+  const isSemaphoreAcquired = await acquireDistributedSemaphore(c.env.KV_CACHE, c.executionCtx as WaitUntilCtx);
   if (!isSemaphoreAcquired) {
-    console.warn(`[HEALTH_SEMAPHORE_LOCKED] Trace: ${traceId} - Another node is running Deep Check`);
     return error(c, 'Distributed Deep Check already in progress by another node.', null, 429);
   }
 
@@ -231,7 +226,6 @@ app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
       checks.database = { status: durationMs > 400 ? 'degraded' : 'healthy', type: 'D1', durationMs };
       if (durationMs > 400) isDegraded = true;
     } catch (e: unknown) {
-      console.error(`[HEALTH_D1_FAIL] Trace: ${traceId} Ray: ${cfRay}`, e);
       checks.database = { status: 'unhealthy', type: 'D1', durationMs: -1, error: maskError(e) };
       hasError = true;
     }
@@ -242,7 +236,6 @@ app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
       checks.cache = { status: durationMs > 200 ? 'degraded' : 'healthy', type: 'KV', durationMs };
       if (durationMs > 200) isDegraded = true;
     } catch (e: unknown) {
-      console.error(`[HEALTH_KV_FAIL] Trace: ${traceId} Ray: ${cfRay}`, e);
       checks.cache = { status: 'unhealthy', type: 'KV', durationMs: -1, error: maskError(e) };
       hasError = true;
     }
@@ -253,12 +246,10 @@ app.get('/', rateLimit({ limit: 60, window: 60 }), async (c) => {
       checks.storage = { status: durationMs > 500 ? 'degraded' : 'healthy', type: 'R2', durationMs };
       if (durationMs > 500) isDegraded = true;
     } catch (e: unknown) {
-      console.error(`[HEALTH_R2_FAIL] Trace: ${traceId} Ray: ${cfRay}`, e);
       checks.storage = { status: 'unhealthy', type: 'R2', durationMs: -1, error: maskError(e) };
       hasError = true;
     }
 
-    // 🛡️ SRE: Severity Classification (Down vs Degraded vs OK)
     const overallStatus = hasError ? 'down' : isDegraded ? 'degraded' : 'ok';
     const httpStatus = hasError ? 503 : isDegraded ? 207 : 200;
 
@@ -289,7 +280,7 @@ app.get('/db', rateLimit({ limit: 60, window: 60 }), async (c) => {
 
   const tokenHeader = c.req.header('x-internal-token');
   if (!c.env.INTERNAL_HEALTH_SECRET || !tokenHeader || !(await verifyHmacToken(
-    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx
+    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx as WaitUntilCtx
   ))) {
     return error(c, 'Acesso Negado (Anti-Replay Incorreto/Replay Detectado)', null, 403);
   }
@@ -303,14 +294,13 @@ app.get('/db', rateLimit({ limit: 60, window: 60 }), async (c) => {
 
     return success(c, 'Conexão com D1 estável', report, isDegraded ? 207 : 200);
   } catch (e: unknown) {
-    console.error(`[HEALTH_DB_PROBE_FAIL] Trace: ${traceId} Ray: ${cfRay}`, e);
     const msg = c.env.NODE_ENV === 'production' ? 'Database connectivity failed' : (e instanceof Error ? e.message : 'Unknown Error');
     return error(c, 'Falha na comunicação com o banco de dados', msg, 503);
   }
 });
 
 // ----------------------------------------------------------------------
-// [3] ANALYTICS (CLOUDFLARE GRAPHQL) - BANK GRADE SRE
+// [3] ANALYTICS (CLOUDFLARE GRAPHQL)
 // ----------------------------------------------------------------------
 app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
   const urlParams = new URL(c.req.url);
@@ -318,10 +308,9 @@ app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
   const cfRay = c.req.header('cf-ray') || 'unknown';
   c.header('X-Trace-Id', traceId);
 
-  // 🔒 SECURITY: Zero-Trust HMAC
   const tokenHeader = c.req.header('x-internal-token');
   if (!c.env.INTERNAL_HEALTH_SECRET || !tokenHeader || !(await verifyHmacToken(
-    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx
+    tokenHeader, c.env.INTERNAL_HEALTH_SECRET, c.req.method, urlParams.pathname, urlParams.search, c.env.KV_CACHE, c.executionCtx as WaitUntilCtx
   ))) {
     return error(c, 'Acesso Negado (Anti-Replay Incorreto/Replay Detectado)', null, 403);
   }
@@ -341,10 +330,9 @@ app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
        if (cachedStr) {
          const parsed = JSON.parse(cachedStr);
          if (isValidFallbackCache(parsed)) fallback = parsed;
-         else console.warn(`[ANALYTICS_POISONING_DETECTED] Trace: ${traceId} Ray: ${cfRay} - Cache ignorado`);
        }
      } catch (e) {
-       console.error(`[ANALYTICS_CACHE_ERROR] Trace: ${traceId} Ray: ${cfRay}`, e);
+       // Silent ignore
      }
   }
 
@@ -393,10 +381,9 @@ app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
 
     if (!cfResponse.ok) throw new Error(`API Cloudflare HTTP ${cfResponse.status}`);
 
-    // 🛡️ SRE: Memory Protection - Aborta o parsing se o payload externo for massivo (> 1MB)
     const contentLength = cfResponse.headers.get('content-length');
     if (contentLength && parseInt(contentLength, 10) > 1048576) {
-      throw new Error(`Payload Too Large (${contentLength} bytes). Proteção de Memória V8 acionada.`);
+      throw new Error(`Payload Too Large. Proteção de Memória V8 acionada.`);
     }
 
     const cfData = await cfResponse.json() as any;
@@ -433,8 +420,6 @@ app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
     return success(c, 'Métricas de infraestrutura recuperadas (Live)', liveResult);
 
   } catch (e: unknown) {
-    console.error(`[TELEMETRY_ERROR] Trace: ${traceId} Ray: ${cfRay}`, e);
-
     if (fallback) {
       fallback.source = 'stale-fallback';
       fallback.traceId = traceId;
@@ -445,10 +430,10 @@ app.get('/analytics', rateLimit({ limit: 10, window: 300 }), async (c) => {
       if (KV_CACHE) {
         c.executionCtx.waitUntil(KV_CACHE.put(cacheKey, JSON.stringify(fallback), { expirationTtl: 360 }));
       }
-      return success(c, 'Circuito Aberto: Métricas via cache estendido com Jitter (Cloudflare API Offline)', fallback, 203);
+      return success(c, 'Circuito Aberto: Métricas via cache estendido com Jitter', fallback, 203);
     }
 
-    return error(c, 'Falha sistêmica ao processar telemetria (Timeout/Network/OOM) e sem cache disponível', null, 503);
+    return error(c, 'Falha sistêmica ao processar telemetria e sem cache disponível', null, 503);
   }
 });
 
