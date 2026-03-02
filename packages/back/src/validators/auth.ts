@@ -2,47 +2,56 @@
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
  * Role: Authentication Validators (Absolute Bank-Grade 10/10)
- * Version: 4.0.0 - NIST 800-63B Alignment, DRY Centralization & UX Priority
+ * Version: 5.0.0 - NIST 12-char Policy, EIP-55 Ready, MFA Prepared & Centralized Dictionary
  */
 
 import { z } from 'zod';
 
 // ======================================================================
-// 🛡️ REUSABLE BASE SCHEMAS (Centralized Architecture)
+// 🛡️ CENTRALIZED ERROR DICTIONARY (i18n & UX Consistency)
+// ======================================================================
+const AUTH_ERRORS = {
+  GENERIC_LOGIN: "E-mail ou senha incorretos",
+  EMAIL_FORMAT: "Formato de e-mail inválido",
+  EMAIL_MAX: "O e-mail excede o tamanho máximo permitido",
+  PASSWORD_POLICY: "A senha deve ter no mínimo 12 caracteres (recomendamos o uso de frases, misturando maiúsculas, minúsculas e números)",
+  PASSWORD_MAX: "A senha não pode exceder 128 caracteres",
+  PASSWORD_MISMATCH: "As senhas não coincidem",
+  NAME_MIN: "O nome deve ter pelo menos 2 caracteres",
+  NAME_MAX: "O nome excede o tamanho máximo (64 caracteres)",
+  NAME_INVALID: "O nome contém caracteres inválidos (use apenas letras, espaços, apóstrofos ou hifens)",
+  WALLET_FORMAT: "Endereço de carteira Web3 inválido",
+  TOKEN_INVALID: "Link de recuperação inválido, expirado ou corrompido",
+  MFA_FORMAT: "Código 2FA deve conter exatamente 6 dígitos numéricos",
+} as const;
+
+
+// ======================================================================
+// 🛡️ REUSABLE BASE SCHEMAS (DRY Architecture)
 // ======================================================================
 
 /**
- * 🛡️ SECURITY: NIST 800-63B Password Policy
- * Prioritiza tamanho (entropia bruta via passphrases) em vez de forçar regras arbitrárias
- * que levam os usuários a criar senhas previsíveis (ex: Password1!).
- * A verificação real de segurança é feita no backend contra dicionários k-Anon (HaveIBeenPwned).
+ * 🛡️ SECURITY: NIST 800-63B Modern Password Policy
+ * - Comprimento mínimo elevado para 12 (Padrão ouro para resistência a brute-force e quantum-resistant hashes).
+ * - Max 128 para previnir DoS no Argon2/Bcrypt.
  */
 const basePassword = z.string()
-  .min(8, "A senha deve ter no mínimo 8 caracteres (recomendamos o uso de frases)")
-  .max(128, "A senha não pode exceder 128 caracteres"); // 🛡️ SRE: Bcrypt/Argon2 CPU Exhaustion bounds
+  .min(12, AUTH_ERRORS.PASSWORD_POLICY)
+  .max(128, AUTH_ERRORS.PASSWORD_MAX)
+  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, AUTH_ERRORS.PASSWORD_POLICY);
 
-/**
- * 🛡️ UX & SRE: Validação de E-mail
- * A ordem importa: primeiro verificamos a semântica (.email), depois o limite físico (.max)
- */
 const baseEmail = z.string()
   .trim()
   .toLowerCase()
-  .email("Formato de email inválido")
-  .max(255, "O e-mail excede o tamanho máximo permitido");
+  .email(AUTH_ERRORS.EMAIL_FORMAT)
+  .max(255, AUTH_ERRORS.EMAIL_MAX);
 
-/**
- * 🛡️ STRUCTURAL: Validação de Nomes (Unicode Suportado)
- */
-const baseName = (fieldName: string) => z.string()
+const baseName = z.string()
   .trim()
-  .min(2, `O ${fieldName} deve ter pelo menos 2 caracteres`)
-  .max(64, `O ${fieldName} excede o tamanho máximo`)
-  .regex(/^[\p{L}\s'-]+$/u, `O ${fieldName} contém caracteres inválidos`);
+  .min(2, AUTH_ERRORS.NAME_MIN)
+  .max(64, AUTH_ERRORS.NAME_MAX)
+  .regex(/^[\p{L}\s'-]+$/u, AUTH_ERRORS.NAME_INVALID);
 
-/**
- * 🛡️ STRUCTURAL: Wallet EVM Regex (O limite de 42 já está matematicamente embutido no regex)
- */
 const walletRegex = /^0x[a-fA-F0-9]{40}$/;
 
 
@@ -50,36 +59,43 @@ const walletRegex = /^0x[a-fA-F0-9]{40}$/;
 // 1. REGISTRO (Sign-Up)
 // ======================================================================
 export const signUpSchema = z.object({
-  firstName: baseName("nome"),
-  lastName: baseName("sobrenome"),
+  firstName: baseName,
+  lastName: baseName,
   email: baseEmail,
   password: basePassword,
 
-  // 🛡️ DATA HYGIENE: Transformação inteligente para banco de dados limpo
+  // 🛡️ WEB3 SRE: Preprocessing & Checksum Readiness
   walletAddress: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.string()
-      // Removida redundância de .length(42) - o regex já cobre isso perfeitamente
-      .regex(walletRegex, "Endereço de carteira Web3 inválido")
-      // Idealmente, a validação de Checksum EIP-55 seria conectada aqui via .refine(ethers.isAddress)
+      .regex(walletRegex, AUTH_ERRORS.WALLET_FORMAT)
+      // 💡 Integração futura para EIP-55 Checksum:
+      // .refine((val) => !val || ethers.isAddress(val), { message: "Checksum EIP-55 inválido" })
       .optional()
   ),
 });
 
 
 // ======================================================================
-// 2. LOGIN (Sign-In)
+// 2. LOGIN (Sign-In) - Zero-Trust & Anti-Enumeration
 // ======================================================================
 export const loginSchema = z.object({
   email: z.string()
     .trim()
     .toLowerCase()
-    .email("E-mail ou senha incorretos") // 🛡️ SECURITY: Generic Anti-enumeration
-    .max(255, "E-mail ou senha incorretos"),
+    .email(AUTH_ERRORS.GENERIC_LOGIN)
+    .max(255, AUTH_ERRORS.GENERIC_LOGIN),
 
   password: z.string()
-    .min(1, "A senha é obrigatória")
-    .max(128, "E-mail ou senha incorretos"),
+    .min(1, AUTH_ERRORS.GENERIC_LOGIN) // 🛡️ SRE: Mensagem genérica mesmo se vazio (impede scripts de mapear validação)
+    .max(128, AUTH_ERRORS.GENERIC_LOGIN),
+
+  // 🛡️ FUTURE-PROOF: MFA Token pronto para implantação de TOTP (Time-Based One Time Password)
+  mfaCode: z.string()
+    .trim()
+    .length(6, AUTH_ERRORS.MFA_FORMAT)
+    .regex(/^\d{6}$/, AUTH_ERRORS.MFA_FORMAT)
+    .optional(),
 });
 
 
@@ -95,18 +111,21 @@ export const forgotPasswordSchema = z.object({
 // 4. DEFINIR NOVA SENHA (Reset)
 // ======================================================================
 export const resetPasswordSchema = z.object({
+  // 🛡️ SRE: Tolerância a erro de formatação do usuário sem comprometer a restrição de tamanho
   token: z.string()
-    .length(64, "Link de recuperação inválido ou expirado") // 🛡️ SRE: Tokens são estritamente 64 chars
-    .regex(/^[a-f0-9]{64}$/, "Link de recuperação malformado"),
+    .trim()
+    .toLowerCase()
+    .length(64, AUTH_ERRORS.TOKEN_INVALID)
+    .regex(/^[a-f0-9]{64}$/, AUTH_ERRORS.TOKEN_INVALID),
 
   password: basePassword,
 
   confirmPassword: z.string()
-    .min(8, "A confirmação da senha é obrigatória") // Fast-fail estrutural antes do refine
-    .max(128, "A senha não pode exceder 128 caracteres")
+    .min(12, AUTH_ERRORS.PASSWORD_POLICY) // Fast-fail estrutural alinhado à basePassword
+    .max(128, AUTH_ERRORS.PASSWORD_MAX)
 
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
+  message: AUTH_ERRORS.PASSWORD_MISMATCH,
   path: ["confirmPassword"],
 });
 
