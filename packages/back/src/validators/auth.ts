@@ -2,111 +2,118 @@
  * Copyright 2026 ASPPIBRA – Associação dos Proprietários e Possuidores de Imóveis no Brasil.
  * Project: Governance System (ASPPIBRA DAO)
  * Role: Authentication Validators (Absolute Bank-Grade 10/10)
- * Version: 3.0.0 - Semantic Preprocessing, Strict Regex & Generic Masking
+ * Version: 4.0.0 - NIST 800-63B Alignment, DRY Centralization & UX Priority
  */
 
 import { z } from 'zod';
 
-/**
- * 🛡️ SECURITY: Padrão Bancário de Senha
- * - Pelo menos uma letra minúscula
- * - Pelo menos uma letra maiúscula
- * - Pelo menos um dígito numérico
- * - Tamanho entre 8 e 128 (O limite de 128 é aplicado via .max() para performance de erro)
- */
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/;
-const passwordMessage = "A senha deve ter no mínimo 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número.";
+// ======================================================================
+// 🛡️ REUSABLE BASE SCHEMAS (Centralized Architecture)
+// ======================================================================
 
 /**
- * 🛡️ STRUCTURAL: Regex para Nomes Humanos
- * Evita falsa sensação de segurança contra XSS (que deve ser resolvido no output render/React)
- * Garante apenas que é um nome humanamente válido, cobrindo Unicode (acentos), espaços e hifens.
+ * 🛡️ SECURITY: NIST 800-63B Password Policy
+ * Prioritiza tamanho (entropia bruta via passphrases) em vez de forçar regras arbitrárias
+ * que levam os usuários a criar senhas previsíveis (ex: Password1!).
+ * A verificação real de segurança é feita no backend contra dicionários k-Anon (HaveIBeenPwned).
  */
-const nameRegex = /^[\p{L}\s'-]+$/u;
+const basePassword = z.string()
+  .min(8, "A senha deve ter no mínimo 8 caracteres (recomendamos o uso de frases)")
+  .max(128, "A senha não pode exceder 128 caracteres"); // 🛡️ SRE: Bcrypt/Argon2 CPU Exhaustion bounds
 
 /**
- * 🛡️ STRUCTURAL: Regex para Wallet EVM (Ethereum/BSC)
- * - Deve começar com 0x
- * - Seguido por exatos 40 caracteres hexadecimais (Total 42)
+ * 🛡️ UX & SRE: Validação de E-mail
+ * A ordem importa: primeiro verificamos a semântica (.email), depois o limite físico (.max)
+ */
+const baseEmail = z.string()
+  .trim()
+  .toLowerCase()
+  .email("Formato de email inválido")
+  .max(255, "O e-mail excede o tamanho máximo permitido");
+
+/**
+ * 🛡️ STRUCTURAL: Validação de Nomes (Unicode Suportado)
+ */
+const baseName = (fieldName: string) => z.string()
+  .trim()
+  .min(2, `O ${fieldName} deve ter pelo menos 2 caracteres`)
+  .max(64, `O ${fieldName} excede o tamanho máximo`)
+  .regex(/^[\p{L}\s'-]+$/u, `O ${fieldName} contém caracteres inválidos`);
+
+/**
+ * 🛡️ STRUCTURAL: Wallet EVM Regex (O limite de 42 já está matematicamente embutido no regex)
  */
 const walletRegex = /^0x[a-fA-F0-9]{40}$/;
 
-// --- [REGISTRO (Sign-Up)] ---
+
+// ======================================================================
+// 1. REGISTRO (Sign-Up)
+// ======================================================================
 export const signUpSchema = z.object({
-  firstName: z.string()
-    .trim()
-    .min(2, "O nome deve ter pelo menos 2 caracteres")
-    .max(64, "O nome excede o tamanho máximo") // 🛡️ SRE: Memory/Column Bound
-    .regex(nameRegex, "O nome contém caracteres inválidos"),
+  firstName: baseName("nome"),
+  lastName: baseName("sobrenome"),
+  email: baseEmail,
+  password: basePassword,
 
-  lastName: z.string()
-    .trim()
-    .min(2, "O sobrenome deve ter pelo menos 2 caracteres")
-    .max(64, "O sobrenome excede o tamanho máximo")
-    .regex(nameRegex, "O sobrenome contém caracteres inválidos"),
-
-  email: z.string()
-    .trim()
-    .toLowerCase()
-    .max(255, "Formato de email inválido") // 🛡️ SRE: DB Overflow Bound
-    .email("Formato de email inválido"),
-
-  password: z.string()
-    .min(8, passwordMessage)
-    .max(128, "A senha não pode exceder 128 caracteres") // 🛡️ SRE: Defesa contra CPU Exhaustion no Bcrypt/Argon2
-    .regex(passwordRegex, passwordMessage),
-
-  // 🛡️ DATA HYGIENE: Preprocessa strings vazias para undefined para limpar o estado do banco
+  // 🛡️ DATA HYGIENE: Transformação inteligente para banco de dados limpo
   walletAddress: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.string()
-      .length(42, "O endereço Web3 deve ter exatamente 42 caracteres")
+      // Removida redundância de .length(42) - o regex já cobre isso perfeitamente
       .regex(walletRegex, "Endereço de carteira Web3 inválido")
+      // Idealmente, a validação de Checksum EIP-55 seria conectada aqui via .refine(ethers.isAddress)
       .optional()
   ),
 });
 
-// --- [LOGIN (Sign-In)] ---
+
+// ======================================================================
+// 2. LOGIN (Sign-In)
+// ======================================================================
 export const loginSchema = z.object({
   email: z.string()
     .trim()
     .toLowerCase()
-    .max(255, "E-mail ou senha incorretos") // 🛡️ SECURITY: Erro genérico para não revelar regras de bloqueio (Anti-enumeration)
-    .email("E-mail ou senha incorretos"),
+    .email("E-mail ou senha incorretos") // 🛡️ SECURITY: Generic Anti-enumeration
+    .max(255, "E-mail ou senha incorretos"),
 
   password: z.string()
     .min(1, "A senha é obrigatória")
-    .max(128, "E-mail ou senha incorretos"), // Fast-fail silencioso
+    .max(128, "E-mail ou senha incorretos"),
 });
 
-// --- [ESQUECI MINHA SENHA] ---
+
+// ======================================================================
+// 3. RECUPERAÇÃO DE SENHA (Forgot)
+// ======================================================================
 export const forgotPasswordSchema = z.object({
-  email: z.string()
-    .trim()
-    .toLowerCase()
-    .max(255, "Digite um email válido")
-    .email("Digite um email válido"),
+  email: baseEmail,
 });
 
-// --- [DEFINIR NOVA SENHA (Reset)] ---
+
+// ======================================================================
+// 4. DEFINIR NOVA SENHA (Reset)
+// ======================================================================
 export const resetPasswordSchema = z.object({
   token: z.string()
     .length(64, "Link de recuperação inválido ou expirado") // 🛡️ SRE: Tokens são estritamente 64 chars
-    .regex(/^[a-f0-9]{64}$/, "Link de recuperação inválido ou expirado"),
+    .regex(/^[a-f0-9]{64}$/, "Link de recuperação malformado"),
 
-  password: z.string()
-    .min(8, passwordMessage)
-    .max(128, "A senha não pode exceder 128 caracteres")
-    .regex(passwordRegex, passwordMessage),
+  password: basePassword,
 
   confirmPassword: z.string()
+    .min(8, "A confirmação da senha é obrigatória") // Fast-fail estrutural antes do refine
     .max(128, "A senha não pode exceder 128 caracteres")
+
 }).refine((data) => data.password === data.confirmPassword, {
   message: "As senhas não coincidem",
   path: ["confirmPassword"],
 });
 
-// --- [INFERÊNCIA DE TIPOS] ---
+
+// ======================================================================
+// INFERÊNCIA DE TIPOS
+// ======================================================================
 export type SignUpInput = z.infer<typeof signUpSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
