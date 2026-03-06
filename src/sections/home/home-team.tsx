@@ -12,6 +12,7 @@ import { m } from 'framer-motion';
 // ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -60,66 +61,96 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
     >
       <Container
         component={MotionViewport}
-        sx={{ position: 'relative', zIndex: 1, textAlign: 'center', py: { xs: 10, md: 15 } }}
+        sx={{ position: 'relative', zIndex: 1, py: { xs: 10, md: 15 } }}
       >
-        {/* TAG "TEAM" */}
-        <m.div variants={varFade('inUp')}>
-          <Box
-            sx={{
-              display: 'inline-block',
-              border: `1px solid ${theme.palette.info.main}`,
-              borderRadius: 2,
-              px: 1.5,
-              py: 0.5,
-              mb: 5,
-            }}
-          >
-            <Typography
-              component="span"
+        {/* HEADER: TAG + TÍTULO E BOTÃO NA DIREITA */}
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          alignItems={{ md: 'flex-end' }}
+          justifyContent="space-between"
+          sx={{ mb: 8, gap: 3 }}
+        >
+          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+            {/* TAG "TEAM" */}
+            <m.div variants={varFade('inUp')}>
+              <Box
+                sx={{
+                  display: 'inline-block',
+                  border: `1px solid ${theme.palette.info.main}`,
+                  borderRadius: 2,
+                  px: 1.5,
+                  py: 0.5,
+                  mb: 4,
+                }}
+              >
+                <Typography
+                  component="span"
+                  sx={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 12,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: 'info.main',
+                  }}
+                >
+                  {t('team.badge')}
+                </Typography>
+              </Box>
+            </m.div>
+
+            {/* TÍTULO HIERÁRQUICO */}
+            <m.div variants={varFade('inUp')}>
+              <Typography
+                component="h2"
+                sx={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 900,
+                  fontSize: { xs: '2.2rem', md: '3rem' },
+                  letterSpacing: '0.08em',
+                  lineHeight: 1.2,
+                  textTransform: 'uppercase',
+                }}
+              >
+                <Box component="span" sx={{ color: 'common.white' }}>
+                  {t('team.title')}
+                </Box>
+                <br />
+                <Box component="span" sx={{ color: 'warning.main' }}>
+                  {t('team.title_highlight')}
+                </Box>
+              </Typography>
+            </m.div>
+          </Box>
+
+          {/* BOTÃO MOVIDO PARA A DIREITA */}
+          <m.div variants={varFade('inRight')}>
+            <Button
+              component={RouterLink}
+              href={paths.about}
+              variant="outlined"
+              endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
               sx={{
+                height: 56,
+                px: 4,
+                borderRadius: 1.5,
                 fontFamily: "'Orbitron', sans-serif",
                 fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: 'info.main',
+                color: 'common.white',
+                borderColor: alpha(theme.palette.info.main, 0.3),
+                '&:hover': {
+                  borderColor: theme.palette.info.main,
+                  boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
+                },
               }}
             >
-              {t('team.badge')}
-            </Typography>
-          </Box>
-        </m.div>
+              {t('team.button')}
+            </Button>
+          </m.div>
+        </Stack>
 
-        {/* TÍTULO HIERÁRQUICO (2 CAMADAS) */}
-        <m.div variants={varFade('inUp')}>
-          <Typography
-            component="h2"
-            sx={{
-              fontFamily: "'Orbitron', sans-serif",
-              fontWeight: 900,
-              fontSize: { xs: '2.2rem', md: '3rem' },
-              letterSpacing: '0.08em',
-              lineHeight: 1.2,
-              textTransform: 'uppercase',
-            }}
-          >
-            <Box component="span" sx={{ color: 'common.white' }}>
-              {t('team.title')}
-            </Box>
-            <br />
-            <Box component="span" sx={{ color: 'warning.main' }}>
-              {t('team.title_highlight')}
-            </Box>
-          </Typography>
-        </m.div>
-
-        {/* DESCRIÇÃO */}
-        <m.div variants={varFade('inUp')}>
-          <Typography sx={{ my: 3, mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
-            {t('team.description')}
-          </Typography>
-        </m.div>
-
+        {/* CAROUSEL */}
         <Box sx={{ position: 'relative' }}>
           <CarouselArrowFloatButtons {...carousel.arrows} options={carousel.options} />
 
@@ -129,27 +160,13 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
                 key={member.id}
                 component={m.div}
                 variants={varFade('in')}
-                sx={{ py: { xs: 8, md: 10 } }}
+                sx={{ py: { xs: 4, md: 5 } }}
               >
                 <MemberCard member={member} />
               </Box>
             ))}
           </Carousel>
         </Box>
-
-        <m.div variants={varFade('inUp')}>
-          <Button
-            component={RouterLink}
-            href={paths.about}
-            size="large"
-            color="inherit"
-            variant="outlined"
-            endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
-            sx={{ mx: 'auto' }}
-          >
-            {t('team.button')}
-          </Button>
-        </m.div>
       </Container>
     </Box>
   );
@@ -157,11 +174,7 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
 
 // ----------------------------------------------------------------------
 
-type MemberCardProps = {
-  member: (typeof _carouselsMembers)[number];
-};
-
-function MemberCard({ member }: MemberCardProps) {
+function MemberCard({ member }: { member: (typeof _carouselsMembers)[number] }) {
   const theme = useTheme();
 
   return (
@@ -169,21 +182,29 @@ function MemberCard({ member }: MemberCardProps) {
       sx={{
         textAlign: 'center',
         height: '100%',
-        transition: theme.transitions.create(['transform', 'box-shadow'], {
-          duration: theme.transitions.duration.short,
-        }),
         bgcolor: alpha(theme.palette.grey[500], 0.08),
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        border: `1.5px solid ${alpha(theme.palette.info.main, 0.2)}`,
-        boxShadow: `0 0 16px 0 ${alpha(theme.palette.info.main, 0.15)}`,
+        borderRadius: 3,
+        overflow: 'hidden',
+        // BORDAS NEON ESTÁTICAS
+        border: `1px solid ${alpha(theme.palette.info.main, 0.25)}`,
+        boxShadow: `0 0 12px 0 ${alpha(theme.palette.info.main, 0.1)}`,
+        transition: theme.transitions.create(['all'], {
+          duration: theme.transitions.duration.standard,
+        }),
+        // EFEITO HOVER NEON
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: `0 0 24px 0 ${alpha(theme.palette.info.main, 0.35)}`,
+          transform: 'translateY(-10px)',
+          borderColor: theme.palette.info.main,
+          boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.4)}`,
         },
       }}
     >
-      <Typography variant="subtitle1" sx={{ mt: 2.5, mb: 0.5 }}>
+      <Typography 
+        variant="subtitle1" 
+        sx={{ mt: 2.5, mb: 0.5, fontFamily: "'Orbitron', sans-serif", fontWeight: 700 }}
+      >
         {member.name}
       </Typography>
 
@@ -191,7 +212,7 @@ function MemberCard({ member }: MemberCardProps) {
         {member.role}
       </Typography>
 
-      <Box sx={{ px: 1 }}>
+      <Box sx={{ px: 2, pb: 1 }}>
         <Image alt={member.name} src={member.avatarUrl} ratio="1/1" sx={{ borderRadius: 2 }} />
       </Box>
 
@@ -207,7 +228,6 @@ function MemberCard({ member }: MemberCardProps) {
               },
             }}
           >
-            {/* CORREÇÃO DO ERRO TS2322: Type cast para any nos ícones sociais */}
             {social.value === 'twitter' && <Iconify icon={"bi:twitter-x" as any} />}
             {social.value === 'facebook' && <Iconify icon={"eva:facebook-fill" as any} />}
             {social.value === 'instagram' && <Iconify icon={"ant-design:instagram-filled" as any} />}
