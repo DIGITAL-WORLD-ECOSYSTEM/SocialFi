@@ -1,16 +1,15 @@
 'use client';
 
 // ----------------------------------------------------------------------
-// Imports — tipos e react/motion
-// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
 // ----------------------------------------------------------------------
-// Imports — MUI
+// MUI
 // ----------------------------------------------------------------------
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -21,8 +20,9 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
-// Imports — App
+// APP
 // ----------------------------------------------------------------------
+
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
@@ -40,42 +40,39 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
   const theme = useTheme();
   const { t } = useTranslate();
 
-  const displayPosts = useMemo(() => [
-    {
-      id: 'post-1',
-      title: t('news.posts.post1.title'),
-      description: t('news.posts.post1.description'),
-      coverUrl: _mock.image.cover(4),
-      createdAt: new Date().toISOString(),
-      category: t('news.posts.post1.category'),
-    },
-    {
-      id: 'post-2',
-      title: t('news.posts.post2.title'),
-      description: t('news.posts.post2.description'),
-      coverUrl: _mock.image.cover(5),
-      createdAt: new Date().toISOString(),
-      category: t('news.posts.post2.category'),
-    },
-    {
-      id: 'post-3',
-      title: t('news.posts.post3.title'),
-      description: t('news.posts.post3.description'),
-      coverUrl: _mock.image.cover(6),
-      createdAt: new Date().toISOString(),
-      category: t('news.posts.post3.category'),
-    },
-  ], [t]);
+  const displayPosts = useMemo(
+    () => [
+      {
+        id: 'post-1',
+        title: t('news.posts.post1.title'),
+        coverUrl: _mock.image.cover(4),
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 'post-2',
+        title: t('news.posts.post2.title'),
+        coverUrl: _mock.image.cover(5),
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 'post-3',
+        title: t('news.posts.post3.title'),
+        coverUrl: _mock.image.cover(6),
+        createdAt: new Date().toISOString(),
+      },
+    ],
+    [t]
+  );
 
   return (
     <Box
       component="section"
       sx={[
-        { 
-          py: { xs: 8, md: 15 }, 
-          position: 'relative', 
+        {
+          py: { xs: 8, md: 15 },
+          position: 'relative',
           overflow: 'hidden',
-          bgcolor: 'transparent' 
+          bgcolor: 'transparent',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -83,10 +80,16 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
     >
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 9 }}>
-          <Grid container spacing={8} alignItems="center">
-            
-            {/* COLUNA DE TEXTO - Utilizando 'size' para evitar erros de TypeScript */}
-            <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+
+          {/* HEADER: TÍTULO À ESQUERDA + BOTÃO À DIREITA */}
+
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            alignItems={{ md: 'flex-end' }}
+            justifyContent="space-between"
+            sx={{ mb: 10, gap: 3 }}
+          >
+            <Box>
               <m.div variants={varFade('inUp')}>
                 <Box
                   sx={{
@@ -99,7 +102,6 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   }}
                 >
                   <Typography
-                    component="span"
                     sx={{
                       fontFamily: "'Orbitron', sans-serif",
                       fontWeight: 700,
@@ -116,12 +118,10 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
 
               <m.div variants={varFade('inUp')}>
                 <Typography
-                  component="h2"
                   sx={{
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 900,
                     fontSize: { xs: '2.2rem', md: '3rem' },
-                    letterSpacing: '0.05em',
                     lineHeight: 1.1,
                     textTransform: 'uppercase',
                   }}
@@ -138,120 +138,133 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   </Box>
                 </Typography>
               </m.div>
+            </Box>
 
-              <m.div variants={varFade('inUp')}>
-                <Typography 
-                  sx={{ 
-                    mt: 3, 
-                    mb: 5, 
-                    color: 'text.secondary', 
-                    fontSize: { xs: 16, md: 18 }, 
-                    lineHeight: 1.8, 
-                    maxWidth: 420,
-                    textAlign: { xs: 'justify', md: 'left' }
-                  }}
-                >
-                  {t('news.description')}
-                </Typography>
-              </m.div>
+            <m.div variants={varFade('inRight')}>
+              <Button
+                component={RouterLink}
+                href={paths.post.root}
+                variant="outlined"
+                endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
+                sx={{
+                  height: 56,
+                  px: 4,
+                  borderRadius: 1.5,
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  color: 'common.white',
+                  borderColor: alpha(theme.palette.info.main, 0.3),
+                  '&:hover': {
+                    borderColor: theme.palette.info.main,
+                    boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
+                  }
+                }}
+              >
+                {t('news.button_view_all')}
+              </Button>
+            </m.div>
+          </Stack>
 
-              <m.div variants={varFade('inUp')}>
-                <Button
-                  component={RouterLink}
-                  href={paths.post.root}
-                  variant="outlined"
-                  size="large"
-                  endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
-                  sx={{
-                    height: 56,
-                    px: 4,
-                    fontFamily: "'Orbitron', sans-serif",
-                    fontWeight: 700,
-                    borderRadius: 1.5,
-                    textTransform: 'uppercase',
-                    color: 'common.white',
-                    borderColor: alpha(theme.palette.info.main, 0.3),
-                    bgcolor: alpha(theme.palette.info.main, 0.05),
-                    boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}`,
-                    '&:hover': {
-                      borderColor: 'info.main',
-                      bgcolor: alpha(theme.palette.info.main, 0.15),
-                      boxShadow: `0 0 25px ${alpha(theme.palette.info.main, 0.5)}`,
-                      transform: 'translateY(-2px)',
-                    },
-                  }}
-                >
-                  {t('news.button_view_all')}
-                </Button>
-              </m.div>
-            </Grid>
+          {/* GRID COM BORDAS NEON NOS CARDS */}
 
-            {/* GRID DE POSTS - Utilizando 'size' para evitar erros de TypeScript */}
-            <Grid size={{ xs: 12, md: 8 }}>
-              <Grid container spacing={3}>
-                {displayPosts.map((post, index) => (
-                  <Grid key={post.id} size={{ xs: 12, sm: 6, lg: 4 }}>
-                    <m.div
-                      variants={varFade('inUp')}
-                      transition={{ delay: index * 0.1 }}
-                      style={{ height: '100%' }}
+          <Grid container spacing={4}>
+            {displayPosts.map((post, index) => (
+              <Grid
+                key={post.id}
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 4,
+                  lg: index === 0 ? 6 : 3,
+                }}
+              >
+                <m.div variants={varFade('inUp')} transition={{ delay: index * 0.2 }}>
+                  <Card
+                    sx={{
+                      position: 'relative',
+                      height: 420,
+                      borderRadius: 3,
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      bgcolor: 'common.black',
+                      // Borda Neon Estática Sutil
+                      border: `1px solid ${alpha(theme.palette.info.main, 0.25)}`,
+                      boxShadow: `0 0 10px ${alpha(theme.palette.info.main, 0.1)}`,
+                      transition: theme.transitions.create(['all'], {
+                        duration: theme.transitions.duration.standard,
+                      }),
+                      // Intensifica o Neon no Hover
+                      '&:hover': {
+                        borderColor: theme.palette.info.light,
+                        boxShadow: `0 0 20px ${alpha(theme.palette.info.main, 0.4)}`,
+                        '& img': {
+                          transform: 'scale(1.08)',
+                        },
+                      },
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={post.coverUrl}
+                      alt={post.title}
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: 1,
+                        height: 1,
+                        objectFit: 'cover',
+                        transition: 'transform 0.6s ease',
+                      }}
+                    />
+
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: `linear-gradient(180deg, transparent 40%, ${alpha(
+                          theme.palette.common.black,
+                          0.9
+                        )} 100%)`,
+                      }}
+                    />
+
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        p: 3,
+                        width: 1,
+                      }}
                     >
-                      <Card
+                      <Typography
+                        variant="caption"
                         sx={{
-                          height: 1,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          borderRadius: 3,
-                          bgcolor: alpha(theme.palette.grey[500], 0.08),
-                          backdropFilter: 'blur(16px)',
-                          border: `solid 1px ${alpha(theme.palette.primary.main, 0.15)}`,
-                          transition: theme.transitions.create(['transform', 'box-shadow']),
-                          '&:hover': {
-                            transform: 'translateY(-12px)',
-                            boxShadow: `0 24px 48px -12px ${alpha(theme.palette.primary.main, 0.25)}`,
-                          },
+                          color: alpha(theme.palette.common.white, 0.7),
                         }}
                       >
-                        <Box sx={{ position: 'relative', pt: '66%', overflow: 'hidden' }}>
-                          <Box
-                            component="img"
-                            alt={post.title}
-                            src={post.coverUrl}
-                            sx={{
-                              position: 'absolute',
-                              inset: 0,
-                              width: 1,
-                              height: 1,
-                              objectFit: 'cover',
-                            }}
-                          />
-                        </Box>
+                        {fDate(post.createdAt)}
+                      </Typography>
 
-                        <Stack spacing={2} sx={{ p: 3, flexGrow: 1 }}>
-                          <Stack direction="row" alignItems="center" justifyContent="space-between">
-                            <Typography variant="overline" sx={{ color: 'info.main', fontWeight: 800, fontSize: 11 }}>
-                              {post.category}
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-                              {fDate(post.createdAt)}
-                            </Typography>
-                          </Stack>
-
-                          <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.4, color: 'common.white' }}>
-                            {post.title}
-                          </Typography>
-
-                          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, textAlign: 'justify' }}>
-                            {post.description}
-                          </Typography>
-                        </Stack>
-                      </Card>
-                    </m.div>
-                  </Grid>
-                ))}
+                      <Typography
+                        sx={{
+                          fontWeight: 800,
+                          fontSize: index === 0 ? 22 : 16,
+                          color: 'common.white',
+                          lineHeight: 1.3,
+                          fontFamily: index === 0 ? 'inherit' : "'Orbitron', sans-serif",
+                        }}
+                      >
+                        {post.title}
+                      </Typography>
+                    </Stack>
+                  </Card>
+                </m.div>
               </Grid>
-            </Grid>
+            ))}
           </Grid>
+
         </Container>
       </MotionViewport>
     </Box>
