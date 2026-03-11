@@ -123,12 +123,11 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
             </m.div>
           </Box>
 
-          {/* BOTÃO MOVIDO PARA A DIREITA */}
+          {/* BOTÃO ATUALIZADO: "REATIVA & CRYSTAL" */}
           <m.div variants={varFade('inRight')}>
             <Button
               component={RouterLink}
               href={paths.about}
-              variant="outlined"
               endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
               sx={{
                 height: 56,
@@ -138,10 +137,37 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 color: 'common.white',
-                borderColor: alpha(theme.palette.info.main, 0.3),
+                border: 'none', // Remove a borda padrão do MUI
+                position: 'relative',
+                bgcolor: alpha('#020817', 0.6), // Glassmorphism leve
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                transition: theme.transitions.create(['all']),
+                
+                // BORDA REATIVA (STROKE CIANO)
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: 'inherit',
+                  padding: '1px', 
+                  background: `linear-gradient(180deg, 
+                    ${alpha(theme.palette.info.main, 1)} 0%, 
+                    ${alpha(theme.palette.info.main, 0.1)} 50%, 
+                    ${alpha(theme.palette.info.main, 0.6)} 100%
+                  )`,
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                },
+
                 '&:hover': {
-                  borderColor: theme.palette.info.main,
-                  boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
+                  bgcolor: alpha(theme.palette.info.main, 0.08),
+                  transform: 'scale(1.05)',
+                  boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.3)}`,
+                  '& .MuiButton-endIcon': {
+                    transform: 'translateX(4px)',
+                  },
                 },
               }}
             >
@@ -182,56 +208,98 @@ function MemberCard({ member }: { member: (typeof _carouselsMembers)[number] }) 
       sx={{
         textAlign: 'center',
         height: '100%',
-        bgcolor: alpha(theme.palette.grey[500], 0.08),
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        borderRadius: 3,
+        position: 'relative',
         overflow: 'hidden',
-        // BORDAS NEON ESTÁTICAS
-        border: `1px solid ${alpha(theme.palette.info.main, 0.25)}`,
-        boxShadow: `0 0 12px 0 ${alpha(theme.palette.info.main, 0.1)}`,
+        borderRadius: 3,
+        bgcolor: alpha('#020817', 0.8),
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
         transition: theme.transitions.create(['all'], {
           duration: theme.transitions.duration.standard,
         }),
-        // EFEITO HOVER NEON
+        
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'inherit',
+          padding: '1px',
+          background: `linear-gradient(180deg, 
+            ${alpha(theme.palette.info.main, 0.9)} 0%, 
+            ${alpha(theme.palette.common.white, 0.05)} 50%, 
+            ${alpha(theme.palette.warning.main, 0.9)} 100%
+          )`,
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          zIndex: 2,
+          pointerEvents: 'none',
+        },
+
+        boxShadow: `0 8px 32px 0 ${alpha(theme.palette.common.black, 0.5)}`,
+
         '&:hover': {
           transform: 'translateY(-10px)',
-          borderColor: theme.palette.info.main,
-          boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.4)}`,
+          bgcolor: alpha('#020817', 0.95),
+          boxShadow: `0 0 25px 0 ${alpha(theme.palette.info.main, 0.2)}`,
         },
       }}
     >
       <Typography 
         variant="subtitle1" 
-        sx={{ mt: 2.5, mb: 0.5, fontFamily: "'Orbitron', sans-serif", fontWeight: 700 }}
+        sx={{ 
+          mt: 3, 
+          mb: 0.5, 
+          fontFamily: "'Orbitron', sans-serif", 
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          color: 'common.white',
+          letterSpacing: '0.05em'
+        }}
       >
         {member.name}
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 2.5, color: 'text.secondary' }}>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          mb: 2.5, 
+          fontFamily: "'Public Sans', sans-serif",
+          fontWeight: 500,
+          color: '#919EAB',
+        }}
+      >
         {member.role}
       </Typography>
 
-      <Box sx={{ px: 2, pb: 1 }}>
-        <Image alt={member.name} src={member.avatarUrl} ratio="1/1" sx={{ borderRadius: 2 }} />
+      <Box sx={{ px: 2.5, pb: 1 }}>
+        <Image 
+          alt={member.name} 
+          src={member.avatarUrl} 
+          ratio="1/1" 
+          sx={{ 
+            borderRadius: 2,
+            border: `1px solid ${alpha(theme.palette.common.white, 0.05)}`
+          }} 
+        />
       </Box>
 
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
         {_socials.map((social) => (
           <IconButton
             key={social.label}
             sx={{
-              color: 'text.secondary',
+              color: '#919EAB',
               '&:hover': {
-                color: 'info.main',
+                color: theme.palette.info.main,
                 bgcolor: alpha(theme.palette.info.main, 0.1),
               },
             }}
           >
-            {social.value === 'twitter' && <Iconify icon={"bi:twitter-x" as any} />}
-            {social.value === 'facebook' && <Iconify icon={"eva:facebook-fill" as any} />}
-            {social.value === 'instagram' && <Iconify icon={"ant-design:instagram-filled" as any} />}
-            {social.value === 'linkedin' && <Iconify icon={"eva:linkedin-fill" as any} />}
+            {social.value === 'twitter' && <Iconify icon="bi:twitter-x" />}
+            {social.value === 'facebook' && <Iconify icon="eva:facebook-fill" />}
+            {social.value === 'instagram' && <Iconify icon="ant-design:instagram-filled" />}
+            {social.value === 'linkedin' && <Iconify icon="eva:linkedin-fill" />}
           </IconButton>
         ))}
       </Box>
