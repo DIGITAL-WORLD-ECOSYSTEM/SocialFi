@@ -9,7 +9,6 @@ import { m } from 'framer-motion';
 // ----------------------------------------------------------------------
 // MUI
 // ----------------------------------------------------------------------
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -22,7 +21,6 @@ import { alpha, useTheme } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 // APP
 // ----------------------------------------------------------------------
-
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
@@ -82,7 +80,6 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
         <Container sx={{ position: 'relative', zIndex: 9 }}>
 
           {/* HEADER: TÍTULO À ESQUERDA + BOTÃO À DIREITA */}
-
           <Stack
             direction={{ xs: 'column', md: 'row' }}
             alignItems={{ md: 'flex-end' }}
@@ -140,11 +137,11 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
               </m.div>
             </Box>
 
+            {/* BOTÃO CRYSTAL ATUALIZADO */}
             <m.div variants={varFade('inRight')}>
               <Button
                 component={RouterLink}
                 href={paths.post.root}
-                variant="outlined"
                 endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                 sx={{
                   height: 56,
@@ -154,10 +151,31 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   color: 'common.white',
-                  borderColor: alpha(theme.palette.info.main, 0.3),
+                  border: 'none', // Remove borda padrão
+                  position: 'relative',
+                  bgcolor: alpha('#020817', 0.6),
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  transition: theme.transitions.create(['all']),
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: 'inherit',
+                    padding: '1px',
+                    background: `linear-gradient(180deg, 
+                      ${alpha(theme.palette.info.main, 1)} 0%, 
+                      ${alpha(theme.palette.info.main, 0.1)} 50%, 
+                      ${alpha(theme.palette.info.main, 0.6)} 100%
+                    )`,
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  },
                   '&:hover': {
-                    borderColor: theme.palette.info.main,
-                    boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
+                    bgcolor: alpha(theme.palette.info.main, 0.08),
+                    transform: 'scale(1.05)',
+                    boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.3)}`,
                   }
                 }}
               >
@@ -166,8 +184,7 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
             </m.div>
           </Stack>
 
-          {/* GRID COM BORDAS NEON NOS CARDS */}
-
+          {/* GRID COM BORDAS REATIVAS NOS CARDS */}
           <Grid container spacing={4}>
             {displayPosts.map((post, index) => (
               <Grid
@@ -187,20 +204,38 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                       borderRadius: 3,
                       overflow: 'hidden',
                       cursor: 'pointer',
-                      bgcolor: 'common.black',
-                      // Borda Neon Estática Sutil
-                      border: `1px solid ${alpha(theme.palette.info.main, 0.25)}`,
-                      boxShadow: `0 0 10px ${alpha(theme.palette.info.main, 0.1)}`,
+                      bgcolor: alpha('#020817', 0.8),
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
                       transition: theme.transitions.create(['all'], {
                         duration: theme.transitions.duration.standard,
                       }),
-                      // Intensifica o Neon no Hover
+                      
+                      // BORDA REATIVA (CIANO -> ÂMBAR)
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        padding: '1px',
+                        background: `linear-gradient(180deg, 
+                          ${alpha(theme.palette.info.main, 0.8)} 0%, 
+                          ${alpha(theme.palette.common.white, 0.05)} 50%, 
+                          ${alpha(theme.palette.warning.main, 0.8)} 100%
+                        )`,
+                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                        WebkitMaskComposite: 'xor',
+                        maskComposite: 'exclude',
+                        zIndex: 3,
+                        pointerEvents: 'none',
+                      },
+
+                      boxShadow: `0 8px 32px 0 ${alpha(theme.palette.common.black, 0.5)}`,
+
                       '&:hover': {
-                        borderColor: theme.palette.info.light,
-                        boxShadow: `0 0 20px ${alpha(theme.palette.info.main, 0.4)}`,
-                        '& img': {
-                          transform: 'scale(1.08)',
-                        },
+                        transform: 'translateY(-8px)',
+                        boxShadow: `0 0 25px 0 ${alpha(theme.palette.info.main, 0.2)}`,
+                        '& img': { transform: 'scale(1.1)' },
                       },
                     }}
                   >
@@ -218,30 +253,32 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                       }}
                     />
 
+                    {/* Overlay para profundidade e legibilidade */}
                     <Box
                       sx={{
                         position: 'absolute',
                         inset: 0,
-                        background: `linear-gradient(180deg, transparent 40%, ${alpha(
-                          theme.palette.common.black,
-                          0.9
-                        )} 100%)`,
+                        zIndex: 1,
+                        background: `linear-gradient(180deg, transparent 40%, ${alpha('#020817', 0.95)} 100%)`,
                       }}
                     />
 
                     <Stack
-                      spacing={1}
+                      spacing={1.5}
                       sx={{
                         position: 'absolute',
                         bottom: 0,
-                        p: 3,
+                        p: 4,
                         width: 1,
+                        zIndex: 4,
                       }}
                     >
                       <Typography
                         variant="caption"
                         sx={{
-                          color: alpha(theme.palette.common.white, 0.7),
+                          color: '#919EAB', // Texto Secundário padronizado
+                          fontFamily: "'Public Sans', sans-serif",
+                          fontWeight: 600,
                         }}
                       >
                         {fDate(post.createdAt)}
@@ -250,10 +287,11 @@ export function HomeLatestNews({ sx, ...other }: BoxProps) {
                       <Typography
                         sx={{
                           fontWeight: 800,
-                          fontSize: index === 0 ? 22 : 16,
+                          fontSize: index === 0 ? 24 : 18,
                           color: 'common.white',
-                          lineHeight: 1.3,
-                          fontFamily: index === 0 ? 'inherit' : "'Orbitron', sans-serif",
+                          lineHeight: 1.2,
+                          fontFamily: "'Orbitron', sans-serif",
+                          textTransform: 'uppercase', // Estética Scifi
                         }}
                       >
                         {post.title}
