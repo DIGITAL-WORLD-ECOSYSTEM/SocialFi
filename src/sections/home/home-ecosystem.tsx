@@ -88,7 +88,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 1 }}>
           
-          {/* HEADER COM TÍTULO E BOTÃO NA EXTREMIDADE DIREITA */}
+          {/* HEADER: TÍTULO E BOTÃO CRYSTAL */}
           <Stack
             direction={{ xs: 'column', md: 'row' }}
             alignItems={{ md: 'flex-end' }}
@@ -105,7 +105,6 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                     px: 1.5,
                     py: 0.5,
                     mb: 4,
-                    boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.3)}`,
                   }}
                 >
                   <Typography
@@ -151,11 +150,11 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
               </m.div>
             </Box>
 
+            {/* BOTÃO CRYSTAL / CIANO */}
             <m.div variants={varFade('inRight')}>
               <Button
                 component={RouterLink}
                 href={paths.dashboard.root}
-                variant="outlined"
                 endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                 sx={{
                   height: 56,
@@ -164,12 +163,32 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                   fontWeight: 700,
                   borderRadius: 1.5,
                   color: 'common.white',
-                  borderColor: alpha(theme.palette.info.main, 0.3),
                   textTransform: 'uppercase',
+                  border: 'none',
+                  position: 'relative',
+                  bgcolor: alpha('#020817', 0.6),
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  transition: theme.transitions.create(['all']),
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: 'inherit',
+                    padding: '1px',
+                    background: `linear-gradient(180deg, 
+                      ${alpha(theme.palette.info.main, 1)} 0%, 
+                      ${alpha(theme.palette.info.main, 0.1)} 50%, 
+                      ${alpha(theme.palette.info.main, 0.6)} 100%
+                    )`,
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  },
                   '&:hover': {
-                    borderColor: 'info.main',
-                    boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
                     bgcolor: alpha(theme.palette.info.main, 0.08),
+                    transform: 'scale(1.05)',
+                    boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.3)}`,
                   },
                 }}
               >
@@ -178,7 +197,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
             </m.div>
           </Stack>
 
-          {/* GRID DE CARDS COM BORDAS NEON ESPECÍFICAS POR ITEM */}
+          {/* GRID DE CARDS COM BORDAS REATIVAS POR ITEM */}
           <Grid container spacing={3}>
             {ITEMS.map((item) => (
               <Grid key={item.id} size={{ xs: 12, sm: 6, md: 3 }}>
@@ -189,17 +208,36 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                       p: 4,
                       height: 1,
                       borderRadius: 2.5,
-                      bgcolor: alpha(theme.palette.grey[500], 0.08),
-                      backdropFilter: 'blur(10px)',
-                      WebkitBackdropFilter: 'blur(10px)',
-                      // BORDAS NEON DINÂMICAS POR ITEM
-                      border: `1.5px solid ${alpha(item.color, 0.25)}`,
-                      boxShadow: `0 0 12px 0 ${alpha(item.color, 0.1)}`,
+                      position: 'relative',
+                      bgcolor: alpha('#020817', 0.8),
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
                       transition: theme.transitions.create(['all']),
+                      
+                      // BORDA REATIVA (Stroke Colorizada por Item)
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        padding: '1px',
+                        background: `linear-gradient(180deg, 
+                          ${alpha(item.color, 0.8)} 0%, 
+                          ${alpha(theme.palette.common.white, 0.05)} 50%, 
+                          ${alpha(item.color, 0.8)} 100%
+                        )`,
+                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                        WebkitMaskComposite: 'xor',
+                        maskComposite: 'exclude',
+                        zIndex: 2,
+                      },
+
+                      boxShadow: `0 8px 32px 0 ${alpha(theme.palette.common.black, 0.4)}`,
+
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        borderColor: item.color,
-                        boxShadow: `0 0 20px 0 ${alpha(item.color, 0.4)}`,
+                        bgcolor: alpha('#020817', 0.95),
+                        boxShadow: `0 0 25px 0 ${alpha(item.color, 0.25)}`,
                       },
                     }}
                   >
@@ -214,6 +252,7 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
                         color: item.color,
                         bgcolor: alpha(item.color, 0.12),
                         border: `1px solid ${alpha(item.color, 0.3)}`,
+                        zIndex: 3,
                       }}
                     >
                       <Iconify icon={item.icon as any} width={28} />
@@ -221,16 +260,24 @@ export function HomeEcosystem({ sx, ...other }: BoxProps) {
 
                     <Typography 
                       variant="h6" 
-                      fontWeight={800} 
-                      sx={{ color: 'common.white', fontFamily: "'Orbitron', sans-serif" }}
+                      sx={{ 
+                        color: 'common.white', 
+                        fontFamily: "'Orbitron', sans-serif",
+                        fontWeight: 800,
+                        zIndex: 3 
+                      }}
                     >
                       {item.title}
                     </Typography>
 
                     <Typography 
                       variant="body2" 
-                      color="text.secondary" 
-                      lineHeight={1.7}
+                      sx={{ 
+                        color: '#919EAB', 
+                        fontFamily: "'Public Sans', sans-serif",
+                        lineHeight: 1.7,
+                        zIndex: 3
+                      }}
                     >
                       {item.description}
                     </Typography>
