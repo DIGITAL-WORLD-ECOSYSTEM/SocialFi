@@ -33,7 +33,7 @@ export function PostCommunity() {
         display: 'flex',
         overflow: 'hidden',
         position: 'relative',
-        // 🟢 Máscara de gradiente para suavizar bordas laterais
+        // Máscara de gradiente para suavizar bordas laterais
         maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         py: 1.5,
@@ -48,7 +48,7 @@ export function PostCommunity() {
           sx={{ px: 1.5, flexShrink: 0 }}
           animate={{ x: reverse ? ['-100%', '0%'] : ['0%', '-100%'] }}
           transition={{
-            duration: 45,
+            duration: 60, // Velocidade premium suavizada
             ease: 'linear',
             repeat: Infinity,
           }}
@@ -68,17 +68,43 @@ export function PostCommunity() {
                 alignItems: 'center',
                 flexDirection: 'column',
                 textDecoration: 'none',
-                // 🟢 ESTILO GLASSMORPHISM
-                bgcolor: alpha(theme.palette.grey[900], 0.45),
+                position: 'relative',
+                overflow: 'hidden',
+                // 🟢 FUNDO DEEP SPACE SCIFI
+                bgcolor: alpha('#020817', 0.7),
                 backdropFilter: 'blur(12px)',
                 WebkitBackdropFilter: 'blur(12px)',
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
-                transition: theme.transitions.create(['background-color', 'transform', 'border-color']),
+                
+                // 💎 BORDA REATIVA DE 1PX (Assinatura Visual)
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: 'inherit',
+                  padding: '1px',
+                  background: `linear-gradient(180deg, 
+                    ${alpha(theme.palette.info.main, 0.8)} 0%, 
+                    ${alpha(theme.palette.common.white, 0.05)} 50%, 
+                    ${alpha(theme.palette.warning.main, 0.8)} 100%
+                  )`,
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                  zIndex: 2,
+                },
+
+                transition: theme.transitions.create(['all']),
                 '&:hover': {
-                  bgcolor: alpha(theme.palette.primary.main, 0.08),
-                  borderColor: alpha(theme.palette.primary.main, 0.4),
-                  transform: 'translateY(-6px)',
-                  boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.25)}`,
+                  bgcolor: alpha(theme.palette.info.main, 0.08),
+                  transform: 'translateY(-8px)',
+                  boxShadow: `0 0 25px ${alpha(theme.palette.info.main, 0.3)}`,
+                  '&::before': {
+                    background: `linear-gradient(180deg, 
+                      ${theme.palette.info.main} 0%, 
+                      ${alpha(theme.palette.common.white, 0.2)} 50%, 
+                      ${theme.palette.info.main} 100%
+                    )`,
+                  }
                 },
               }}
             >
@@ -89,13 +115,15 @@ export function PostCommunity() {
                   width: 48, 
                   height: 48, 
                   mb: 2,
-                  filter: `drop-shadow(0 0 8px ${alpha(theme.palette.primary.main, 0.3)})`
+                  zIndex: 3,
+                  filter: `drop-shadow(0 0 12px ${alpha(theme.palette.info.main, 0.4)})`
                 }} 
               />
               <Typography 
                 variant="subtitle2" 
                 noWrap 
                 sx={{ 
+                  zIndex: 3,
                   color: 'common.white',
                   fontFamily: "'Orbitron', sans-serif",
                   fontSize: 11,
@@ -141,7 +169,15 @@ export function PostCommunity() {
             </m.div>
             
             <m.div variants={varFade('inUp')}>
-              <Typography variant="body1" sx={{ color: 'grey.400', maxWidth: 600, mx: 'auto' }}>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  color: 'grey.400', 
+                  maxWidth: 600, 
+                  mx: 'auto',
+                  fontFamily: "'Public Sans', sans-serif"
+                }}
+              >
                 Monitorizamos os principais ecossistemas globais em tempo real para trazer insights exclusivos.
               </Typography>
             </m.div>
