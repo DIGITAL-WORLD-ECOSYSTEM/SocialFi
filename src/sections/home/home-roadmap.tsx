@@ -1,10 +1,14 @@
 'use client';
 
+// ----------------------------------------------------------------------
 import type { BoxProps } from '@mui/material/Box';
 
 import { useMemo } from 'react';
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -12,9 +16,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// APP
+// ----------------------------------------------------------------------
 import { useTranslate } from 'src/locales';
-
 import { varFade, MotionViewport } from 'src/components/animate';
+
+// ----------------------------------------------------------------------
 
 type RoadmapPhase = {
   phase: string;
@@ -79,7 +87,8 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
     >
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-          {/* Badge */}
+          
+          {/* Badge Padronizada */}
           <m.div variants={varFade('inUp')}>
             <Box
               sx={{
@@ -107,7 +116,7 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
             </Box>
           </m.div>
 
-          {/* Title */}
+          {/* Título Scifi */}
           <m.div variants={varFade('inUp')}>
             <Typography
               component="h2"
@@ -123,30 +132,30 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
               <Box component="span" sx={{ color: 'common.white' }}>
                 {t('roadmap.title')}
               </Box>
-              <Box component="span" sx={{ color: 'warning.main', ml: 1.5 }}>
+              <Box component="span" sx={{ color: 'warning.main', ml: { xs: 0, md: 1.5 }, display: { xs: 'block', md: 'inline' } }}>
                 {t('roadmap.title_highlight')}
               </Box>
             </Typography>
           </m.div>
 
-          {/* Subtitle */}
+          {/* Subtítulo Técnico */}
           <m.div variants={varFade('inUp')}>
             <Typography
               sx={{
                 mt: 3,
                 mx: 'auto',
                 maxWidth: 560,
-                fontFamily: "'Inter', 'Roboto', sans-serif",
+                fontFamily: "'Public Sans', sans-serif",
                 fontSize: { xs: 16, md: 18 },
                 lineHeight: 1.7,
-                color: alpha(theme.palette.common.white, 0.75),
+                color: '#919EAB',
               }}
             >
               {t('roadmap.description')}
             </Typography>
           </m.div>
 
-          {/* Phases */}
+          {/* Grid de Fases com Bordas Reativas */}
           <Grid
             container
             display="grid"
@@ -170,18 +179,44 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                     <Card
                       sx={{
                         p: 4,
-                        borderRadius: 2,
+                        borderRadius: 3,
                         display: 'inline-block',
-                        width: { xs: '100%', md: 'auto' },
+                        width: '100%',
                         maxWidth: 400,
-                        border: `1px solid ${cardColor}`,
-                        boxShadow: `0 0 24px ${alpha(cardColor, 0.4)}`,
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        bgcolor: alpha(theme.palette.grey[900], 0.2),
+                        position: 'relative',
+                        bgcolor: alpha('#020817', 0.8),
+                        backdropFilter: 'blur(12px)',
+                        WebkitBackdropFilter: 'blur(12px)',
+                        transition: theme.transitions.create(['all']),
+                        
+                        // BORDA REATIVA COLORIDA (BASEADA NA FASE)
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          inset: 0,
+                          borderRadius: 'inherit',
+                          padding: '1px',
+                          background: `linear-gradient(180deg, 
+                            ${alpha(cardColor, 0.8)} 0%, 
+                            ${alpha(theme.palette.common.white, 0.05)} 50%, 
+                            ${alpha(cardColor, 0.8)} 100%
+                          )`,
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          zIndex: 2,
+                        },
+
+                        boxShadow: `0 8px 32px 0 ${alpha(theme.palette.common.black, 0.4)}`,
+
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: `0 0 25px 0 ${alpha(cardColor, 0.3)}`,
+                          bgcolor: alpha('#020817', 0.95),
+                        },
                       }}
                     >
-                      {/* Phase + Time */}
+                      {/* Phase + Time: Orbitron */}
                       <Typography
                         component="div"
                         sx={{
@@ -191,12 +226,14 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                           letterSpacing: '0.14em',
                           textTransform: 'uppercase',
                           color: cardColor,
+                          zIndex: 3,
+                          position: 'relative'
                         }}
                       >
                         {item.phase} • {item.time}
                       </Typography>
 
-                      {/* Title */}
+                      {/* Title: Orbitron */}
                       <Typography
                         component="h3"
                         sx={{
@@ -204,21 +241,25 @@ export function HomeRoadmap({ sx, ...other }: BoxProps) {
                           mb: 2,
                           fontFamily: "'Orbitron', sans-serif",
                           fontWeight: 800,
-                          fontSize: { xs: 18, md: 20 },
+                          fontSize: { xs: 18, md: 22 },
                           letterSpacing: '0.04em',
                           color: 'common.white',
+                          zIndex: 3,
+                          position: 'relative'
                         }}
                       >
                         {item.title}
                       </Typography>
 
-                      {/* Description */}
+                      {/* Description: Public Sans */}
                       <Typography
                         sx={{
-                          fontFamily: "'Inter', 'Roboto', sans-serif",
+                          fontFamily: "'Public Sans', sans-serif",
                           fontSize: 15,
                           lineHeight: 1.75,
-                          color: alpha(theme.palette.common.white, 0.75),
+                          color: '#919EAB',
+                          zIndex: 3,
+                          position: 'relative'
                         }}
                       >
                         {item.description}
