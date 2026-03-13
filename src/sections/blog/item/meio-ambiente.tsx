@@ -1,15 +1,23 @@
 'use client';
 
+// ----------------------------------------------------------------------
+// Imports — Motion e Tipos
+// ----------------------------------------------------------------------
 import { m } from 'framer-motion';
 
+// ----------------------------------------------------------------------
+// Imports — MUI
+// ----------------------------------------------------------------------
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+// ----------------------------------------------------------------------
+// Imports — App
+// ----------------------------------------------------------------------
 import { paths } from 'src/routes/paths';
-
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import { PostItem, PostItemLatest } from './item';
@@ -62,7 +70,7 @@ const staticMeioAmbientePosts = [
     duration: '9 min de leitura',
     author: { name: 'Equipe DEX', avatarUrl: '/assets/images/mock/avatar/avatar-19.webp' },
   },
-    {
+  {
     id: 'm6',
     title: 'O Futuro da Agricultura Sustentável com Drones e Blockchain',
     category: 'Meio Ambiente',
@@ -88,18 +96,56 @@ export function MeioAmbiente() {
   const theme = useTheme();
   const viewPosts = staticMeioAmbientePosts;
 
+  // Estilização Crystal Padronizada (Assinatura SocialFi 2026)
+  const cardWrapperStyle = {
+    position: 'relative',
+    borderRadius: 2,
+    overflow: 'hidden',
+    bgcolor: alpha('#020817', 0.8),
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    transition: theme.transitions.create(['all']),
+    
+    // Borda Reativa Scifi de 1px
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: 0,
+      borderRadius: 'inherit',
+      padding: '1px',
+      background: `linear-gradient(180deg, 
+        ${alpha(theme.palette.info.main, 0.8)} 0%, 
+        ${alpha(theme.palette.common.white, 0.05)} 50%, 
+        ${alpha(theme.palette.warning.main, 0.8)} 100%
+      )`,
+      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      WebkitMaskComposite: 'xor',
+      maskComposite: 'exclude',
+      zIndex: 2,
+    },
+    '&:hover': {
+      transform: 'translateY(-8px)',
+      boxShadow: `0 0 25px 0 ${alpha(theme.palette.info.main, 0.25)}`,
+    },
+  };
+
   return (
     <Box
       id="meio-ambiente"
       component="section"
       sx={{
         position: 'relative',
-        bgcolor: 'transparent', // 🟢 TRANSPARÊNCIA ESTRATÉGICA ATIVA
+        bgcolor: 'transparent',
         py: { xs: 10, md: 15 },
         overflow: 'hidden',
+        // Injeção de tipografia via Theme (Seguro contra erros de build)
+        '& .MuiTypography-root:not(h2)': {
+          fontFamily: theme.typography.fontFamily,
+        }
       }}
     >
       <Container component={MotionViewport}>
+        {/* Título Orbitron com Glow Neon */}
         <m.div variants={varFade('inDown')}>
           <Typography
             variant="h2"
@@ -111,7 +157,6 @@ export function MeioAmbiente() {
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
               color: 'common.white',
-              // 🟢 EFEITO GLOW PADRONIZADO
               textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
             }}
           >
@@ -120,7 +165,7 @@ export function MeioAmbiente() {
         </m.div>
 
         <Grid container spacing={4}>
-          {/* Desktop: Destaques (Primeiros 3) */}
+          {/* Desktop: Destaques (Posts 1-3) */}
           {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`env-top-${post.id}-${index}`}
@@ -133,16 +178,18 @@ export function MeioAmbiente() {
               }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItemLatest 
-                  post={post as any} 
-                  index={index} 
-                  detailsHref={paths.post.details(post.title)} 
-                />
+                <Box sx={cardWrapperStyle}>
+                  <PostItemLatest
+                    post={post as any}
+                    index={index}
+                    detailsHref={paths.post.details(post.title)}
+                  />
+                </Box>
               </m.div>
             </Grid>
           ))}
 
-          {/* Mobile/Tablet: Destaques (Primeiros 3) */}
+          {/* Mobile/Tablet: Destaques (Posts 1-3) */}
           {viewPosts.slice(0, 3).map((post, index) => (
             <Grid
               key={`env-mb-${post.id}-${index}`}
@@ -150,25 +197,23 @@ export function MeioAmbiente() {
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItem 
-                  post={post as any} 
-                  detailsHref={paths.post.details(post.title)} 
-                />
+                <Box sx={cardWrapperStyle}>
+                  <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
+                </Box>
               </m.div>
             </Grid>
           ))}
 
-          {/* Lista Restante (Posts 4 a 7) */}
+          {/* Lista Restante (Posts 4-7) */}
           {viewPosts.slice(3, 7).map((post, index) => (
             <Grid
               key={`env-list-${post.id}-${index}`}
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItem 
-                  post={post as any} 
-                  detailsHref={paths.post.details(post.title)} 
-                />
+                <Box sx={cardWrapperStyle}>
+                  <PostItem post={post as any} detailsHref={paths.post.details(post.title)} />
+                </Box>
               </m.div>
             </Grid>
           ))}
