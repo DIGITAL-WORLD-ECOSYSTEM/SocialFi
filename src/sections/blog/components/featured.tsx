@@ -66,6 +66,8 @@ const staticFeaturedPosts = [
 // ----------------------------------------------------------------------
 
 export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
+  const theme = useTheme();
+
   const carousel = useCarousel(
     {
       loop: true,
@@ -73,12 +75,13 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
     [Autoplay({ delay: 6000, stopOnInteraction: false })]
   );
 
-  const posts = staticFeaturedPosts;
+  // 🛠 SOLUÇÃO PARA O ERRO: Extraímos dotCount para não vazar para o DOM
+  const { dotCount, ...dotsProps } = carousel.dots;
 
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden', bgcolor: 'transparent', ...sx }}>
       <Carousel carousel={carousel}>
-        {posts.map((post) => (
+        {staticFeaturedPosts.map((post) => (
           <PostItem key={post.id} post={post} />
         ))}
       </Carousel>
@@ -92,20 +95,24 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
           zIndex: 9,
           px: { xs: 1, md: 5 },
           position: 'absolute',
-          color: '#FA541C',
+          color: theme.palette.primary.main,
           justifyContent: 'space-between',
           transform: 'translateY(-50%)',
           '& button': {
             bgcolor: alpha('#000', 0.5),
             backdropFilter: 'blur(8px)',
-            border: `1px solid ${alpha('#FA541C', 0.3)}`,
-            '&:hover': { bgcolor: alpha('#FA541C', 0.8), color: '#fff', boxShadow: '0 0 15px #FA541C' },
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+            '&:hover': { 
+              bgcolor: alpha(theme.palette.primary.main, 0.8), 
+              color: '#fff', 
+              boxShadow: `0 0 15px ${theme.palette.primary.main}` 
+            },
           },
         }}
       />
 
       <CarouselDotButtons
-        {...carousel.dots}
+        {...dotsProps}
         sx={{
           width: 1,
           bottom: 40,
@@ -113,13 +120,18 @@ export function PostFeatured({ sx }: { sx?: SxProps<Theme> }) {
           display: 'flex',
           position: 'absolute',
           justifyContent: 'center',
-          color: '#FA541C',
+          color: theme.palette.primary.main,
           '& .MuiButtonBase-root': {
             width: 8,
             height: 8,
             transition: 'all 0.3s',
             bgcolor: alpha('#fff', 0.2),
-            '&.Mui-selected': { width: 24, borderRadius: 8, bgcolor: '#FA541C', boxShadow: '0 0 10px #FA541C' },
+            '&.Mui-selected': { 
+              width: 24, 
+              borderRadius: 8, 
+              bgcolor: theme.palette.primary.main, 
+              boxShadow: `0 0 10px ${theme.palette.primary.main}` 
+            },
           },
         }}
       />
@@ -138,7 +150,7 @@ function PostItem({ post }: { post: any }) {
       sx={{
         py: { xs: 8, md: 15 },
         display: 'flex',
-        minHeight: { xs: 720, md: 640 },
+        minHeight: { xs: 720, md: 640 }, // Mantido tamanho original
         position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
@@ -149,50 +161,67 @@ function PostItem({ post }: { post: any }) {
       <Card
         sx={{
           width: 1,
-          maxWidth: 1100,
+          maxWidth: 1100, // Mantido tamanho original
           display: 'flex',
           overflow: 'hidden',
           flexDirection: { xs: 'column', md: 'row' },
-          // 🟢 ESTILO GLASSMORPHISM AVANÇADO
-          bgcolor: alpha(theme.palette.grey[900], 0.4),
+          position: 'relative',
+          // 🟢 ESTILO DEEP SPACE
+          bgcolor: alpha('#020817', 0.6),
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+          
+          // 💎 BORDA REATIVA DE 1PX (Assinatura Visual)
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 'inherit',
+            padding: '1px',
+            background: `linear-gradient(180deg, 
+              ${alpha(theme.palette.primary.main, 0.8)} 0%, 
+              ${alpha(theme.palette.common.white, 0.05)} 50%, 
+              ${alpha(theme.palette.primary.main, 0.4)} 100%
+            )`,
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            zIndex: 2,
+          },
           boxShadow: `0 0 40px ${alpha(theme.palette.common.black, 0.4)}`,
         }}
       >
-        <Box sx={{ width: { xs: 1, md: 0.6 }, position: 'relative' }}>
-          <Image 
-            alt={title} 
-            src={coverUrl} 
-            ratio="4/3" 
-            sx={{ height: 1 }}
-          />
-          {/* Overlay gradiente para fundir a imagem com o vidro do texto */}
+        {/* Lado da Imagem */}
+        <Box sx={{ width: { xs: 1, md: 0.6 }, position: 'relative', zIndex: 1 }}>
+          <Image alt={title} src={coverUrl} ratio="4/3" sx={{ height: 1 }} />
           <Box 
             sx={{ 
               position: 'absolute',
               top: 0, right: 0, bottom: 0, left: 0,
               background: {
-                xs: `linear-gradient(to bottom, transparent, ${alpha(theme.palette.grey[900], 0.8)})`,
-                md: `linear-gradient(to right, transparent, ${alpha(theme.palette.grey[900], 0.2)})`
+                xs: `linear-gradient(to bottom, transparent, ${alpha('#020817', 0.8)})`,
+                md: `linear-gradient(to right, transparent, ${alpha('#020817', 0.2)})`
               }
             }} 
           />
         </Box>
 
-        <Stack sx={{ width: { xs: 1, md: 0.4 }, p: { xs: 3, md: 6 }, color: 'common.white' }}>
+        {/* Lado do Conteúdo */}
+        <Stack sx={{ width: { xs: 1, md: 0.4 }, p: { xs: 3, md: 6 }, color: 'common.white', zIndex: 3 }}>
           <Stack
             direction="row"
             alignItems="center"
             spacing={1.5}
-            sx={{ mb: 3, typography: 'caption', color: 'primary.light', fontWeight: 700 }}
+            sx={{ 
+              mb: 3, 
+              typography: 'caption', 
+              color: 'primary.main', 
+              fontWeight: 800,
+              fontFamily: "'Public Sans', sans-serif" 
+            }}
           >
             {fDate(createdAt)}
-            <Box
-              component="span"
-              sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }}
-            />
+            <Box component="span" sx={{ width: 4, height: 4, borderRadius: '50%', bgcolor: 'currentColor' }} />
             {duration}
           </Stack>
 
@@ -208,8 +237,9 @@ function PostItem({ post }: { post: any }) {
               color: 'common.white',
               textDecoration: 'none',
               letterSpacing: '0.02em',
-              textShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.3)}`,
-              '&:hover': { color: '#FA541C' },
+              textShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.35)}`,
+              transition: theme.transitions.create(['color']),
+              '&:hover': { color: 'primary.main' },
               display: '-webkit-box',
               WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
@@ -224,6 +254,7 @@ function PostItem({ post }: { post: any }) {
             sx={{
               mb: 5,
               color: 'grey.400',
+              fontFamily: "'Public Sans', sans-serif",
               lineHeight: 1.8,
               display: '-webkit-box',
               WebkitLineClamp: 4,
@@ -238,13 +269,16 @@ function PostItem({ post }: { post: any }) {
             <Avatar 
               src={author?.avatarUrl} 
               alt={author?.name} 
-              sx={{ border: `2px solid ${theme.palette.primary.main}` }}
+              sx={{ 
+                border: `2px solid ${theme.palette.primary.main}`,
+                boxShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.3)}`
+              }}
             />
             <Stack spacing={0.5}>
-              <Typography variant="subtitle2" sx={{ color: 'common.white' }}>
+              <Typography variant="subtitle2" sx={{ color: 'common.white', fontFamily: "'Orbitron', sans-serif", fontSize: 12 }}>
                 {author?.name}
               </Typography>
-              <Typography variant="caption" sx={{ color: 'primary.light', fontWeight: 800 }}>
+              <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: 1 }}>
                 EQUIPE EDITORIAL
               </Typography>
             </Stack>
