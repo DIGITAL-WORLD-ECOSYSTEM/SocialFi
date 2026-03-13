@@ -137,14 +137,13 @@ export function HomeTeam({ sx, ...other }: BoxProps) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 color: 'common.white',
-                border: 'none', // Remove a borda padrão do MUI
+                border: 'none',
                 position: 'relative',
-                bgcolor: alpha('#020817', 0.6), // Glassmorphism leve
+                bgcolor: alpha('#020817', 0.6),
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 transition: theme.transitions.create(['all']),
                 
-                // BORDA REATIVA (STROKE CIANO)
                 '&::before': {
                   content: '""',
                   position: 'absolute',
@@ -296,10 +295,11 @@ function MemberCard({ member }: { member: (typeof _carouselsMembers)[number] }) 
               },
             }}
           >
-            {social.value === 'twitter' && <Iconify icon="bi:twitter-x" />}
-            {social.value === 'facebook' && <Iconify icon="eva:facebook-fill" />}
-            {social.value === 'instagram' && <Iconify icon="ant-design:instagram-filled" />}
-            {social.value === 'linkedin' && <Iconify icon="eva:linkedin-fill" />}
+            {/* Fix: Type casting para ignorar restrição de ícones Solar */}
+            {social.value === 'twitter' && <Iconify icon={"bi:twitter-x" as any} />}
+            {social.value === 'facebook' && <Iconify icon={"eva:facebook-fill" as any} />}
+            {social.value === 'instagram' && <Iconify icon={"ant-design:instagram-filled" as any} />}
+            {social.value === 'linkedin' && <Iconify icon={"eva:linkedin-fill" as any} />}
           </IconButton>
         ))}
       </Box>
