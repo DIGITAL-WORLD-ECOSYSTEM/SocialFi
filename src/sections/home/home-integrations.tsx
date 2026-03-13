@@ -21,8 +21,8 @@ import { varFade, MotionViewport } from 'src/components/animate';
 const World = dynamic(() => import('src/components/threeglobe/globe').then((mod) => mod.World), {
   ssr: false,
   loading: () => (
-    <Box sx={{ height: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Typography variant="h3" sx={{ opacity: 0.1, fontFamily: "'Orbitron', sans-serif" }}>
+    <Box sx={{ height: { xs: 400, md: 600 }, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Typography variant="h3" sx={{ opacity: 0.1, fontFamily: "'Orbitron', sans-serif", fontSize: { xs: '1rem', md: '2rem' } }}>
         INITIALIZING HUD...
       </Typography>
     </Box>
@@ -50,27 +50,36 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
       {...other}
     >
       <MotionViewport>
-        {/* Container principal (Margens alinhadas ao Menu) */}
-        <Container maxWidth="lg" sx={{ position: 'relative', minHeight: { md: 950 } }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', minHeight: { xs: 'auto', md: 950 } }}>
           
-          {/* 1. Cabeçalho Centralizado com o Badge reinserido */}
           <SectionHeader t={t} />
 
-          {/* Área de Visualização Técnica */}
-          <Box sx={{ position: 'relative', width: '100%', height: { xs: 700, md: 800 }, mt: 5 }}>
+          {/* Área de Visualização Técnica - Responsiva */}
+          <Box 
+            sx={{ 
+              position: 'relative', 
+              width: '100%', 
+              height: { xs: 'auto', md: 800 }, 
+              mt: { xs: 2, md: 5 },
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
             
-            {/* 2. Camada do Globo: Centralização Matemática */}
+            {/* GLOBO: Ajuste de escala e posição para Mobile */}
             <Box
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: { xs: '100%', md: 1100 }, 
-                height: 800,
+                position: { xs: 'relative', md: 'absolute' },
+                top: { md: '50%' },
+                left: { md: '50%' },
+                transform: { md: 'translate(-50%, -50%)' },
+                width: { xs: '140%', sm: '120%', md: 1100 }, 
+                height: { xs: 400, sm: 500, md: 800 },
                 zIndex: 1,
                 pointerEvents: 'none', 
-                filter: `drop-shadow(0 0 60px ${alpha(theme.palette.primary.main, 0.1)})`,
+                filter: `drop-shadow(0 0 60px ${alpha(theme.palette.info.main, 0.15)})`,
+                my: { xs: -8, md: 0 } 
               }}
             >
               <World 
@@ -78,25 +87,33 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
                 globeConfig={{
                   autoRotate: true,
                   autoRotateSpeed: 0.8,
-                  globeColor: '#020617'
-                }} 
+                  globeColor: '#020817'
+                } as any} // FIX: Casting para evitar erro TS2769
               />
             </Box>
 
-            {/* 3. Camada HUD: Cards com expansão interna (380px) sobrepondo o globo */}
+            {/* CAMADA HUD: Empilhamento inteligente no Mobile */}
             <Box
               sx={{
                 position: 'relative',
                 zIndex: 2,
+                width: '100%',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
+                gap: { xs: 2, md: 0 },
                 justifyContent: 'space-between',
                 pointerEvents: 'none',
               }}
             >
-              {/* Cards Superiores */}
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ width: '100%' }}>
+              {/* Painéis Superiores */}
+              <Stack 
+                direction={{ xs: 'column', md: 'row' }} 
+                justifyContent="space-between" 
+                alignItems={{ xs: 'center', md: 'flex-start' }} 
+                spacing={2}
+                sx={{ width: '100%' }}
+              >
                 <DataPanel
                   title={t('integrations.panels.chain.title') || 'ESTADO_DA_CHAIN'}
                   label="BLOCKCHAIN_LEDGER"
@@ -117,8 +134,14 @@ export function HomeIntegrations({ sx, ...other }: BoxProps) {
                 />
               </Stack>
 
-              {/* Cards Inferiores */}
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ width: '100%' }}>
+              {/* Painéis Inferiores */}
+              <Stack 
+                direction={{ xs: 'column', md: 'row' }} 
+                justifyContent="space-between" 
+                alignItems={{ xs: 'center', md: 'flex-end' }} 
+                spacing={2}
+                sx={{ width: '100%', mt: { xs: 0, md: 'auto' } }}
+              >
                 <DataPanel
                   title={t('integrations.panels.network.title') || 'CONSOLA_DE_REDE'}
                   label="NETWORK_TRAFFIC"
@@ -152,8 +175,7 @@ function SectionHeader({ t }: { t: any }) {
   const theme = useTheme();
 
   return (
-    <Stack spacing={2} alignItems="center" sx={{ textAlign: 'center' }}>
-      {/* BADGE REINSERIDO - Conforme imagem original */}
+    <Stack spacing={2} alignItems="center" sx={{ textAlign: 'center', px: 2 }}>
       <m.div variants={varFade('inUp')}>
         <Box
           sx={{
@@ -161,18 +183,18 @@ function SectionHeader({ t }: { t: any }) {
             alignItems: 'center',
             px: 2,
             py: 0.5,
-            borderRadius: 50, // Estilo pílula conforme imagem
+            borderRadius: 50,
             border: `1px solid ${theme.palette.info.main}`,
             bgcolor: alpha(theme.palette.info.main, 0.1),
             backdropFilter: 'blur(10px)',
-            mb: 2
+            mb: 1
           }}
         >
           <Typography
             sx={{
               fontFamily: "'Orbitron', sans-serif",
               fontWeight: 700,
-              fontSize: 10,
+              fontSize: { xs: 8, md: 10 },
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: 'info.main',
@@ -183,7 +205,6 @@ function SectionHeader({ t }: { t: any }) {
         </Box>
       </m.div>
 
-      {/* TÍTULO PRINCIPAL */}
       <m.div variants={varFade('inUp')}>
         <Typography
           variant="h2"
@@ -192,11 +213,12 @@ function SectionHeader({ t }: { t: any }) {
             fontWeight: 900,
             lineHeight: 1.1,
             textTransform: 'uppercase',
-            fontSize: { xs: '2rem', md: '3.5rem' }
+            fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3.5rem' },
+            color: 'common.white'
           }}
         >
           SISTEMA DE <br />
-          <Box component="span" sx={{ color: alpha(theme.palette.common.white, 0.6) }}>
+          <Box component="span" sx={{ color: alpha(theme.palette.common.white, 0.5) }}>
             REDE E ATIVOS
           </Box>
           <br />
@@ -219,27 +241,39 @@ function DataPanel({ title, label, metrics, side, sx }: any) {
       component={m.div}
       variants={varFade(side === 'left' ? 'inLeft' : 'inRight')}
       sx={{
-        width: { xs: 1, md: 380 }, // Largura aumentada para sobrepor o globo
-        minHeight: 200, 
-        p: 3, 
+        width: { xs: '90%', sm: 340, md: 380 },
+        minHeight: { xs: 160, md: 200 }, 
+        p: { xs: 2, md: 3 }, 
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 1,
         pointerEvents: 'auto',
-        borderLeft: side === 'left' ? `3px solid ${theme.palette.info.main}` : 'none',
-        borderRight: side === 'right' ? `3px solid ${theme.palette.info.main}` : 'none',
-        bgcolor: alpha(theme.palette.grey[900], 0.45),
+        position: 'relative',
+        bgcolor: alpha('#020817', 0.8),
         backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        // BORDA REATIVA LATERAL (Ciano)
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: side === 'left' ? 0 : 'auto',
+          right: side === 'right' ? 0 : 'auto',
+          width: '3px',
+          height: '100%',
+          background: `linear-gradient(to bottom, ${theme.palette.info.main}, ${alpha(theme.palette.info.main, 0.2)})`,
+          boxShadow: `0 0 15px ${alpha(theme.palette.info.main, 0.4)}`,
+        },
         borderTop: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
         borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
         boxShadow: `0 25px 50px ${alpha(theme.palette.common.black, 0.5)}`,
         ...sx,
       }}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2.5 }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography 
           variant="caption" 
-          sx={{ color: 'info.main', fontWeight: 800, fontSize: 11, letterSpacing: 1.5, fontFamily: "'Orbitron', sans-serif" }}
+          sx={{ color: 'info.main', fontWeight: 800, fontSize: { xs: 9, md: 11 }, letterSpacing: 1.5, fontFamily: "'Orbitron', sans-serif" }}
         >
           {label}
         </Typography>
@@ -253,24 +287,44 @@ function DataPanel({ title, label, metrics, side, sx }: any) {
 
       <Typography 
         variant="subtitle1" 
-        sx={{ fontFamily: "'Orbitron', sans-serif", mb: 3, fontWeight: 800, color: 'common.white', textTransform: 'uppercase' }}
+        sx={{ 
+          fontFamily: "'Orbitron', sans-serif", 
+          mb: 2.5, 
+          fontWeight: 800, 
+          color: 'common.white', 
+          textTransform: 'uppercase',
+          fontSize: { xs: '0.85rem', md: '1rem' }
+        }}
       >
         {title}
       </Typography>
 
-      <Stack spacing={1.5} sx={{ flexGrow: 1 }}>
+      <Stack spacing={1.2} sx={{ flexGrow: 1 }}>
         {metrics.map((metric: any) => (
           <Stack
             key={metric.label}
             direction="row"
             justifyContent="space-between"
-            sx={{ borderBottom: `1px solid ${alpha(theme.palette.grey[500], 0.1)}`, pb: 1 }}
+            sx={{ borderBottom: `1px solid ${alpha(theme.palette.grey[500], 0.1)}`, pb: 0.8 }}
           >
-            <Typography sx={{ fontSize: 10, color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase' }}>
+            <Typography 
+              sx={{ 
+                fontSize: 9, 
+                color: '#919EAB', 
+                fontWeight: 700, 
+                textTransform: 'uppercase',
+                fontFamily: "'Public Sans', sans-serif"
+              }}
+            >
               {metric.label}
             </Typography>
             <Typography
-              sx={{ fontSize: 12, fontWeight: 800, color: metric.color || 'common.white', fontFamily: "'Orbitron', sans-serif" }}
+              sx={{ 
+                fontSize: 11, 
+                fontWeight: 800, 
+                color: metric.color || 'common.white', 
+                fontFamily: "'Orbitron', sans-serif" 
+              }}
             >
               {metric.value}
             </Typography>
@@ -282,7 +336,7 @@ function DataPanel({ title, label, metrics, side, sx }: any) {
 }
 
 const SAMPLE_ARCS: ArcData[] = [
-  { order: 1, startLat: -15.78, startLng: -47.92, endLat: 40.71, endLng: -74.0, arcAlt: 0.3, color: '#00AB55' },
-  { order: 2, startLat: -15.78, startLng: -47.92, endLat: 51.5, endLng: -0.12, arcAlt: 0.4, color: '#00AB55' },
-  { order: 3, startLat: -15.78, startLng: -47.92, endLat: 1.35, endLng: 103.8, arcAlt: 0.5, color: '#00AB55' },
+  { order: 1, startLat: -15.78, startLng: -47.92, endLat: 40.71, endLng: -74.0, arcAlt: 0.3, color: '#00B8D9' },
+  { order: 2, startLat: -15.78, startLng: -47.92, endLat: 51.5, endLng: -0.12, arcAlt: 0.4, color: '#00B8D9' },
+  { order: 3, startLat: -15.78, startLng: -47.92, endLat: 1.35, endLng: 103.8, arcAlt: 0.5, color: '#00B8D9' },
 ];
