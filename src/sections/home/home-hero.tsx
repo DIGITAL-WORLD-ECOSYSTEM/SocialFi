@@ -82,7 +82,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         </Typography>
       </Box>
 
-      {/* 🎨 Título com Hierarquia de 3 Camadas de Cores (Versão Final) */}
+      {/* 🎨 Título com Hierarquia de 3 Camadas de Cores */}
       <Box
         component="h1"
         sx={{
@@ -97,12 +97,10 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           fontFamily: "'Orbitron', sans-serif",
         }}
       >
-        {/* Camada 1: Branco (Contexto) */}
         <Box component="span" sx={{ color: 'common.white' }}>
           {t('hero.title')}
         </Box>
         <br />
-        {/* Camada 2: Cinza Técnico (O Ecossistema) */}
         <Box 
           component="span" 
           sx={{ color: alpha(theme.palette.common.white, 0.5) }}
@@ -110,7 +108,6 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           {t('hero.title_bridge')}
         </Box>
         <br />
-        {/* Camada 3: Gradiente Dinâmico (Interplanetário) — Com Glow sutil */}
         <Box
           component={m.span}
           animate={{ backgroundPosition: ['0% center', '200% center'] }}
@@ -136,12 +133,12 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         sx={{
           maxWidth: 640,
           mt: 3,
-          color: 'text.secondary',
+          color: '#919EAB', // Padronizado com Public Sans Secundário
           fontSize: { xs: 18, md: 20 },
           lineHeight: 1.6,
           fontWeight: 500,
-          // Ajuste solicitado: Justificado no mobile para melhor comportamento
-          textAlign: { xs: 'justify', md: 'left' },
+          fontFamily: "'Public Sans', sans-serif",
+          textAlign: { xs: 'center', md: 'left' },
         }}
       >
         {t('hero.description')}
@@ -157,12 +154,11 @@ export function HomeHero({ sx, ...other }: BoxProps) {
       sx={{ mt: 5 }}
     >
       <m.div {...motionProps}>
-        {/* 🟢 Botão Principal: Cristal Esmeralda */}
+        {/* 🟢 Botão Principal: Estilo Crystal (Fundo Deep + Borda Reativa Ciano) */}
         <Button
           component={RouterLink}
           href="/whitepaper"
           size="large"
-          variant="contained"
           startIcon={<Iconify width={24} icon="solar:file-bold-duotone" />}
           sx={{
             height: 60,
@@ -172,14 +168,32 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             fontWeight: 700,
             borderRadius: 1.5,
             textTransform: 'uppercase',
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-            border: `1px solid ${alpha(theme.palette.primary.light, 0.5)}`,
-            boxShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.4)}`,
+            color: 'common.white',
+            border: 'none',
+            position: 'relative',
+            bgcolor: alpha('#020817', 0.8),
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              borderRadius: 'inherit',
+              padding: '1px',
+              background: `linear-gradient(180deg, 
+                ${alpha(theme.palette.primary.main, 1)} 0%, 
+                ${alpha(theme.palette.primary.main, 0.1)} 50%, 
+                ${alpha(theme.palette.primary.main, 0.6)} 100%
+              )`,
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+            },
             transition: theme.transitions.create(['all']),
             '&:hover': {
-              background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-              boxShadow: `0 0 30px ${alpha(theme.palette.primary.main, 0.6)}`,
-              transform: 'translateY(-2px)',
+              bgcolor: alpha(theme.palette.primary.main, 0.1),
+              transform: 'scale(1.05)',
+              boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.4)}`,
             },
           }}
         >
@@ -188,13 +202,11 @@ export function HomeHero({ sx, ...other }: BoxProps) {
       </m.div>
 
       <m.div {...motionProps}>
-        {/* ✨ Botão Secundário: Neon Glass (Padronizado 10px Blur) */}
+        {/* ✨ Botão Secundário: Estilo Crystal (Borda Reativa Info/Ciano) */}
         <Button
           component={RouterLink}
           href="/ecosystem"
-          color="inherit"
           size="large"
-          variant="outlined"
           endIcon={<Iconify width={24} icon="solar:double-alt-arrow-right-bold-duotone" />}
           sx={{
             height: 60,
@@ -203,19 +215,33 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             fontFamily: "'Orbitron', sans-serif",
             fontWeight: 700,
             borderRadius: 1.5,
+            textTransform: 'uppercase',
+            color: 'common.white',
+            border: 'none',
+            position: 'relative',
+            bgcolor: alpha('#020817', 0.6),
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
-            color: 'common.white',
-            borderColor: alpha(theme.palette.info.main, 0.4),
-            bgcolor: alpha(theme.palette.info.main, 0.05),
-            textTransform: 'uppercase',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              borderRadius: 'inherit',
+              padding: '1px',
+              background: `linear-gradient(180deg, 
+                ${alpha(theme.palette.info.main, 1)} 0%, 
+                ${alpha(theme.palette.info.main, 0.1)} 50%, 
+                ${alpha(theme.palette.info.main, 0.6)} 100%
+              )`,
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+            },
             transition: theme.transitions.create(['all']),
-            boxShadow: `0 0 12px ${alpha(theme.palette.info.main, 0.2)}`,
             '&:hover': {
-              borderColor: 'info.main',
-              bgcolor: alpha(theme.palette.info.main, 0.15),
-              boxShadow: `0 0 25px ${alpha(theme.palette.info.main, 0.5)}`,
-              transform: 'translateY(-2px)',
+              bgcolor: alpha(theme.palette.info.main, 0.1),
+              transform: 'scale(1.05)',
+              boxShadow: `0 0 20px ${alpha(theme.palette.info.main, 0.4)}`,
             },
           }}
         >
@@ -259,13 +285,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
             justifyContent="space-between"
             spacing={{ xs: 8, md: 4 }}
           >
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
               {renderHeading()}
               {renderText()}
               {renderButtons()}
             </Box>
 
-            {/* Espaço reservado para o Globo 3D ou Ativo Visual */}
+            {/* Espaço reservado para o Ativo Visual (Globo Integrations) */}
             <Box sx={{ flex: 1, display: { xs: 'none', md: 'block' }, minHeight: 500 }} />
           </Stack>
         </Container>
