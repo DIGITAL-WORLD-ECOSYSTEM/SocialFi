@@ -24,7 +24,7 @@ type Props = {
 
 /**
  * Secção: Publicidade (PostAdvertisement)
- * Banner adaptado para o padrão Space/Glass 2026.
+ * Banner atualizado para o padrão Deep Space / Crystal 2026.
  */
 export function PostAdvertisement({
   title = 'Anuncie no Maior Portal Cripto',
@@ -40,7 +40,7 @@ export function PostAdvertisement({
       component="section" 
       sx={{ 
         py: { xs: 5, md: 10 }, 
-        bgcolor: 'transparent', // 🟢 Transparência para revelar o fundo espacial
+        bgcolor: 'transparent',
         position: 'relative' 
       }}
     >
@@ -55,12 +55,29 @@ export function PostAdvertisement({
             position: 'relative',
             overflow: 'hidden',
             color: 'common.white',
-            // 🟢 EFEITO GLASSMORPHISM
-            bgcolor: alpha(theme.palette.grey[900], 0.4),
+            // 🟢 FUNDO DEEP SPACE (NAVY + VIDRO)
+            bgcolor: alpha('#020817', 0.8),
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-            boxShadow: `0 0 40px ${alpha(theme.palette.primary.main, 0.1)}`,
+            
+            // 💎 BORDA REATIVA DO BANNER (CIANO -> ÂMBAR)
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              borderRadius: 'inherit',
+              padding: '1px',
+              background: `linear-gradient(180deg, 
+                ${alpha(theme.palette.primary.main, 1)} 0%, 
+                ${alpha(theme.palette.common.white, 0.05)} 50%, 
+                ${alpha(theme.palette.primary.main, 0.6)} 100%
+              )`,
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+              zIndex: 2,
+            },
+            boxShadow: `0 0 40px ${alpha(theme.palette.primary.main, 0.15)}`,
           }}
         >
           {/* Conteúdo do Banner */}
@@ -80,6 +97,7 @@ export function PostAdvertisement({
                   fontFamily: "'Orbitron', sans-serif",
                   textTransform: 'uppercase',
                   letterSpacing: '0.02em',
+                  fontSize: { xs: '1.75rem', md: '2.5rem' },
                   textShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.35)}`,
                 }}
               >
@@ -88,26 +106,54 @@ export function PostAdvertisement({
             </m.div>
 
             <m.div variants={varFade('inLeft')}>
-              <Typography variant="body1" sx={{ opacity: 0.8, color: 'grey.300' }}>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  color: '#919EAB', 
+                  fontFamily: "'Public Sans', sans-serif",
+                  lineHeight: 1.6 
+                }}
+              >
                 {description}
               </Typography>
             </m.div>
 
             <m.div variants={varFade('inUp')}>
+              {/* 🟢 BOTÃO ESTILO CRYSTAL ESMERALDA (REATIVO) */}
               <Button
                 variant="contained"
                 size="large"
                 href={ctaHref}
                 sx={{
                   alignSelf: { xs: 'center', md: 'flex-start' },
+                  height: 54,
                   px: 4,
+                  fontSize: 15,
                   fontWeight: 800,
                   fontFamily: "'Orbitron', sans-serif",
-                  bgcolor: '#FA541C',
-                  boxShadow: `0 0 20px ${alpha('#FA541C', 0.4)}`,
+                  textTransform: 'uppercase',
+                  borderRadius: 1.5,
+                  position: 'relative',
+                  // Fundo translúcido para efeito de vidro no botão
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  color: 'common.white',
+                  border: 'none',
+                  // Borda reativa de 1px interna ao botão
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: 'inherit',
+                    padding: '1px',
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${alpha(theme.palette.primary.main, 0.2)})`,
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  },
+                  transition: theme.transitions.create(['all']),
                   '&:hover': { 
-                    bgcolor: alpha('#FA541C', 0.9),
-                    boxShadow: `0 0 30px ${alpha('#FA541C', 0.6)}`,
+                    bgcolor: alpha(theme.palette.primary.main, 0.2),
+                    boxShadow: `0 0 25px ${alpha(theme.palette.primary.main, 0.5)}`,
                     transform: 'translateY(-2px)'
                   },
                 }}
@@ -117,7 +163,7 @@ export function PostAdvertisement({
             </m.div>
           </Stack>
 
-          {/* Imagem/Ilustração com animação suave */}
+          {/* Imagem com Drop Shadow Neon */}
           <Box
             component={m.div}
             variants={varFade('inRight')}
@@ -125,7 +171,7 @@ export function PostAdvertisement({
               mt: { xs: 5, md: 0 },
               width: { xs: 240, md: 320 },
               zIndex: 9,
-              filter: `drop-shadow(0 0 20px ${alpha(theme.palette.primary.main, 0.2)})`
+              filter: `drop-shadow(0 0 25px ${alpha(theme.palette.primary.main, 0.3)})`
             }}
           >
             <Image alt="Publicidade" src={imageUrl} />
@@ -138,7 +184,7 @@ export function PostAdvertisement({
               right: -80,
               width: 320,
               height: 320,
-              opacity: 0.15,
+              opacity: 0.2,
               borderRadius: '50%',
               position: 'absolute',
               bgcolor: 'primary.main',
