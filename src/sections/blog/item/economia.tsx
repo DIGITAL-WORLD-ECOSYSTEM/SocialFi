@@ -88,13 +88,44 @@ export function Economia() {
   const theme = useTheme();
   const viewPosts = staticEconomiaPosts;
 
+  const cardStyle = {
+    position: 'relative',
+    borderRadius: 2,
+    overflow: 'hidden',
+    bgcolor: alpha('#020817', 0.8),
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    transition: theme.transitions.create(['all']),
+    // BORDA REATIVA PADRONIZADA (Ciano -> Âmbar)
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: 0,
+      borderRadius: 'inherit',
+      padding: '1px',
+      background: `linear-gradient(180deg, 
+        ${alpha(theme.palette.info.main, 0.8)} 0%, 
+        ${alpha(theme.palette.common.white, 0.05)} 50%, 
+        ${alpha(theme.palette.warning.main, 0.8)} 100%
+      )`,
+      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      WebkitMaskComposite: 'xor',
+      maskComposite: 'exclude',
+      zIndex: 2,
+    },
+    '&:hover': {
+      transform: 'translateY(-8px)',
+      boxShadow: `0 0 25px 0 ${alpha(theme.palette.info.main, 0.2)}`,
+    },
+  };
+
   return (
     <Box
       id="economia"
       component="section"
       sx={{
         position: 'relative',
-        bgcolor: 'transparent', // 🟢 TRANSPARÊNCIA ESTRATÉGICA PARA O ESPAÇO
+        bgcolor: 'transparent',
         py: { xs: 10, md: 15 },
         overflow: 'hidden',
       }}
@@ -111,7 +142,6 @@ export function Economia() {
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
               color: 'common.white',
-              // 🟢 EFEITO GLOW PADRONIZADO
               textShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.35)}`,
             }}
           >
@@ -133,11 +163,13 @@ export function Economia() {
               }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItemLatest
-                  post={post}
-                  index={index}
-                  detailsHref={paths.post.details(post.title)}
-                />
+                <Box sx={cardStyle}>
+                  <PostItemLatest
+                    post={post}
+                    index={index}
+                    detailsHref={paths.post.details(post.title)}
+                  />
+                </Box>
               </m.div>
             </Grid>
           ))}
@@ -150,7 +182,9 @@ export function Economia() {
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItem post={post} detailsHref={paths.post.details(post.title)} />
+                <Box sx={cardStyle}>
+                  <PostItem post={post} detailsHref={paths.post.details(post.title)} />
+                </Box>
               </m.div>
             </Grid>
           ))}
@@ -162,7 +196,9 @@ export function Economia() {
               size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             >
               <m.div variants={varFade('inUp')}>
-                <PostItem post={post} detailsHref={paths.post.details(post.title)} />
+                <Box sx={cardStyle}>
+                  <PostItem post={post} detailsHref={paths.post.details(post.title)} />
+                </Box>
               </m.div>
             </Grid>
           ))}
