@@ -41,17 +41,43 @@ export function PostAuthors() {
         borderRadius: 2,
         cursor: 'pointer',
         textDecoration: 'none',
-        // 🟢 ESTILO GLASSMORPHISM PADRONIZADO
-        bgcolor: alpha(theme.palette.grey[900], 0.45),
+        position: 'relative',
+        overflow: 'hidden',
+        // 🟢 FUNDO DEEP SPACE SCIFI
+        bgcolor: alpha('#020817', 0.6),
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
-        transition: theme.transitions.create(['background-color', 'transform', 'border-color', 'box-shadow']),
+        
+        // 💎 BORDA REATIVA DE 1PX (Assinatura Visual)
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'inherit',
+          padding: '1px',
+          background: `linear-gradient(180deg, 
+            ${alpha(theme.palette.primary.main, 0.8)} 0%, 
+            ${alpha(theme.palette.common.white, 0.05)} 50%, 
+            ${alpha(theme.palette.primary.main, 0.4)} 100%
+          )`,
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          zIndex: 2,
+        },
+
+        transition: theme.transitions.create(['all']),
         '&:hover': {
           transform: 'translateY(-4px) scale(1.02)',
-          bgcolor: alpha(theme.palette.primary.main, 0.12),
-          borderColor: alpha(theme.palette.primary.main, 0.5),
-          boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.3)}`,
+          bgcolor: alpha(theme.palette.primary.main, 0.1),
+          boxShadow: `0 0 20px ${alpha(theme.palette.primary.main, 0.25)}`,
+          '&::before': {
+            background: `linear-gradient(180deg, 
+              ${theme.palette.primary.main} 0%, 
+              ${alpha(theme.palette.common.white, 0.2)} 50%, 
+              ${theme.palette.primary.main} 100%
+            )`,
+          }
         },
       }}
     >
@@ -61,12 +87,13 @@ export function PostAuthors() {
         sx={{ 
           width: 48, 
           height: 48, 
-          border: `2px solid ${theme.palette.primary.main}`,
-          boxShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.4)}` 
+          zIndex: 3,
+          border: `2px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+          boxShadow: `0 0 15px ${alpha(theme.palette.primary.main, 0.2)}` 
         }}
       />
 
-      <Stack spacing={0.5} sx={{ minWidth: 0 }}>
+      <Stack spacing={0.5} sx={{ minWidth: 0, zIndex: 3 }}>
         <Typography 
           variant="subtitle2" 
           noWrap 
@@ -74,12 +101,21 @@ export function PostAuthors() {
             color: 'common.white',
             fontFamily: "'Orbitron', sans-serif",
             fontSize: 13,
-            letterSpacing: '0.05em'
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase'
           }}
         >
           {author.name}
         </Typography>
-        <Typography variant="caption" noWrap sx={{ color: 'grey.500', fontWeight: 600 }}>
+        <Typography 
+          variant="caption" 
+          noWrap 
+          sx={{ 
+            color: 'grey.500', 
+            fontWeight: 600,
+            fontFamily: "'Public Sans', sans-serif",
+          }}
+        >
           {author.role}
         </Typography>
       </Stack>
@@ -93,7 +129,6 @@ export function PostAuthors() {
         overflow: 'hidden',
         position: 'relative',
         py: 1.5,
-        // Efeito de fade nas bordas para suavizar a entrada/saída dos cards
         maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
       }}
@@ -107,7 +142,7 @@ export function PostAuthors() {
           sx={{ px: 1.5, flexShrink: 0 }}
           animate={{ x: reverse ? ['-100%', '0%'] : ['0%', '-100%'] }}
           transition={{
-            duration: 60, 
+            duration: 80, // Aumentado para um scroll mais suave e premium
             ease: 'linear',
             repeat: Infinity,
           }}
