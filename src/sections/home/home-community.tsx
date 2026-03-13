@@ -40,9 +40,6 @@ const SOCIAL_CHANNELS = [
   { name: 'Instagram', icon: 'skill-icons:instagram', color: '#E4405F' },
 ];
 
-/**
- * Styled Component para AvatarGroup para evitar erros de tipos no build (Vercel)
- */
 const StyledAvatarGroup = styled(AvatarGroup)(() => ({
   [`& .${avatarGroupClasses.avatar}`]: {
     width: 32,
@@ -67,46 +64,89 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
   );
 
   const renderSocialHub = () => (
-    <m.div variants={varFade('inRight')} style={{ height: '100%' }}>
+    <m.div variants={varFade('inUp')} style={{ height: '100%' }}>
       <Stack
         spacing={4}
         sx={{
-          p: 5,
+          p: { xs: 3, sm: 5 },
           height: 1,
           borderRadius: 3,
-          bgcolor: alpha(theme.palette.grey[900], 0.15),
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: `1.5px solid ${alpha(theme.palette.info.main, 0.3)}`,
-          boxShadow: `0 0 24px 0 ${alpha(theme.palette.info.main, 0.2)}`,
-          transition: theme.transitions.create(['box-shadow', 'transform']),
+          position: 'relative',
+          bgcolor: alpha('#020817', 0.8),
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          transition: theme.transitions.create(['all']),
+          
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 'inherit',
+            padding: '1px',
+            background: `linear-gradient(180deg, 
+              ${alpha(theme.palette.info.main, 0.8)} 0%, 
+              ${alpha(theme.palette.common.white, 0.05)} 50%, 
+              ${alpha(theme.palette.warning.main, 0.8)} 100%
+            )`,
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            zIndex: 2,
+          },
+
+          boxShadow: `0 8px 32px 0 ${alpha(theme.palette.common.black, 0.5)}`,
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: `0 0 32px 0 ${alpha(theme.palette.info.main, 0.4)}`,
+            boxShadow: `0 0 32px 0 ${alpha(theme.palette.info.main, 0.3)}`,
           },
         }}
       >
-        <Stack spacing={2} textAlign="left">
-          <Typography variant="h4" sx={{ fontWeight: 800, color: 'common.white' }}>
+        <Stack spacing={2} textAlign="left" sx={{ zIndex: 3 }}>
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              fontWeight: 800, 
+              color: 'common.white',
+              fontFamily: "'Orbitron', sans-serif",
+              textTransform: 'uppercase',
+              fontSize: { xs: '1.25rem', md: '1.5rem' }
+            }}
+          >
             {t('community.hub.title')}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, textAlign: 'justify' }}>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: '#919EAB', 
+              lineHeight: 1.7, 
+              textAlign: { xs: 'left', sm: 'justify' },
+              fontFamily: "'Public Sans', sans-serif"
+            }}
+          >
             {t('community.hub.description')}
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center" sx={{ zIndex: 3 }}>
           <StyledAvatarGroup max={4}>
             {[1, 2, 3, 4].map((i) => (
               <Avatar key={i} src={_mock.image.avatar(i)} />
             ))}
           </StyledAvatarGroup>
-          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'info.main' }}>
+          <Typography 
+            variant="subtitle2" 
+            sx={{ 
+              fontWeight: 700, 
+              color: 'info.main',
+              fontFamily: "'Orbitron', sans-serif",
+              fontSize: 12
+            }}
+          >
             {t('community.metrics.members')}
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={1.5} flexWrap="wrap">
+        <Stack direction="row" spacing={1.5} flexWrap="wrap" sx={{ zIndex: 3 }}>
           {SOCIAL_CHANNELS.map((channel) => (
             <Button
               key={channel.name}
@@ -118,6 +158,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 color: channel.color,
                 fontWeight: 700,
                 borderRadius: 1,
+                fontFamily: "'Public Sans', sans-serif",
                 '&:hover': { bgcolor: alpha(channel.color, 0.2) },
               }}
             >
@@ -147,7 +188,6 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
       <MotionViewport>
         <Container sx={{ position: 'relative', zIndex: 9 }}>
           
-          {/* BADGE ISOLADO NO TOPO */}
           <m.div variants={varFade('inUp')}>
             <Box
               sx={{
@@ -156,7 +196,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 borderRadius: 2,
                 px: 1.5,
                 py: 0.5,
-                mb: 6,
+                mb: { xs: 4, md: 6 },
               }}
             >
               <Typography
@@ -164,7 +204,8 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 sx={{
                   fontFamily: "'Orbitron', sans-serif",
                   fontWeight: 700,
-                  fontSize: 12,
+                  fontSize: 10,
+                  md: 12,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
                   color: 'info.main',
@@ -175,12 +216,11 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
             </Box>
           </m.div>
 
-          {/* GRID COM ALINHAMENTO STRETCH PARA SIMETRIA TOTAL */}
           <Box
             sx={{
               display: 'grid',
               alignItems: 'stretch', 
-              gap: { xs: 8, md: 10 },
+              gap: { xs: 6, md: 10 },
               gridTemplateColumns: { xs: '1fr', md: '1.2fr 0.8fr' },
             }}
           >
@@ -196,7 +236,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                   sx={{
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 900,
-                    fontSize: { xs: '2.2rem', md: '3rem' },
+                    fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3rem' },
                     letterSpacing: '0.05em',
                     lineHeight: 1.2,
                     textTransform: 'uppercase',
@@ -220,22 +260,23 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 <Typography
                   sx={{
                     maxWidth: 560,
-                    fontSize: { xs: 16, md: 18 },
+                    fontSize: { xs: 15, md: 18 },
                     lineHeight: 1.8,
-                    color: 'text.secondary',
-                    textAlign: { xs: 'justify', md: 'left' },
+                    color: '#919EAB',
+                    fontFamily: "'Public Sans', sans-serif",
+                    textAlign: { xs: 'left', sm: 'justify', md: 'left' },
                   }}
                 >
                   {t('community.description')}
                 </Typography>
 
-                {/* MÉTRICAS INTEGRADAS */}
+                {/* MÉTRICAS RESPONSIVAS */}
                 <Box
                   sx={{
-                    mt: 6,
+                    mt: { xs: 5, md: 6 },
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: { xs: 4, md: 2 },
+                    gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' },
+                    gap: { xs: 3, md: 2 },
                     maxWidth: 580, 
                   }}
                 >
@@ -246,7 +287,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                           sx={{
                             fontFamily: "'Orbitron', sans-serif",
                             fontWeight: 900,
-                            fontSize: { xs: '2rem', md: '2.5rem' },
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
                             color: 'info.main',
                             letterSpacing: '0.05em',
                           }}
@@ -256,10 +297,12 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                         <Typography
                           variant="caption"
                           sx={{
-                            color: 'text.secondary',
+                            color: '#919EAB',
                             fontWeight: 600,
                             textTransform: 'uppercase',
                             letterSpacing: 1,
+                            fontFamily: "'Public Sans', sans-serif",
+                            fontSize: { xs: 10, md: 12 }
                           }}
                         >
                           {stat.label}
@@ -270,26 +313,47 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                 </Box>
               </Box>
 
-              {/* CTAS SINCRONIZADOS COM A BASE */}
-              <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={3} sx={{ mt: { xs: 6, md: 0 } }}>
+              <Stack 
+                direction={{ xs: 'column', sm: 'row' }} 
+                alignItems={{ xs: 'stretch', sm: 'center' }} 
+                spacing={3} 
+                sx={{ mt: { xs: 6, md: 10 } }}
+              >
                 <Button
                   component={RouterLink}
                   href={paths.dashboard.root} 
-                  variant="contained"
-                  size="large"
-                  startIcon={<Iconify icon="solar:file-bold-duotone" />}
+                  endIcon={<Iconify icon="solar:double-alt-arrow-right-bold-duotone" />}
                   sx={{
                     height: 56,
-                    px: 3,
+                    px: 4,
                     fontFamily: "'Orbitron', sans-serif",
                     fontWeight: 700,
                     borderRadius: 1.5,
-                    background: `linear-gradient(135deg, ${theme.palette.info.main} 0%, ${theme.palette.info.dark} 100%)`,
-                    boxShadow: `0 0 16px ${alpha(theme.palette.info.main, 0.4)}`,
+                    textTransform: 'uppercase',
+                    color: 'common.white',
+                    position: 'relative',
+                    bgcolor: alpha('#020817', 0.8),
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: 'inherit',
+                      padding: '1px',
+                      background: `linear-gradient(180deg, 
+                        ${alpha(theme.palette.info.main, 1)} 0%, 
+                        ${alpha(theme.palette.info.main, 0.1)} 50%, 
+                        ${alpha(theme.palette.info.main, 0.6)} 100%
+                      )`,
+                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      WebkitMaskComposite: 'xor',
+                      maskComposite: 'exclude',
+                    },
                     '&:hover': {
-                      background: `linear-gradient(135deg, ${theme.palette.info.light} 0%, ${theme.palette.info.main} 100%)`,
-                      boxShadow: `0 0 24px ${alpha(theme.palette.info.main, 0.7)}`,
+                      bgcolor: alpha(theme.palette.info.main, 0.08),
                       transform: 'translateY(-2px)',
+                      boxShadow: `0 0 20px 0 ${alpha(theme.palette.info.main, 0.3)}`,
                     },
                   }}
                 >
@@ -304,7 +368,10 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
                   sx={{
                     fontWeight: 700,
                     fontFamily: "'Orbitron', sans-serif",
-                    color: 'common.white', 
+                    color: 'common.white',
+                    textTransform: 'uppercase',
+                    fontSize: 14,
+                    justifyContent: { xs: 'center', sm: 'flex-start' },
                     '&:hover': {
                       color: 'info.main',
                       bgcolor: 'transparent',
@@ -316,7 +383,7 @@ export function HomeCommunity({ sx, ...other }: BoxProps) {
               </Stack>
             </Stack>
 
-            <Box>
+            <Box sx={{ mt: { xs: 2, md: 0 } }}>
               {renderSocialHub()}
             </Box>
           </Box>
